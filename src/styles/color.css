@@ -1,0 +1,23 @@
+.bg-vibin {
+  background: hsla(235, 81%, 21%, 1);
+
+  background: linear-gradient(
+    180deg,
+    hsla(235, 81%, 21%, 1) 0%,
+    hsla(211, 72%, 66%, 1) 100%
+  );
+
+  background: -moz-linear-gradient(
+    180deg,
+    hsla(235, 81%, 21%, 1) 0%,
+    hsla(211, 72%, 66%, 1) 100%
+  );
+
+  background: -webkit-linear-gradient(
+    180deg,
+    hsla(235, 81%, 21%, 1) 0%,
+    hsla(211, 72%, 66%, 1) 100%
+  );
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0A1160", endColorstr="#6AA7E7", GradientType=1 );
+}
