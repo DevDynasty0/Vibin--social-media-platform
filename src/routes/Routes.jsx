@@ -5,32 +5,29 @@ import SignUp from "../pages/sign-up/SignUp";
 import Home from "../pages/home/home/Home";
 import Landing from "../pages/landing/landing/Landing";
 
-
 const Routes = createBrowserRouter([
-    {
-        path: "/",
-        element: <MainLayout />,
-        children: [
-            {
-                path: "/",
-                element: <Landing/>,
-            },
-            {
-                path: "home",
-                element: <Home />,
-            },
-
-        ],
-    },
-    {
-        path: "login",
-        element: <Login />
-    },
-    {
-        path: "sign-up",
-        element: <SignUp />
-    },
-
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/landing",
+        element: <Landing />,
+      },
+      {
+        path: "home",
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "sign-up",
+    element: <SignUp />,
+  },
 ]);
 
 export default Routes;
