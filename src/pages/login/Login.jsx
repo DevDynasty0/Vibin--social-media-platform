@@ -56,7 +56,7 @@ const Login = () => {
                     <div className="mt-5 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
                         <button
                             disabled={signInLoader}
-                            className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-500 bg-gray-100 rounded-md ${signInLoader ? 'cursor-not-allowed':'hover:text-gray-600 hover:bg-gray-200  ' }`}
+                            className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${signInLoader ? 'cursor-not-allowed':'hover:text-gray-600 hover:bg-gray-200  ' }`}
                             type="submit"
                         >
                             {signInLoader ? <svg className="animate-spin mx-auto h-6 w-6 text-[#0E4749]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -85,7 +85,7 @@ const Login = () => {
 
                 <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] space-y-3">
                     <button
-                        className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
                         <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                             viewBox="-0.5 0 48 48" version="1.1">
 
@@ -112,7 +112,7 @@ const Login = () => {
                     </button>
 
                     <button
-                        className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
                         <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                             viewBox="-1.5 0 20 20" version="1.1">
                             <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
