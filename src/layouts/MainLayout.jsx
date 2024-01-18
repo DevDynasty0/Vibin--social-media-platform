@@ -21,7 +21,7 @@ const MainLayout = () => {
           <LeftSidebar />
         </div>
 
-        <div className="  w-full lg:mx-auto lg:w-3/5 lg:overflow-y-auto   bg-gray-400 p-6  ">
+        <div className="  w-full lg:mx-auto lg:w-3/5 lg:overflow-y-auto p-6  ">
           <Outlet />
         </div>
         <FaAlignJustify
