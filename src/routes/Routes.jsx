@@ -13,7 +13,7 @@ const Routes = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        path: "/",
+        path: "wellcome",
         element: <Landing />,
       },
       {
@@ -24,11 +24,15 @@ const Routes = createBrowserRouter([
     ],
   },
   {
-    path: "login",
+    path: "/landing",
+    element: <Landing />,
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "sign-up",
+    path: "/sign-up",
     element: <SignUp />,
   },
 ]);
