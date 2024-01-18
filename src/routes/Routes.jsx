@@ -4,12 +4,17 @@ import Login from "../pages/login/Login";
 import SignUp from "../pages/sign-up/SignUp";
 import Home from "../pages/home/home/Home";
 import Landing from "../pages/landing/landing/Landing";
+import NotFound from "../pages/not-found/NotFound";
 
 const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <NotFound />,
     children: [
+      {
+        path: "/",
+        children: [
       {
         path: "/landing",
         element: <Landing />,
