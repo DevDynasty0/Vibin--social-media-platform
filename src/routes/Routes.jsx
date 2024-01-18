@@ -17,10 +17,9 @@ const Routes = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: "home",
+        path: "/",
         element: <Home />,
       },
-
     ],
   },
   {

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FaAlignJustify, FaUserCircle } from "react-icons/fa";
+import { FaAlignJustify, FaCross, FaUserCircle } from "react-icons/fa";
+import { FaXmark } from "react-icons/fa6";
 
 const Navbar = ({ left, setLeft, right, setRight }) => {
   return (
@@ -24,13 +25,23 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
               Vibin<span className="">'</span>
             </span>
           </a>
-          <FaAlignJustify
-            size={"1.25rem"}
-            onClick={() => {
-              setLeft(false);
-              setRight(!right);
-            }}
-          />
+          {right ? (
+            <FaXmark
+              size={"1.25rem"}
+              onClick={() => {
+                setLeft(false);
+                setRight(!right);
+              }}
+            />
+          ) : (
+            <FaAlignJustify
+              size={"1.25rem"}
+              onClick={() => {
+                setLeft(false);
+                setRight(!right);
+              }}
+            />
+          )}
         </div>
       </nav>
     </>
