@@ -1,0 +1,7 @@
+.settings-menu> li:hover{
+    background-color: #f5f5f5;
+}
+
+.settings-menu> li{
+    padding: 10px;
+}

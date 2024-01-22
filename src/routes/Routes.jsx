@@ -5,6 +5,7 @@ import SignUp from "../pages/sign-up/SignUp";
 import Home from "../pages/home/home/Home";
 import Landing from "../pages/landing/landing/Landing";
 import NotFound from "../pages/not-found/NotFound";
+import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
 
 const Routes = createBrowserRouter([
@@ -20,6 +21,10 @@ const Routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "settings",
+        element: <Settings/>
       },
     ],
   },
