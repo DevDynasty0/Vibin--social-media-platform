@@ -1,5 +1,6 @@
 import { IoCamera } from "react-icons/io5";
-import MiddleContent from "./components/MiddleContent";
+import MiddleContent from "./components/middleContent/MiddleContent";
+import LeftContent from "./components/leftContent/LeftContent";
 
 export default function Profile() {
   const coverPhoto = true;
@@ -22,7 +23,7 @@ export default function Profile() {
         {/* Left Content Begin */}
         <div className="flex justify-center relative w-3/12">
           {/* Profile image begin */}
-          <div className="bg-white p-1 h-52 w-52 absolute -top-32 rounded-full">
+          <div className="bg-white p-1 h-48 w-48 absolute -top-28 rounded-full">
             {avatar && (
               <img
                 src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -35,7 +36,9 @@ export default function Profile() {
             </div>
           </div>
           {/* Left Content Begin */}
-          <div className="bg-white w-full">Left Content Here</div>
+          <div className="w-full">
+            <LeftContent />
+          </div>
         </div>
 
         {/* Middle Content Begin */}
