@@ -19,8 +19,6 @@ const Login = () => {
     };
 
 
-
-
     return (
         <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
             <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto md:mx-0 ">
@@ -53,6 +51,7 @@ const Login = () => {
                     <Link to='' className="text-purple-600">Forget Your Password?</Link>
                     <Link to='/sign-up' className="underline text-purple-600">Create Account</Link>
                 </div>
+
                     <div className="mt-5 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
                         <button
                             disabled={signInLoader}
@@ -74,6 +73,7 @@ const Login = () => {
                             }
                         </button>
                     </div>
+                    
                 </form>              
                 <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] text-center my-5 flex items-center justify-between">
                     <hr className="w-[45%] border-gray-800" />
