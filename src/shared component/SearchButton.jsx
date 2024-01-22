@@ -5,7 +5,7 @@ const SearchButton = (props) => {
   return (
     <>
       {" "}
-      <div className="  w-full  flex gap-2 items-center ps-3 pointer-events-none">
+      <div className="w-full  flex gap-2 items-center ps-3 pointer-events-none">
         {" "}
         <input
           className="px-2 py-1 rounded-r-full rounded-l-full hover:cursor-text shadow drop-shadow text-black focus:cursor-text w-full border-2"

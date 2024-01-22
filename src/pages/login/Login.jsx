@@ -5,7 +5,6 @@ import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [displayPassIcon, setDisplayPassIcon] = useState(false);
@@ -20,13 +19,13 @@ const Login = () => {
 
 
     return (
-        <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
+        <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-2">
             <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto md:mx-0 ">
                 <h2 className="font-semibold text-3xl ">Welcome Back</h2>
-                <p className="my-7 text-lg">Log in to your Account.
+                <p className="my-2 text-lg">Log in to your Account.
                 </p>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="relative my-7 w-[90%] md:w-[75%] mx-auto md:mx-0">
+                    <div className="relative my-3 w-[90%] md:w-[75%] mx-auto md:mx-0">
                         <input required id="email" className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer"
                             type="email"
                             {...register('email', { required: true })}
@@ -47,12 +46,12 @@ const Login = () => {
                         <label htmlFor="password" className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
                          peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
                     </div>
-                    <div className="flex  justify-between mt-2 w-[90%] md:w-[75%] mx-auto md:mx-0 text-xs lg:text-sm ">
+                    <div className="flex justify-between mt-2 w-[90%] md:w-[75%] mx-auto md:mx-0 text-xs lg:text-sm ">
                     <Link to='' className="text-purple-600">Forget Your Password?</Link>
                     <Link to='/sign-up' className="underline text-purple-600">Create Account</Link>
                 </div>
 
-                    <div className="mt-5 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
+                    <div className="mt-3 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
                         <button
                             disabled={signInLoader}
                             className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${signInLoader ? 'cursor-not-allowed':'hover:text-gray-600 hover:bg-gray-200  ' }`}
@@ -67,7 +66,7 @@ const Login = () => {
 
                                 :
                                 <div className="flex justify-center items-center gap-2">
-                                    <p>Sign In</p>
+                                    <p>Login</p>
                                     <FaArrowRight></FaArrowRight>
                                 </div>                            
                             }
@@ -75,7 +74,7 @@ const Login = () => {
                     </div>
                     
                 </form>              
-                <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] text-center my-5 flex items-center justify-between">
+                <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] text-center my-2 flex items-center justify-between">
                     <hr className="w-[45%] border-gray-800" />
                     <span>Or</span>
                     <hr className="w-[45%] border-gray-800" />
@@ -83,7 +82,7 @@ const Login = () => {
 
                 {/* Google,apple sign in button */}
 
-                <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] space-y-3">
+                <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] space-y-2">
                     <button
                         className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
                         <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
