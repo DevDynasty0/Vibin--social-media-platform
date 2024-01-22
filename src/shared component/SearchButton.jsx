@@ -5,15 +5,16 @@ const SearchButton = (props) => {
   return (
     <>
       {" "}
-      <div className="w-full  flex gap-2 items-center ps-3 pointer-events-none">
+      <div className="w-full md:w-2/3  lg:w-1/3  flex gap-2 items-center  pointer-events-none   ">
+
         {" "}
         <input
-          className="px-2 py-1 rounded-r-full rounded-l-full hover:cursor-text shadow drop-shadow text-black focus:cursor-text w-full border-2"
+          className="px-2 hidden lg:block rounded-r-full rounded-l-full hover:cursor-text shadow drop-shadow text-black focus:cursor-text w-full border-2"
           type="text"
           placeholder="Search..."
         />
         <svg
-          className="w-4 h-4 -ml-10 z-10 text-gray-500 dark:text-gray-400"
+          className=" p-1 bg-gray-50  rounded-full w-6 h-6 block lg:hidden z-10 text-gray-500 dark:text-gray-400"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
