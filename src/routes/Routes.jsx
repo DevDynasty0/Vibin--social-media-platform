@@ -4,28 +4,44 @@ import Login from "../pages/login/Login";
 import SignUp from "../pages/sign-up/SignUp";
 import Home from "../pages/home/home/Home";
 import Landing from "../pages/landing/landing/Landing";
+import NotFound from "../pages/not-found/NotFound";
+import Settings from "../pages/home/settings/Settings";
+import Profile from "../pages/profile/Profile";
 
 const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <NotFound />,
     children: [
       {
-        path: "/landing",
+        path: "wellcome",
         element: <Landing />,
       },
       {
-        path: "home",
+        path: "/",
         element: <Home />,
+      },
+      {
+        path: "settings",
+        element: <Settings/>
       },
     ],
   },
   {
-    path: "login",
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/landing",
+    element: <Landing />,
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "sign-up",
+    path: "/sign-up",
     element: <SignUp />,
   },
 ]);

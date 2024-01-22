@@ -4,7 +4,7 @@ const Landing = () => {
     return (
         <div className='h-screen flex flex-col justify-between'>
             <div className='flex flex-col lg:flex-row items-center justify-center  w-full text-center'>
-            <div><img className='w-64 md:w-72  lg:w-full' src={logo} alt="" /></div>
+            <div><img className='w-64 md:w-72  lg:w-full' src="./vibin-logo.png" alt="" /></div>
             <div className='lg:border-l-4 border-gray-300 border-spacing-4 p-10'>
                 <h1 className='text-3xl mb-5'>Connecting Vibes!</h1>
                 <h3>Share your vibes and murmurs with your friends and foes</h3>
