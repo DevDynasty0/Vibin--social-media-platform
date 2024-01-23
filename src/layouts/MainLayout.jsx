@@ -3,24 +3,21 @@ import { NavLink, Outlet } from "react-router-dom";
 import "../styles/color.css";
 import Navbar from "../shared component/Navbar";
 import LeftSidebar from "../shared component/LeftSidebar";
-import { useState } from "react";
-// import { FaAlignJustify } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
-import {
-  FaAlignJustify,
-  FaCross,
-  FaFire,
-  FaHome,
-  FaVideo,
-} from "react-icons/fa";
-import { FaXmark } from "react-icons/fa6";
 import LeftButton from "../shared component/LeftButton";
-
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { Spinner } from "@chakra-ui/react";
+import useAuth from "../hooks/useAuth";
 const MainLayout = () => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
   const [notification, setNotification] = useState(false);
-  return (
+
+  const { loading, user } = useAuth();
+  console.log(user);
+  return !loading && user ? (
     <>
       <Navbar
         left={left}
@@ -101,6 +98,10 @@ const MainLayout = () => {
         </div>
       </div>
     </>
+  ) : (
+    <div className="w-full flex justify-center items-center h-52 ">
+      <Spinner />
+    </div>
   );
 };
 

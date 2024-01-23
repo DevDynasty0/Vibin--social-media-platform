@@ -4,11 +4,15 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import Routes from "./routes/Routes";
 import { ChakraProvider } from "@chakra-ui/react";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={Routes}></RouterProvider>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider>
+        <RouterProvider router={Routes}></RouterProvider>
+      </ChakraProvider>
+    </Provider>
   </React.StrictMode>
 );
