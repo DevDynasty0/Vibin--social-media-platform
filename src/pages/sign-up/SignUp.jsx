@@ -4,6 +4,8 @@ import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useSelector } from "react-redux";
+import useAuth from "../../hooks/useAuth";
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
@@ -26,6 +28,9 @@ const SignUp = () => {
     console.log(data);
   };
 
+  const { loading, user } = useAuth();
+  console.log(user);
+
   return (
     <div className="relative">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
@@ -33,7 +38,6 @@ const SignUp = () => {
           <h2 className="font-semibold text-3xl mb-5 ">Sign Up Now !!</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
@@ -117,7 +121,6 @@ const SignUp = () => {
               </label>
             </div>
 
-       
             <div className="relative w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
@@ -157,7 +160,6 @@ const SignUp = () => {
               </label>
             </div>
 
-           
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
@@ -198,7 +200,6 @@ const SignUp = () => {
               </label>
             </div>
 
-          
             <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
               <button
                 disabled={signUpLoader}

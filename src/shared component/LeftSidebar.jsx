@@ -6,6 +6,7 @@ import SearchButton from "./SearchButton";
 import { MdLogout } from "react-icons/md";
 
 const LeftSidebar = () => {
+  // logout api: /api/v1/users/logout
   return (
     <div className="flex flex-col h-full   relative">
       <div className="flex items-center border-b-2 pb-4 justify-between">
@@ -31,7 +32,10 @@ const LeftSidebar = () => {
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
 
-        <div className="flex flex-col absolute bottom-0 ">
+        <div
+          onClick={handleLogout}
+          className="flex flex-col absolute bottom-0 "
+        >
           <hr />
           <LeftButton name={"Logout"} path={"logout"} icon={MdLogout} />
         </div>
