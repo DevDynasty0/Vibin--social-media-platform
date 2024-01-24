@@ -7,6 +7,7 @@ import Landing from "../pages/landing/landing/Landing";
 import NotFound from "../pages/not-found/NotFound";
 import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
+import Friends from "../pages/friends/Friends";
 
 const Routes = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const Routes = createBrowserRouter([
         path: "settings",
         element: <Settings/>
       },
+      {
+        path: "friends",
+        element: <Friends/>
+      }
     ],
   },
   {
@@ -44,6 +49,7 @@ const Routes = createBrowserRouter([
     path: "/sign-up",
     element: <SignUp />,
   },
+  
 ]);
 
 export default Routes;

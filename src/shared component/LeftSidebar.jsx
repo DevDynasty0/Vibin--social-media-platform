@@ -20,7 +20,7 @@ const LeftSidebar = () => {
       </div>
 
       <div className="mt-10 h-full  ">
-        <LeftButton name={"Home"} path={"home"} icon={FaHome} />
+        <LeftButton name={"Home"} path={"/"} icon={FaHome} />
         <LeftButton name={"Profile"} path={"profile"} icon={FaUser} />
 
         {/* <LeftButton
