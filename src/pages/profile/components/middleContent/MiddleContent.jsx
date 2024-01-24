@@ -5,9 +5,11 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 export default function MiddleContent() {
   return (
     <div className="ps-10 mt-10">
-      <h2 className="font-semibold text-2xl">Ismail Hosen</h2>
-      <span>@ismailhosen</span>
+      <div className="lg:ml-0 lg:-mt-8 lg:pb-20 -mt-8 -ml-16">
+      <h2 className="font-bold md:text-2xl  text-[16px]">Ismail Hosen</h2>
+      <span className="text-[10px]">@ismailhosen</span>
 
+      </div>
       {/* Tab items */}
       <div>
       <Tabs>
@@ -30,24 +32,7 @@ export default function MiddleContent() {
   </TabPanels>
 </Tabs>
       </div>
-      {/* <div className="flex my-6">
-        <div className="flex flex-col justify-center w-20 h-16 text-green-500 cursor-pointer">
-          <TbBrandFeedly className="text-3xl" />
-          <span>Feed</span>
-        </div>
-        <div className="flex flex-col justify-center w-20 h-16 text-gray-500 cursor-pointer">
-          <IoInformationCircleOutline className="text-3xl" />
-          <span>Info</span>
-        </div>
-        <div className="flex flex-col justify-center w-20 h-16 text-gray-500 cursor-pointer">
-          <TbBrandFeedly className="text-3xl" />
-          <span>Feed</span>
-        </div>
-        <div className="flex flex-col justify-center w-20 h-16 text-gray-500 cursor-pointer">
-          <TbBrandFeedly className="text-3xl" />
-          <span>Feed</span>
-        </div>
-      </div> */}
+      
 
       {/* Feed Cards  */}
       {/* <FeedCards /> */}
