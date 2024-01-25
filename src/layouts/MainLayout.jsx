@@ -18,7 +18,7 @@ const MainLayout = () => {
   console.log(user);
   return !loading ? (
     user ? (
-      <div className="bg-vibin">
+      <div className="gradient-two ">
         <Navbar
           left={left}
           setLeft={setLeft}
@@ -32,7 +32,7 @@ const MainLayout = () => {
           <div
             className={`${
               !left ? " -left-[52rem]" : " left-0"
-            } w-full   md:w-1/3 lg:w-1/5  max-w-96 p-6  fixed top-8   md:left-0 overflow-hidden transition-all duration-500   h-full   bg-white bg-opacity-30  `}
+            } w-full   md:w-1/3 lg:w-1/5  max-w-96  pl-6 pt-6 fixed top-8 mt-6   md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-transparent  `}
           >
             <LeftSidebar />
           </div>
@@ -45,43 +45,45 @@ const MainLayout = () => {
           <div
             className={`${
               right ? "right-0" : " -right-[52rem]"
-            }   w-full  lg:w-1/5  max-w-96 p-6 fixed  lg:right-0 overflow-hidden top-6 lg:top-0 transition-all duration-300 bg-white bg-opacity-10  pt-10   h-full`}
+            }   w-full  lg:w-1/5  max-w-96 p-6 fixed  lg:right-0 overflow-hidden   lg:top-0 transition-all duration-300 pt-10 top-8 mt-6   h-full`}
           >
-            <h4 className="text-2xl p-2 font-semibold">Active Friends</h4>
+            <h4 className=" text-color-one text-opacity-85 underline font-semibold   mb-3">
+              Suggested Friends
+            </h4>
             <LeftButton
               name="Abu Sayed"
               img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path=""
+              path="/id"
               icon=""
             />
             <LeftButton
               name="Nadia Sultana"
               img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path=""
+              path="/id"
               icon=""
             />
             <LeftButton
               name="Naza Rahida"
               img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path=""
+              path="/id"
               icon=""
             />
             <LeftButton
               name="Ismail Hosen "
               img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path=""
+              path="/id"
               icon=""
             />
             <LeftButton
               name="Abdullah Al Ovi"
               img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path=""
+              path="/id"
               icon=""
             />
             <LeftButton
               name="Foyez Ahamed"
               img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path=""
+              path="/id"
               icon=""
             />
           </div>
