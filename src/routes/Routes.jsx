@@ -8,6 +8,7 @@ import NotFound from "../pages/not-found/NotFound";
 import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
 
+
 const Routes = createBrowserRouter([
   {
     path: "/",

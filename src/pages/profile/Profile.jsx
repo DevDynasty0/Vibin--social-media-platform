@@ -1,17 +1,19 @@
-import { IoCamera } from "react-icons/io5";
-import MiddleContent from "./components/middleContent/MiddleContent";
+// import { IoCamera } from "react-icons/io5";
+
+
+
+
+import '../../styles/color.css'
+import Cover from './components/cover/Cover';
+
 import LeftContent from "./components/leftContent/LeftContent";
+import MiddleContent from "./components/middleContent/MiddleContent";
 import RightContent from "./components/rightContent/RightContent";
-import cover from '../../assets/images/userCoverDemo.jpg';
-
-
-import Cover from "./components/cover/Cover";
 
 export default function Profile() {
 
-  const avatar = true;
   return (
-    <div className="bg-gray-100 max-w-6xl mx-auto">
+    <div className="bg-gray-100 max-w-6xl mx-auto myBg ">
       <Cover></Cover>
       {/* <div className="bg-white p-1 md:h-32 lg:h-40 lg:w-40 h-20 w-20 md:w-32 absolute z-10 lg:-mt-20 md:-mt-16 md:ml-10 -mt-10 ml-6 lg:ml-20 rounded-full">
             
@@ -29,18 +31,18 @@ export default function Profile() {
         {/* <div className="flex justify-center col-span-2 items-center relative">
 
         </div> */}
-        <div className="w-full -mt-10 bg-red-500 md:col-span-2  ">
+        <div className="w-full -mt-10 bg-white   md:col-span-2  ">
           <LeftContent />
         </div>
 
 
         {/* Middle Content Begin */}
-        <div className="md:col-span-3 bg-green-500">
+        <div className="md:col-span-3 ">
           <MiddleContent />
         </div>
 
         {/* Right Content Begin */}
-        <div className="hidden lg:block  md:col-span-2 bg-blue-700 ">
+        <div className="hidden lg:block  md:col-span-2  ">
           <RightContent></RightContent>
         </div>
       </div>
