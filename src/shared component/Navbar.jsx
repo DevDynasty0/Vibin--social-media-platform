@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "../styles/color.css";
 import {
   FaAlignJustify,
   FaBell,
   FaFire,
   FaHome,
+  FaRegBell,
   FaUserCircle,
   FaVideo,
 } from "react-icons/fa";
-import { FaMessage, FaXmark } from "react-icons/fa6";
+import { FaMessage, FaRegMessage, FaXmark } from "react-icons/fa6";
 import SearchButton from "./SearchButton";
 import {
   Drawer,
@@ -27,7 +29,7 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
 
   return (
     <>
-      <nav className=" px-5 py-2 bg-[#264052] w-full z-50 dark:bg-gray-900 shadow    fixed min-w-full">
+      <nav className=" px-5 py-2    w-full z-50 dark:bg-gray-900 shadow-sm    fixed min-w-full">
         <div className="flex  items-center justify-between  ">
           <div
             className="flex w-full   
@@ -48,19 +50,49 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
             <SearchButton />
           </div>{" "}
           <div className=" max-w-[600px] mx-auto flex items-center justify-center flex-grow-1 w-full    cursor-pointer text-white  ">
-            <NavLink className="flex    justify-center hover:bg-gray-300  p-1  w-full     ">
-              <FaHome />
+            <NavLink
+              to={"/"}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-color-one flex    justify-center    p-1  w-full     "
+                  : "flex    justify-center    p-1  w-full  text-black    "
+              }
+            >
+              <div className=" hover:text-color-one rounded  p-2  ">
+                <FaHome />
+              </div>
             </NavLink>
-            <div className=" flex hover:bg-gray-300  justify-center   w-full p-1">
-              <FaFire />
-            </div>
-            <div className="hover:bg-gray-300   flex justify-center  w-full p-1">
-              <FaVideo />
-            </div>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-color-one flex    justify-center    p-1  w-full     "
+                  : "flex    justify-center    p-1  w-full  text-black    "
+              }
+            >
+              <div className=" text-black hover:text-color-one rounded   p-2">
+                <FaFire />
+              </div>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-color-one flex    justify-center    p-1  w-full     "
+                  : "flex    justify-center    p-1  w-full  text-black    "
+              }
+            >
+              <div className=" text-black hover:text-color-one rounded   p-2">
+                <FaVideo />
+              </div>
+            </NavLink>
           </div>
-          <div className="w-full text-white  justify-end flex items-center gap-3 ">
-            <FaMessage />
-            <FaBell onClick={onOpen || onClose} />
+          <div className="w-full text-black hover:text-color-one  justify-end flex items-center gap-3 ">
+            <div className=" text-black bg-white shadow-md    hover:text-color-one rounded  p-2  ">
+              <FaRegMessage />
+            </div>
+            <div className=" text-black shadow-md  bg-white    hover:text-color-one rounded  p-2  ">
+              <FaRegBell onClick={onOpen || onClose} />
+            </div>
+
             {/* <FaUserCircle
               className="block md:hidden"
               size={"1.125rem"}
@@ -69,27 +101,27 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
                 setLeft(!left);
               }}
             />  */}
-            {left ? (
-              <FaXmark
-                className=" block md:hidden"
-                color="white"
-                size={"1.125rem"}
-                onClick={() => {
-                  setRight(false);
-                  setLeft(!left);
-                }}
-              />
-            ) : (
-              <FaAlignJustify
-                className=" block md:hidden"
-                color="white"
-                size={"1.125rem"}
-                onClick={() => {
-                  setRight(false);
-                  setLeft(!left);
-                }}
-              />
-            )}
+            <div className=" text-black  hover:text-color-one rounded  p-2  ">
+              {left ? (
+                <FaXmark
+                  className=" block md:hidden"
+                  size={"1.125rem"}
+                  onClick={() => {
+                    setRight(false);
+                    setLeft(!left);
+                  }}
+                />
+              ) : (
+                <FaAlignJustify
+                  className=" block md:hidden"
+                  size={"1.125rem"}
+                  onClick={() => {
+                    setRight(false);
+                    setLeft(!left);
+                  }}
+                />
+              )}{" "}
+            </div>
           </div>
         </div>
       </nav>

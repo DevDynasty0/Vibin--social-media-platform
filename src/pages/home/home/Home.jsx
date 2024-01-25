@@ -3,7 +3,7 @@ import PostCard from "../componnents/PostCard";
 
 const Home = () => {
   return (
-    <section className="max-w-[600px] mx-auto mt-5 ">
+    <section className="max-w-[600px] mx-auto mt-16 ">
       <AddNewPostCard />
       <div className="mt-5 grid grid-cols-1 gap-5">
         <PostCard
