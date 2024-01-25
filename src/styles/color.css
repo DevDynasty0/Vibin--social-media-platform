@@ -23,6 +23,33 @@
 } */
 
 .bg-vibin {
+  background: hsla(280, 30%, 92%, 1);
+
+  background: linear-gradient(
+    135deg,
+    hsla(280, 30%, 92%, 1) 0%,
+    hsla(276, 63%, 97%, 1) 42%,
+    hsla(261, 48%, 89%, 1) 93%
+  );
+
+  background: -moz-linear-gradient(
+    135deg,
+    hsla(280, 30%, 92%, 1) 0%,
+    hsla(276, 63%, 97%, 1) 42%,
+    hsla(261, 48%, 89%, 1) 93%
+  );
+
+  background: -webkit-linear-gradient(
+    135deg,
+    hsla(280, 30%, 92%, 1) 0%,
+    hsla(276, 63%, 97%, 1) 42%,
+    hsla(261, 48%, 89%, 1) 93%
+  );
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EDE5F1", endColorstr="#F8F2FC", GradientType=1 );
+}
+
+/* .bg-vibin {
   background: hsla(0, 0%, 100%, 1);
 
   background: linear-gradient(
@@ -44,4 +71,4 @@
   );
 
   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FFFFFF", endColorstr="#D3F3F1", GradientType=1 );
-}
+} */

@@ -7,6 +7,7 @@ import Landing from "../pages/landing/landing/Landing";
 import NotFound from "../pages/not-found/NotFound";
 import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
+import PrivatteRoute from "./PrivatteRoute";
 
 const Routes = createBrowserRouter([
   {
@@ -15,27 +16,28 @@ const Routes = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        path: "wellcome",
-        element: <Landing />,
-      },
-      {
         path: "/",
         element: <Home />,
       },
       {
         path: "settings",
-        element: <Settings/>
+        element: (
+          <PrivatteRoute>
+            <Settings />{" "}
+          </PrivatteRoute>
+        ),
       },
     ],
   },
   {
     path: "/profile",
-    element: <Profile />,
+    element: (
+      <PrivatteRoute>
+        <Profile />{" "}
+      </PrivatteRoute>
+    ),
   },
-  {
-    path: "/landing",
-    element: <Landing />,
-  },
+
   {
     path: "/login",
     element: <Login />,
