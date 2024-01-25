@@ -4,12 +4,8 @@ import FeedCards from "./FeedCards";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 export default function MiddleContent() {
   return (
-    <div className="ps-10 mt-10">
-      <div className="lg:ml-0 lg:-mt-8 lg:pb-20 -mt-8 -ml-16">
-      <h2 className="font-bold md:text-2xl  text-[16px]">Ismail Hosen</h2>
-      <span className="text-[10px]">@ismailhosen</span>
-
-      </div>
+    <div className=" mt-10">
+     
       {/* Tab items */}
       <div>
       <Tabs>
