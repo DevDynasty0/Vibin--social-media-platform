@@ -3,10 +3,10 @@ import { MdOutlineVideoLibrary } from "react-icons/md";
 import { HiOutlineGif } from "react-icons/hi2";
 const AddNewPostCard = () => {
   return (
-    <form className="bg-gray-100 p-4 rounded">
+    <form className="bg-white shadow-md p-4 rounded">
       <div className="flex gap-3 items-start">
         <img
-          className="h-10 w-10 rounded-full"
+          className="h-10 w-10 rounded "
           src="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
           alt=""
         />

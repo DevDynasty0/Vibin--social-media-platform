@@ -1,35 +1,83 @@
 import { TbBrandFeedly } from "react-icons/tb";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import FeedCards from "./FeedCards";
+import { FaUser } from "react-icons/fa";
+import { BsThreeDots } from "react-icons/bs";
+import { Input } from "@chakra-ui/react";
+import { CiEdit } from "react-icons/ci";
+import { MdModeEdit } from "react-icons/md";
+import { FaUniversity } from "react-icons/fa";
 
-export default function MiddleContent() {
+import { Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure } from '@chakra-ui/react'
+
+import CustomModal from "../Modal/CustomModal";
+const  MiddleContent=()=> {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+ 
   return (
-    <div className="ps-10 mt-10">
-      <h2 className="font-semibold text-2xl">Ismail Hosen</h2>
-      <span>@ismailhosen</span>
-
+    <div className=" mt-10">
+     
       {/* Tab items */}
-      <div className="flex my-6">
-        <div className="flex flex-col justify-center w-20 h-16 text-green-500 cursor-pointer">
-          <TbBrandFeedly className="text-3xl" />
-          <span>Feed</span>
-        </div>
-        <div className="flex flex-col justify-center w-20 h-16 text-gray-500 cursor-pointer">
-          <IoInformationCircleOutline className="text-3xl" />
-          <span>Info</span>
-        </div>
-        <div className="flex flex-col justify-center w-20 h-16 text-gray-500 cursor-pointer">
-          <TbBrandFeedly className="text-3xl" />
-          <span>Feed</span>
-        </div>
-        <div className="flex flex-col justify-center w-20 h-16 text-gray-500 cursor-pointer">
-          <TbBrandFeedly className="text-3xl" />
-          <span>Feed</span>
-        </div>
+      <div>
+      <Tabs>
+  <TabList>
+    <Tab>Post</Tab>
+    <Tab>Highlights</Tab>
+    <Tab>Likes</Tab>
+    <Tab>About</Tab>
+  </TabList>
+
+  <TabPanels>
+    <TabPanel>
+      <FeedCards></FeedCards>
+    </TabPanel>
+    <TabPanel>
+    <div className="w-full bg-white rounded-md h-64">
+       <p className="font-bold text-lg text-center pt-16 "> No Highlights!!</p>
       </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="w-full bg-white h-64 rounded-md">
+       <p className="font-bold text-lg text-center pt-16 "> You don't get any like yet!!</p>
+      </div>
+    </TabPanel>
+    <TabPanel>
+      <p>About</p>
+      {/*  */}
+     <div className="bg-white flex items-center justify-between rounded-md px-2">
+    <div className="  p-2 flex gap-5 items-center ">
+    <FaUser></FaUser>
+    <p>  Rahida Priya</p>
+    </div>
+    
+   <div className="">
+   <button  onClick={onOpen}><MdModeEdit className="text-md"></MdModeEdit></button>
+   <CustomModal  onClose={onClose} onOpen={onOpen} isOpen={isOpen}></CustomModal>
+   </div>
+     </div>
+     <div className="bg-white flex my-2 items-center justify-between rounded-md px-2">
+     <div className="bg-white   p-2 flex gap-5 items-center ">
+   <FaUniversity></FaUniversity>
+    <p> International Islamic University Chittagong</p>
+    </div>
+    <div className="">
+   <button  onClick={onOpen}><MdModeEdit className="text-md"></MdModeEdit></button>
+   <CustomModal  onClose={onClose} onOpen={onOpen} isOpen={isOpen}></CustomModal>
+   </div>
+   </div>
+     {/*  */}
+  
+
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+      </div>
+      
 
       {/* Feed Cards  */}
-      <FeedCards />
+      {/* <FeedCards /> */}
     </div>
   );
 }
+export default MiddleContent;
