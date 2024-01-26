@@ -6,6 +6,7 @@ import Home from "../pages/home/home/Home";
 import NotFound from "../pages/not-found/NotFound";
 import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
+import Friends from "../pages/friends/Friends";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -43,6 +44,10 @@ const Routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "friends",
+        element: <Friends/>
+      }
     ],
   },
   {
@@ -69,6 +74,7 @@ const Routes = createBrowserRouter([
       </PublicRoute>
     ),
   },
+  
 ]);
 
 export default Routes;
