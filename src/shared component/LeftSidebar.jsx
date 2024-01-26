@@ -1,21 +1,17 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
 import LeftButton from "./LeftButton";
-import { FaUser, FaCog, FaBell, FaHome, FaUserFriends } from "react-icons/fa";
-import SearchButton from "./SearchButton";
+import { FaUser, FaCog, FaHome, FaUserFriends } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { logout } from "../store/authSlice";
+import { userLoggedOut } from "../redux/features/auth/authSlice";
 
 const LeftSidebar = () => {
   const dispatch = useDispatch();
-  // logout api: /api/v1/users/logout
   const handleLogout = async () => {
     const res = await axios.post("/api/v1/users/logout");
     console.log(res.data);
     if (res?.data) {
-      dispatch(logout());
+      dispatch(userLoggedOut());
       window.location.reload();
     }
   };
