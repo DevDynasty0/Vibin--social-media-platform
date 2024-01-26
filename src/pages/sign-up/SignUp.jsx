@@ -4,6 +4,7 @@ import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
+// import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
