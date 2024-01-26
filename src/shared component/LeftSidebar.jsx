@@ -4,11 +4,24 @@ import LeftButton from "./LeftButton";
 import { FaUser, FaCog, FaBell, FaHome, FaUserFriends } from "react-icons/fa";
 import SearchButton from "./SearchButton";
 import { MdLogout } from "react-icons/md";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
 
 const LeftSidebar = () => {
+  const dispatch = useDispatch();
+  // logout api: /api/v1/users/logout
+  const handleLogout = async () => {
+    const res = await axios.post("/api/v1/users/logout");
+    console.log(res.data);
+    if (res?.data) {
+      dispatch(logout());
+      window.location.reload();
+    }
+  };
   return (
     <div className="flex flex-col h-full   relative">
-      <div className="flex items-center border-b-2 pb-4 justify-between">
+      <div className="flex items-center border-b pb-4 justify-between">
         <a href="/" className="flex items-center  gap-3  ">
           <img src="./vibin-logo.png" className="h-8" alt="Vibin' Logo" />
           <span className="self-center font-semibold text-xl tracking-wide whitespace-nowrap  text-gray-800">
@@ -16,7 +29,6 @@ const LeftSidebar = () => {
           </span>
         </a>
         {/* <SearchButton /> */}
-        <hr />
       </div>
 
       <div className="mt-10 h-full  ">
@@ -31,9 +43,12 @@ const LeftSidebar = () => {
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
 
-        <div className="flex flex-col absolute bottom-0 ">
+        <div
+          onClick={handleLogout}
+          className="flex flex-col absolute bottom-0 w-full"
+        >
           <hr />
-          <LeftButton name={"Logout"} path={"logout"} icon={MdLogout} />
+          <LeftButton name={"Logout"} path={"/login"} icon={MdLogout} />
         </div>
       </div>
     </div>
