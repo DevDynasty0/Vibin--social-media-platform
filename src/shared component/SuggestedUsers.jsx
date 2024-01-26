@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import LeftButton from "./LeftButton";
 import RightButton from "./RightButton";
+import useAuth from "../hooks/useAuth";
+import { followUser } from "../hooks/followUser";
 
 const SuggestedUsers = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
@@ -24,7 +26,7 @@ const SuggestedUsers = () => {
         Suggested Friends
       </h4>
       {suggestedUsers?.map((user) => (
-        <RightButton key={user._id} user={user} />
+        <RightButton key={user._id} person={user} />
       ))}
     </>
   );

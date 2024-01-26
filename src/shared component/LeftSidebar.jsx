@@ -21,7 +21,7 @@ const LeftSidebar = () => {
     }
   };
   return (
-    <div className="flex flex-col h-full   relative">
+    <div className="flex flex-col  h-[calc(100vh-56px)]  relative">
       <div className="flex items-center border-b pb-4 justify-between">
         <a href="/" className="flex items-center  gap-3  ">
           <img
@@ -54,7 +54,7 @@ const LeftSidebar = () => {
 
         <div
           onClick={handleLogout}
-          className="flex flex-col absolute bottom-0 w-full"
+          className="flex flex-col absolute w-full bottom-[48px]"
         >
           <hr />
           <LeftButton name={"Logout"} path={"login"} icon={MdLogout} />
