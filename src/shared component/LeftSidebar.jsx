@@ -14,8 +14,9 @@ const LeftSidebar = () => {
   const handleLogout = async () => {
     const res = await axios.post("/api/v1/users/logout");
     console.log(res.data);
-    if (res.data) {
+    if (res?.data) {
       dispatch(logout());
+      window.location.reload();
     }
   };
   return (
@@ -47,7 +48,7 @@ const LeftSidebar = () => {
           className="flex flex-col absolute bottom-0 w-full"
         >
           <hr />
-          <LeftButton name={"Logout"} path={"login"} icon={MdLogout} />
+          <LeftButton name={"Logout"} path={"/login"} icon={MdLogout} />
         </div>
       </div>
     </div>

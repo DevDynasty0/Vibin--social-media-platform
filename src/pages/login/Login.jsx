@@ -3,13 +3,12 @@ import loginBanner from "../../assets/images/login_banner.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location);
+  const from = location?.state?.from?.pathname || "/home";
   const {
     register,
     handleSubmit,
@@ -28,8 +27,8 @@ const Login = () => {
       });
 
       console.log(res.data);
-      if (res.data) {
-        navigate();
+      if (res?.data) {
+        navigate(from, { replace: true });
       }
       isSignInLoader(false);
     } catch (error) {

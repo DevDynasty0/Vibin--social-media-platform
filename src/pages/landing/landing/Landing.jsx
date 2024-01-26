@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../../../assets/logo-vibin.jpg";
 import Footer from "../footer/Footer";
 const Landing = () => {
   return (
