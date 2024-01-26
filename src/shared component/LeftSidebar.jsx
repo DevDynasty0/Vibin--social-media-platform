@@ -7,9 +7,11 @@ import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
-
+import useAuth from "../hooks/useAuth";
+import avatar from "../assets/images/avatar.png";
 const LeftSidebar = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   // logout api: /api/v1/users/logout
   const handleLogout = async () => {
     const res = await axios.post("/api/v1/users/logout");
@@ -23,9 +25,13 @@ const LeftSidebar = () => {
     <div className="flex flex-col h-full   relative">
       <div className="flex items-center border-b pb-4 justify-between">
         <a href="/" className="flex items-center  gap-3  ">
-          <img src="./vibin-logo.png" className="h-8" alt="Vibin' Logo" />
+          <img
+            src={user?.avatar ? user.avatar : avatar}
+            className="h-8"
+            alt="Vibin' user"
+          />
           <span className="self-center font-semibold text-xl tracking-wide whitespace-nowrap  text-gray-800">
-            User Full Name
+            {user?.fullName}{" "}
           </span>
         </a>
         {/* <SearchButton /> */}
@@ -33,7 +39,11 @@ const LeftSidebar = () => {
 
       <div className="mt-10 h-full  ">
         <LeftButton name={"Home"} path={"home"} icon={FaHome} />
-        <LeftButton name={"Profile"} path={"profile"} icon={FaUser} />
+        <LeftButton
+          name={"Profile"}
+          path={`/profile/${user?._id}`}
+          icon={FaUser}
+        />
 
         {/* <LeftButton
           name={"Notifications"}
