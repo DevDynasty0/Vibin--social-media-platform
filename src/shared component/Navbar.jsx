@@ -29,17 +29,17 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
 
   return (
     <>
-      <nav className=" px-5 py-2    w-full z-50 dark:bg-gray-900 shadow-sm    fixed min-w-full">
+      <nav className=" px-5 py-2  gradient-two  w-full z-50 dark:bg-gray-900 shadow-md fixed min-w-full">
         <div className="flex  items-center justify-between  ">
           <div
             className="flex w-full   
           gap-4 items-center  "
           >
             <a href="/" className="flex items-center  ">
-              <figure className="p-1 bg-gray-100 rounded-md">
+              <figure className="p-1   ">
                 <img
                   src="./vibin-logo.png"
-                  className="h-6 w-8 md:w-6"
+                  className="h-8 w-12   "
                   alt="Vibin' Logo"
                 />
               </figure>
@@ -86,10 +86,10 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
             </NavLink>
           </div>
           <div className="w-full text-black hover:text-color-one  justify-end flex items-center gap-3 ">
-            <div className=" text-black bg-white shadow-md    hover:text-color-one rounded  p-2  ">
+            <div className=" hover:text-black  bg-gray-50 shadow-md     text-color-one rounded  p-2  ">
               <FaRegMessage />
             </div>
-            <div className=" text-black shadow-md  bg-white    hover:text-color-one rounded  p-2  ">
+            <div className=" hover:text-black shadow-md  bg-gray-50    text-color-one rounded  p-2  ">
               <FaRegBell onClick={onOpen || onClose} />
             </div>
 
