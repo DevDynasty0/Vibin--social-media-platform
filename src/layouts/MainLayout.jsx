@@ -9,13 +9,14 @@ import LeftButton from "../shared component/LeftButton";
 import { Spinner } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
 import Landing from "../pages/landing/landing/Landing";
+import { getSuggestedUsers } from "../hooks/getSuggestedUsers";
+import SuggestedUsers from "../shared component/SuggestedUsers";
 const MainLayout = () => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
   const [notification, setNotification] = useState(false);
 
   const { loading, user } = useAuth();
-  console.log(user);
   return !loading ? (
     user ? (
       <div className="gradient-two ">
@@ -47,45 +48,7 @@ const MainLayout = () => {
               right ? "right-0" : " -right-[52rem]"
             }   w-full  lg:w-1/5  max-w-96 p-6 fixed  lg:right-0 overflow-hidden   lg:top-0 transition-all duration-300 pt-10 top-8 mt-6   h-full`}
           >
-            <h4 className=" text-color-one text-opacity-85 underline font-semibold   mb-3">
-              Suggested Friends
-            </h4>
-            <LeftButton
-              name="Abu Sayed"
-              img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path="/id"
-              icon=""
-            />
-            <LeftButton
-              name="Nadia Sultana"
-              img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path="/id"
-              icon=""
-            />
-            <LeftButton
-              name="Naza Rahida"
-              img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path="/id"
-              icon=""
-            />
-            <LeftButton
-              name="Ismail Hosen "
-              img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path="/id"
-              icon=""
-            />
-            <LeftButton
-              name="Abdullah Al Ovi"
-              img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path="/id"
-              icon=""
-            />
-            <LeftButton
-              name="Foyez Ahamed"
-              img="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg"
-              path="/id"
-              icon=""
-            />
+            <SuggestedUsers />
           </div>
         </div>
       </div>
