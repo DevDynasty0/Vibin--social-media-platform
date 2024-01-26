@@ -4,10 +4,12 @@ import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { useDispatch, useSelector } from "react-redux";
-import useAuth from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import { login, logout } from "../../store/authSlice";
+import {
+  userLoggedIn,
+  userLoggedOut,
+} from "../../redux/features/auth/authSlice";
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
@@ -27,7 +29,7 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     // Handle sing up logic here
-    // isSignUpLoader(true);
+    isSignUpLoader(true);
     console.log(data);
     const user = { email: data?.email, password: data?.password };
     const res = await axios.post("/api/v1/users/register", {
@@ -36,15 +38,13 @@ const SignUp = () => {
       fullName: data?.fullName,
       avatar: data?.avatar,
     });
-    console.log(res);
+    console.log("This is from SignUp page: ", res);
     if (!res.data) {
-      dispatch(logout());
+      dispatch(userLoggedOut());
     }
-    dispatch(login({ user }));
+    dispatch(userLoggedIn({ user, accessToken: null }));
+    isSignUpLoader(false);
   };
-
-  const { loading, user } = useAuth();
-  console.log(user);
 
   return (
     <div className="relative">

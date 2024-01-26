@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
 import LeftButton from "./LeftButton";
-import { FaUser, FaCog, FaBell, FaHome, FaUserFriends } from "react-icons/fa";
-import SearchButton from "./SearchButton";
+import { FaUser, FaCog, FaHome, FaUserFriends } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { logout } from "../store/authSlice";
+import { userLoggedOut } from "../redux/features/auth/authSlice";
 import useAuth from "../hooks/useAuth";
 import avatar from "../assets/images/avatar.png";
+
 const LeftSidebar = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
@@ -17,7 +15,7 @@ const LeftSidebar = () => {
     const res = await axios.post("/api/v1/users/logout");
     console.log(res.data);
     if (res?.data) {
-      dispatch(logout());
+      dispatch(userLoggedOut());
       window.location.reload();
     }
   };
@@ -38,7 +36,6 @@ const LeftSidebar = () => {
       </div>
 
       <div className="mt-10 h-full  ">
-
         <LeftButton name={"Home"} path={"home"} icon={FaHome} />
         <LeftButton
           name={"Profile"}
