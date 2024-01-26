@@ -1,38 +1,65 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import LeftButton from "./LeftButton";
-import { FaUser, FaCog, FaBell, FaHome, FaUserFriends,  } from "react-icons/fa";
+import { FaUser, FaCog, FaBell, FaHome, FaUserFriends } from "react-icons/fa";
 import SearchButton from "./SearchButton";
 import { MdLogout } from "react-icons/md";
-
-const LeftSidebar = (props) => {
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
+import useAuth from "../hooks/useAuth";
+import avatar from "../assets/images/avatar.png";
+const LeftSidebar = () => {
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+  // logout api: /api/v1/users/logout
+  const handleLogout = async () => {
+    const res = await axios.post("/api/v1/users/logout");
+    console.log(res.data);
+    if (res?.data) {
+      dispatch(logout());
+      window.location.reload();
+    }
+  };
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center  justify-between">
+    <div className="flex flex-col h-full   relative">
+      <div className="flex items-center border-b pb-4 justify-between">
         <a href="/" className="flex items-center  gap-3  ">
-          <img src="./vibin-logo.png" className="h-12" alt="Vibin' Logo" />
-          {/* <span className="self-center font-bold text-3xl tracking-wide whitespace-nowrap  text-gray-800">
-            Vibin<span className="">'</span>
-          </span> */}
-        </a>{" "}
-        <SearchButton />
-        <hr />
+          <img
+            src={user?.avatar ? user.avatar : avatar}
+            className="h-8"
+            alt="Vibin' user"
+          />
+          <span className="self-center font-semibold text-xl tracking-wide whitespace-nowrap  text-gray-800">
+            {user?.fullName}{" "}
+          </span>
+        </a>
+        {/* <SearchButton /> */}
       </div>
-      <div className="mt-20 h-full">
-        <LeftButton name={"Home"} path={"home"} icon={FaHome} />
-        <LeftButton name={"Profile"} path={"profile"} icon={FaUser} />
 
+      <div className="mt-10 h-full  ">
+
+        <LeftButton name={"Home"} path={"home"} icon={FaHome} />
         <LeftButton
+          name={"Profile"}
+          path={`/profile/${user?._id}`}
+          icon={FaUser}
+        />
+
+        {/* <LeftButton
           name={"Notifications"}
           path={"notifications"}
           icon={FaBell}
-        />
+        /> */}
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
-       
-        <div className="flex flex-col justify-center h-full">
+
+        <div
+          onClick={handleLogout}
+          className="flex flex-col absolute bottom-0 w-full"
+        >
           <hr />
-          <LeftButton name={"Logout"} path={"logout"} icon={MdLogout} />
+          <LeftButton name={"Logout"} path={"/login"} icon={MdLogout} />
         </div>
       </div>
     </div>

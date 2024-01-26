@@ -4,12 +4,17 @@ import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useDispatch, useSelector } from "react-redux";
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import { login, logout } from "../../store/authSlice";
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
 
   const [signUpLoader, isSignUpLoader] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -20,21 +25,50 @@ const SignUp = () => {
 
   const password = watch("password", "");
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // Handle sing up logic here
-    isSignUpLoader(true);
+    // isSignUpLoader(true);
     console.log(data);
+    const user = { email: data?.email, password: data?.password };
+    const res = await axios.post("/api/v1/users/register", {
+      email: data?.email,
+      password: data?.password,
+      fullName: data?.fullName,
+      avatar: data?.avatar,
+    });
+    console.log(res);
+    if (!res.data) {
+      dispatch(logout());
+    }
+    dispatch(login({ user }));
   };
+
+  const { loading, user } = useAuth();
+  console.log(user);
 
   return (
     <div className="relative">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
-        <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto md:mx-0 ">
+        <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto  ">
           <h2 className="font-semibold text-3xl mb-5 ">Sign Up Now !!</h2>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
+          <form onSubmit={handleSubmit(onSubmit)} className=" ">
+            <div className="  my-2 w-[300px]  h-[200px] flex flex-col text-gray-500 bg-gray-50 border-0 border-b-2 gap-4 border-gray-300 justify-center items-center rounded-t-lg  mx-auto">
+              <input
+                required
+                id="avatar"
+                aria-label="Avatar"
+                className=" text-center"
+                type="file"
+                accept="image/*"
+                {...register("avatar", { required: true, maxLength: 1 })}
+                placeholder=" "
+              />
+              <label htmlFor="avatar" className="text-gray-500">
+                Choose Your Avatar
+              </label>
+            </div>
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
                 id="fullName"
@@ -54,7 +88,7 @@ const SignUp = () => {
 
             {/* username */}
 
-            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
+            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
                 id="userName"
@@ -73,7 +107,7 @@ const SignUp = () => {
             </div> */}
 
             {/* gender */}
-            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
+            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <select
                 required
                 id="gender"
@@ -100,7 +134,7 @@ const SignUp = () => {
               ></label>
             </div> */}
 
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
                 id="email"
@@ -117,8 +151,7 @@ const SignUp = () => {
               </label>
             </div>
 
-       
-            <div className="relative w-[90%] md:w-[75%] mx-auto md:mx-0">
+            <div className="relative w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
                 id="password"
@@ -157,8 +190,7 @@ const SignUp = () => {
               </label>
             </div>
 
-           
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
                 id="confirmPassword"
@@ -198,8 +230,7 @@ const SignUp = () => {
               </label>
             </div>
 
-          
-            <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
+            <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto ">
               <button
                 disabled={signUpLoader}
                 className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
@@ -243,7 +274,7 @@ const SignUp = () => {
             </div>
           </form>
 
-          <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] text-center my-2 flex items-center justify-between">
+          <div className="mx-auto  w-[90%] md:w-[75%] text-center my-2 flex items-center justify-between">
             <hr className="w-[45%] border-gray-800" />
             <span>Or</span>
             <hr className="w-[45%] border-gray-800" />
@@ -251,7 +282,7 @@ const SignUp = () => {
 
           {/* Google,apple sign in button */}
 
-          <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] space-y-3">
+          <div className="mx-auto  w-[90%] md:w-[75%] space-y-3">
             <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
               <svg
                 className="h-6 w-6 mr-2"
