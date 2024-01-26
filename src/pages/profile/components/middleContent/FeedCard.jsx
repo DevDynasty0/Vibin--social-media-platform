@@ -17,7 +17,7 @@ const FeedCard = ({ userName, userProfile, postTime, caption, img }) => {
         </div>
         <p className="mt-2 text-xl">{caption}</p>
       </div>
-      <img className="mt-2 w-full h-[300px] md:h-[450px]" src={img} alt="" />
+      <img className="mt-2 w-full h-[200px] md:h-[250px]" src={img} alt="" />
       <div className="mt-2 px-4 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <AiOutlineLike className="text-2xl" />
