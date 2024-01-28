@@ -36,10 +36,10 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
           gap-4 items-center  "
           >
             <a href="/" className="flex items-center  ">
-              <figure className="p-1   ">
+              <figure className="    ">
                 <img
-                  src="./vibin-logo.png"
-                  className="h-8 w-12   "
+                  src="./vibin-logo3.png"
+                  className="h-8 w-16 object-cover drop-shadow-md  "
                   alt="Vibin' Logo"
                 />
               </figure>

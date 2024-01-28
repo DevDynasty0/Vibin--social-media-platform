@@ -10,6 +10,7 @@ import Friends from "../pages/friends/Friends";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
+
 const Routes = createBrowserRouter([
   {
     path: "/",

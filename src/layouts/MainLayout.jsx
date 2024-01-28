@@ -28,7 +28,7 @@ const MainLayout = () => {
           notification={notification}
           setNotification={setNotification}
         />
-        <div className="min-h-screen flex  ">
+        <div className="min-h-screen  flex  ">
           {/* left side bar */}
           <div
             className={`${
