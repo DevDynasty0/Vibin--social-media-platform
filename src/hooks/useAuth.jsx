@@ -13,7 +13,6 @@ const useAuth = () => {
       .get("/api/v1/users/current-user")
       .then(({ data }) => {
         const user = data.data;
-        console.log("This is from useAuth hook", data);
         if (user) {
           dispatch(userLoggedIn({ user }));
           console.log();
