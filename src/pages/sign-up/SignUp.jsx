@@ -68,6 +68,7 @@ const SignUp = () => {
                 Choose Your Avatar
               </label>
             </div>
+            
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
