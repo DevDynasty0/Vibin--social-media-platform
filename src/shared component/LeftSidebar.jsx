@@ -7,6 +7,8 @@ import { userLoggedOut } from "../redux/features/auth/authSlice";
 import useAuth from "../hooks/useAuth";
 import avatar from "../assets/images/avatar.png";
 
+import { NavLink } from "react-router-dom";
+
 const LeftSidebar = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
@@ -21,22 +23,27 @@ const LeftSidebar = () => {
   };
   return (
     <div className="flex flex-col  h-[calc(100vh-56px)]  relative">
-      <div className="flex items-center border-b pb-4 justify-between">
-        <a href="/" className="flex items-center  gap-3  ">
+      <div className=" border-b pb-4 px-2 ">
+        <NavLink
+          to={`/profile/${user?._id}`}
+          className="flex items-center  gap-3  "
+        >
           <img
             src={user?.avatar ? user.avatar : avatar}
-            className="h-8"
-            alt="Vibin' user"
+            className="h-10 "
+            alt="user"
           />
-          <span className="self-center font-semibold text-xl tracking-wide whitespace-nowrap  text-gray-800">
+          <span className="self-center font-semibold text-xl tracking-wide text-wrap text-gray-800">
             {user?.fullName}{" "}
           </span>
-        </a>
+        </NavLink>
         {/* <SearchButton /> */}
       </div>
 
       <div className="mt-10 h-full  ">
-        <LeftButton name={"Home"} path={"home"} icon={FaHome} />
+
+        <LeftButton name={"Home"} path={"/"} icon={FaHome} />
+
         <LeftButton
           name={"Profile"}
           path={`/profile/${user?._id}`}
