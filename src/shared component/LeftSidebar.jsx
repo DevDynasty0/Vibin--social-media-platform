@@ -1,24 +1,23 @@
 import LeftButton from "./LeftButton";
 import { FaUser, FaCog, FaHome, FaUserFriends } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { userLoggedOut } from "../redux/features/auth/authSlice";
-import useAuth from "../hooks/useAuth";
 import avatar from "../assets/images/avatar.png";
+import { useLogoutMutation } from "../redux/features/auth/authApi";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const LeftSidebar = () => {
-  const dispatch = useDispatch();
-  const { user } = useAuth();
-  // logout api: /api/v1/users/logout
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+
   const handleLogout = async () => {
-    const res = await axios.post("/api/v1/users/logout");
-    console.log(res.data);
-    if (res?.data) {
-      dispatch(userLoggedOut());
-      window.location.reload();
+    const results = await logout();
+    if (results?.data?.success) {
+      navigate("/login");
     }
   };
+
   return (
     <div className="flex flex-col  h-[calc(100vh-56px)]  relative">
       <div className="flex items-center border-b pb-4 justify-between">
@@ -56,7 +55,7 @@ const LeftSidebar = () => {
           className="flex flex-col absolute w-full bottom-[48px]"
         >
           <hr />
-          <LeftButton name={"Logout"} path={"/login"} icon={MdLogout} />
+          <LeftButton name={"Logout"} icon={MdLogout} />
         </div>
       </div>
     </div>
