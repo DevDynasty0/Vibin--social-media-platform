@@ -17,10 +17,14 @@ const Landing = () => {
           <h1 className="text-3xl mb-5">Connecting Vibes!</h1>
           <h3>Share your vibes and murmurs with your friends and foes</h3>
           <div className="flex flex-col  border-opacity-50">
-            <div className="mt-20 mb-2"> </div>{" "}
-            <button className=" hover:bg-opacity-90 border-2  py-2   rounded gradient-two  text-gray-500">
+
+            <Link
+              to="/sign-up"
+              className="btn border-2 px-3 py-2 mt-20 rounded bg-[#030C4D] text-white"
+            >
+
               Create Account
-            </button>
+            </Link>
             <div className="flex items-center gap-2">
               <hr className="h-[2px] w-full bg-gray-200" />
               <p className="divider text-center my-5">OR</p>

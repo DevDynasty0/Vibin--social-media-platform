@@ -27,7 +27,7 @@ const Login = () => {
         password: data?.password,
       });
 
-      console.log(res.data);
+      console.log("This is from Login page: ", res.data);
       if (res?.data) {
         navigate(from, { replace: true });
       }
