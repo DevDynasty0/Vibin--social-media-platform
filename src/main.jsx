@@ -1,4 +1,3 @@
-
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -8,17 +7,17 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
 import Routes from "./routes/Routes.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 // import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <PersistGate persistor={persistor}> */}
-      <ChakraProvider>
-        <RouterProvider router={Routes}></RouterProvider>
-      </ChakraProvider>
-      {/* </PersistGate> */}
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+        <ChakraProvider>
+          <RouterProvider router={Routes}></RouterProvider>
+        </ChakraProvider>
+      </GoogleOAuthProvider>
     </Provider>
   </React.StrictMode>
 );
-
