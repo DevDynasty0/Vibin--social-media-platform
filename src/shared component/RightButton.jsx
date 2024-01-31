@@ -7,16 +7,15 @@ import { followUser } from "../hooks/followUser";
 
 const RightButton = ({ person }) => {
   const { user } = useAuth();
-  const [follow, setFollow] = useState("");
+  const [follow, setFollow] = useState([]);
 
   const handleFollow = async (id) => {
-    setFollow("");
+    setFollow([...follow, id]);
     const profile = id;
     const follower = user?._id;
     console.log(follower, "you");
     const res = await followUser(profile, follower);
     console.log(res);
-    setFollow(res.data);
   };
 
   return (
@@ -36,7 +35,7 @@ const RightButton = ({ person }) => {
             onClick={() => handleFollow(person?._id)}
             className="px-1 w-16  gradient-one  text-white text-xs rounded-sm py-1 shadow"
           >
-            {follow?._id === person?._id ? "Following" : "Follow"}
+            {follow?.find((id) => id === person?._id) ? "Following" : "Follow"}
           </button>
         </div>
       </div>

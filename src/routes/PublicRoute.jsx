@@ -1,10 +1,10 @@
-import useAuth from "../hooks/useAuth";
 import { Spinner } from "@chakra-ui/react";
 import { Navigate, useLocation } from "react-router-dom";
+import useAuthCheck from "../hooks/useAuthCheck";
 
 const PublicRoute = ({ children }) => {
   const location = useLocation();
-  const { loading, isAuthenticated } = useAuth();
+  const { loading, user } = useAuthCheck();
 
   if (loading) {
     return (
@@ -14,11 +14,11 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!user) {
     return children;
   }
 
-  return <Navigate to="/home" state={{ from: location }} replace></Navigate>;
+  return <Navigate to="/" state={{ from: location }} replace></Navigate>;
 };
 
 export default PublicRoute;

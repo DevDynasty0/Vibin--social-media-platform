@@ -4,25 +4,25 @@ import { userLoggedIn } from "../redux/features/auth/authSlice";
 
 export default function useAuthCheck() {
   const dispatch = useDispatch();
-  const [authChecked, setAuthChecked] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
 
     if (localAuth) {
       const auth = JSON.parse(localAuth);
-      if (auth?.accessToken && auth?.user) {
+      if (auth?.user) {
         dispatch(
           userLoggedIn({
-            accessToken: auth.accessToken,
             user: auth.user,
           })
         );
+        setUser(auth.user);
       }
     }
+    setLoading(false);
+  }, [dispatch, setUser]);
 
-    setAuthChecked(true);
-  }, [dispatch, setAuthChecked]);
-
-  return authChecked;
+  return { user, loading };
 }

@@ -2,8 +2,6 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Player } from "@lottiefiles/react-lottie-player";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import {
@@ -13,15 +11,27 @@ import {
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import './signup.css'
 
+
+import { Link, useNavigate } from "react-router-dom";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { useRegisterApiMutation } from "../../redux/features/auth/authApi";
+
+
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
+
 
   const [userInfoLoader, setUserInfoLoader] = useState(false);
 
 
   const [signUpLoader, isSignUpLoader] = useState(false);
   const dispatch = useDispatch();
+
+  const [registerApi, { isLoading }] = useRegisterApiMutation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
+
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [scrollBehavior, setScrollBehavior] = React.useState('inside')
@@ -60,26 +70,28 @@ const SignUp = () => {
   const password = watch("password", "");
 
   const onSubmit = async (data) => {
-    // Handle sing up logic here
-    isSignUpLoader(true);
-    console.log(data);
-    const user = { email: data?.email, password: data?.password };
-    const res = await axios.post("/api/v1/users/register", {
-      email: data?.email,
-      password: data?.password,
-      fullName: data?.fullName,
-      avatar: data?.avatar,
-    });
-    console.log("This is from SignUp page: ", res);
-    if (!res.data) {
-      dispatch(userLoggedOut());
+    try {
+      const newUser = {
+        email: data?.email,
+        password: data?.password,
+        fullName: data?.fullName,
+        avatar: data?.avatar,
+      };
+      const results = await registerApi(newUser);
+      if (results?.data?.success) {
+        navigate(from, { replace: true });
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     dispatch(userLoggedIn({ user, accessToken: null }));
     reset()
     isSignUpLoader(false);
 
     // From here the userInformation Logic starts.onOpen() is for opening the modal.
     onOpen(); 
+
   };
 
 
@@ -106,6 +118,7 @@ const SignUp = () => {
                 Choose Your Avatar
               </label>
             </div>
+
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
@@ -270,14 +283,16 @@ const SignUp = () => {
 
             <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto ">
               <button
+
                 disabled={signUpLoader}
                 className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${signUpLoader
                   ? "cursor-not-allowed"
                   : "hover:text-gray-600 hover:bg-gray-200  "
                   }`}
+               
                 type="submit"
               >
-                {signUpLoader ? (
+                {isLoading ? (
                   <svg
                     className="animate-spin mx-auto h-6 w-6 text-[#904486]"
                     xmlns="http://www.w3.org/2000/svg"

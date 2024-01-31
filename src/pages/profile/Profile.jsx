@@ -1,19 +1,14 @@
-// import { IoCamera } from "react-icons/io5";
-
-
-
-
-import '../../styles/color.css'
-import Cover from './components/cover/Cover';
+import "../../styles/color.css";
+import Cover from "./components/cover/Cover";
 
 import LeftContent from "./components/leftContent/LeftContent";
 import MiddleContent from "./components/middleContent/MiddleContent";
 import RightContent from "./components/rightContent/RightContent";
 
 export default function Profile() {
-
   return (
-    <div className="bg-gray-100 max-w-6xl mx-auto myBg ">
+    <div className='bg-gray-100'>
+      <div className="bg-gray-100 max-w-7xl mx-auto bg-vibin ">
       <Cover></Cover>
       {/* <div className="bg-white p-1 md:h-32 lg:h-40 lg:w-40 h-20 w-20 md:w-32 absolute z-10 lg:-mt-20 md:-mt-16 md:ml-10 -mt-10 ml-6 lg:ml-20 rounded-full">
             
@@ -35,7 +30,6 @@ export default function Profile() {
           <LeftContent />
         </div>
 
-
         {/* Middle Content Begin */}
         <div className="md:col-span-3 ">
           <MiddleContent />
@@ -46,6 +40,7 @@ export default function Profile() {
           <RightContent></RightContent>
         </div>
       </div>
+    </div>
     </div>
   );
 }

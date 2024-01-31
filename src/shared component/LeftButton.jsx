@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
-const LeftButton = ({ name = "", path, icon: Icon, img }) => {
+const LeftButton = ({ name = "", path = "", icon: Icon, img }) => {
   return (
     <div>
       <NavLink
@@ -13,9 +13,9 @@ const LeftButton = ({ name = "", path, icon: Icon, img }) => {
         }
       >
         {Icon && (
-          <div className="p-2 gradient-one text-white rounded   text-center">
+          <span className="p-2 gradient-one text-white rounded   text-center">
             <Icon size={"1.25rem"} />
-          </div>
+          </span>
         )}
         {img && <img className="h-12 w-12 rounded " src={img} />}
         {/* Render the icon if provided */}
