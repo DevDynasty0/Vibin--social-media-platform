@@ -3,6 +3,8 @@ import { Spinner } from "@chakra-ui/react";
 import { Navigate, useLocation } from "react-router-dom";
 import Landing from "../pages/landing/landing/Landing";
 import PublicRoute from "./PublicRoute";
+import LandingNew from "../pages/landing/landing/LandingNew";
+import Landingx from "../pages/landing/landing/Landingx";
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
@@ -19,7 +21,7 @@ const PrivateRoute = ({ children }) => {
   if (!loading && !isAuthenticated) {
     return (
       <PublicRoute>
-        <Landing />
+        <Landingx />
       </PublicRoute>
     );
   }
