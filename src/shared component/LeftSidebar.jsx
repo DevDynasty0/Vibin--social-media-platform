@@ -21,7 +21,7 @@ const LeftSidebar = () => {
   };
 
   return (
-    <div className="flex flex-col  h-[calc(100vh-56px)]  relative">
+    <div className="h-[calc(100vh-56px)]  relative">
       <div className=" border-b pb-4 px-2 ">
         <NavLink
           to={`/profile/${user?._id}`}
