@@ -4,40 +4,29 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import GoogleSignIn from "../../shared component/GoogleSignIn";
 
+
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+
 const Login = () => {
   const navigate = useNavigate();
-  const from = location?.state?.from?.pathname || "/";
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const from = location?.state?.from?.pathname || "/home";
+  const [login, { isError, isLoading }] = useLoginMutation();
+  const { register, handleSubmit } = useForm();
+
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
-  const [signInLoader, isSignInLoader] = useState(false);
 
   const onSubmit = async (data) => {
-    try {
-      isSignInLoader(true);
+    const results = await login({
+      email: data?.email,
+      password: data?.password,
+    });
 
-      const res = await axios.post("/api/v1/users/login", {
-        email: data?.email,
-        password: data?.password,
-      });
-
-      console.log("This is from Login page: ", res.data);
-      if (res?.data) {
-        navigate(from, { replace: true });
-      }
-      isSignInLoader(false);
-    } catch (error) {
-      // Handle errors here
-      console.error("Error logging in:", error);
-
-      // Set isSignInLoader to false in case of an error
-      isSignInLoader(false);
+    if (results?.data?.success) {
+      navigate(from, { replace: true });
     }
   };
 
@@ -97,15 +86,15 @@ const Login = () => {
 
           <div className="mt-3 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
             <button
-              disabled={signInLoader}
+              disabled={isLoading}
               className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
-                signInLoader
+                isLoading
                   ? "cursor-not-allowed"
                   : "hover:text-gray-600 hover:bg-gray-200  "
               }`}
               type="submit"
             >
-              {signInLoader ? (
+              {isLoading ? (
                 <svg
                   className="animate-spin mx-auto h-6 w-6 text-[#0E4749]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -137,6 +126,11 @@ const Login = () => {
               )}
             </button>
           </div>
+          {isError && (
+            <span className="text-rose-600 my-1">
+              Ops, can&apos;t login. Please check your credentials.
+            </span>
+          )}
         </form>
         <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] text-center my-2 flex items-center justify-between">
           <hr className="w-[45%] border-gray-800" />
