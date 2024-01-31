@@ -1,12 +1,54 @@
-
+import { Link } from "react-router-dom";
+import Footer from "../footer/Footer";
+import { MdEmail, MdOutlineEmail } from "react-icons/md";
+import GoogleSignIn from "../../../shared component/GoogleSignIn";
 const Landing = () => {
-    return (
+  return (
+    <div className="h-screen flex flex-col justify-between">
+      <div className="flex flex-col lg:flex-row items-center justify-center  w-full text-center">
         <div>
-            <p>This is landing page</p>
-            <p>footer</p>
-            {/* call here footer  */}
+          <img
+            className="w-64 md:w-72  lg:w-full"
+            src="./vibin-logo.png"
+            alt=""
+          />
         </div>
-    );
+        <div className="lg:border-l-4 border-gray-300 border-spacing-4 p-10">
+          <h1 className="text-3xl mb-5">Connecting Vibes!</h1>
+          <h3>Share your vibes and murmurs with your friends and foes</h3>
+          <div className="flex flex-col  border-opacity-50">
+
+            <Link
+              to="/sign-up"
+              className="btn border-2 px-3 py-2 mt-20 rounded bg-[#030C4D] text-white"
+            >
+
+              Create Account
+            </Link>
+            <div className="flex items-center gap-2">
+              <hr className="h-[2px] w-full bg-gray-200" />
+              <p className="divider text-center my-5">OR</p>
+              <hr className="h-[2px] w-full bg-gray-200" />
+            </div>
+            <div className="flex items-center  justify-between w-full">
+              {" "}
+              <Link
+                to={"/login"}
+                className="        rounded border  gradient-two px-3 py-2  font-medium text-gray-500 "
+              >
+                {" "}
+                Sign In with Email
+              </Link>{" "}
+              <GoogleSignIn />{" "}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" ">
+        <Footer></Footer>
+      </div>
+    </div>
+  );
 };
 
 export default Landing;
