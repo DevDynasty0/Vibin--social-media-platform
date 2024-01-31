@@ -1,7 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLoginMutation } from "../redux/features/auth/authApi";
 
-const GoggleSignIn = () => {
+const GoogleSignIn = () => {
   const [googleLogin] = useGoogleLoginMutation();
   return (
     <GoogleLogin
@@ -21,5 +21,4 @@ const GoggleSignIn = () => {
     />
   );
 };
-
-export default GoggleSignIn;
+export default GoogleSignIn;

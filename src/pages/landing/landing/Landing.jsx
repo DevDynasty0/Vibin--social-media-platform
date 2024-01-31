@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Footer from "../footer/Footer";
-import GoggleSignIn from "../../../shared component/GoggleSignIn";
-import { MdEmail, MdOutlineEmail } from "react-icons/md";
+import GoogleSignIn from "../../../shared component/GoogleSignIn";
 
 const Landing = () => {
   return (
@@ -38,7 +37,7 @@ const Landing = () => {
                 {" "}
                 Sign In with Email
               </Link>{" "}
-              <GoggleSignIn />{" "}
+              <GoogleSignIn />{" "}
             </div>
           </div>
         </div>
