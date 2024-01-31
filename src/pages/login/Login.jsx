@@ -12,6 +12,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
@@ -31,6 +32,7 @@ const Login = () => {
         navigate(from, { replace: true });
       }
       isSignInLoader(false);
+      reset()
     } catch (error) {
       // Handle errors here
       console.error("Error logging in:", error);
@@ -50,14 +52,14 @@ const Login = () => {
             <input
               required
               id="email"
-              className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer"
+              className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
               type="email"
               {...register("email", { required: true })}
               placeholder=" "
             />
             <label
               htmlFor="email"
-              className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+              className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
             >
               Email
             </label>
@@ -66,7 +68,7 @@ const Login = () => {
             <input
               required
               id="password"
-              className="block w-full rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer"
+              className="block w-full rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
               type={displayPassIcon ? "text" : "password"}
               {...register("password", { required: true })}
               placeholder=" "
@@ -80,7 +82,7 @@ const Login = () => {
             <label
               htmlFor="password"
               className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
-                         peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                         peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
             >
               Password
             </label>
@@ -106,7 +108,7 @@ const Login = () => {
             >
               {signInLoader ? (
                 <svg
-                  className="animate-spin mx-auto h-6 w-6 text-[#0E4749]"
+                  className="animate-spin mx-auto h-6 w-6 text-[#904486]"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >

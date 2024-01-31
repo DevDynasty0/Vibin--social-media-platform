@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import signUpLottie from "../../assets/lotties/vibin-signup.json";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useDispatch } from "react-redux";
@@ -10,20 +10,52 @@ import {
   userLoggedIn,
   userLoggedOut,
 } from "../../redux/features/auth/authSlice";
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import './signup.css'
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
 
+  const [userInfoLoader, setUserInfoLoader] = useState(false);
+
+
   const [signUpLoader, isSignUpLoader] = useState(false);
   const dispatch = useDispatch();
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [scrollBehavior, setScrollBehavior] = React.useState('inside')
+  const btnRef = React.useRef(null)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
     watch,
   } = useForm();
+
+  const [userInfo, setUserInfo] = useState({
+    gender: '',
+    dateOfBirth: '',
+    address: '',
+    contactNumber: '',
+    bio: '',
+    religion: ''
+
+  })
+
+  const handleUserInfoChange = (e) => {
+    setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+  }
+
+  const handleUserInfoSubmit = (e) => {
+    e.preventDefault();
+    console.log(userInfo);
+    setUserInfoLoader(true)
+    //  onClose(),e.target.reset() will applied after successful patch request-response.
+    // setUserInfoLoader(false) will applied after both error/success
+  }
 
   const password = watch("password", "");
 
@@ -43,8 +75,14 @@ const SignUp = () => {
       dispatch(userLoggedOut());
     }
     dispatch(userLoggedIn({ user, accessToken: null }));
+    reset()
     isSignUpLoader(false);
+
+    // From here the userInformation Logic starts.onOpen() is for opening the modal.
+    onOpen(); 
   };
+
+
 
   return (
     <div className="relative">
@@ -52,8 +90,8 @@ const SignUp = () => {
         <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto  ">
           <h2 className="font-semibold text-3xl mb-5 ">Sign Up Now !!</h2>
 
-          <form onSubmit={handleSubmit(onSubmit)} className=" ">
-            <div className="  my-2 w-[300px]  h-[200px] flex flex-col text-gray-500 bg-gray-50 border-0 border-b-2 gap-4 border-gray-300 justify-center items-center rounded-t-lg  mx-auto">
+          <form onSubmit={handleSubmit(onSubmit)} className="">
+            <div className="my-2 w-[300px] h-[200px] flex flex-col text-gray-500 bg-gray-50 border-0 border-b-2 gap-4 border-gray-300 justify-center items-center rounded-t-lg mx-auto">
               <input
                 required
                 id="avatar"
@@ -73,14 +111,14 @@ const SignUp = () => {
                 required
                 id="fullName"
                 aria-label="Full Name"
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer w-full"
+                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer w-full"
                 type="text"
                 {...register("fullName", { required: true })}
                 placeholder=" "
               />
               <label
                 htmlFor="fullName"
-                className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
                 Full Name
               </label>
@@ -138,14 +176,14 @@ const SignUp = () => {
               <input
                 required
                 id="email"
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer"
+                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
                 type="email"
                 {...register("email", { required: true })}
                 placeholder=" "
               />
               <label
                 htmlFor="email"
-                className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
                 Email
               </label>
@@ -155,7 +193,7 @@ const SignUp = () => {
               <input
                 required
                 id="password"
-                className="block w-full rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer"
+                className="block w-full rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
                 type={displayPassIcon ? "text" : "password"}
                 {...register("password", {
                   required: true,
@@ -184,7 +222,7 @@ const SignUp = () => {
               <label
                 htmlFor="password"
                 className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
-                         peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                         peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
                 Password
               </label>
@@ -195,7 +233,7 @@ const SignUp = () => {
                 required
                 id="confirmPassword"
                 aria-label="Confirm Password"
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer-focus:text-[#0E4749] peer w-full "
+                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer w-full focus:border-[#904486]"
                 type={displayConfirmPassIcon ? "text" : "password"}
                 {...register("confirmPassword", {
                   required: true,
@@ -224,7 +262,7 @@ const SignUp = () => {
               <label
                 htmlFor="confirmPassword"
                 className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
-                  peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                  peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
                 Confirm Password
               </label>
@@ -233,16 +271,15 @@ const SignUp = () => {
             <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto ">
               <button
                 disabled={signUpLoader}
-                className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
-                  signUpLoader
-                    ? "cursor-not-allowed"
-                    : "hover:text-gray-600 hover:bg-gray-200  "
-                }`}
+                className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${signUpLoader
+                  ? "cursor-not-allowed"
+                  : "hover:text-gray-600 hover:bg-gray-200  "
+                  }`}
                 type="submit"
               >
                 {signUpLoader ? (
                   <svg
-                    className="animate-spin mx-auto h-6 w-6 text-[#0E4749]"
+                    className="animate-spin mx-auto h-6 w-6 text-[#904486]"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >
@@ -397,6 +434,177 @@ const SignUp = () => {
         </div>
         {/* call here footer  */}
       </div>
+
+{/* Try the modal by uncommenting the following button if needed */}
+
+      {/* <Button mt={3} ref={btnRef} onClick={onOpen}>
+        Trigger modal
+      </Button> */}
+      
+      <Modal
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        isOpen={isOpen}
+        scrollBehavior={scrollBehavior}
+        isLazy closeOnOverlayClick={false}
+
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Fill the following information</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form onSubmit={handleUserInfoSubmit} className="space-y-3
+            ">
+              <div className="flex flex-col w-[90%] md:w-[85%] mx-auto space-y-2">
+                <label htmlFor="gender" className="font-medium">Gender:</label>
+                <select
+                  className="myDropdown"
+                  name="gender"
+                  id="gender"
+                  value={userInfo?.gender}
+                  onChange={handleUserInfoChange}
+                  required
+                >
+                  <option value="" disabled selected>Select Your gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div className="flex flex-col w-[90%] md:w-[85%] space-y-2 mx-auto">
+                <label htmlFor="dateOfBirth" className="font-medium">Date of Birth:</label>
+                <input
+                  className="myDropdown"
+                  type="date"
+                  name="dateOfBirth"
+                  id="dateOfBirth"
+                  value={userInfo.dateOfBirth}
+                  onChange={handleUserInfoChange}
+                  required
+                />
+              </div>
+              <div className="flex flex-col w-[90%] md:w-[85%] space-y-2 mx-auto">
+                <label htmlFor="religion" className="font-medium">Religion:</label>
+                <select
+                  className="myDropdown"
+                  name="religion"
+                  id="religion"
+                  value={userInfo?.religion}
+                  onChange={handleUserInfoChange}
+                  required
+                >
+                  <option value="" disabled selected>Select Your Religion</option>
+                  <option value="islam">Islam</option>
+                  <option value="christianity">Christianity</option>
+                  <option value="buddhism">Buddhism</option>
+                  <option value="hinduism">Hinduism</option>
+                </select>
+              </div>
+              <div className="relative w-[90%] md:w-[85%] mx-auto">
+                <input
+                  required
+
+                  type="tel"
+                  id="contactNumber"
+                  name="contactNumber"
+                  pattern="[0-9]{11}"
+                  value={userInfo.contactNumber}
+                  onChange={handleUserInfoChange}
+                  className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
+                  placeholder=""
+
+
+                />
+                <label
+                  htmlFor="contactNumber"
+                  className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                >
+                  Contact Number
+                </label>
+              </div>
+              <div className="flex flex-col relative w-[90%] md:w-[85%] mx-auto">
+                <textarea
+                  required
+                  rows={3}
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={userInfo.address}
+                  onChange={handleUserInfoChange}
+                  className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
+                  placeholder=""
+                />
+                <label
+                  htmlFor="address"
+                  className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                >
+                  Address
+                </label>
+              </div>
+              <div className="flex flex-col relative w-[90%] md:w-[85%] mx-auto">
+                <textarea
+                  required
+                  rows={3}
+                  type="text"
+                  id="bio"
+                  name="bio"
+                  value={userInfo.bio}
+                  onChange={handleUserInfoChange}
+                  className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
+                  placeholder=""
+                />
+                <label
+                  htmlFor="bio"
+                  className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                >
+                  Bio
+                </label>
+              </div> 
+
+              <div className="w-[40%] mx-auto">
+              <button  disabled={userInfoLoader}
+               
+            className={` px-6 py-3 text-center w-full   border-[1px] text-gray-800 bg-white shadow-md rounded-md ${
+              userInfoLoader
+                ? "cursor-not-allowed"
+                : "hover:text-gray-600 hover:bg-gray-200  "
+            }`}type="submit">
+               {userInfoLoader ? (
+                <svg
+                  className="animate-spin mx-auto h-6 w-6 text-[#904486]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+                    opacity=".25"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      dur="0.75s"
+                      repeatCount="indefinite"
+                      type="rotate"
+                      values="0 12 12;360 12 12"
+                    />
+                  </path>
+                </svg>
+              ) : (
+                <div className="flex justify-center items-center gap-2">
+                  <p>Save</p>
+                  
+                </div>
+              )}
+            </button>
+              </div>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
