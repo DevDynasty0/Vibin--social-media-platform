@@ -1,10 +1,18 @@
+import { useDisclosure } from "@chakra-ui/react";
 import AddNewPostCard from "../componnents/AddNewPostCard";
 import PostCard from "../componnents/PostCard";
+import AddNewPostModal from "../componnents/AddNewPostModal";
+import { useState } from "react";
 
 const Home = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [caption, setCaption] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+
   return (
     <section className="max-w-[600px] mx-auto mt-16 ">
-      <AddNewPostCard />
+      <AddNewPostCard caption={caption} setCaption={setCaption} isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
+      <AddNewPostModal selectedItem={selectedItem} setSelectedItem={setSelectedItem} caption={caption} setCaption={setCaption} isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
       <div className="mt-5 grid grid-cols-1 gap-5">
         <PostCard
           userName="Tasfin Ahmed"
