@@ -18,7 +18,7 @@ const PublicRoute = ({ children }) => {
     return children;
   }
 
-  return <Navigate to="/home" state={{ from: location }} replace></Navigate>;
+  return <Navigate to="/" state={{ from: location }} replace></Navigate>;
 };
 
 export default PublicRoute;

@@ -1,6 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-const GoggleSignIn = () => {
+const GoogleSignIn = () => {
   return (
     <GoogleLogin
       onSuccess={async (credentialResponse) => {
@@ -22,6 +22,6 @@ const GoggleSignIn = () => {
   );
 };
 
-GoggleSignIn.propTypes = {};
+GoogleSignIn.propTypes = {};
 
-export default GoggleSignIn;
+export default GoogleSignIn;
