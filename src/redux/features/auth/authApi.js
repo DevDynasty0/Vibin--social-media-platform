@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { userLoggedIn } from "./authSlice";
+import { userLoggedIn, userLoggedOut } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,22 +12,23 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          console.log("from register mutation in authApi", result);
+          const userEmail = result?.data?.data?.user.email;
 
-          localStorage.setItem(
-            "auth",
-            JSON.stringify({
-              accessToken: result.data.accessToken,
-              user: result.data.user,
-            })
-          );
-
-          dispatch(
-            userLoggedIn({
-              accessToken: result.data.accessToken,
-              user: result.data.user,
-            })
-          );
+          if (userEmail) {
+            localStorage.setItem(
+              "auth",
+              JSON.stringify({
+                accessToken: result.data.data.accessToken,
+                user: result.data.data.user,
+              })
+            );
+            dispatch(
+              userLoggedIn({
+                accessToken: result.data.data.accessToken,
+                user: result.data.data.user,
+              })
+            );
+          }
         } catch (err) {
           // do nothing
         }
@@ -43,21 +44,40 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          console.log("from login mutation in authApi", result);
-          localStorage.setItem(
-            "auth",
-            JSON.stringify({
-              accessToken: result.data.accessToken,
-              user: result.data.user,
-            })
-          );
+          const userEmail = result?.data?.data?.user.email;
 
-          dispatch(
-            userLoggedIn({
-              accessToken: result.data.accessToken,
-              user: result.data.user,
-            })
-          );
+          if (userEmail) {
+            localStorage.setItem(
+              "auth",
+              JSON.stringify({
+                accessToken: result.data.data.accessToken,
+                user: result.data.data.user,
+              })
+            );
+            dispatch(
+              userLoggedIn({
+                accessToken: result.data.data.accessToken,
+                user: result.data.data.user,
+              })
+            );
+          }
+        } catch (err) {
+          // do nothing
+        }
+      },
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: "/users/logout",
+        method: "POST",
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          if (result.data.success) {
+            localStorage.clear("auth");
+            dispatch(userLoggedOut());
+          }
         } catch (err) {
           // do nothing
         }
@@ -66,4 +86,5 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterApiMutation } = authApi;
+export const { useLoginMutation, useRegisterApiMutation, useLogoutMutation } =
+  authApi;

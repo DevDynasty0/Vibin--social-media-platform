@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
-const LeftButton = ({ name = "", path, icon: Icon, img }) => {
+const LeftButton = ({ name = "", path = "", icon: Icon, img }) => {
   return (
     <div>
       <NavLink
