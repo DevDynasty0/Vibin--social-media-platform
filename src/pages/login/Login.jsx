@@ -4,11 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-
-// import axios from "axios";
 import GoogleSignIn from "../../shared component/GoogleSignIn";
-
-
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 
 const Login = () => {

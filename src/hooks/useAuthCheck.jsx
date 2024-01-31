@@ -12,10 +12,9 @@ export default function useAuthCheck() {
 
     if (localAuth) {
       const auth = JSON.parse(localAuth);
-      if (auth?.accessToken && auth?.user) {
+      if (auth?.user) {
         dispatch(
           userLoggedIn({
-            accessToken: auth.accessToken,
             user: auth.user,
           })
         );

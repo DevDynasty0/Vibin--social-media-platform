@@ -18,13 +18,11 @@ export const authApi = apiSlice.injectEndpoints({
             localStorage.setItem(
               "auth",
               JSON.stringify({
-                accessToken: result.data.data.accessToken,
                 user: result.data.data.user,
               })
             );
             dispatch(
               userLoggedIn({
-                accessToken: result.data.data.accessToken,
                 user: result.data.data.user,
               })
             );
@@ -50,13 +48,11 @@ export const authApi = apiSlice.injectEndpoints({
             localStorage.setItem(
               "auth",
               JSON.stringify({
-                accessToken: result.data.data.accessToken,
                 user: result.data.data.user,
               })
             );
             dispatch(
               userLoggedIn({
-                accessToken: result.data.data.accessToken,
                 user: result.data.data.user,
               })
             );
@@ -83,8 +79,41 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    googleLogin: builder.mutation({
+      query: (data) => ({
+        url: "/users/google-login",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          const userEmail = result?.data?.data?.user.email;
+
+          if (userEmail) {
+            localStorage.setItem(
+              "auth",
+              JSON.stringify({
+                user: result.data.data.user,
+              })
+            );
+            dispatch(
+              userLoggedIn({
+                user: result.data.data.user,
+              })
+            );
+          }
+        } catch (err) {
+          // do nothing
+        }
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterApiMutation, useLogoutMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useRegisterApiMutation,
+  useLogoutMutation,
+  useGoogleLoginMutation,
+} = authApi;
