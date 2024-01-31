@@ -1,0 +1,24 @@
+/* Style the dropdown container */
+.myDropdown {
+    
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    transition: border-color 0.3s ease; 
+  }
+  
+  /* Style the dropdown options */
+  /* .myDropdown  option {
+    padding: 8px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+    
+  } */
+
+  .myDropdown:hover {
+    border-color: #904486;
+  }
+  
+   option:nth-child(1):hover {
+    background: #904486; 
+    /* color: #fff;  */
+  }
+  
