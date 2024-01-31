@@ -8,7 +8,7 @@ import { useLoginMutation } from "../../redux/features/auth/authApi";
 
 const Login = () => {
   const navigate = useNavigate();
-  const from = location?.state?.from?.pathname || "/home";
+  const from = location?.state?.from?.pathname || "/";
   const [login, { isError, isLoading }] = useLoginMutation();
   const { register, handleSubmit } = useForm();
   const [displayPassIcon, setDisplayPassIcon] = useState(false);

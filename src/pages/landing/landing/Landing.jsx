@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Footer from "../footer/Footer";
 import GoggleSignIn from "../../../shared component/GoggleSignIn";
 import { MdEmail, MdOutlineEmail } from "react-icons/md";
+
 const Landing = () => {
   return (
     <div className="h-screen flex flex-col justify-between">
@@ -17,12 +18,10 @@ const Landing = () => {
           <h1 className="text-3xl mb-5">Connecting Vibes!</h1>
           <h3>Share your vibes and murmurs with your friends and foes</h3>
           <div className="flex flex-col  border-opacity-50">
-
             <Link
               to="/sign-up"
               className="btn border-2 px-3 py-2 mt-20 rounded bg-[#030C4D] text-white"
             >
-
               Create Account
             </Link>
             <div className="flex items-center gap-2">

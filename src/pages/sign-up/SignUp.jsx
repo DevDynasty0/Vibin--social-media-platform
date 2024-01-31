@@ -11,7 +11,7 @@ const SignUp = () => {
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
   const [registerApi, { isLoading }] = useRegisterApiMutation();
   const navigate = useNavigate();
-  const from = location?.state?.from?.pathname || "/home";
+  const from = location?.state?.from?.pathname || "/";
 
   const {
     register,
@@ -61,7 +61,7 @@ const SignUp = () => {
                 Choose Your Avatar
               </label>
             </div>
-            
+
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
                 required
