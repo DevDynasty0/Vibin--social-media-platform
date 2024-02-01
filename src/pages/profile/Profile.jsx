@@ -22,23 +22,23 @@ export default function Profile() {
           
         </div> */}
 
-      <div className="lg:w-[60vw] gap-3 mt-10 w-full mx-auto grid lg:gap-7 lg:grid-cols-7  md:grid-cols-5 grid-col-1">
+      <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  grid lg:gap-7 lg:grid-cols-7  md:grid-cols-5 grid-col-1">
         {/* <div className="flex justify-center col-span-2 items-center relative">
 
         </div> */}
-        <div className="w-full -mt-10 bg-white   md:col-span-2  ">
+        <div className="w-full -mt-10 h-screen bg-white   md:col-span-2  ">
           <LeftContent />
         </div>
 
         {/* Middle Content Begin */}
-        <div className="md:col-span-3 ">
+        <div className="md:col-span-5 ">
           <MiddleContent />
         </div>
 
         {/* Right Content Begin */}
-        <div className="hidden lg:block  md:col-span-2  ">
+        {/* <div className="hidden lg:block  md:col-span-2  ">
           <RightContent></RightContent>
-        </div>
+        </div> */}
       </div>
     </div>
     </div>

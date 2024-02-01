@@ -1,8 +1,9 @@
 import profile from '../../../../assets/images/profiePicDemo.jpg';
  import { IoCamera } from "react-icons/io5";
+import RightContent from '../rightContent/RightContent';
 export default function LeftContent() {
   return (
-    <div className="relative p-4 text-center">
+    <div className="relative p-4 text-center bg-white">
 
       <div className=" ">
         <img
@@ -28,6 +29,9 @@ export default function LeftContent() {
           </div>
         </div>
       </div>
+      {/* <div className="hidden lg:block  md:col-span-2  ">
+          <RightContent></RightContent>
+        </div> */}
     </div>
   );
 }

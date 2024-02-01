@@ -11,8 +11,12 @@ import { FaUniversity } from "react-icons/fa";
 import { Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure } from '@chakra-ui/react'
 
 import CustomModal from "../Modal/CustomModal";
+import About from "./TabContent.jsx/About";
+import Highlights from "./TabContent.jsx/Highlights";
+import Likes from "./TabContent.jsx/Likes";
+import Media from "./TabContent.jsx/Media";
 const  MiddleContent=()=> {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+ 
 
  
   return (
@@ -26,48 +30,28 @@ const  MiddleContent=()=> {
     <Tab>Highlights</Tab>
     <Tab>Likes</Tab>
     <Tab>About</Tab>
+    <Tab>Media</Tab>
   </TabList>
 
   <TabPanels>
     <TabPanel>
       <FeedCards></FeedCards>
     </TabPanel>
+
     <TabPanel>
-    <div className="w-full bg-white rounded-md h-64">
-       <p className="font-bold text-lg text-center pt-16 "> No Highlights!!</p>
-      </div>
+   <Highlights></Highlights>
+    </TabPanel>
+
+    <TabPanel>
+     <Likes></Likes>
+    </TabPanel>
+
+    <TabPanel>
+    <About></About>
+
     </TabPanel>
     <TabPanel>
-      <div className="w-full bg-white h-64 rounded-md">
-       <p className="font-bold text-lg text-center pt-16 "> You don't get any like yet!!</p>
-      </div>
-    </TabPanel>
-    <TabPanel>
-      <p>About</p>
-      {/*  */}
-     <div className="bg-white flex items-center justify-between rounded-md px-2">
-    <div className="  p-2 flex gap-5 items-center ">
-    <FaUser></FaUser>
-    <p>  Rahida Priya</p>
-    </div>
-    
-   <div className="">
-   <button  onClick={onOpen}><MdModeEdit className="text-md"></MdModeEdit></button>
-   <CustomModal  onClose={onClose} onOpen={onOpen} isOpen={isOpen}></CustomModal>
-   </div>
-     </div>
-     <div className="bg-white flex my-2 items-center justify-between rounded-md px-2">
-     <div className="bg-white   p-2 flex gap-5 items-center ">
-   <FaUniversity></FaUniversity>
-    <p> International Islamic University Chittagong</p>
-    </div>
-    <div className="">
-   <button  onClick={onOpen}><MdModeEdit className="text-md"></MdModeEdit></button>
-   <CustomModal  onClose={onClose} onOpen={onOpen} isOpen={isOpen}></CustomModal>
-   </div>
-   </div>
-     {/*  */}
-  
+   <Media></Media>
 
     </TabPanel>
   </TabPanels>

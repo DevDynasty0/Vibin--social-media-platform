@@ -4,7 +4,7 @@ import { GoComment } from "react-icons/go";
 
 const FeedCard = ({ userName, userProfile, postTime, caption, img }) => {
   return (
-    <div className="border bg-gray-50 rounded ">
+    <div className="border bg-gray-50 rounded w-8/12 mx-auto">
       <div className=" px-4 pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
