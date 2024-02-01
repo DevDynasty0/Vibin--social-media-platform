@@ -1,8 +1,11 @@
 import { FaEllipsis } from "react-icons/fa6";
 import { AiOutlineLike, AiOutlineShareAlt, AiFillLike } from "react-icons/ai";
 import { GoComment } from "react-icons/go";
+import moment from "moment";
+import { Menu, MenuButton, MenuList } from "@chakra-ui/react";
 
 const PostCard = ({
+  children,
   userName,
   userProfile,
   postTime,
@@ -13,6 +16,7 @@ const PostCard = ({
   user = null,
 }) => {
   const isLiked = likes.indexOf(user.email);
+  const getPostAge = moment(postTime).fromNow();
   return (
     <div className="border bg-white mt-2 shadow-md rounded ">
       <div className=" px-4 pt-4">
@@ -21,9 +25,14 @@ const PostCard = ({
             <img className="w-10 h-10 rounded-full" src={userProfile} alt="" />
 
             <h4 className="font-bold">{userName}</h4>
-            <p>{postTime}</p>
+            <p>{getPostAge}</p>
           </div>
-          <FaEllipsis className="text-2xl" />
+          <Menu>
+            <MenuButton>
+              <FaEllipsis className="text-2xl" />
+            </MenuButton>
+            <MenuList>{children}</MenuList>
+          </Menu>
         </div>
         <p className="mt-2 text-xl">{caption}</p>
       </div>
