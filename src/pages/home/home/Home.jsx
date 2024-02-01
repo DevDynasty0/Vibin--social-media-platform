@@ -1,4 +1,4 @@
-import { Spinner } from "@chakra-ui/react";
+import { MenuItem, Spinner } from "@chakra-ui/react";
 import {
   useGetPostsQuery,
   useLikeMutation,
@@ -19,8 +19,8 @@ const Home = () => {
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const likeHandler = (postId, email) => {
-    like({ postId, email: { email } });
+  const likeHandler = (postId) => {
+    like({ postId });
   };
 
   let content;
@@ -38,15 +38,19 @@ const Home = () => {
         key={post._id}
         userName={post.user.name}
         userProfile={post.user.avatar || avatar}
-        postTime="1d"
+        postTime={post.createdAt}
         likes={post.likes}
-        onLikeHandler={() => likeHandler(post._id, user.email)}
+        onLikeHandler={() => likeHandler(post._id)}
         caption={post.post}
         img={post.postImage}
         user={user}
-      />
+      >
+        <MenuItem>Save post</MenuItem>
+        <MenuItem>Share</MenuItem>
+      </PostCard>
     ));
   }
+
   return (
     <section className="max-w-[600px] mx-auto mt-16 ">
       <AddNewPostCard
