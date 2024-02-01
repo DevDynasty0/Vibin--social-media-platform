@@ -12,7 +12,7 @@ const PostCard = ({
   likes,
   user = null,
 }) => {
-  const isLiked = likes.indexOf(user.email);
+  const isLiked = likes?.indexOf(user.email);
   return (
     <div className="border bg-white mt-2 shadow-md rounded ">
       <div className=" px-4 pt-4">
@@ -43,7 +43,7 @@ const PostCard = ({
           <GoComment className="text-2xl" />
         </div>
         <span>
-          {likes.length} {likes.length === 1 ? "Like" : "Likes"}
+          {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
         </span>
         <AiOutlineShareAlt className="text-2xl" />
       </div>

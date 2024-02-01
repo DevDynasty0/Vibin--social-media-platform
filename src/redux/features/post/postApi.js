@@ -4,7 +4,7 @@ export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
       query: () => ({
-        url: "/posts",
+        url: "/posts/get-posts",
         method: "GET",
       }),
       providesTags: (result) =>
@@ -14,7 +14,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     like: builder.mutation({
       query: ({ postId, email }) => ({
-        url: `/like/${postId}`,
+        url: `/posts/like/${postId}`,
         method: "PATCH",
         body: email,
       }),
