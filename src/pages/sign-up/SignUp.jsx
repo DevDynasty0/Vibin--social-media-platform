@@ -2,12 +2,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import {
-  userLoggedIn,
-  userLoggedOut,
-} from "../../redux/features/auth/authSlice";
+
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import './signup.css'
 
@@ -26,7 +21,7 @@ const SignUp = () => {
 
 
   const [signUpLoader, isSignUpLoader] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [registerApi, { isLoading }] = useRegisterApiMutation();
   const navigate = useNavigate();
@@ -71,6 +66,7 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
+      console.log(data.avatar);
       const newUser = {
         email: data?.email,
         password: data?.password,
@@ -85,12 +81,11 @@ const SignUp = () => {
       console.log(error);
     }
 
-    dispatch(userLoggedIn({ user, accessToken: null }));
     reset()
     isSignUpLoader(false);
 
     // From here the userInformation Logic starts.onOpen() is for opening the modal.
-    onOpen(); 
+    // onOpen(); 
 
   };
 

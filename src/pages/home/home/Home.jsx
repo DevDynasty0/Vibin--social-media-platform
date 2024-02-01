@@ -9,7 +9,7 @@ import avatar from "../../../assets/images/avatar.png";
 import { useSelector } from "react-redux";
 import { useDisclosure } from "@chakra-ui/react";
 import AddNewPostModal from "../componnents/AddNewPostModal";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const Home = () => {
   const { data: posts, isLoading, isSuccess } = useGetPostsQuery();
@@ -33,6 +33,7 @@ const Home = () => {
   }
 
   if (!isLoading && isSuccess) {
+    console.log(posts, "posts_______________________________________________");
     content = posts.map((post) => (
       <PostCard
         key={post._id}
@@ -56,6 +57,7 @@ const Home = () => {
       <AddNewPostCard
         caption={caption}
         setCaption={setCaption}
+        
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
@@ -65,6 +67,7 @@ const Home = () => {
         setSelectedItem={setSelectedItem}
         caption={caption}
         setCaption={setCaption}
+        
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}

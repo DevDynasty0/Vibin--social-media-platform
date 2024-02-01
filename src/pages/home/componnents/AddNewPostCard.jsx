@@ -5,7 +5,8 @@ import avatar from "../../../assets/images/avatar.png";
 
 // import { MdOutlineVideoLibrary } from "react-icons/md";
 import { HiOutlineGif } from "react-icons/hi2";
-const AddNewPostCard = ({isOpen, onOpen, onClose, caption, setCaption }) => {
+import { MdOutlineVideoLibrary } from "react-icons/md";
+const AddNewPostCard = ({isOpen, onOpen, onClose, caption, setCaption}) => {
   // console.log(onOpen);
   const user = useSelector((state) => state.auth.user);
 
@@ -26,13 +27,15 @@ const AddNewPostCard = ({isOpen, onOpen, onClose, caption, setCaption }) => {
             name="title"
             id="title"
             value={caption? caption : ""}
+            // value={captionRef.current?.value ? captionRef.current.value : ""}
             onClick={onOpen}
+            readOnly
           
           />
           <div className="mt-2 flex items-center gap-3">
             <IoImageOutline size="1.5rem" onClick={onOpen} className="cursor-pointer" />
-            {/* <MdOutlineVideoLibrary size="1.5rem" /> */}
-            <HiOutlineGif size="1.5rem" />
+            <MdOutlineVideoLibrary size="1.5rem" onClick={onOpen} className="cursor-pointer"/>
+            {/* <HiOutlineGif size="1.5rem" /> */}
             {/* <button className="block ml-auto py-0.5 px-3 bg-color-one rounded text-lg font-semibold text-white">
               Vibe{" "}
             </button> */}

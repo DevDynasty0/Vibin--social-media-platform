@@ -14,13 +14,13 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    reset,
     
+
   } = useForm();
 
 
   const [login, { isError, isLoading }] = useLoginMutation();
-  
+
 
 
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
@@ -31,23 +31,8 @@ const Login = () => {
       password: data?.password,
     });
 
-
-      console.log("This is from Login page: ", res.data);
-      if (res?.data) {
-        navigate(from, { replace: true });
-      }
-      isSignInLoader(false);
-      reset()
-    } catch (error) {
-      // Handle errors here
-      console.error("Error logging in:", error);
-
-      // Set isSignInLoader to false in case of an error
-      isSignInLoader(false);
-
     if (results?.data?.success) {
       navigate(from, { replace: true });
-
     }
   };
 
@@ -108,11 +93,10 @@ const Login = () => {
           <div className="mt-3 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
             <button
               disabled={isLoading}
-              className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
-                isLoading
-                  ? "cursor-not-allowed"
-                  : "hover:text-gray-600 hover:bg-gray-200  "
-              }`}
+              className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${isLoading
+                ? "cursor-not-allowed"
+                : "hover:text-gray-600 hover:bg-gray-200  "
+                }`}
               type="submit"
             >
               {isLoading ? (
