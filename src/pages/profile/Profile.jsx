@@ -1,3 +1,4 @@
+import useAuthCheck from "../../hooks/useAuthCheck";
 import "../../styles/color.css";
 import Cover from "./components/cover/Cover";
 
@@ -6,6 +7,8 @@ import MiddleContent from "./components/middleContent/MiddleContent";
 
 
 export default function Profile() {
+  const { user } = useAuthCheck();
+  console.log('user:',user);
   return (
     <div className='bg-gray-100'>
       <div className="bg-gray-100 max-w-7xl mx-auto bg-vibin ">
@@ -32,7 +35,7 @@ export default function Profile() {
 
         {/* Middle Content Begin */}
         <div className="md:col-span-5 ">
-          <MiddleContent />
+          <MiddleContent user={user}></MiddleContent>
         </div>
 
         {/* Right Content Begin */}
