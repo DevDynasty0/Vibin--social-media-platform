@@ -1,4 +1,5 @@
-import React from 'react';
+
+
 import CustomModal from '../../Modal/CustomModal';
 import { MdModeEdit } from 'react-icons/md';
 import { FaUniversity, FaUser } from 'react-icons/fa';

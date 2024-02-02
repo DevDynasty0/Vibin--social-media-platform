@@ -3,7 +3,7 @@ import Cover from "./components/cover/Cover";
 
 import LeftContent from "./components/leftContent/LeftContent";
 import MiddleContent from "./components/middleContent/MiddleContent";
-import RightContent from "./components/rightContent/RightContent";
+
 
 export default function Profile() {
   return (
