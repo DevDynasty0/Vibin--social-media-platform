@@ -82,10 +82,10 @@ const Login = () => {
             </label>
           </div>
           <div className="flex justify-between mt-2 w-[90%] md:w-[75%] mx-auto md:mx-0 text-xs lg:text-sm ">
-            <Link to="" className="text-purple-600">
+            <Link to="" className="text-color-one">
               Forget Your Password?
             </Link>
-            <Link to="/sign-up" className="underline text-purple-600">
+            <Link to="/sign-up" className="underline text-color-one">
               Create Account
             </Link>
           </div>
@@ -145,9 +145,10 @@ const Login = () => {
 
         {/* Google,apple sign in button */}
 
-        <div className=" flex items-center gap-8  ">
-          <GoogleSignIn />
-          <button className="flex self-start justify-center items-center  bg-white border border-gray-300 rounded    px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
+        <div className="w-[90%] md:w-[75%] space-y-3 ">
+         <GoogleSignIn />
+
+          <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
             <svg
               className="h-6 w-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"
