@@ -65,6 +65,8 @@ const SignUp = () => {
     setUserInfoLoader(true);
     //  onClose(),e.target.reset() will applied after successful patch request-response.
     // setUserInfoLoader(false) will applied after both error/success
+    onClose()
+    navigate(from, { replace: true });
   };
 
   const password = watch("password", "");
