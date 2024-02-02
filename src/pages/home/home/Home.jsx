@@ -12,7 +12,12 @@ import AddNewPostModal from "../componnents/AddNewPostModal";
 import { useRef, useState } from "react";
 
 const Home = () => {
-  const { data: posts, isLoading, isSuccess } = useGetPostsQuery();
+  const {
+    data: posts,
+    isLoading,
+    isSuccess,
+    refetch: postsRefetch,
+  } = useGetPostsQuery();
   const user = useSelector((state) => state.auth.user);
   const [like] = useLikeMutation();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,8 +47,8 @@ const Home = () => {
         postTime={post.createdAt}
         likes={post.likes}
         onLikeHandler={() => likeHandler(post._id)}
-        caption={post.post}
-        img={post.postImage}
+        caption={post.post || post.caption}
+        img={post.postContent}
         user={user}
       >
         <MenuItem>Save post</MenuItem>
@@ -57,17 +62,16 @@ const Home = () => {
       <AddNewPostCard
         caption={caption}
         setCaption={setCaption}
-        
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
       />
       <AddNewPostModal
+        postsRefetch={postsRefetch}
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
         caption={caption}
         setCaption={setCaption}
-        
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}

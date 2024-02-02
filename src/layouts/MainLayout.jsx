@@ -9,7 +9,6 @@ import LeftButton from "../shared component/LeftButton";
 import { Spinner } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
 import Landing from "../pages/landing/landing/Landing";
-import { getSuggestedUsers } from "../hooks/getSuggestedUsers";
 import SuggestedUsers from "../shared component/SuggestedUsers";
 const MainLayout = () => {
   const [left, setLeft] = useState(false);
