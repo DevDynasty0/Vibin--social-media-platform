@@ -75,7 +75,9 @@ const SignUp = () => {
       };
       const results = await registerApi(newUser);
       if (results?.data?.success) {
-        navigate(from, { replace: true });
+         // From here the userInformation Logic starts.onOpen() is for opening the modal.
+    onOpen(); 
+        // navigate(from, { replace: true });
       }
     } catch (error) {
       console.log(error);
@@ -84,8 +86,7 @@ const SignUp = () => {
     reset()
     isSignUpLoader(false);
 
-    // From here the userInformation Logic starts.onOpen() is for opening the modal.
-    // onOpen(); 
+   
 
   };
 
@@ -94,24 +95,22 @@ const SignUp = () => {
   return (
     <div className="relative">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
+        
         <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto  ">
-          <h2 className="font-semibold text-3xl mb-5 ">Sign Up Now !!</h2>
+          <h2 className="font-semibold text-3xl mb-5">Sign Up Now !!</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="">
-            <div className="my-2 w-[300px] h-[200px] flex flex-col text-gray-500 bg-gray-50 border-0 border-b-2 gap-4 border-gray-300 justify-center items-center rounded-t-lg mx-auto">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto">
               <input
                 required
                 id="avatar"
                 aria-label="Avatar"
-                className=" text-center"
+                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 appearance-none focus:outline-none focus:ring-0  peer w-full"
                 type="file"
                 accept="image/*"
                 {...register("avatar", { required: true, maxLength: 1 })}
                 placeholder=" "
               />
-              <label htmlFor="avatar" className="text-gray-500">
-                Choose Your Avatar
-              </label>
             </div>
 
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
@@ -131,54 +130,6 @@ const SignUp = () => {
                 Full Name
               </label>
             </div>
-
-            {/* username */}
-
-            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
-              <input
-                required
-                id="userName"
-                aria-label="User Name"
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer w-full "
-                type="text"
-                {...register("userName", { required: true })}
-                placeholder=" "
-              />
-              <label
-                htmlFor="userName"
-                className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-              >
-                User Name
-              </label>
-            </div> */}
-
-            {/* gender */}
-            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
-              <select
-                required
-                id="gender"
-                aria-label="Gender"
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer w-full"
-                {...register("gender", { required: true })}
-              >
-                <option
-                  className="text-base text-gray-500"
-                  value=""
-                  disabled
-                  selected
-                  hidden
-                >
-                  Gender
-                </option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-              <label
-                htmlFor="gender"
-                className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-              ></label>
-            </div> */}
 
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
               <input
@@ -434,7 +385,7 @@ const SignUp = () => {
             </div>
           </div>
         </div>
-        <div className="w-[53%] hidden md:block ">
+        <div className="w-[53%] hidden md:block">
           <Player
             autoplay
             loop
