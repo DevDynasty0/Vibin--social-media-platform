@@ -15,6 +15,7 @@ const PostCard = ({
   likes,
   user = null,
 }) => {
+  console.log(user);
 
   const isLiked = likes?.indexOf(user.email);
 
@@ -27,7 +28,7 @@ const PostCard = ({
           <div className="flex gap-2 items-center">
             <img className="w-10 h-10 rounded-full" src={userProfile} alt="" />
 
-            <h4 className="font-bold">{userName}</h4>
+            <h4 className="font-bold">{userName? userName : user?.fullName}</h4>
             <p>{getPostAge}</p>
           </div>
           <Menu>

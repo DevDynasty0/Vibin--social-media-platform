@@ -81,7 +81,7 @@ const SignUp = () => {
       if (results?.data?.success) {
          // From here the userInformation Logic starts.onOpen() is for opening the modal.
     onOpen(); 
-        // navigate(from, { replace: true });
+        navigate(from, { replace: true });
       }
     } catch (error) {
       console.log(error);
