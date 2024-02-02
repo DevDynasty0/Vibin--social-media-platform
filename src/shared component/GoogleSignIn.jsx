@@ -4,7 +4,8 @@ import { useGoogleLoginMutation } from "../redux/features/auth/authApi";
 const GoogleSignIn = () => {
   const [googleLogin] = useGoogleLoginMutation();
   return (
-    <GoogleLogin
+    <div className="shadow-md">
+      <GoogleLogin logo_alignment="center" text="continue_with" theme="outline"
       onSuccess={async (credentialResponse) => {
         try {
           const res = await googleLogin(credentialResponse);
@@ -19,6 +20,7 @@ const GoogleSignIn = () => {
         console.log("Google Login Failed");
       }}
     />
+    </div>
   );
 };
 export default GoogleSignIn;
