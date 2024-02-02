@@ -3,22 +3,28 @@ import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import signUpLottie from "../../assets/lotties/vibin-signup.json";
 import React, { useState } from "react";
 
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
-import './signup.css'
-
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import "./signup.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useRegisterApiMutation } from "../../redux/features/auth/authApi";
 
-
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
 
-
   const [userInfoLoader, setUserInfoLoader] = useState(false);
-
 
   const [signUpLoader, isSignUpLoader] = useState(false);
   // const dispatch = useDispatch();
@@ -27,10 +33,9 @@ const SignUp = () => {
   const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
 
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [scrollBehavior, setScrollBehavior] = React.useState('inside')
-  const btnRef = React.useRef(null)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = React.useState("inside");
+  const btnRef = React.useRef(null);
 
   const {
     register,
@@ -41,26 +46,25 @@ const SignUp = () => {
   } = useForm();
 
   const [userInfo, setUserInfo] = useState({
-    gender: '',
-    dateOfBirth: '',
-    address: '',
-    contactNumber: '',
-    bio: '',
-    religion: ''
-
-  })
+    gender: "",
+    dateOfBirth: "",
+    address: "",
+    contactNumber: "",
+    bio: "",
+    religion: "",
+  });
 
   const handleUserInfoChange = (e) => {
-    setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
-  }
+    setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  };
 
   const handleUserInfoSubmit = (e) => {
     e.preventDefault();
     console.log(userInfo);
-    setUserInfoLoader(true)
+    setUserInfoLoader(true);
     //  onClose(),e.target.reset() will applied after successful patch request-response.
     // setUserInfoLoader(false) will applied after both error/success
-  }
+  };
 
   const password = watch("password", "");
 
@@ -81,15 +85,12 @@ const SignUp = () => {
       console.log(error);
     }
 
-    reset()
+    reset();
     isSignUpLoader(false);
 
     // From here the userInformation Logic starts.onOpen() is for opening the modal.
-    // onOpen(); 
-
+    // onOpen();
   };
-
-
 
   return (
     <div className="relative">
@@ -278,13 +279,12 @@ const SignUp = () => {
 
             <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto ">
               <button
-
                 disabled={signUpLoader}
-                className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${signUpLoader
-                  ? "cursor-not-allowed"
-                  : "hover:text-gray-600 hover:bg-gray-200  "
-                  }`}
-               
+                className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
+                  signUpLoader
+                    ? "cursor-not-allowed"
+                    : "hover:text-gray-600 hover:bg-gray-200  "
+                }`}
                 type="submit"
               >
                 {isLoading ? (
@@ -445,29 +445,34 @@ const SignUp = () => {
         {/* call here footer  */}
       </div>
 
-{/* Try the modal by uncommenting the following button if needed */}
+      {/* Try the modal by uncommenting the following button if needed */}
 
       {/* <Button mt={3} ref={btnRef} onClick={onOpen}>
         Trigger modal
       </Button> */}
-      
+
       <Modal
         onClose={onClose}
         finalFocusRef={btnRef}
         isOpen={isOpen}
         scrollBehavior={scrollBehavior}
-        isLazy closeOnOverlayClick={false}
-
+        isLazy
+        closeOnOverlayClick={false}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Fill the following information</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form onSubmit={handleUserInfoSubmit} className="space-y-3
-            ">
+            <form
+              onSubmit={handleUserInfoSubmit}
+              className="space-y-3
+            "
+            >
               <div className="flex flex-col w-[90%] md:w-[85%] mx-auto space-y-2">
-                <label htmlFor="gender" className="font-medium">Gender:</label>
+                <label htmlFor="gender" className="font-medium">
+                  Gender:
+                </label>
                 <select
                   className="myDropdown"
                   name="gender"
@@ -476,13 +481,17 @@ const SignUp = () => {
                   onChange={handleUserInfoChange}
                   required
                 >
-                  <option value="" disabled selected>Select Your gender</option>
+                  <option value="" disabled selected>
+                    Select Your gender
+                  </option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
               </div>
               <div className="flex flex-col w-[90%] md:w-[85%] space-y-2 mx-auto">
-                <label htmlFor="dateOfBirth" className="font-medium">Date of Birth:</label>
+                <label htmlFor="dateOfBirth" className="font-medium">
+                  Date of Birth:
+                </label>
                 <input
                   className="myDropdown"
                   type="date"
@@ -494,7 +503,9 @@ const SignUp = () => {
                 />
               </div>
               <div className="flex flex-col w-[90%] md:w-[85%] space-y-2 mx-auto">
-                <label htmlFor="religion" className="font-medium">Religion:</label>
+                <label htmlFor="religion" className="font-medium">
+                  Religion:
+                </label>
                 <select
                   className="myDropdown"
                   name="religion"
@@ -503,7 +514,9 @@ const SignUp = () => {
                   onChange={handleUserInfoChange}
                   required
                 >
-                  <option value="" disabled selected>Select Your Religion</option>
+                  <option value="" disabled selected>
+                    Select Your Religion
+                  </option>
                   <option value="islam">Islam</option>
                   <option value="christianity">Christianity</option>
                   <option value="buddhism">Buddhism</option>
@@ -513,7 +526,6 @@ const SignUp = () => {
               <div className="relative w-[90%] md:w-[85%] mx-auto">
                 <input
                   required
-
                   type="tel"
                   id="contactNumber"
                   name="contactNumber"
@@ -522,8 +534,6 @@ const SignUp = () => {
                   onChange={handleUserInfoChange}
                   className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
                   placeholder=""
-
-
                 />
                 <label
                   htmlFor="contactNumber"
@@ -569,47 +579,48 @@ const SignUp = () => {
                 >
                   Bio
                 </label>
-              </div> 
+              </div>
 
               <div className="w-[40%] mx-auto">
-              <button  disabled={userInfoLoader}
-               
-            className={` px-6 py-3 text-center w-full   border-[1px] text-gray-800 bg-white shadow-md rounded-md ${
-              userInfoLoader
-                ? "cursor-not-allowed"
-                : "hover:text-gray-600 hover:bg-gray-200  "
-            }`}type="submit">
-               {userInfoLoader ? (
-                <svg
-                  className="animate-spin mx-auto h-6 w-6 text-[#904486]"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
+                <button
+                  disabled={userInfoLoader}
+                  className={` px-6 py-3 text-center w-full   border-[1px] text-gray-800 bg-white shadow-md rounded-md ${
+                    userInfoLoader
+                      ? "cursor-not-allowed"
+                      : "hover:text-gray-600 hover:bg-gray-200  "
+                  }`}
+                  type="submit"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
-                    opacity=".25"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z"
-                  >
-                    <animateTransform
-                      attributeName="transform"
-                      dur="0.75s"
-                      repeatCount="indefinite"
-                      type="rotate"
-                      values="0 12 12;360 12 12"
-                    />
-                  </path>
-                </svg>
-              ) : (
-                <div className="flex justify-center items-center gap-2">
-                  <p>Save</p>
-                  
-                </div>
-              )}
-            </button>
+                  {userInfoLoader ? (
+                    <svg
+                      className="animate-spin mx-auto h-6 w-6 text-[#904486]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+                        opacity=".25"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z"
+                      >
+                        <animateTransform
+                          attributeName="transform"
+                          dur="0.75s"
+                          repeatCount="indefinite"
+                          type="rotate"
+                          values="0 12 12;360 12 12"
+                        />
+                      </path>
+                    </svg>
+                  ) : (
+                    <div className="flex justify-center items-center gap-2">
+                      <p>Save</p>
+                    </div>
+                  )}
+                </button>
               </div>
             </form>
           </ModalBody>

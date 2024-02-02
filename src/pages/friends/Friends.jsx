@@ -22,7 +22,7 @@ const Friends = () => {
     };
 
     fetchData();
-  }, []);
+  }, [following, followers]);
   return (
     <section className="mt-10">
       <Tabs
