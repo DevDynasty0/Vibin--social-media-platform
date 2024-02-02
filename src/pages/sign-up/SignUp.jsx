@@ -19,6 +19,7 @@ import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useRegisterApiMutation } from "../../redux/features/auth/authApi";
+import GoogleSignIn from "../../shared component/GoogleSignIn";
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
@@ -99,11 +100,11 @@ const SignUp = () => {
     <div className="relative">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
         
-        <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto  ">
+        <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto ">
           <h2 className="font-semibold text-3xl mb-5">Sign Up Now !!</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="">
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
                 id="avatar"
@@ -116,7 +117,7 @@ const SignUp = () => {
               />
             </div>
 
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
                 id="fullName"
@@ -134,7 +135,7 @@ const SignUp = () => {
               </label>
             </div>
 
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
                 id="email"
@@ -151,7 +152,7 @@ const SignUp = () => {
               </label>
             </div>
 
-            <div className="relative w-[90%] md:w-[75%] mx-auto ">
+            <div className="relative w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
                 id="password"
@@ -190,7 +191,7 @@ const SignUp = () => {
               </label>
             </div>
 
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto ">
+            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
                 id="confirmPassword"
@@ -230,7 +231,7 @@ const SignUp = () => {
               </label>
             </div>
 
-            <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto ">
+            <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
               <button
                 disabled={signUpLoader}
                 className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
@@ -274,7 +275,7 @@ const SignUp = () => {
             </div>
           </form>
 
-          <div className="mx-auto  w-[90%] md:w-[75%] text-center my-2 flex items-center justify-between">
+          <div className="mx-auto md:mx-0 w-[90%] md:w-[75%] text-center my-2 flex items-center justify-between">
             <hr className="w-[45%] border-gray-800" />
             <span>Or</span>
             <hr className="w-[45%] border-gray-800" />
@@ -282,8 +283,8 @@ const SignUp = () => {
 
           {/* Google,apple sign in button */}
 
-          <div className="mx-auto  w-[90%] md:w-[75%] space-y-3">
-            <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
+          <div className="w-[90%] md:w-[75%] space-y-3">
+            {/* <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
               <svg
                 className="h-6 w-6 mr-2"
                 xmlns="http://www.w3.org/2000/svg"
@@ -339,7 +340,8 @@ const SignUp = () => {
                 </g>
               </svg>
               <span>Continue with Google</span>
-            </button>
+            </button> */}
+            <GoogleSignIn></GoogleSignIn>
 
             <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
               <svg
@@ -370,7 +372,6 @@ const SignUp = () => {
                   </g>
                 </g>
               </svg>
-
               <span>Continue with Apple</span>
             </button>
 
@@ -379,7 +380,7 @@ const SignUp = () => {
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="text-bold text-purple-600 text-md underline"
+                  className="text-bold text-color-one text-md underline"
                 >
                   Login Here
                 </Link>
@@ -387,7 +388,7 @@ const SignUp = () => {
             </div>
           </div>
         </div>
-        <div className="w-[53%] hidden md:block">
+        <div className="w-[53%] hidden md:block ">
           <Player
             autoplay
             loop
