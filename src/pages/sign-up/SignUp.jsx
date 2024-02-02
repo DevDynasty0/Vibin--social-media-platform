@@ -42,7 +42,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+ 
     watch,
   } = useForm();
 
@@ -63,14 +63,11 @@ const SignUp = () => {
     e.preventDefault();
     console.log(userInfo);
     setUserInfoLoader(true);
-    //  onClose(),e.target.reset() will applied after successful patch request-response.
+    //  onClose(),e.target.reset(), navigate(from, { replace: true }); will applied after successful patch request-response.
     // setUserInfoLoader(false) will applied after both error/success
-    onClose()
-    navigate(from, { replace: true });
+   
   };
-
   const password = watch("password", "");
-
   const onSubmit = async (data) => {
     try {
       console.log(data.avatar);
@@ -84,17 +81,11 @@ const SignUp = () => {
       if (results?.data?.success) {
          // From here the userInformation Logic starts.onOpen() is for opening the modal.
     onOpen(); 
-        // navigate(from, { replace: true });
+       
       }
     } catch (error) {
       console.log(error);
     }
-
-    reset();
-    isSignUpLoader(false);
-
-
-
 
   };
 
@@ -235,11 +226,11 @@ const SignUp = () => {
 
             <div className="mt-4 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
               <button
-                disabled={signUpLoader}
+                disabled={isLoading}
                 className={`w-[40%] md:w-[48%] lg:w-[40%] px-4 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
-                  signUpLoader
+                  isLoading
                     ? "cursor-not-allowed"
-                    : "hover:text-gray-600 hover:bg-gray-200  "
+                    : "hover:text-gray-600 hover:bg-gray-200"
                 }`}
                 type="submit"
               >
@@ -406,7 +397,6 @@ const SignUp = () => {
       {/* <Button mt={3} ref={btnRef} onClick={onOpen}>
         Trigger modal
       </Button> */}
-
       <Modal
         onClose={onClose}
         finalFocusRef={btnRef}
