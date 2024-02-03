@@ -12,18 +12,20 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          const userEmail = result?.data?.data?.user.email;
+          const userData = result?.data?.data;
 
-          if (userEmail) {
+          if (userData?.user?.email) {
             localStorage.setItem(
               "auth",
               JSON.stringify({
-                user: result.data.data.user,
+                accessToken: userData.accessToken,
+                user: userData.user,
               })
             );
             dispatch(
               userLoggedIn({
-                user: result.data.data.user,
+                user: userData.user,
+                accessToken: userData.accessToken,
               })
             );
           }
@@ -42,18 +44,20 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          const userEmail = result?.data?.data?.user.email;
+          const userData = result?.data?.data;
 
-          if (userEmail) {
+          if (userData?.user?.email) {
             localStorage.setItem(
               "auth",
               JSON.stringify({
-                user: result.data.data.user,
+                accessToken: userData.accessToken,
+                user: userData.user,
               })
             );
             dispatch(
               userLoggedIn({
-                user: result.data.data.user,
+                user: userData.user,
+                accessToken: userData.accessToken,
               })
             );
           }
@@ -88,18 +92,20 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          const userEmail = result?.data?.data?.user.email;
+          const userData = result?.data?.data;
 
-          if (userEmail) {
+          if (userData?.user?.email) {
             localStorage.setItem(
               "auth",
               JSON.stringify({
-                user: result.data.data.user,
+                accessToken: userData.accessToken,
+                user: userData.user,
               })
             );
             dispatch(
               userLoggedIn({
-                user: result.data.data.user,
+                user: userData.user,
+                accessToken: userData.accessToken,
               })
             );
           }

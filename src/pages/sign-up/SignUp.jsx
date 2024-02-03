@@ -1,48 +1,44 @@
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import signUpLottie from "../../assets/lotties/vibin-signup.json";
-import React, { useState } from "react";
-
+import { useRef, useState } from "react";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
 import "./signup.css";
-
 import { Link, useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useRegisterApiMutation } from "../../redux/features/auth/authApi";
 import GoogleSignIn from "../../shared component/GoogleSignIn";
+import { useUpdateUserInfoMutation } from "../../redux/features/user/userApi";
 
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
-
-  const [userInfoLoader, setUserInfoLoader] = useState(false);
-
-  const [signUpLoader, isSignUpLoader] = useState(false);
-  // const dispatch = useDispatch();
-
   const [registerApi, { isLoading }] = useRegisterApiMutation();
+  const [updateUserInfo, { isLoading: isLoading2, isError }] =
+    useUpdateUserInfoMutation();
   const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [scrollBehavior, setScrollBehavior] = React.useState("inside");
-  const btnRef = React.useRef(null);
+  const [scrollBehavior] = useState("inside");
+  const btnRef = useRef(null);
+
+  const onCloseHandle = () => {
+    navigate(from, { replace: true });
+    onClose();
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
- 
     watch,
   } = useForm();
 
@@ -59,18 +55,21 @@ const SignUp = () => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const handleUserInfoSubmit = (e) => {
+  const handleUserInfoSubmit = async (e) => {
     e.preventDefault();
-    console.log(userInfo);
-    setUserInfoLoader(true);
-    //  onClose(),e.target.reset(), navigate(from, { replace: true }); will applied after successful patch request-response.
-    // setUserInfoLoader(false) will applied after both error/success
-   
+    try {
+      const results = await updateUserInfo(userInfo);
+      if (results.data.success) {
+        onClose();
+        navigate(from, { replace: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   const password = watch("password", "");
   const onSubmit = async (data) => {
     try {
-      console.log(data.avatar);
       const newUser = {
         email: data?.email,
         password: data?.password,
@@ -79,20 +78,16 @@ const SignUp = () => {
       };
       const results = await registerApi(newUser);
       if (results?.data?.success) {
-         // From here the userInformation Logic starts.onOpen() is for opening the modal.
-    onOpen(); 
-       
+        onOpen();
       }
     } catch (error) {
       console.log(error);
     }
-
   };
 
   return (
     <div className="relative">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
-        
         <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto ">
           <h2 className="font-semibold text-3xl mb-5">Sign Up Now !!</h2>
 
@@ -392,13 +387,9 @@ const SignUp = () => {
         {/* call here footer  */}
       </div>
 
-      {/* Try the modal by uncommenting the following button if needed */}
-
-      {/* <Button mt={3} ref={btnRef} onClick={onOpen}>
-        Trigger modal
-      </Button> */}
+      {/* Here is the modal */}
       <Modal
-        onClose={onClose}
+        onClose={onCloseHandle}
         finalFocusRef={btnRef}
         isOpen={isOpen}
         scrollBehavior={scrollBehavior}
@@ -471,7 +462,6 @@ const SignUp = () => {
               </div>
               <div className="relative w-[90%] md:w-[85%] mx-auto">
                 <input
-                  required
                   type="tel"
                   id="contactNumber"
                   name="contactNumber"
@@ -529,15 +519,15 @@ const SignUp = () => {
 
               <div className="w-[40%] mx-auto">
                 <button
-                  disabled={userInfoLoader}
+                  disabled={isLoading2}
                   className={` px-6 py-3 text-center w-full   border-[1px] text-gray-800 bg-white shadow-md rounded-md ${
-                    userInfoLoader
+                    isLoading2
                       ? "cursor-not-allowed"
                       : "hover:text-gray-600 hover:bg-gray-200  "
                   }`}
                   type="submit"
                 >
-                  {userInfoLoader ? (
+                  {isLoading2 ? (
                     <svg
                       className="animate-spin mx-auto h-6 w-6 text-[#904486]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -568,6 +558,11 @@ const SignUp = () => {
                   )}
                 </button>
               </div>
+              {isError && (
+                <span className="text-rose-600 my-1">
+                  Ops, can&apos;t save your info. Please try again!
+                </span>
+              )}
             </form>
           </ModalBody>
         </ModalContent>
