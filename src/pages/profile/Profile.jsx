@@ -1,14 +1,39 @@
+import { useParams } from "react-router-dom";
 import useAuthCheck from "../../hooks/useAuthCheck";
 import "../../styles/color.css";
 import Cover from "./components/cover/Cover";
 
 import LeftContent from "./components/leftContent/LeftContent";
 import MiddleContent from "./components/middleContent/MiddleContent";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 export default function Profile() {
+  const [userProfile,setUserProfile]=useState();
   const { user,setUser } = useAuthCheck();
+  const {id}=useParams();
   console.log('user:',user);
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {data }=await axios.get(`/api/v1/users/${id}`)
+       
+
+     
+        setUserProfile(data.data)
+        console.log('data',data);
+      } catch (error) {
+        console.error("Error fetching User Profile data:", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+console.log('userprofile',userProfile);
   return (
     <div className='bg-gray-100'>
       <div className="bg-gray-100 max-w-7xl mx-auto bg-vibin ">
@@ -22,7 +47,7 @@ export default function Profile() {
 
         {/* Middle Content Begin */}
         <div className="md:col-span-5 ">
-          <MiddleContent user={user}setUser={setUser}></MiddleContent>
+          <MiddleContent user={user}setUser={setUser}userProfile={userProfile}></MiddleContent>
         </div>
 
         {/* Right Content Begin */}

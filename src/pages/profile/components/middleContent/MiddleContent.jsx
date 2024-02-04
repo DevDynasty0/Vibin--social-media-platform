@@ -15,7 +15,7 @@ import About from "./TabContent.jsx/About";
 import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
 import Media from "./TabContent.jsx/Media";
-const  MiddleContent=({user,setUser})=> {
+const  MiddleContent=({user,setUser,userProfile})=> {
  
 
  
@@ -47,7 +47,7 @@ const  MiddleContent=({user,setUser})=> {
     </TabPanel>
 
     <TabPanel>
-    <About user={user} setUser={setUser}></About>
+    <About user={user} setUser={setUser} userProfile={userProfile}></About>
 
     </TabPanel>
     <TabPanel>

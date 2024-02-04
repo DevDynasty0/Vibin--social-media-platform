@@ -6,6 +6,16 @@ import React, { useState, useEffect } from "react";
 const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValue, setEditedValue }) => {
   const finalRef = React.useRef(null);
 
+  // Set the initial date value to the previous date from today
+  useEffect(() => {
+    if (editType === "dob" && !editedValue) {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() - 1); // Get the previous date
+      const formattedDate = currentDate.toISOString().split("T")[0];
+      setEditedValue(formattedDate);
+    }
+  }, [editType, editedValue, setEditedValue]);
+
   const handleSave = async () => {
     await onEdit(editedValue);
     onClose();
@@ -15,6 +25,11 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValu
   useEffect(() => {
     setEditedValue(editedValue);
   }, [editedValue, setEditedValue]);
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    return currentDate.toISOString().split("T")[0];
+  };
 
   return (
     <>
@@ -36,6 +51,7 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValu
                 placeholder={`Enter ${editType}`}
                 value={editedValue}
                 onChange={(e) => setEditedValue(e.target.value)}
+                max={editType === "dob" ? getCurrentDate() : undefined}
               />
             </FormControl>
           </ModalBody>
