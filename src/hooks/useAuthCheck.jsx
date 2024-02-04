@@ -25,5 +25,5 @@ export default function useAuthCheck() {
     setLoading(false);
   }, [dispatch, setUser]);
 
-  return { user, loading };
+  return { user, loading, setUser  };
 }

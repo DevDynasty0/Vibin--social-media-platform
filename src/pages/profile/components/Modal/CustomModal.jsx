@@ -1,16 +1,20 @@
 // CustomModal.js
 
-import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Input } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Input, ModalFooter } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 
-const CustomModal = ({ isOpen, onClose, initialRef, onEdit, value, editType }) => {
+const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValue, setEditedValue }) => {
   const finalRef = React.useRef(null);
-  const [editedValue, setEditedValue] = useState(value);
 
-  const handleSave = () => {
-    onEdit(editedValue);
+  const handleSave = async () => {
+    await onEdit(editedValue);
     onClose();
   };
+
+  // Reset the edited value when the modal is opened
+  useEffect(() => {
+    setEditedValue(editedValue);
+  }, [editedValue, setEditedValue]);
 
   return (
     <>
@@ -25,14 +29,12 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, value, editType }) =
           <ModalHeader>Edit {editType}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-          <FormControl>
+            <FormControl>
               <FormLabel>{editType}</FormLabel>
-              {/* Use Input component with type "date" */}
               <Input
-                ref={initialRef}
-                type={editType === "Date of Birth" ? "date" : "text"}
-                defaultValue={value}
+                type={editType === "dob" ? "date" : "text"}
                 placeholder={`Enter ${editType}`}
+                value={editedValue}
                 onChange={(e) => setEditedValue(e.target.value)}
               />
             </FormControl>
