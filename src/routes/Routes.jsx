@@ -11,6 +11,7 @@ import Friends from "../pages/friends/Friends";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import Profile2 from "../pages/profile/Profile2";
+import Info from "../pages/info/Info";
 
 const Routes = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const Routes = createBrowserRouter([
       {
         path: "friends",
         element: <Friends />,
+      },
+      {
+        path: "info",
+        element: <Info />,
       },
     ],
   },
