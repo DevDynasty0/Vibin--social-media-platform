@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import LeftButton from "./LeftButton";
 import RightButton from "./RightButton";
-import useAuth from "../hooks/useAuth";
-import { followUser } from "../hooks/followUser";
 
 const SuggestedUsers = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);

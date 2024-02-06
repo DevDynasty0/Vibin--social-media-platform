@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import avatar from "../assets/images/avatar.png";
-import useAuth from "../hooks/useAuth";
 import { followUser } from "../hooks/followUser";
+import useAuthCheck from "../hooks/useAuthCheck";
 
 const RightButton = ({ person }) => {
-  const { user } = useAuth();
+  const { user } = useAuthCheck();
   const [follow, setFollow] = useState([]);
 
   const handleFollow = async (id) => {
