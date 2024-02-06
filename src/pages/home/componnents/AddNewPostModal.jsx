@@ -26,8 +26,6 @@ const AddNewPostModal = ({
   const user = useSelector((state) => state.auth.user);
   const [createPost, { isLoading }] = useCreatePostMutation();
 
-  console.log(selectedItem);
-
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     const userData = {
