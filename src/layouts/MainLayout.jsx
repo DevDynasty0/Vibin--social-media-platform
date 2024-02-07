@@ -6,6 +6,7 @@ import LeftSidebar from "../shared component/LeftSidebar";
 import { useState } from "react";
 import SuggestedUsers from "../shared component/SuggestedUsers";
 import { useGetSearchResultQuery } from "../redux/features/user/userApi";
+import MessagingModal from "../shared component/MessagingModal";
 const MainLayout = () => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
@@ -59,6 +60,7 @@ const MainLayout = () => {
           <SuggestedUsers />
         </div>
       </div>
+      <MessagingModal></MessagingModal>
     </div>
   );
 };
