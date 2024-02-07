@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/color.css";
 import {
@@ -8,30 +8,52 @@ import {
   FaRegBell,
   FaVideo,
 } from "react-icons/fa";
-import { FaRegMessage, FaXmark } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaRegMessage, FaXmark } from "react-icons/fa6";
 import SearchButton from "./SearchButton";
-import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-  Text,
-} from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
-const Navbar = ({ left, setLeft, right, setRight }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+import avatar from "../assets/images/avatar.png";
+import { NavLink, useNavigate } from "react-router-dom";
+const Navbar = ({
+  left,
+  setLeft,
+  right,
+  setRight,
+  searchInput,
+  setSearchInput,
+  searchResults,
+  showResults,
+  setShowResults,
+}) => {
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShowResults(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+
+    // Cleanup function to remove event listener
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [setShowResults]);
 
   return (
     <>
       <nav className=" px-5 text-white gradient-one   w-full z-50 dark:bg-gray-900 shadow-md fixed min-w-full">
         <div className="flex  items-center justify-between  ">
           <div
+            // onBlur={() => setShowResults(false)}
+            ref={containerRef}
             className="flex w-full   
-          gap-4 items-center  py-2 "
+          gap-4 items-center  py-2 relative"
           >
             <a href="/" className="flex items-center  ">
               <figure className="    ">
@@ -45,8 +67,54 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
               Vibin<span className="">'</span>
             </span> */}
             </a>{" "}
-            <SearchButton />
-          </div>{" "}
+            <SearchButton
+              setShowResults={setShowResults}
+              setSearchInput={setSearchInput}
+              searchInput={searchInput}
+            />
+            {searchInput && (
+              <div
+                onClick={() => {
+                  setSearchInput(searchInput);
+                  setShowResults(true);
+                }}
+                className={`${
+                  searchInput.length > 0 && showResults ? "absolute" : "hidden"
+                } bg-white top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
+              >
+                <div className="text-lg font-medium mx-2 mt-0.5">
+                  Search results
+                </div>
+                <ul className="p-2">
+                  {searchResults?.users.length > 0
+                    ? searchResults?.users?.slice(0, 4)?.map((user) => (
+                        <div
+                          onClick={() => {
+                            setShowResults(true);
+                            navigate(`/profile/${user?._id}`);
+                          }}
+                          key={user._id}
+                          className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
+                        >
+                          <img
+                            src={user?.avatar ? user?.avatar : avatar}
+                            alt=""
+                            className="w-12 h-10  rounded    "
+                          />
+                          <li>{user?.fullName}</li>
+                          <FaMagnifyingGlass className="ml-auto text-gray-500" />
+                        </div>
+                      ))
+                    : "No matched results"}
+                </ul>
+
+                <div className="  w-full gradient-one rounded-b-md text-white p-1  border-t-2 ">
+                  <p>See All</p>{" "}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className=" max-w-[600px] mx-auto flex items-center justify-between flex-grow-1 w-full   cursor-pointer text-white  ">
             <NavLink
               to={"/"}
@@ -90,7 +158,7 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
               <FaRegMessage />
             </div>
             <div className=" hover:text-white shadow-md  bg-gray-50    text-color-one rounded   p-1  ">
-              <FaRegBell onClick={onOpen || onClose} />
+              <FaRegBell />
             </div>
 
             {/* <FaUserCircle
@@ -126,7 +194,7 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
         </div>
       </nav>
 
-      <Drawer
+      {/* <Drawer
         blockScrollOnMount={false}
         isOpen={isOpen}
         placement="top"
@@ -147,7 +215,7 @@ const Navbar = ({ left, setLeft, right, setRight }) => {
             <p>Some contents...</p>
           </DrawerBody>
         </DrawerContent>
-      </Drawer>
+      </Drawer> */}
     </>
   );
 };
