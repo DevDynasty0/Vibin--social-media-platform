@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-const SearchButton = ({ setSearchInput, setShowResults }) => {
+const SearchButton = ({ searchInput, setSearchInput, setShowResults }) => {
   return (
     <>
       <div className="w-full   lg:w-2/5   relative ">
@@ -15,9 +16,13 @@ const SearchButton = ({ setSearchInput, setShowResults }) => {
             type="text"
             placeholder="Search..."
           />
-          <div className="lg:absolute lg:text-color-one lg:right-2 p-0.5 cursor-pointer">
+          <Link
+            to={searchInput ? `/search?query=${searchInput}` : "/search"}
+            className="lg:absolute lg:text-color-one lg:right-0 py-2 px-4
+             bg-gray-200 cursor-pointer rounded-l-full rounded-r-full"
+          >
             <FaMagnifyingGlass />
-          </div>
+          </Link>
         </div>
       </div>
     </>
