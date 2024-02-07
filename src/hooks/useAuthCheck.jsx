@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { userLoggedIn } from "../redux/features/auth/authSlice";
+import { userLoggedIn, userLoggedOut } from "../redux/features/auth/authSlice";
 import { useCurrentUserMutation } from "../redux/features/user/userApi";
 
 export default function useAuthCheck() {
@@ -11,7 +11,7 @@ export default function useAuthCheck() {
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
-
+    console.log(localAuth);
     if (localAuth) {
       const auth = JSON.parse(localAuth);
 
@@ -31,6 +31,9 @@ export default function useAuthCheck() {
           })
           .finally(setLoading(false));
       }
+    } else {
+      setLoading(false);
+      dispatch(userLoggedOut());
     }
   }, [dispatch, setUser, currentUser]);
 

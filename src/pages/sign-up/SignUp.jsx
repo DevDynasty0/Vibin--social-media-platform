@@ -44,13 +44,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-screen flex items-center justify-center">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
         <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto ">
           <h2 className="font-semibold text-3xl mb-5">Sign Up Now !!</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="">
-            <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
+            {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
                 id="avatar"
@@ -61,7 +61,7 @@ const SignUp = () => {
                 {...register("avatar", { required: true, maxLength: 1 })}
                 placeholder=" "
               />
-            </div>
+            </div> */}
 
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input

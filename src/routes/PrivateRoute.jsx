@@ -9,7 +9,7 @@ import useAuthCheck from "../hooks/useAuthCheck";
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
   const { loading, user } = useAuthCheck();
-
+  console.log(user);
   if (loading) {
     return (
       <div className="w-full flex justify-center items-center h-52 ">
@@ -21,7 +21,7 @@ const PrivateRoute = ({ children }) => {
   if (loading && !user) {
     return (
       <div className="w-full flex justify-center items-center h-52 ">
-        <Spinner />
+        {/* <Spinner /> */} loading 2
       </div>
     );
   }

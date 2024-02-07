@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/color.css";
 import {
@@ -10,16 +10,9 @@ import {
 } from "react-icons/fa";
 import { FaMagnifyingGlass, FaRegMessage, FaXmark } from "react-icons/fa6";
 import SearchButton from "./SearchButton";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  useDisclosure,
-} from "@chakra-ui/react";
+
 import avatar from "../assets/images/avatar.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 const Navbar = ({
   left,
   setLeft,
@@ -31,12 +24,34 @@ const Navbar = ({
   showResults,
   setShowResults,
 }) => {
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShowResults(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+
+    // Cleanup function to remove event listener
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [setShowResults]);
+
   return (
     <>
       <nav className=" px-5 text-white gradient-one   w-full z-50 dark:bg-gray-900 shadow-md fixed min-w-full">
         <div className="flex  items-center justify-between  ">
           <div
-            onBlur={() => setShowResults(false)}
+            // onBlur={() => setShowResults(false)}
+            ref={containerRef}
             className="flex w-full   
           gap-4 items-center  py-2 relative"
           >
@@ -55,6 +70,7 @@ const Navbar = ({
             <SearchButton
               setShowResults={setShowResults}
               setSearchInput={setSearchInput}
+              searchInput={searchInput}
             />
             {searchInput && (
               <div
@@ -72,10 +88,13 @@ const Navbar = ({
                 <ul className="p-2">
                   {searchResults?.users.length > 0
                     ? searchResults?.users?.slice(0, 4)?.map((user) => (
-                        <NavLink
-                          to={`/profile/${user?._id}`}
+                        <div
+                          onClick={() => {
+                            setShowResults(true);
+                            navigate(`/profile/${user?._id}`);
+                          }}
                           key={user._id}
-                          className={`flex items-center gap-5 `}
+                          className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
                         >
                           <img
                             src={user?.avatar ? user?.avatar : avatar}
@@ -84,7 +103,7 @@ const Navbar = ({
                           />
                           <li>{user?.fullName}</li>
                           <FaMagnifyingGlass className="ml-auto text-gray-500" />
-                        </NavLink>
+                        </div>
                       ))
                     : "No matched results"}
                 </ul>

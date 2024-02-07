@@ -46,7 +46,7 @@ const MainLayout = () => {
           <LeftSidebar />
         </div>
 
-        <div className="  w-full lg:mx-auto md:w-2/3 md:ml-auto lg:w-3/5 lg:overflow-y-auto p-6  ">
+        <div className=" mt-16 w-full lg:mx-auto md:w-2/3 md:ml-auto lg:w-3/5 lg:overflow-y-auto p-6 max-w-[850px]   ">
           <Outlet />
         </div>
 

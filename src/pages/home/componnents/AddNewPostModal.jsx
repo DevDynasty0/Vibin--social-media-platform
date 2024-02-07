@@ -35,7 +35,7 @@ const AddNewPostModal = ({
     };
     // console.log("user", user);
 
-    console.log(caption, selectedItem[0].type.split("/")[0]);
+    // console.log(caption, selectedItem[0]);
 
     const formData = new FormData();
     formData.append("postContent", selectedItem?.[0]);
@@ -47,7 +47,7 @@ const AddNewPostModal = ({
       user: userData,
       caption,
       postContent: formData.get("postContent"),
-      contentType: selectedItem[0].type.split("/")[0],
+      contentType: selectedItem ? selectedItem[0].type.split("/")[0] : "",
     };
     try {
       const res = await axios.post(
