@@ -7,12 +7,12 @@ const MessagingModal = () => {
     const {user} = useAuthCheck()
     console.log('hi',user);
     const messageAvatarStyle ='w-[30px] border border-[#904486]  h-[30px] rounded-full'
-    const messageFromOutsideShow = 'border overflow-hidden p-1 text-sm w-[80%] bg-gray-100 whitespace-nowrap overflow-ellipsis'
+    const messageFromOutsideShow = 'border overflow-hidden p-1 text-sm w-[77%] md:w-[80%] bg-gray-100 whitespace-nowrap overflow-ellipsis'
   
     return (
       <>
         <div>
-          <div className={`bg-white shadow-md  rounded-t-lg pt-3 space-y-5 fixed bottom-0 right-7 px-3 w-[27%] transition-all duration-500  ${isMessageOpen ? 'transition-all duration-500 h-[61vh]' : 'transition-all duration-500 h-[65px] '}`}>
+          <div className={`bg-white shadow-md rounded-t-lg pt-3 space-y-5 fixed bottom-0 left-1/2 transform -translate-x-1/2 md:left-auto md:-right-9 lg:-right-32 px-3 w-[59%] md:w-[36%] lg:w-[27%] transition-all duration-500  ${isMessageOpen ? 'transition-all duration-500 h-[51vh] md:h-[49vh] lg:h-[61vh]' : 'transition-all duration-500 h-[65px] '}`}>
             <div className='flex justify-between  items-center '>
               <div className='flex items-center gap-3'>
                 <img src={user?.avatar ? user.avatar : avatar} className='w-[50px] text-gray-800 border-2 border-[#904486] h-[50px] rounded-full' />
