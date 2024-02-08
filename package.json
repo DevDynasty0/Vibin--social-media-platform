@@ -30,6 +30,7 @@
     "react-router-dom": "^6.21.2",
     "react-social-login-buttons": "^3.9.1",
     "react-wavify": "^1.10.0",
+    "socket.io-client": "^4.7.4",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {

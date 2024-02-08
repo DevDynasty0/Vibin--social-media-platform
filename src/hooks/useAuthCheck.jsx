@@ -27,9 +27,11 @@ export default function useAuthCheck() {
                 })
               );
               setUser(auth.user);
+
+              setLoading(false);
             }
           })
-          .finally(setLoading(false));
+          .finally(console.log("user"));
       }
     } else {
       setLoading(false);

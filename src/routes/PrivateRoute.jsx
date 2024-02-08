@@ -18,13 +18,13 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  if (loading && !user) {
-    return (
-      <div className="w-full flex justify-center items-center h-52 ">
-        {/* <Spinner /> */} loading 2
-      </div>
-    );
-  }
+  // if (loading && !user) {
+  //   return (
+  //     <div className="w-full flex justify-center items-center h-52 ">
+  //       {/* <Spinner /> */} loading 2
+  //     </div>
+  //   );
+  // }
 
   if (!user) {
     return (
