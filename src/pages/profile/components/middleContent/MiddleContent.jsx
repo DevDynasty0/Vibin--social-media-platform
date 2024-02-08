@@ -25,6 +25,7 @@ const  MiddleContent=({user,setUser,userProfile})=> {
       {/* Tab items */}
       <div>
       <Tabs>
+  <div className="flex items-center justify-between">
   <TabList>
     <Tab>Post</Tab>
     <Tab>Highlights</Tab>
@@ -32,6 +33,10 @@ const  MiddleContent=({user,setUser,userProfile})=> {
     <Tab>About</Tab>
     <Tab>Media</Tab>
   </TabList>
+  <div>
+    <button className="btn bg-blue-400 py-2  px-6 mr-3 rounded-md text-white font-bold">Follow</button>
+  </div>
+  </div>
 
   <TabPanels>
     <TabPanel>

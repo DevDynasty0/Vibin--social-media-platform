@@ -35,14 +35,14 @@ export default function Profile() {
   }, [id]);
 console.log('userprofile',userProfile);
   return (
-    <div className='bg-gray-100'>
-      <div className="bg-gray-100 max-w-7xl mx-auto bg-vibin ">
-      <Cover></Cover>
+    <div className='bg-vibin'>
+      <div className=" max-w-7xl mx-auto  ">
+      <Cover userProfile={userProfile}></Cover>
 
-      <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  grid lg:gap-7 lg:grid-cols-7  md:grid-cols-5 grid-col-1">
+      <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto bg-vibin rounded-lg shadow-lg    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
        
-        <div className="w-full -mt-10 h-screen bg-white   md:col-span-2  ">
-          <LeftContent />
+        <div className="w-full -mt-10 h-screen    md:col-span-3  ">
+          <LeftContent userProfile={userProfile}></LeftContent>
         </div>
 
         {/* Middle Content Begin */}

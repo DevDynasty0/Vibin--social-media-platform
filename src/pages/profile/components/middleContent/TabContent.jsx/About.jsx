@@ -5,8 +5,13 @@ import { useDisclosure } from '@chakra-ui/react';
 import { useRef, useState, useEffect } from 'react';
 import { CgCalendarDates } from 'react-icons/cg';
 import { MdEdit } from 'react-icons/md';
+import {FcAbout} from 'react-icons/fc';
+import {BiMessageError}  from 'react-icons/bi';
+import { PiApertureLight } from "react-icons/pi";
+
 import axios from 'axios';
 import { FaRegAddressCard } from "react-icons/fa";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const About = ({ userProfile }) => {
   const { onOpen, onClose } = useDisclosure();
@@ -77,7 +82,74 @@ const About = ({ userProfile }) => {
             editedValue={editedValue} setEditedValue={setEditedValue}
           />
         </div>
+        </div>
+        {/* change username */}
+        <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center">
+         <FaRegCircleUser></FaRegCircleUser>
+          <p>{userProfile?.userName ||'Add Your Username'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('userName')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'userName'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="userName"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
       </div>
+      {/* add bio */}
+      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+        <BiMessageError />
+          <p>{userProfile?.bio ||'Add Bio'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('bio')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'bio'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="bio"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+      {/* religion */}
+      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+          <PiApertureLight></PiApertureLight>
+          <p>{userProfile?.religion ||'Add Your Religion'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('religion')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'religion'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="religion"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+      {/* user default email */}
       <div className="bg-gray-200 flex items-center my-3 justify-between rounded-md px-2">
       <div className="p-2 flex gap-5 items-center ">
           <MdEmail></MdEmail>

@@ -27,15 +27,17 @@ export default function useAuthCheck() {
                 })
               );
               setUser(auth.user);
+
+              setLoading(false);
             }
           })
-          .finally(setLoading(false));
+          .finally(console.log("user"));
       }
     } else {
       setLoading(false);
       dispatch(userLoggedOut());
     }
-  }, [dispatch, setUser, currentUser]);
+  }, [dispatch,setUser,currentUser]);
 
   return { user, loading, setUser  };
 }
