@@ -8,20 +8,10 @@ import GoogleSignIn from "../../shared component/GoogleSignIn";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 
 const Login = () => {
-  const navigate = useNavigate();
-
-  const from = location?.state?.from?.pathname || "/";
-  const {
-    register,
-    handleSubmit,
-    
-
-  } = useForm();
-
-
   const [login, { isError, isLoading }] = useLoginMutation();
-
-
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
+  const { register, handleSubmit } = useForm();
 
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
 
@@ -93,10 +83,11 @@ const Login = () => {
           <div className="mt-3 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
             <button
               disabled={isLoading}
-              className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${isLoading
-                ? "cursor-not-allowed"
-                : "hover:text-gray-600 hover:bg-gray-200  "
-                }`}
+              className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
+                isLoading
+                  ? "cursor-not-allowed"
+                  : "hover:text-gray-600 hover:bg-gray-200  "
+              }`}
               type="submit"
             >
               {isLoading ? (
@@ -146,7 +137,7 @@ const Login = () => {
         {/* Google,apple sign in button */}
 
         <div className="w-[90%] md:w-[75%] space-y-3 ">
-         <GoogleSignIn />
+          <GoogleSignIn />
 
           <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
             <svg

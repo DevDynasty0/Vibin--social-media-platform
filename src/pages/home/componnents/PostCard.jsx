@@ -15,10 +15,7 @@ const PostCard = ({
   likes,
   user = null,
 }) => {
-  console.log(user);
-
   const isLiked = likes?.indexOf(user.email);
-
   const getPostAge = moment(postTime).fromNow();
 
   return (

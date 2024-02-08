@@ -18,7 +18,15 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  if (!loading && !user) {
+  if (loading && !user) {
+    return (
+      <div className="w-full flex justify-center items-center h-52 ">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!user) {
     return (
       <PublicRoute>
         <Landingx />

@@ -38,7 +38,6 @@ const Home = () => {
   }
 
   if (!isLoading && isSuccess) {
-    console.log(posts, "posts_______________________________________________");
     content = posts.map((post) => (
       <PostCard
         key={post._id}
