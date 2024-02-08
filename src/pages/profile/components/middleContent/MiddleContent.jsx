@@ -15,7 +15,7 @@ import About from "./TabContent.jsx/About";
 import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
 import Media from "./TabContent.jsx/Media";
-const  MiddleContent=({user})=> {
+const  MiddleContent=({user,setUser,userProfile})=> {
  
 
  
@@ -25,6 +25,7 @@ const  MiddleContent=({user})=> {
       {/* Tab items */}
       <div>
       <Tabs>
+  <div className="flex items-center justify-between">
   <TabList>
     <Tab>Post</Tab>
     <Tab>Highlights</Tab>
@@ -32,6 +33,10 @@ const  MiddleContent=({user})=> {
     <Tab>About</Tab>
     <Tab>Media</Tab>
   </TabList>
+  <div>
+    <button className="btn bg-blue-400 py-2  px-6 mr-3 rounded-md text-white font-bold">Follow</button>
+  </div>
+  </div>
 
   <TabPanels>
     <TabPanel>
@@ -47,7 +52,7 @@ const  MiddleContent=({user})=> {
     </TabPanel>
 
     <TabPanel>
-    <About user={user}></About>
+    <About user={user} setUser={setUser} userProfile={userProfile}></About>
 
     </TabPanel>
     <TabPanel>

@@ -9,12 +9,12 @@ const FriendRequestCard = ({ user }) => {
         alt=""
       />
       <h5 className="font-semibold text-xl px-2">{user?.follower?.fullName}</h5>
-      <div className="px-2 flex justify-between">
-        <button className="bg-color-one px-2 py-1 rounded text-white">
-          Confirm
+      <div className="px-2 flex justify-start gap-5 items-center  ">
+        <button className="bg-color-one   px-2 py-1 rounded text-white">
+          Follow Back{" "}
         </button>
-        <button className="border border-color-one px-2 py-1 rounded shadow">
-          Delete
+        <button className="border   border-color-one px-2 py-1 rounded shadow">
+          Block
         </button>
       </div>
     </div>
