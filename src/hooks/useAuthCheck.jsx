@@ -14,23 +14,28 @@ export default function useAuthCheck() {
     const auth = JSON.parse(localAuth);
     async function getUserAuth() {
       if (auth?.user) {
-        await currentUser({ _id: auth.user._id });
-        dispatch(
-          userLoggedIn({
-            user: auth.user,
-            accessToken: auth.accessToken,
+        currentUser({ _id: auth.user._id })
+          .then((res) => {
+            // console.log(res.data, "current api triggered");
+            if (res.data) {
+              dispatch(
+                userLoggedIn({
+                  user: auth.user,
+                  accessToken: auth.accessToken,
+                })
+              );
+              setUser(auth.user);
+
+              setLoading(false);
+            }
           })
-        );
-        setUser(auth.user);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        dispatch(userLoggedOut());
+          .finally(console.log("user"));
+
       }
     }
 
-    getUserAuth();
-  }, [dispatch, currentUser]);
+  }, [dispatch,setUser,currentUser]);
 
-  return { user, loading };
+
+  return { user, loading, setUser  };
 }
