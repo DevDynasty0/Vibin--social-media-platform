@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaEdit } from "react-icons/fa";
 import axios from 'axios';
 
-const Cover = ({ userProfile }) => {
+const Cover = ({ user ,profileRefetch }) => {
   const [coverImage, setCoverImage] = useState('');
 
   const handleCoverChange = async (coverImage) => {
@@ -18,6 +18,7 @@ const Cover = ({ userProfile }) => {
         setCoverImage(response.data.data.coverImage);
         console.log('cover dekhbo',response.data.data.coverImage);
       }
+      profileRefetch()
     } catch (error) {
       console.error('Error uploading image:', error);
     }
@@ -32,9 +33,9 @@ console.log('cover',coverImage);
 
   return (
     <div className="relative">
-      <div className="w-full bg-gray-300 lg:h-[64vh] md:h-[44vh] h-[32vh] relative">
+      <div className="w-full bg-gray-300 lg:h-[72vh] md:h-[44vh] h-[32vh] relative">
         <img
-          src={userProfile?.coverImage}
+          src={user?.data?.coverImage}
           alt=""
           className="w-full h-full rounded-md"
         />

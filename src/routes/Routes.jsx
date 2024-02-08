@@ -10,7 +10,6 @@ import Profile from "../pages/profile/Profile";
 import Friends from "../pages/friends/Friends";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-// import Profile2 from "../pages/profile/Profile2";
 import Info from "../pages/info/Info";
 import InfoRouteHandle from "./InfoRouteHandle";
 import SearchResult from "../pages/search/SearchResult";

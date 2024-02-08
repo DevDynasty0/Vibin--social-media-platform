@@ -15,7 +15,7 @@ import About from "./TabContent.jsx/About";
 import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
 import Media from "./TabContent.jsx/Media";
-const  MiddleContent=({user,setUser,userProfile})=> {
+const  MiddleContent=({user,setUser,userProfile,profileRefetch ,myPost,reversedPosts})=> {
  
 
  
@@ -34,13 +34,13 @@ const  MiddleContent=({user,setUser,userProfile})=> {
     <Tab>Media</Tab>
   </TabList>
   <div>
-    <button className="btn bg-blue-400 py-2  px-6 mr-3 rounded-md text-white font-bold">Follow</button>
+    <button className="btn bg-color-one py-2  px-6 mr-3 rounded-md text-white font-bold">Follow</button>
   </div>
   </div>
 
   <TabPanels>
     <TabPanel>
-      <FeedCards></FeedCards>
+      <FeedCards myPost={myPost} user={user} reversedPosts={reversedPosts}></FeedCards>
     </TabPanel>
 
     <TabPanel>
@@ -52,7 +52,7 @@ const  MiddleContent=({user,setUser,userProfile})=> {
     </TabPanel>
 
     <TabPanel>
-    <About user={user} setUser={setUser} userProfile={userProfile}></About>
+    <About user={user} setUser={setUser} userProfile={userProfile} profileRefetch={profileRefetch}  ></About>
 
     </TabPanel>
     <TabPanel>
