@@ -1,19 +1,24 @@
 import FeedCard from "./FeedCard";
 
-export default function FeedCards() {
-  const postData = {
-    userName: "ismail hosen",
-    userProfile: "",
-    postTime: "",
-    caption: "",
-    img: "",
-  };
+export default function FeedCards({myPost,user,reversedPosts}) {
+  // const postData = {
+  //   userName: "ismail hosen",
+  //   userProfile: "",
+  //   postTime: "",
+  //   caption: "",
+  //   img: "",
+  // };
 
   return (
     <div className="flex flex-col gap-4">
-      <FeedCard posts={postData} />
-      <FeedCard posts={postData} />
-      <FeedCard posts={postData} />
+       {reversedPosts && reversedPosts.map((singlePost, index) => (
+          <div key={index}>
+           
+            <FeedCard singlePost={singlePost} index={index} user={user}  />
+          </div>
+        ))}
+     
+      
     </div>
   );
 }

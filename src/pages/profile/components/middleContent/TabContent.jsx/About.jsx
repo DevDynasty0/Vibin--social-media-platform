@@ -2,31 +2,33 @@ import CustomModal from '../../Modal/CustomModal';
 import { MdEmail, MdModeEdit } from 'react-icons/md';
 import { FaUniversity, FaUser } from 'react-icons/fa';
 import { useDisclosure } from '@chakra-ui/react';
-import { useRef, useState, useEffect } from 'react';
+import {  useState } from 'react';
 import { CgCalendarDates } from 'react-icons/cg';
-import { MdEdit } from 'react-icons/md';
-import {FcAbout} from 'react-icons/fc';
+// import { MdEdit } from 'react-icons/md';
+// import {FcAbout} from 'react-icons/fc';
 import {BiMessageError}  from 'react-icons/bi';
 import { PiApertureLight } from "react-icons/pi";
 
 import axios from 'axios';
 import { FaRegAddressCard } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { useUpdateUserInfoMutation } from '../../../../../redux/features/user/userApi';
 
-const About = ({ userProfile }) => {
+const About = ({ user,profileRefetch }) => {
   const { onOpen, onClose } = useDisclosure();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editType, setEditType] = useState('');
   const [editedValue, setEditedValue] = useState('');
+  const [updateUserInfo]=useUpdateUserInfoMutation()
 
   const handleEditOpen = (type) => {
     setIsEditOpen(true);
     setEditType(type);
-    setEditedValue(type === editType || type === 'dob' ? userProfile?.editedValue || '' : userProfile[type] || '');
+    setEditedValue(type === editType || type === 'dob' ? user?.data?.editedValue || '' : user[type] || '');
 
     onOpen();
   };
-
+ 
   const handleEditClose = () => {
     setIsEditOpen(false);
     setEditType('');
@@ -35,23 +37,23 @@ const About = ({ userProfile }) => {
   };
 
   const handleEdit = async () => {
+    
     try {
-      const response = await axios.patch(`/api/v1/users/update-user-details`, {
-        [editType]: editedValue,
-      });
+      updateUserInfo({[editType]: editedValue})
+      profileRefetch()
+      // const response = await axios.patch(`/api/v1/users/update-user-details`, {
+      //   [editType]: editedValue,
+      // });
 
-      console.log(`API response for updating ${editType}:`, response.data);
+      // console.log(`API response for updating ${editType}:`, response.data);
 
-      // Update the user state
-      // const updatedUser = { ...user, [editType]: editedValue };
-
-      
-      // setUser(updatedUser);
+    
       
 
       
       handleEditClose();
-    } catch (error) {
+    } 
+    catch (error) {
       console.error(`Error updating ${editType}:`, error);
     }
   };
@@ -65,7 +67,7 @@ const About = ({ userProfile }) => {
       <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center">
           <FaUser></FaUser>
-          <p>{userProfile?.fullName} </p>
+          <p>{user?.data?.fullName} </p>
         </div>
 
         <div className="">
@@ -87,7 +89,7 @@ const About = ({ userProfile }) => {
         <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center">
          <FaRegCircleUser></FaRegCircleUser>
-          <p>{userProfile?.userName ||'Add Your Username'} </p>
+          <p>{user?.data?.userName ||'Add Your Username'} </p>
         </div>
 
         <div className="">
@@ -109,7 +111,7 @@ const About = ({ userProfile }) => {
       <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
         <BiMessageError />
-          <p>{userProfile?.bio ||'Add Bio'} </p>
+          <p>{user?.data?.bio ||'Add Bio'} </p>
         </div>
 
         <div className="">
@@ -131,7 +133,7 @@ const About = ({ userProfile }) => {
       <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <PiApertureLight></PiApertureLight>
-          <p>{userProfile?.religion ||'Add Your Religion'} </p>
+          <p>{user?.data?.religion ||'Add Your Religion'} </p>
         </div>
 
         <div className="">
@@ -153,14 +155,14 @@ const About = ({ userProfile }) => {
       <div className="bg-gray-200 flex items-center my-3 justify-between rounded-md px-2">
       <div className="p-2 flex gap-5 items-center ">
           <MdEmail></MdEmail>
-          <p>{userProfile?.email} </p>
+          <p>{user?.data?.email} </p>
         </div>
         </div>
       {/* User Extra Email */}
       <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <MdEmail></MdEmail>
-          <p>{userProfile?.extraEmail ||'Add Another  Email'} </p>
+          <p>{user?.data?.extraEmail ||'Add Another  Email'} </p>
         </div>
 
         <div className="">
@@ -182,7 +184,7 @@ const About = ({ userProfile }) => {
        <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <CgCalendarDates></CgCalendarDates>
-          <p>{userProfile?.dob || 'Add Your Date of Birth'}</p>
+          <p>{user?.data?.dob || 'Add Your Date of Birth'}</p>
         </div>
         <div>
           <button onClick={() => handleEditOpen('dob')}>
@@ -206,7 +208,7 @@ const About = ({ userProfile }) => {
       <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <FaUniversity></FaUniversity>
-          <p> {userProfile?.university || 'Add Your University'}</p>
+          <p> {user?.data?.university || 'Add Your University'}</p>
         </div>
 
         <div className="">
@@ -230,7 +232,7 @@ const About = ({ userProfile }) => {
       <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <FaRegAddressCard></FaRegAddressCard>
-          <p> {userProfile?.address || 'Add Your Address'}</p>
+          <p> {user?.data?.address || 'Add Your Address'}</p>
         </div>
 
         <div className="">
