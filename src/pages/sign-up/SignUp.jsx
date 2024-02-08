@@ -10,6 +10,7 @@ import GoogleSignIn from "../../shared component/GoogleSignIn";
 import { useDispatch } from "react-redux";
 import { isOpenModal } from "../../redux/features/user/userSlice";
 
+
 const SignUp = () => {
   const [displayPassIcon, setDisplayPassIcon] = useState(false);
   const [displayConfirmPassIcon, setDisplayConfirmPassIcon] = useState(false);
@@ -48,6 +49,7 @@ const SignUp = () => {
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
         <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto ">
           <h2 className="font-semibold text-3xl mb-5">Sign Up Now !!</h2>
+      
 
           <form onSubmit={handleSubmit(onSubmit)} className="">
             {/* <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
