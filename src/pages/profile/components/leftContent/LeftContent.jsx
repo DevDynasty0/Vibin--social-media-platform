@@ -54,8 +54,8 @@ console.log('userprofile',user?.data?.avatar);
         </div>
         <div className='flex items-center gap-4 justify-center bg-white rounded-md px-2 py-6'>
           <div className=" ">
-            <h3 className="lg:text-xl font-semibold text-[10px] text-gray-500">Friends</h3>
-            <h3 className="font-bold text-[10px] md:text-sm">455</h3>
+            <h3 className="lg:text-xl font-semibold text-[10px] text-gray-500">Following</h3>
+            <h3 className="font-bold text-[10px] md:text-sm">{user?.data?.followingCount}</h3>
           </div>
           <div className=" items-center">
             <h3 className="lg:text-xl text-[10px] font-semibold text-gray-500">Followers</h3>
