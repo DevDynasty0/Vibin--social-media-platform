@@ -6,6 +6,7 @@ import LeftSidebar from "../shared component/LeftSidebar";
 import { useState } from "react";
 import SuggestedUsers from "../shared component/SuggestedUsers";
 import { useGetSearchResultQuery } from "../redux/features/user/userApi";
+import MessagingModal from "../shared component/MessagingModal";
 const MainLayout = () => {
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
@@ -46,7 +47,7 @@ const MainLayout = () => {
           <LeftSidebar />
         </div>
 
-        <div className="  w-full lg:mx-auto md:w-2/3 md:ml-auto lg:w-3/5 lg:overflow-y-auto p-6  ">
+        <div className=" mt-16 w-full lg:mx-auto md:w-2/3 md:ml-auto lg:w-3/5 lg:overflow-y-auto p-6 max-w-[850px]   ">
           <Outlet />
         </div>
 
@@ -59,6 +60,7 @@ const MainLayout = () => {
           <SuggestedUsers />
         </div>
       </div>
+      <MessagingModal></MessagingModal>
     </div>
   );
 };
