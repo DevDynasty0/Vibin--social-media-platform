@@ -11,33 +11,26 @@ export default function useAuthCheck() {
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
-    console.log(localAuth);
-    if (localAuth) {
-      const auth = JSON.parse(localAuth);
-
+    const auth = JSON.parse(localAuth);
+    async function getUserAuth() {
       if (auth?.user) {
-        currentUser({ _id: auth.user._id })
-          .then((res) => {
-            // console.log(res.data, "current api triggered");
-            if (res.data) {
-              dispatch(
-                userLoggedIn({
-                  user: auth.user,
-                  accessToken: auth.accessToken,
-                })
-              );
-              setUser(auth.user);
-
-              setLoading(false);
-            }
+        await currentUser({ _id: auth.user._id });
+        dispatch(
+          userLoggedIn({
+            user: auth.user,
+            accessToken: auth.accessToken,
           })
-          .finally(console.log("user"));
+        );
+        setUser(auth.user);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        dispatch(userLoggedOut());
       }
-    } else {
-      setLoading(false);
-      dispatch(userLoggedOut());
     }
-  }, [dispatch,setUser,currentUser]);
 
-  return { user, loading, setUser  };
+    getUserAuth();
+  }, [dispatch, currentUser]);
+
+  return { user, loading };
 }

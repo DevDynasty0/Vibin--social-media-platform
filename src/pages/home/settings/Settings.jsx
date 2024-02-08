@@ -12,33 +12,85 @@ import { Switch } from "@chakra-ui/react";
 import { IoMdNotifications } from "react-icons/io";
 import { ImBlocked } from "react-icons/im";
 import { MdAccountCircle } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BlockedFriendCard from "./components/BlockedFriendCard";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import ChangePassword from "./components/changePassword";
+import useAuthCheck from "../../../hooks/useAuthCheck";
 
 const Settings = () => {
-  const [getPostNotifications, setPostNotifications] = useState(false);
+  // const [getPostNotifications, setPostNotifications] = useState(true);
 
-  const [getLikeNotifications, setLikeNotifications] = useState(false);
+  // const [getLikeNotifications, setLikeNotifications] = useState(true);
 
-  const [getCommentNotifications, setCommentNotifications] = useState(false);
+  // const [getCommentNotifications, setCommentNotifications] = useState(true);
 
-  const { register, handleSubmit } = useForm();
+  const {user} = useAuthCheck();
+  console.log(user, "__________afafafaff");
 
-  const onSubmit = (data) => {
-    console.log("Notification values", {
-      posts: data.posts,
-      likes: data.likes,
-      comments: data.comments,
-    });
+  const [blockedUsers, setBlockUsers] = useState([]);
+
+  useEffect(()=> {
+        fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`)
+      .then(res => res.json())
+      .then(data => setBlockUsers(data.data))
+  },[user])
+
+  console.log(blockedUsers);
+  // .................//
+  const userEmail = useSelector((state) => state.auth.user.email);
+
+  const [userSetting, setUserSetting] = useState({
+    posts: false,
+    likes: false,
+    comments: false,
+  });
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/v1/settings/getSetting/${userEmail}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserSetting(data);
+        console.log(data, "anfalkjfal;'kjfa");
+      });
+  }, [userEmail]);
+
+  // .................//
+
+  // const { register, handleSubmit } = useForm();
+
+  // const onSubmit = (data) => {
+  //   // console.log(userSetting, "User settings state");
+  //   console.log("Notification values", {
+  //     posts: data.posts,
+  //     likes: data.likes,
+  //     comments: data.comments,
+  //   });
+  // };
+
+  const handleNotificationSubmit = (e) => {
+    e.preventDefault();
+    // console.log(userSetting);
+    const data = {
+      userEmail: userEmail,
+      ...userSetting,
+    };
+      fetch(
+      `http://localhost:8000/api/v1/settings/update/${userEmail}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
+    .then(res => res.json())
+    .then(data => console.log(data))
   };
 
-  const handlePasswordChange = (data) => {
-    console.log("Password field data", {
-      oldPassword: data.oldPassword,
-      newPassword: data.newPassword,
-    });
-  };
+
 
   return (
     <div className="mt-12">
@@ -65,15 +117,17 @@ const Settings = () => {
             </h2>
 
             <AccordionPanel className="text-medium font-semibold">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleNotificationSubmit}>
                 <div className="flex flex-col gap-4">
                   <FormControl className=" flex gap-4 items-center">
                     <Switch
-                      {...register("posts")}
                       id="posts"
-                      isChecked={getPostNotifications}
+                      isChecked={userSetting.posts}
                       onChange={() =>
-                        setPostNotifications(!getPostNotifications)
+                        setUserSetting({
+                          ...userSetting,
+                          posts: !userSetting.posts,
+                        })
                       }
                       // colorScheme="purple"
                       // trackColor={{ true: "#904486", false: "#edf2f7" }}
@@ -85,11 +139,13 @@ const Settings = () => {
 
                   <FormControl className=" flex gap-4 items-center">
                     <Switch
-                      {...register("likes")}
                       id="likes"
-                      isChecked={getLikeNotifications}
+                      isChecked={userSetting.likes}
                       onChange={() =>
-                        setLikeNotifications(!getLikeNotifications)
+                        setUserSetting({
+                          ...userSetting,
+                          likes: !userSetting.likes,
+                        })
                       }
                     />
                     <FormLabel htmlFor="likes" mb="0">
@@ -99,11 +155,13 @@ const Settings = () => {
 
                   <FormControl className=" flex gap-4 items-center">
                     <Switch
-                      {...register("comments")}
                       id="comments"
-                      isChecked={getCommentNotifications}
+                      isChecked={userSetting.comments}
                       onChange={() =>
-                        setCommentNotifications(!getCommentNotifications)
+                        setUserSetting({
+                          ...userSetting,
+                          comments: !userSetting.comments,
+                        })
                       }
                     />
                     <FormLabel htmlFor="comments" mb="0">
@@ -112,7 +170,7 @@ const Settings = () => {
                   </FormControl>
                 </div>
                 <button
-                  className="mt-4 font-medium px-3 py-1 shadow rounded"
+                  className="mt-4 bg-color-one text-white font-medium px-3 py-1 shadow rounded"
                   type="submit"
                 >
                   Save
@@ -120,6 +178,7 @@ const Settings = () => {
               </form>
             </AccordionPanel>
           </AccordionItem>
+
           {/* block */}
           <AccordionItem className="mt-2">
             <h2>
@@ -138,10 +197,13 @@ const Settings = () => {
 
             <AccordionPanel className="text-medium font-semibold">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* <BlockedFriendCard></BlockedFriendCard>
                 <BlockedFriendCard></BlockedFriendCard>
                 <BlockedFriendCard></BlockedFriendCard>
-                <BlockedFriendCard></BlockedFriendCard>
-                <BlockedFriendCard></BlockedFriendCard>
+                <BlockedFriendCard></BlockedFriendCard> */}
+                {
+                  blockedUsers.map(blockedUser => <BlockedFriendCard key={blockedUser._id} blockedUser ={blockedUser}></BlockedFriendCard>)
+                }
               </div>
             </AccordionPanel>
           </AccordionItem>
@@ -181,61 +243,7 @@ const Settings = () => {
                 </h2>
                 <AccordionPanel>
                   <div>
-                    <form onSubmit={handleSubmit(handlePasswordChange)}>
-                      <div>
-                        <h1 className="font-medium">
-                          Change Password
-                        </h1>
-
-                        <div className="flex gap-4">
-                          {/* Old Password */}
-                          <div className="relative my-2 w-[90%] md:w-[35%]">
-                            <input
-                              required
-                              id="oldPassword"
-                              aria-label="Old Password"
-                              className="block rounded-t-lg px-2 pb-2 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer w-full"
-                              type="password"
-                              {...register("oldPassword", { required: true })}
-                              placeholder=" "
-                            />
-                            <label
-                              htmlFor="oldPassword"
-                              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-                            >
-                              Old Password
-                            </label>
-                          </div>
-
-                          {/* New Password */}
-                          <div className="relative my-2 w-[90%] md:w-[35%]">
-                            <input
-                              required
-                              id="newPassword"
-                              aria-label="New Password"
-                              className="block rounded-t-lg px-2 pb-2 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#0E4749] peer w-full"
-                              type="password"
-                              {...register("newPassword", { required: true })}
-                              placeholder=" "
-                            />
-                            <label
-                              htmlFor="newPassword"
-                              className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#0E4749] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-                            >
-                              New Password
-                            </label>
-                          </div>
-                        </div>
-
-                        {/* Add a button to submit the form */}
-                        <button
-                          className="mt-1 font-medium px-3 py-1 shadow rounded"
-                          type="submit"
-                        >
-                          Change Password
-                        </button>
-                      </div>
-                    </form>
+                    <ChangePassword></ChangePassword>
                   </div>
                 </AccordionPanel>
               </AccordionItem>
