@@ -37,14 +37,14 @@ console.log('userprofile',user?.data?.avatar);
   return (
     <div className="relative p-4 text-center ">
       <div className="relative">
-        <img className='object-cover w-44  h-44 block mx-auto md:-mt-[50%] -mt-[30%] rounded-full' src={user?.data?.avatar || 'https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png'} alt="Profile" />
+        <img className='object-cover w-44  h-44 block mx-auto md:-mt-[35%] -mt-[30%] rounded-full' src={user?.data?.avatar || 'https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png'} alt="Profile" />
         <div className='bg-gray-400  p-2 rounded-full absolute bottom-[82%] right-20'>
           <label htmlFor="profileUpload" className=''>
             <IoCamera className='cursor-pointer' />
           </label>
           <input type="file" id="profileUpload" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
         </div>
-        <div className="mb-5 mt-10">
+        <div className="mb-5 mt-3">
           <h2 className="font-bold md:text-2xl text-[10px]">{user?.data?.fullName}</h2>
           <span className="text-[14px] font-bold">@{user?.data?.userName}</span>
         </div>
