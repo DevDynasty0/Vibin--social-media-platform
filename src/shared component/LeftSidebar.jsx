@@ -62,13 +62,12 @@ const LeftSidebar = () => {
         >
           <hr />
           <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
-          {/* </div>
-        <div
-          onClick={handleLogout}
-          className="flex flex-col absolute w-full "
-        > */}
           <hr />
-          <LeftButton name={"Logout"} icon={MdLogout} path={"login"} />
+          <LeftButton
+            onHandleClick={handleLogout}
+            name={"Logout"}
+            icon={MdLogout}
+          />
         </div>
       </div>
     </div>
