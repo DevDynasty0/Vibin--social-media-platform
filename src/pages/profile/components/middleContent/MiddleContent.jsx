@@ -14,7 +14,7 @@ import CustomModal from "../Modal/CustomModal";
 import About from "./TabContent.jsx/About";
 import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
-import Media from "./TabContent.jsx/Media";
+import Media from "./TabContent.jsx/Media/Media";
 const  MiddleContent=({user,setUser,userProfile,profileRefetch ,myPost,reversedPosts})=> {
  
 
@@ -56,7 +56,7 @@ const  MiddleContent=({user,setUser,userProfile,profileRefetch ,myPost,reversedP
 
     </TabPanel>
     <TabPanel>
-   <Media></Media>
+   <Media  myPost={myPost} user={user} reversedPosts={reversedPosts}></Media>
 
     </TabPanel>
   </TabPanels>
