@@ -1,15 +1,8 @@
-import { MenuItem, Spinner } from "@chakra-ui/react";
-import {
-  useGetPostsQuery,
-  useLikeMutation,
-} from "../../../redux/features/post/postApi";
+import { useGetPostsQuery } from "../../../redux/features/post/postApi";
 import AddNewPostCard from "../componnents/AddNewPostCard";
-import PostCard from "../componnents/PostCard";
-import avatar from "../../../assets/images/avatar.png";
-import { useSelector } from "react-redux";
-import { useDisclosure } from "@chakra-ui/react";
+import { MenuItem, MenuList, useDisclosure } from "@chakra-ui/react";
 import AddNewPostModal from "../componnents/AddNewPostModal";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import AllPosts from "../../../shared component/AllPosts";
 
 const Home = () => {
@@ -23,6 +16,15 @@ const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const MenuItems = () => {
+    return (
+      <MenuList>
+        <MenuItem>Save post</MenuItem>
+        <MenuItem>Share</MenuItem>
+      </MenuList>
+    );
+  };
 
   return (
     <section className="w-full max-w-[600px] mx-auto">
@@ -44,11 +46,11 @@ const Home = () => {
         onClose={onClose}
       />
       <AllPosts
+        MenuItems={MenuItems}
         posts={posts}
-        postsRefetch={postsRefetch}
         isLoading={isLoading}
         isSuccess={isSuccess}
-      />{" "}
+      />
     </section>
   );
 };
