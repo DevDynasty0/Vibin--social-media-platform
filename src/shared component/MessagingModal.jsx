@@ -42,6 +42,33 @@ const MessagingModal = () => {
                   <p className={`text-gray-500 overflow-hidden  whitespace-nowrap overflow-ellipsis`}>Tset messsssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
                 </div>
               </div>
+              <div className='flex  gap-3 hover:bg-gray-100 hover:rounded-l'>
+                <div className='items-center flex '>
+                  <img className={messageAvatarStyle}    src={avatar} alt="" />
+                </div>
+                <div className={messageFromOutsideShow}>
+                  <p className='font-medium text-gray-800'>Rahida</p>
+                  <p className={`text-gray-500 overflow-hidden  whitespace-nowrap overflow-ellipsis`}>Tset messsssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                </div>
+              </div>
+                <div className='flex  gap-3 hover:bg-gray-100 hover:rounded-l'>
+                <div className='items-center flex '>
+                  <img className={messageAvatarStyle}    src={avatar} alt="" />
+                </div>
+                <div className={messageFromOutsideShow}>
+                  <p className='font-medium text-gray-800'>Rahida</p>
+                  <p className={`text-gray-500 overflow-hidden  whitespace-nowrap overflow-ellipsis`}>Tset messsssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                </div>
+              </div>
+              <div className='flex  gap-3 hover:bg-gray-100 hover:rounded-l'>
+                <div className='items-center flex '>
+                  <img className={messageAvatarStyle}    src={avatar} alt="" />
+                </div>
+                <div className={messageFromOutsideShow}>
+                  <p className='font-medium text-gray-800'>Rahida</p>
+                  <p className={`text-gray-500 overflow-hidden  whitespace-nowrap overflow-ellipsis`}>Tset messsssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                </div>
+              </div>
                <div className='flex  gap-3 hover:bg-gray-100 hover:rounded-l'>
                 <div className='items-center flex '>
                   <img className={messageAvatarStyle}    src={avatar} alt="" />
