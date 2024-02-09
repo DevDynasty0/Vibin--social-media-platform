@@ -7,9 +7,10 @@ import { BiShare } from "react-icons/bi";
 import { useLikeMutation } from "../../../redux/features/post/postApi";
 
 const PostCard = ({ post, currentUser, postsRefetch }) => {
-  const { user, likes, caption, postContent, createdAt, contentType } = post;
+  const { user,realUser, likes, caption, postContent, createdAt, contentType } = post;
   const [like] = useLikeMutation();
-
+// console.log("user ________", user);
+// console.log("post", post);
   const likeHandler = (postId) => {
     like({ postId });
   };
@@ -21,9 +22,9 @@ const PostCard = ({ post, currentUser, postsRefetch }) => {
       <div className=" px-4 pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
-            <img className="w-10 h-10 rounded-full" src={user?.avatar} alt="" />
+            <img className="w-10 h-10 rounded-full" src={realUser?.avatar || user?.avatar} alt="" />
 
-            <h4 className="font-bold">{user?.fullName}</h4>
+            <h4 className="font-bold">{realUser?.fullName || user?.fullName}</h4>
             <p>{getPostAge}</p>
           </div>
           <Menu>
