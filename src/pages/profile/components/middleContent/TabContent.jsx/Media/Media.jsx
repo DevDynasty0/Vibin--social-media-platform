@@ -5,7 +5,7 @@ import Images from './mediacontent/Images';
 
 const Media = ({ reversedPosts }) => {
   return (
-    <div className='mt-16 border '>
+    <div className='mt-8 border '>
 
 <Tabs>
  
