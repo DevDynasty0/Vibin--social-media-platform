@@ -8,6 +8,13 @@ export const postApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPostsByLoggedInUser: builder.query({
+      query: ({userId}) => ({
+
+        url: `/posts/get-posts/${userId}`,
+       method:"GET",
+      }),
+    }),
     createPost: builder.mutation({
       query: ({ newPost }) => ({
         url: "/posts/post",
@@ -51,5 +58,6 @@ export const postApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetPostsQuery, useCreatePostMutation, useLikeMutation } =
+export const { useGetPostsQuery, useCreatePostMutation, useLikeMutation,useGetPostsByLoggedInUserQuery } =
   postApi;
+  

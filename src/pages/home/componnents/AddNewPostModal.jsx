@@ -78,7 +78,7 @@ const AddNewPostModal = ({
         isOpen={isOpen}
         onClose={onClose}
         isCentered
-        scrollBehavior="inside"
+        scrollBehavior="outside"
       >
         <ModalOverlay />
         <ModalContent>

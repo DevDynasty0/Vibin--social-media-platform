@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoMdPeople } from "react-icons/io";
 import { IoBook, IoFileTray } from "react-icons/io5";
+import "../../styles/color.css";
 import {
   MdAddReaction,
   MdAdminPanelSettings,
@@ -20,15 +21,20 @@ const AdminDashboard = () => {
     <div className="flex flex-col h-screen bg-gray-100">
       {/*  Header */}
 
-      <div className="bg-blue-800 text-white shadow w-full p-2 flex items-center justify-between">
+      <div
+        className="bg-blue-800
+ text-white shadow w-full p-2 flex items-center justify-between"
+      >
         <div className="flex items-center justify-start gap-5 w-full">
-          <div className="hidden md:flex items-center w-full">
+          <div className="  flex items-center w-full">
             <img
               src={user?.avatar}
               alt="Logo"
               className="w-14 h-12 mr-2 rounded-md"
             />
-            <h2 className="font-bold text-2xl">{user?.fullName}</h2>
+            <h2 className="hidden md:block font-bold text-2xl">
+              {user?.fullName}
+            </h2>
           </div>
           <div className="  max-w-md w-full   ">
             <input
@@ -61,16 +67,17 @@ const AdminDashboard = () => {
         onDoubleClick={() => setOpen(!open)}
         className="flex-1 flex  relative "
       >
-        {/*dashbord routes div below in pink */}
+        {/*sidebar arrow for md: */}
         <MdArrowCircleRight
           onClick={() => setOpen(!open)}
           size={"2rem"}
           className="text-gray-50 absolute left-0  lg:hidden"
         />
         <div
-          className={`p-2 bg-blue-800 w-60 flex flex-col lg:static    absolute  h-full z-50 transition-all duration-300  {
-            open ? "left-0" : "-left-60"
-          }  `}
+          className={`p-2 bg-blue-800
+ w-60 flex flex-col lg:static    absolute  h-full z-50 transition-all duration-300  ${
+   open ? "left-0" : "-left-60"
+ }  `}
           id="sideNav"
         >
           <div>
@@ -119,20 +126,20 @@ const AdminDashboard = () => {
             </a>
           </nav>
 
-          {/* <!-- Ítem de Cerrar Sesión --> */}
+          {/* <!--bottom items in sidebar--> */}
 
           <a
-            className="block   py-2.5 px-4 my-4 rounded transition duration-200 bg-white font-medium  hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white mt-auto"
+            className="block   py-2.5 px-4 my-4 rounded transition duration-200 bg-white font-medium  hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white mt-auto "
             href="#"
           >
             Back To Newsfeed{" "}
           </a>
 
           {/* <!-- Señalador de ubicación --> */}
-          <div className="bg-gradient-to-r from-blue-200 to-blue-600 h-px mt-2"></div>
+          <div className="bg-gradient-to-r from-blue-200 to-blue-600 h-px  "></div>
 
           {/* <!-- Copyright al final de la navegación lateral --> */}
-          <p className="mb-1 px-5 py-3 text-left text-xs text-gray-300">
+          <p className="mb-1 px-5 py-3 text-left text-xs text-gray-300 ">
             Copyright WCSLAT@2023
           </p>
         </div>
@@ -160,7 +167,7 @@ const AdminDashboard = () => {
                 </svg>
               </div>
               <div className="text-right">
-                <p className="text-2xl">1,257</p>
+                <p className="text-2xl">1,157</p>
                 <p>Total Users</p>
               </div>
             </div>
@@ -206,7 +213,7 @@ const AdminDashboard = () => {
                 </svg>
               </div>
               <div className="text-right">
-                <p className="text-2xl"> 257</p>
+                <p className="text-2xl"> 157</p>
                 <p>Reported Users</p>
               </div>
             </div>
@@ -229,7 +236,7 @@ const AdminDashboard = () => {
                 </svg>
               </div>
               <div className="text-right">
-                <p className="text-2xl"> 75,257</p>
+                <p className="text-2xl"> 157</p>
                 <p>Reported Posts</p>
               </div>
             </div>
