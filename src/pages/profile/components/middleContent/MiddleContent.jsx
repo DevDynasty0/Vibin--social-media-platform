@@ -10,23 +10,21 @@ import {
 import About from "./TabContent.jsx/About";
 import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
-import Media from "./TabContent.jsx/Media";
+import Media from "./TabContent.jsx/Media/Media";
 import AllPosts from "../../../../shared component/AllPosts";
 
 const MiddleContent = ({
   user,
-  setUser,
-  userProfile,
   refetchUserInfo,
-  myPost,
-  isLoading,
+  reversedPosts,
   isSuccess,
+  isLoading,
 }) => {
-  const MenuItemsForProfile = () => {
+  const MenuItems = () => {
     return (
       <MenuList>
-        <MenuItem>Save post</MenuItem>
-        <MenuItem>delete</MenuItem>
+        <MenuItem>Save Post</MenuItem>
+        <MenuItem>Delete</MenuItem>
       </MenuList>
     );
   };
@@ -53,11 +51,11 @@ const MiddleContent = ({
           <TabPanels>
             <TabPanel>
               <AllPosts
-                posts={myPost}
-                isLoading={isLoading}
                 isSuccess={isSuccess}
-                MenuItems={MenuItemsForProfile}
-              />
+                isLoading={isLoading}
+                posts={reversedPosts}
+                MenuItems={MenuItems}
+              ></AllPosts>
             </TabPanel>
 
             <TabPanel>
@@ -69,22 +67,14 @@ const MiddleContent = ({
             </TabPanel>
 
             <TabPanel>
-              <About
-                user={user}
-                setUser={setUser}
-                userProfile={userProfile}
-                refetchUserInfo={refetchUserInfo}
-              ></About>
+              <About user={user} refetchUserInfo={refetchUserInfo}></About>
             </TabPanel>
             <TabPanel>
-              <Media></Media>
+              <Media reversedPosts={reversedPosts} />
             </TabPanel>
           </TabPanels>
         </Tabs>
       </div>
-
-      {/* Feed Cards  */}
-      {/* <FeedCards /> */}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import LeftButton from "./LeftButton";
 import { FaUser, FaCog, FaHome, FaUserFriends } from "react-icons/fa";
-import { MdLogout } from "react-icons/md";
+import { MdDashboard, MdLogout } from "react-icons/md";
 import avatar from "../assets/images/avatar.png";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
@@ -40,7 +40,6 @@ const LeftSidebar = () => {
       </div>
 
       <div className="mt-10 h-full  ">
-
         <LeftButton name={"Home"} path={"/"} icon={FaHome} />
 
         <LeftButton
@@ -58,11 +57,17 @@ const LeftSidebar = () => {
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
 
         <div
-          onClick={handleLogout}
-          className="flex flex-col absolute w-full bottom-[48px]"
+          // onClick={handleLogout}
+          className="flex flex-col absolute w-full  bottom-[48px]"
         >
           <hr />
-          <LeftButton name={"Logout"} icon={MdLogout} />
+          <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
+          <hr />
+          <LeftButton
+            onHandleClick={handleLogout}
+            name={"Logout"}
+            icon={MdLogout}
+          />
         </div>
       </div>
     </div>

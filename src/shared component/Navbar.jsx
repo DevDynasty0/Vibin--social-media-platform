@@ -57,7 +57,7 @@ const Navbar = ({
             <a href="/" className="flex items-center  ">
               <figure className="    ">
                 <img
-                  src="./vibin-logo3.png"
+                  src="/vibin-logo3.png"
                   className="h-8 w-16 object-cover drop-shadow-md  "
                   alt="Vibin' Logo"
                 />

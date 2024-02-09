@@ -42,7 +42,7 @@ export default function LeftContent({
     <div className="relative p-4 text-center ">
       <div className="relative">
         <img
-          className="object-cover w-44  h-44 block mx-auto md:-mt-[50%] -mt-[30%] rounded-full"
+          className="object-cover w-44  h-44 block mx-auto md:-mt-[35%] -mt-[30%] rounded-full"
           src={
             user?.data?.avatar ||
             "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
@@ -61,7 +61,7 @@ export default function LeftContent({
             style={{ display: "none" }}
           />
         </div>
-        <div className="mb-5 mt-10">
+        <div className="mb-5 mt-3">
           <h2 className="font-bold md:text-2xl text-[10px]">
             {user?.data?.fullName}
           </h2>
