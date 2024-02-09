@@ -5,7 +5,7 @@ import avatar from '../assets/images/avatar.png'
 const MessagingModal = () => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const { user } = useAuthCheck()
-  console.log('hi', user);
+  console.log('hello user', user);
   const messageAvatarStyle = 'w-[30px] border border-[#904486]  h-[30px] rounded'
   const messageFromOutsideShow = ' p-1 text-sm w-[77%] md:w-[82%] '
 
