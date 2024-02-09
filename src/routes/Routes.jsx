@@ -13,6 +13,7 @@ import PublicRoute from "./PublicRoute";
 import Info from "../pages/info/Info";
 import InfoRouteHandle from "./InfoRouteHandle";
 import SearchResult from "../pages/search/SearchResult";
+import AdminDashboard from "../pages/admin-dashboard/AdminDashboard";
 
 const Routes = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ const Routes = createBrowserRouter([
     element: (
       <PrivateRoute>
         <Profile />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <PrivateRoute>
+        <AdminDashboard />
       </PrivateRoute>
     ),
   },
