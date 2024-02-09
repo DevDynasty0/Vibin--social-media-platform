@@ -11,11 +11,10 @@ export default function useAuthCheck() {
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
-    console.log(localAuth);
-    if (localAuth) {
-      const auth = JSON.parse(localAuth);
-
+    const auth = JSON.parse(localAuth);
+    async function getUserAuth() {
       if (auth?.user) {
+
         currentUser({ _id: auth.user._id })
           .then((res) => {
             // console.log(res.data, "current api triggered");
@@ -32,12 +31,12 @@ export default function useAuthCheck() {
             }
           })
           .finally(console.log("user"));
+
       }
-    } else {
-      setLoading(false);
-      dispatch(userLoggedOut());
     }
-  }, [dispatch, setUser, currentUser]);
+
+    getUserAuth();
+  }, [dispatch, currentUser]);
 
   return { user, loading };
 }

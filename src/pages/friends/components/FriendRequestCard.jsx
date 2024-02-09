@@ -1,6 +1,6 @@
 import avatar from "../../../assets/images/avatar.png";
 const FriendRequestCard = ({ user }) => {
-  console.log(user);
+  
   return (
     <div className="border flex flex-col gap-3 rounded p-2">
       <img

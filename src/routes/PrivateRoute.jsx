@@ -1,13 +1,11 @@
-import { Spinner } from "@chakra-ui/react";
 import { Navigate, useLocation } from "react-router-dom";
-
 import PublicRoute from "./PublicRoute";
-
-import Landingx from "../pages/landing/landing/Landingx";
+import Landing from "../pages/landing/landing/Landing";
 import useAuthCheck from "../hooks/useAuthCheck";
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
+
   const { loading, user } = useAuthCheck();
   console.log(user);
   if (loading) {
@@ -26,10 +24,11 @@ const PrivateRoute = ({ children }) => {
   //   );
   // }
 
+
   if (!user) {
     return (
       <PublicRoute>
-        <Landingx />
+        <Landing />
       </PublicRoute>
     );
   }

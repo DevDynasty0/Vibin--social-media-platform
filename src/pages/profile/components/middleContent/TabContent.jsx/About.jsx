@@ -1,182 +1,257 @@
-
-
 import CustomModal from '../../Modal/CustomModal';
 import { MdEmail, MdModeEdit } from 'react-icons/md';
 import { FaUniversity, FaUser } from 'react-icons/fa';
 import { useDisclosure } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
-import { MdEdit } from "react-icons/md";
-import { CgCalendarDates } from "react-icons/cg"
+import {  useState } from 'react';
+import { CgCalendarDates } from 'react-icons/cg';
+// import { MdEdit } from 'react-icons/md';
+// import {FcAbout} from 'react-icons/fc';
+import {BiMessageError}  from 'react-icons/bi';
+import { PiApertureLight } from "react-icons/pi";
 
-const About = ({user}) => {
+import axios from 'axios';
+import { FaRegAddressCard } from "react-icons/fa";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { useUpdateUserInfoMutation } from '../../../../../redux/features/user/userApi';
+
+const About = ({ user,profileRefetch }) => {
+  const { onOpen, onClose } = useDisclosure();
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editType, setEditType] = useState('');
+  const [editedValue, setEditedValue] = useState('');
+  const [updateUserInfo]=useUpdateUserInfoMutation()
+
+  const handleEditOpen = (type) => {
+    setIsEditOpen(true);
+    setEditType(type);
+    setEditedValue(type === editType || type === 'dob' ? user?.data?.editedValue || '' : user[type] || '');
+
+    onOpen();
+  };
  
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const [isNameEditOpen, setIsNameEditOpen] = useState(false);
-  const [isEmailEditOpen, setIsEmailEditOpen] = useState(false);
-  const [isUniEditOpen, setIsUniEditOpen] = useState(false);
-  const [isDobEditOpen, setIsDobEditOpen] = useState(false);
-
-  const handleNameEditOpen = () => {
-    setIsNameEditOpen(true);
+  const handleEditClose = () => {
+    setIsEditOpen(false);
+    setEditType('');
+    setEditedValue('');
+    onClose();
   };
 
-  const handleNameEditClose = () => {
-    setIsNameEditOpen(false);
-  };
-
-  const handleEmailEditOpen = () => {
-    setIsEmailEditOpen(true);
-  };
-
-  const handleEmailEditClose = () => {
-    setIsEmailEditOpen(false);
-  };
-  const handleUniEditOpen = () => {
-    setIsUniEditOpen(true);
-  };
-
-  const handleUniEditClose = () => {
-    setIsUniEditOpen(false);
-  };
-
-  const handleDobEditOpen = () => {
-    setIsDobEditOpen(true);
-  };
-
-  const handleDobEditClose = () => {
-    setIsDobEditOpen(false);
-  };
-
-
-  // //////
-  const handleNameEdit = (editedValue) => {
-    console.log('Save logic for Name:', editedValue);
-    // For example, if you are using state in your component, you might do something like:
-    // setUser({ ...user, fullName: editedValue });
-    handleNameEditClose();
-  };
-
-  const handleEmailEdit = (editedValue) => {
-    // Implement logic to update the email in your application state or API
-    console.log('Save logic for Email:', editedValue);
-    // For example, if you are using state in your component, you might do something like:
-    // setUser({ ...user, email: editedValue });
-    handleEmailEditClose();
-  };
-  const handleUniEdit = (editedValue) => {
-    // Implement logic to update the email in your application state or API
-    console.log('Save logic for University:', editedValue);
-    // For example, if you are using state in your component, you might do something like:
-    // setUser({ ...user, email: editedValue });
-    handleUniEditClose();
-  };
-  const handleDobEdit = (editedValue) => {
-    // Implement logic to update the date of birth in your application state or API
-    console.log('Save logic for Date of Birth:', editedValue);
-    // For example, if you are using state in your component, you might do something like:
-    // setUser({ ...user, dob: editedValue });
-    handleDobEditClose();
-  };
-
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const dobRef = useRef(null);
-  const uniRef = useRef(null);
-
-
-
-//     const { isOpen: isNameEditOpen, onOpen: onNameEditOpen, onClose: onNameEditClose } = useDisclosure();
-// const { isOpen: isEmailEditOpen, onOpen: onEmailEditOpen, onClose: onEmailEditClose } = useDisclosure();
-// const { isOpen: isUniEditOpen, onOpen: onUniEditOpen, onClose: onUniEditClose } = useDisclosure();
-    return (
-        <div className='h-64 bg-white py-2 px-4'>
-              <p>About</p>
-      {/*  */}
-     <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
-    <div className="  p-2 flex gap-5 items-center ">
-    <FaUser></FaUser>
-    <p>{user?.fullName} </p>
-    </div>
+  const handleEdit = async () => {
     
-   <div className="">
-   {/* Button to open the name edit modal */}
-   <button onClick={handleNameEditOpen}><MdModeEdit></MdModeEdit></button>
-      {/* CustomModal for editing name */}
-      <CustomModal
-        isOpen={isNameEditOpen}
-        onClose={handleNameEditClose}
-        initialRef={nameRef}
-        onEdit={handleNameEdit}
-        value={user?.fullName}
-        editType="Name"
-      />
-   </div>
-     </div>
-     {/*  */}
-     <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
-    <div className="p-2 flex gap-5 items-center ">
-        <MdEmail></MdEmail>
-        <p>{user?.email || 'Add Your Email'} </p>
-    </div>
+    try {
+      updateUserInfo({[editType]: editedValue})
+      profileRefetch()
+      // const response = await axios.patch(`/api/v1/users/update-user-details`, {
+      //   [editType]: editedValue,
+      // });
+
+      // console.log(`API response for updating ${editType}:`, response.data);
+
     
-    <div className="">
-    {/* Button to open the email edit modal */}
-    <button onClick={handleEmailEditOpen}><MdModeEdit></MdModeEdit></button>
-      {/* CustomModal for editing email */}
-      <CustomModal
-        isOpen={isEmailEditOpen}
-        onClose={handleEmailEditClose}
-        initialRef={emailRef}
-        onEdit={handleEmailEdit}
-        value={user?.email}
-        editType="Email"
-      />
-    </div>
-</div>
-     {/*  */}
-     <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
-     <div className="   p-2 flex gap-5 items-center ">
-   <FaUniversity></FaUniversity>
-    <p> {isUniEditOpen || 'Add Your University'}</p>
-    </div>
-    <div className="">
-    <button onClick={handleUniEditOpen}><MdModeEdit></MdModeEdit></button>
-      {/* CustomModal for editing date of birth */}
-      <CustomModal
-        isOpen={isUniEditOpen}
-        onClose={handleUniEditClose}
-        initialRef={uniRef}
-        onEdit={handleUniEdit}
-        value={isUniEditOpen}
-        editType="University"
-        
-      />
-    </div>
-   </div>
+      
 
+      
+      handleEditClose();
+    } 
+    catch (error) {
+      console.error(`Error updating ${editType}:`, error);
+    }
+  };
 
-<div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
-   <div className="   p-2 flex gap-5 items-center ">
-   <CgCalendarDates></CgCalendarDates>
-  
-    <p>{isDobEditOpen || 'Add Your  Date of Birth'}</p>
-    </div>
-   <div>
-   {/* Button to open the date of birth edit modal */}
-   <button onClick={handleDobEditOpen}><MdModeEdit></MdModeEdit></button>
-      {/* CustomModal for editing date of birth */}
-      <CustomModal
-        isOpen={isDobEditOpen}
-        onClose={handleDobEditClose}
-        initialRef={dobRef}
-        onEdit={handleDobEdit}
-        value={isDobEditOpen}
-        editType="Date of Birth"
-      />
-   </div>
-   </div>
+ 
+  return (
+    <div className="h-full bg-white py-2 px-4">
+      <p>About</p>
+
+      {/* User Name */}
+      <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center">
+          <FaUser></FaUser>
+          <p>{user?.data?.fullName} </p>
         </div>
-    );
+
+        <div className="">
+          <button onClick={() => handleEditOpen('fullName')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'fullName'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="fullName"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+        </div>
+        {/* change username */}
+        <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center">
+         <FaRegCircleUser></FaRegCircleUser>
+          <p>{user?.data?.userName ||'Add Your Username'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('userName')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'userName'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="userName"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+      {/* add bio */}
+      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+        <BiMessageError />
+          <p>{user?.data?.bio ||'Add Bio'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('bio')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'bio'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="bio"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+      {/* religion */}
+      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+          <PiApertureLight></PiApertureLight>
+          <p>{user?.data?.religion ||'Add Your Religion'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('religion')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'religion'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="religion"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+      {/* user default email */}
+      <div className="bg-gray-200 flex items-center my-3 justify-between rounded-md px-2">
+      <div className="p-2 flex gap-5 items-center ">
+          <MdEmail></MdEmail>
+          <p>{user?.data?.email} </p>
+        </div>
+        </div>
+      {/* User Extra Email */}
+      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+          <MdEmail></MdEmail>
+          <p>{user?.data?.extraEmail ||'Add Another  Email'} </p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('extraEmail')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'extraEmail'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="extraEmail"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+       {/* User Date of Birth */}
+       <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+          <CgCalendarDates></CgCalendarDates>
+          <p>{user?.data?.dob || 'Add Your Date of Birth'}</p>
+        </div>
+        <div>
+          <button onClick={() => handleEditOpen('dob')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'dob'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="dob"
+            editedValue={editedValue} 
+            setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+      
+
+      {/* User University */}
+      <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+          <FaUniversity></FaUniversity>
+          <p> {user?.data?.university || 'Add Your University'}</p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('university')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'university'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="university"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+
+     
+      {/* user address */}
+      <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
+        <div className="p-2 flex gap-5 items-center ">
+          <FaRegAddressCard></FaRegAddressCard>
+          <p> {user?.data?.address || 'Add Your Address'}</p>
+        </div>
+
+        <div className="">
+          <button onClick={() => handleEditOpen('address')}>
+            <MdModeEdit></MdModeEdit>
+          </button>
+          <CustomModal
+            isOpen={isEditOpen && editType === 'address'}
+            onClose={handleEditClose}
+            // initialRef={editRef}
+            onEdit={handleEdit}
+            value={editedValue}
+            editType="address"
+            editedValue={editedValue} setEditedValue={setEditedValue}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default About;

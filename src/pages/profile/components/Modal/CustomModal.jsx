@@ -1,15 +1,38 @@
 // CustomModal.js
 
-import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Input } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Input, ModalFooter } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
 
-const CustomModal = ({ isOpen, onClose, initialRef, onEdit, value, editType }) => {
+const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValue, setEditedValue }) => {
   const finalRef = React.useRef(null);
-  const [editedValue, setEditedValue] = useState(value);
 
-  const handleSave = () => {
-    onEdit(editedValue);
+  // Set the initial date value to the previous date from today
+  useEffect(() => {
+    if (editType === "dob" && !editedValue) {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() - 1); // Get the previous date
+      const formattedDate = currentDate.toISOString().split("T")[0];
+      console.log(formattedDate);
+      setEditedValue(formattedDate);
+    }
+  }, [editType, editedValue, setEditedValue]);
+
+  const handleSave = async () => {
+    await onEdit(editedValue);
     onClose();
+  };
+
+  // Reset the edited value when the modal is opened
+  useEffect(() => {
+    setEditedValue(editedValue);
+  }, [editedValue, setEditedValue]);
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -25,15 +48,14 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, value, editType }) =
           <ModalHeader>Edit {editType}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-          <FormControl>
+            <FormControl>
               <FormLabel>{editType}</FormLabel>
-              {/* Use Input component with type "date" */}
               <Input
-                ref={initialRef}
-                type={editType === "Date of Birth" ? "date" : "text"}
-                defaultValue={value}
+                type={editType === "dob" ? "date" : "text"}
                 placeholder={`Enter ${editType}`}
+                value={editedValue}
                 onChange={(e) => setEditedValue(e.target.value)}
+                max={editType === "dob" ? getCurrentDate() : undefined}
               />
             </FormControl>
           </ModalBody>

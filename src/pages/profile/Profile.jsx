@@ -1,47 +1,46 @@
-import useAuthCheck from "../../hooks/useAuthCheck";
+import { useParams } from "react-router-dom";
 import "../../styles/color.css";
 import Cover from "./components/cover/Cover";
-
 import LeftContent from "./components/leftContent/LeftContent";
 import MiddleContent from "./components/middleContent/MiddleContent";
-
+import { useGetUserByIdQuery } from "../../redux/features/user/userApi";
+import { Spinner } from "@chakra-ui/react";
+import { useGetPostsByLoggedInUserQuery } from "../../redux/features/post/postApi";
+import Navbar from "../../shared component/Navbar";
 
 export default function Profile() {
-  const { user } = useAuthCheck();
-  console.log('user:',user);
+  const { id } = useParams();
+  const { data: user, isLoading,refetch } = useGetUserByIdQuery(id)
+  console.log('id lagbeeeeee',user?.data?._id);
+  const{data:myPost}=useGetPostsByLoggedInUserQuery ({userId:user?.data?._id})
+  const reversedPosts = myPost ? [...myPost].reverse() : [];
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center items-center h-52 ">
+        <Spinner />
+      </div>
+    );
+  }
   return (
-    <div className='bg-gray-100'>
-      <div className="bg-gray-100 max-w-7xl mx-auto bg-vibin ">
-      <Cover></Cover>
-      {/* <div className="bg-white p-1 md:h-32 lg:h-40 lg:w-40 h-20 w-20 md:w-32 absolute z-10 lg:-mt-20 md:-mt-16 md:ml-10 -mt-10 ml-6 lg:ml-20 rounded-full">
-            
-            <div className="flex items-center justify-center absolute  bg-[#7A1022] md:w-10 md:h-10 w-4 h-4 rounded-full md:bottom-8 bottom-5 md:right-1 -right-1 cursor-pointer">
-              <IoCamera className="text-white" />
-            </div>
-         
-          
-          
+    <div>
+      <Navbar></Navbar>
+    <div className='bg-vibin pt-14 '>
       
-          
-        </div> */}
+      <div className=" max-w-7xl mx-auto  ">
+        <Cover user={user}myPost={myPost} profileRefetch={refetch}></Cover>
 
-      <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  grid lg:gap-7 lg:grid-cols-7  md:grid-cols-5 grid-col-1">
-        {/* <div className="flex justify-center col-span-2 items-center relative">
+        <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto bg-vibin rounded-lg shadow-lg    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
 
-        </div> */}
-        <div className="w-full -mt-10 h-screen bg-white   md:col-span-2  ">
-          <LeftContent />
+          <div className="w-full -mt-10 h-screen    md:col-span-3  ">
+            <LeftContent user={user} myPost={myPost} profileRefetch={refetch}></LeftContent>
+          </div>
+
+          {/* Middle Content Begin */}
+          <div className="md:col-span-5 ">
+            <MiddleContent user={user} myPost={myPost} reversedPosts={reversedPosts} profileRefetch={refetch}></MiddleContent>
+          </div>
         </div>
-
-        {/* Middle Content Begin */}
-        <div className="md:col-span-5 ">
-          <MiddleContent user={user}></MiddleContent>
-        </div>
-
-        {/* Right Content Begin */}
-        {/* <div className="hidden lg:block  md:col-span-2  ">
-          <RightContent></RightContent>
-        </div> */}
       </div>
     </div>
     </div>
