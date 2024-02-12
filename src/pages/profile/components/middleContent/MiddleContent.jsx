@@ -41,11 +41,11 @@ const MiddleContent = ({
               <Tab>About</Tab>
               <Tab>Media</Tab>
             </TabList>
-            <div>
-              <button className="btn bg-color-one py-2  px-6 mr-3 rounded-md text-white font-bold">
+            {/* <div>
+              <button className="btn bg-color-one py-2  md:px-6 md:mr-3 rounded-md text-white font-bold">
                 Follow
               </button>
-            </div>
+            </div> */}
           </div>
 
           <TabPanels>
