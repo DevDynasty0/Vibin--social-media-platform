@@ -11,11 +11,9 @@ import { useSelector } from "react-redux";
 import avatar from "../../../assets/images/avatar.png";
 import { FaPlus, FaXmark } from "react-icons/fa6";
 import axios from "axios";
-import { useCreatePostMutation } from "../../../redux/features/post/postApi";
 
 const AddNewPostModal = ({
   isOpen,
-  onOpen,
   onClose,
   caption,
   setCaption,
@@ -24,27 +22,17 @@ const AddNewPostModal = ({
   postsRefetch,
 }) => {
   const user = useSelector((state) => state.auth.user);
-  const [createPost, { isLoading }] = useCreatePostMutation();
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    const userData = {
-      userId: user._id,
-      fullName: user.fullName,
-      avatar: user.avatar,
-    };
-    // console.log("user", user);
-
-    // console.log(caption, selectedItem[0]);
 
     const formData = new FormData();
     formData.append("postContent", selectedItem?.[0]);
-    formData.append("user", userData);
     formData.append("caption", caption);
     formData.append("contentType", selectedItem?.[0].type.split("/")[0]);
 
     const newPost = {
-      user: userData,
+      user: user._id,
       caption,
       postContent: formData.get("postContent"),
       contentType: selectedItem ? selectedItem[0].type.split("/")[0] : "",

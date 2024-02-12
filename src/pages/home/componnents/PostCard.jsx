@@ -2,39 +2,39 @@ import { FaEllipsis } from "react-icons/fa6";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Menu, MenuButton } from "@chakra-ui/react";
 import { BiShare } from "react-icons/bi";
-import { useLikeMutation } from "../../../redux/features/post/postApi";
+import { Link } from "react-router-dom";
 
-const PostCard = ({ post, currentUser, postsRefetch }) => {
-  const { user, likes, caption, postContent, createdAt, contentType } = post;
-  const [like] = useLikeMutation();
-
-  const likeHandler = (postId) => {
-    like({ postId });
-  };
-
+const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
+  const { user, likes, caption, postContent, createdAt, contentType } =
+    post || {};
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
+
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-10">
       <div className=" px-4 pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
-            <img className="w-10 h-10 rounded-full" src={user?.avatar} alt="" />
+            <Link to={`/profile/${user._id}`}>
+              <img
+                className="w-10 h-10 rounded-full"
+                src={user?.avatar}
+                alt=""
+              />
+            </Link>
 
-            <h4 className="font-bold">{user?.fullName}</h4>
+            <Link to={`/profile/${user._id}`}>
+              <h4 className="font-bold">{user?.fullName}</h4>
+            </Link>
             <p>{getPostAge}</p>
           </div>
           <Menu>
             <MenuButton>
               <FaEllipsis className="text-2xl" />
             </MenuButton>
-            <MenuList>
-              {" "}
-              <MenuItem>Save post</MenuItem>
-              <MenuItem>Share</MenuItem>
-            </MenuList>
+            <MenuItems />
           </Menu>
         </div>
         <p className="mt-2 text-xl">{caption}</p>
@@ -64,20 +64,11 @@ const PostCard = ({ post, currentUser, postsRefetch }) => {
         <div className="flex items-center gap-2">
           {isLiked !== -1 ? (
             <AiFillLike
-              onClick={async () => {
-                likeHandler(post._id);
-                await postsRefetch();
-              }}
+              onClick={onLikeHandler}
               className="text-2xl text-color-one"
             />
           ) : (
-            <AiOutlineLike
-              onClick={async () => {
-                likeHandler(post._id);
-                await postsRefetch();
-              }}
-              className="text-2xl"
-            />
+            <AiOutlineLike onClick={onLikeHandler} className="text-2xl" />
           )}
           <GoComment className="text-2xl" />
         </div>
