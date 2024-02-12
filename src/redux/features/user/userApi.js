@@ -24,6 +24,12 @@ export const userApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -31,4 +37,5 @@ export const {
   useCurrentUserMutation,
   useUpdateUserInfoMutation,
   useGetSearchResultQuery,
+  useGetUserByIdQuery,
 } = userApi;

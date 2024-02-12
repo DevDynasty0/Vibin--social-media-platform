@@ -8,6 +8,12 @@ export const postApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPostsByUserId: builder.query({
+      query: ({ userId }) => ({
+        url: `/posts/get-posts/${userId}`,
+        method: "GET",
+      }),
+    }),
     createPost: builder.mutation({
       query: ({ newPost }) => ({
         url: "/posts/post",
@@ -24,11 +30,14 @@ export const postApi = apiSlice.injectEndpoints({
         url: `/posts/like/${postId}`,
         method: "PATCH",
       }),
-      async onQueryStarted({ postId }, { getState, dispatch, queryFulfilled }) {
+      async onQueryStarted(
+        { postId, userId },
+        { getState, dispatch, queryFulfilled }
+      ) {
         const userEmail = getState()?.auth?.user?.email;
 
-        // optimistic cache update start
-        const patchResult = dispatch(
+        // optimistic cache update for liking start
+        const likeForHomePost = dispatch(
           postApi.util.updateQueryData("getPosts", undefined, (draft) => {
             const draftPost = draft.find((p) => p._id === postId);
             const isLikeExist = draftPost.likes.indexOf(userEmail);
@@ -39,17 +48,37 @@ export const postApi = apiSlice.injectEndpoints({
             }
           })
         );
-        // optimistic cache update end
+        const likeForProfilePost = dispatch(
+          postApi.util.updateQueryData(
+            "getPostsByUserId",
+            { userId },
+            (draft) => {
+              const draftPost = draft.find((p) => p._id === postId);
+              const isLikeExist = draftPost.likes.indexOf(userEmail);
+              if (isLikeExist !== -1) {
+                draftPost.likes.splice(isLikeExist, 1);
+              } else {
+                draftPost.likes.push(userEmail);
+              }
+            }
+          )
+        );
+        // optimistic cache update for liking end
 
         try {
           await queryFulfilled;
         } catch (error) {
-          patchResult.undo();
+          likeForHomePost.undo();
+          likeForProfilePost.undo();
         }
       },
     }),
   }),
 });
 
-export const { useGetPostsQuery, useCreatePostMutation, useLikeMutation } =
-  postApi;
+export const {
+  useGetPostsQuery,
+  useCreatePostMutation,
+  useLikeMutation,
+  useGetPostsByUserIdQuery,
+} = postApi;

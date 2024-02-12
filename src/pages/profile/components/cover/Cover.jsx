@@ -1,29 +1,32 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import axios from 'axios';
+import axios from "axios";
 
-const Cover = ({ userProfile }) => {
-  const [coverImage, setCoverImage] = useState('');
+const Cover = ({ user, refetchUserInfo }) => {
+  const [coverImage, setCoverImage] = useState("");
 
   const handleCoverChange = async (coverImage) => {
-    
     try {
       const formData = new FormData();
-      formData.append('coverImage', coverImage);
-  
-      const response = await axios.patch('/api/v1/users/change-cover-image', formData);
+      formData.append("coverImage", coverImage);
+
+      const response = await axios.patch(
+        "/api/v1/users/change-cover-image",
+        formData
+      );
       console.log(response);
-      
+
       if (response.data && response.data.data.coverImage) {
         setCoverImage(response.data.data.coverImage);
-        console.log('cover dekhbo',response.data.data.coverImage);
+        console.log("cover dekhbo", response.data.data.coverImage);
       }
+      refetchUserInfo();
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
     }
   };
-  
-console.log('cover',coverImage);
+
+  console.log("cover", coverImage);
   const handleCoverFileChange = (e) => {
     const file = e.target.files[0];
     setCoverImage(file);
@@ -32,16 +35,25 @@ console.log('cover',coverImage);
 
   return (
     <div className="relative">
-      <div className="w-full bg-gray-300 lg:h-[64vh] md:h-[44vh] h-[32vh] relative">
+      <div className="w-full bg-gray-300 lg:h-[72vh] md:h-[44vh] h-[32vh] relative">
         <img
-          src={userProfile?.coverImage}
+          src={user?.data?.coverImage}
           alt=""
           className="w-full h-full rounded-md"
         />
-        <label htmlFor="imageUpload" className="absolute bottom-2 right-2 cursor-pointer text-white">
-          <FaEdit className='bg-gray-400 w-7 h-7 p-1 rounded-full'></FaEdit>
+        <label
+          htmlFor="imageUpload"
+          className="absolute bottom-2 right-2 cursor-pointer text-white"
+        >
+          <FaEdit className="bg-gray-400 w-7 h-7 p-1 rounded-full"></FaEdit>
         </label>
-        <input type="file" id="imageUpload" accept="image/*" onChange={handleCoverFileChange} style={{ display: 'none' }} />
+        <input
+          type="file"
+          id="imageUpload"
+          accept="image/*"
+          onChange={handleCoverFileChange}
+          style={{ display: "none" }}
+        />
       </div>
     </div>
   );

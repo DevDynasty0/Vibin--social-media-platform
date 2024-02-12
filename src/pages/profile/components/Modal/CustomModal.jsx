@@ -12,6 +12,7 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValu
       const currentDate = new Date();
       currentDate.setDate(currentDate.getDate() - 1); // Get the previous date
       const formattedDate = currentDate.toISOString().split("T")[0];
+      console.log(formattedDate);
       setEditedValue(formattedDate);
     }
   }, [editType, editedValue, setEditedValue]);
