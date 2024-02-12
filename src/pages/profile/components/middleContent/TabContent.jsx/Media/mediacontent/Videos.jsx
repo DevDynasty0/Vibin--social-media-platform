@@ -14,7 +14,9 @@ const Videos = ({ reversedPosts }) => {
               </video>
             </div>
           ) : (
-            <div key={index} style={{ display: "none" }}></div>
+            <div key={index} >
+           <p className='text-center'>No videos uploaded yet!!</p>
+          </div>
           )
         ))}
       </div>
