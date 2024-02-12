@@ -56,7 +56,7 @@ const About = ({ user, refetchUserInfo }) => {
 
   return (
     <div className="h-full bg-white py-2 px-4">
-      <p>About</p>
+      
 
       {/* User Name */}
       <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
@@ -127,29 +127,7 @@ const About = ({ user, refetchUserInfo }) => {
           />
         </div>
       </div>
-      {/* religion */}
-      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
-        <div className="p-2 flex gap-5 items-center ">
-          <PiApertureLight></PiApertureLight>
-          <p>{user?.data?.religion || "Add Your Religion"} </p>
-        </div>
-
-        <div className="">
-          <button onClick={() => handleEditOpen("religion")}>
-            <MdModeEdit></MdModeEdit>
-          </button>
-          <CustomModal
-            isOpen={isEditOpen && editType === "religion"}
-            onClose={handleEditClose}
-            // initialRef={editRef}
-            onEdit={handleEdit}
-            value={editedValue}
-            editType="religion"
-            editedValue={editedValue}
-            setEditedValue={setEditedValue}
-          />
-        </div>
-      </div>
+     
       {/* user default email */}
       <div className="bg-gray-200 flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">

@@ -11,10 +11,13 @@ import {
   Menu,
   MenuButton,
   Input,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import {
   useCreateCommentMutation,
+  useDeleteCommentMutation,
   useGetCommentsQuery,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
@@ -34,6 +37,7 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
   const [comment, setComment] = useState("");
   const [createComment] = useCreateCommentMutation();
   const [sharePost] = useSharePostMutation();
+  const[deleteComment]=useDeleteCommentMutation();
   const { data: commentsDetails } = useGetCommentsQuery(
     {
       postId: post._id,
@@ -44,11 +48,26 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
   const getPostAge = moment(createdAt).fromNow();
 
   const onCommentHandler = () => {
-    createComment({ comment, user: user._id, postId: post._id });
+    createComment({ comment, user: currentUser._id, postId: post._id });
     setComment("");
-  };
 
-  console.log("This is from postCard", shares);
+  };
+  
+  const onCommentDelete=(commentId)=>{
+   
+    
+      deleteComment({commentId:commentId,postId:post._id})
+
+    
+    
+    
+      
+  }
+  
+  
+  console.log('current user',currentUser._id);
+  console.log('post user',post.user._id);
+  
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
@@ -65,9 +84,9 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
               <FaEllipsis className="text-2xl" />
             </MenuButton>
             {/* Post action bar */}
-            {post.postType && post.postType === "post" && (
-              <MenuItems></MenuItems>
-            )}
+
+            <MenuItems></MenuItems>
+
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
@@ -174,6 +193,8 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
           <hr className="mt-3"></hr>
           <div className="w-[90%] mt-4 px-5">
             {commentsDetails?.data?.map((comment) => (
+
+            
               <div key={comment._id}>
                 <div className="flex gap-5  items-start mb-2">
                   <Image
@@ -184,17 +205,43 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
                   />
 
                   <div className="w-full bg-gray-100 rounded-md p-3">
-                    <div className="flex items-center justify-start gap-4">
-                      <p className="font-bold">{comment.user.fullName}</p>
-                      <p className="text-[12px]">
-                        {moment(comment.createdAt).fromNow()}
-                      </p>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-start gap-4">
+                        <p className="font-bold">{comment.user.fullName}</p>
+                        <p className="text-[12px]">
+                          {moment(comment.createdAt).fromNow()}
+                        </p>
+
+                      </div>
+                     { (currentUser?._id === comment?.user?._id )||(currentUser?._id ===post?.user?._id) ?
+                     <div>
+                     <Menu>
+                       <MenuButton>
+                         <FaEllipsis className="text-md" />
+                       </MenuButton>
+                       {/* Post action bar */}
+                       <MenuList minWidth='120px'>
+                         <MenuItem className="" onClick={()=>onCommentDelete(comment._id)}>
+                           Delete
+
+                         </MenuItem>
+                         <MenuItem>Edit</MenuItem>
+                       </MenuList>
+
+
+                     </Menu>
+                   </div>
+                   : null
+      
+                     } 
+
+    
                     </div>
                     <p className="mt-2">{comment.comment}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)
+            )}
           </div>
         </div>
       )}

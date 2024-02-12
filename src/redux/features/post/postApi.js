@@ -25,6 +25,21 @@ export const postApi = apiSlice.injectEndpoints({
       }),
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
+
+    deleteComment: builder.mutation({
+      query: ({ commentId,postId }) => ({
+        url: `/comments/comment/${commentId}/${postId}`,
+        method: "DELETE",
+       
+       
+      }),
+      
+    }),
+
+
+
+
+
     like: builder.mutation({
       query: ({ postId }) => ({
         url: `/posts/like/${postId}`,
@@ -126,4 +141,5 @@ export const {
   useCreateCommentMutation,
   useGetCommentsQuery,
   useSharePostMutation,
+  useDeleteCommentMutation,
 } = postApi;
