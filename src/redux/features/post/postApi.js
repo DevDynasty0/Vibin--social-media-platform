@@ -73,6 +73,48 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    sharePost: builder.mutation({
+      query: ({ postId }) => ({
+        url: `/posts/create-post-share/${postId}`,
+        method: "PATCH",
+      }),
+    }),
+    createComment: builder.mutation({
+      query: (data) => ({
+        url: "/comments/comment",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: postComment } = await queryFulfilled;
+          if (postComment?.data?._id) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments += 1;
+              })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+                { postId },
+                (draft) => {
+                  draft.data.unshift(postComment.data);
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    getComments: builder.query({
+      query: ({ postId }) => ({
+        url: `/comments/comment/${postId}`,
+      }),
+    }),
   }),
 });
 
@@ -81,4 +123,7 @@ export const {
   useCreatePostMutation,
   useLikeMutation,
   useGetPostsByUserIdQuery,
+  useCreateCommentMutation,
+  useGetCommentsQuery,
+  useSharePostMutation,
 } = postApi;
