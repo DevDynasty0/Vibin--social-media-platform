@@ -39,8 +39,8 @@ export default function Profile() {
         <div className=" max-w-7xl mx-auto  ">
           <Cover user={user} refetchUserInfo={refetchUserInfo}></Cover>
 
-          <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto bg-vibin rounded-lg shadow-lg    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
-            <div className="w-full -mt-10 h-screen    md:col-span-3  ">
+          <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  rounded-lg shadow-lg    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
+            <div className="w-full -mt-10 h-screen    md:col-span-5  ">
               <LeftContent
                 user={user}
                 refetchUserInfo={refetchUserInfo}
