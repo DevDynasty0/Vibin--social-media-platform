@@ -1,12 +1,9 @@
 import { IoImageOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import avatar from "../../../assets/images/avatar.png";
-
-// import { MdOutlineVideoLibrary } from "react-icons/md";
-import { HiOutlineGif } from "react-icons/hi2";
 import { MdOutlineVideoLibrary } from "react-icons/md";
-const AddNewPostCard = ({ isOpen, onOpen, onClose, caption, setCaption }) => {
-  // console.log(onOpen);
+
+const AddNewPostCard = ({ onOpen, caption }) => {
   const user = useSelector((state) => state.auth.user);
 
   return (

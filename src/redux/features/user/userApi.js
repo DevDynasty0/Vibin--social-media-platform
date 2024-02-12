@@ -37,5 +37,5 @@ export const {
   useCurrentUserMutation,
   useUpdateUserInfoMutation,
   useGetSearchResultQuery,
- useGetUserByIdQuery
+  useGetUserByIdQuery,
 } = userApi;
