@@ -35,7 +35,8 @@ const Cover = ({ user, refetchUserInfo }) => {
 
   return (
     <div className="relative">
-      <div className="w-full bg-gray-300 lg:h-[72vh] md:h-[44vh] h-[32vh] relative">
+      <div className="w-full 
+       lg:h-[72vh] md:h-[44vh] h-[32vh] relative">
         <img
           src={user?.data?.coverImage}
           alt=""

@@ -11,7 +11,7 @@ const Images = ({reversedPosts}) => {
               <img className='mr-1 bg-white w-full' src={singlePost.postContent} alt={`media-${index}`} />
             </div>
           ) : (
-            <div key={index} style={{ display: "none" }}></div>
+            <div key={index} ><p>No photos uploaded yet!</p></div>
           )
           
         ))}
