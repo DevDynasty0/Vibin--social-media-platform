@@ -18,6 +18,7 @@ import { useState } from "react";
 import {
   useCreateCommentMutation,
   useDeleteCommentMutation,
+  useEditCommentMutation,
   useGetCommentsQuery,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
@@ -33,11 +34,14 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
     createdAt,
     contentType,
   } = post || {};
+  const [editCommentMode, setEditCommentMode] = useState(false); // Track if edit mode is enabled for comment
+  const [editedComment, setEditedComment] = useState({content:'',commentId:''});
   const [showComment, setShowComment] = useState(false);
   const [comment, setComment] = useState("");
   const [createComment] = useCreateCommentMutation();
   const [sharePost] = useSharePostMutation();
-  const[deleteComment]=useDeleteCommentMutation();
+  const [deleteComment] = useDeleteCommentMutation();
+  const [editComment] = useEditCommentMutation();
   const { data: commentsDetails } = useGetCommentsQuery(
     {
       postId: post._id,
@@ -52,22 +56,26 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
     setComment("");
 
   };
-  
-  const onCommentDelete=(commentId)=>{
-   
-    
-      deleteComment({commentId:commentId,postId:post._id})
 
-    
-    
-    
-      
+  const onCommentDelete = (commentId) => {
+
+
+    deleteComment({ commentId: commentId, postId: post._id })
+
   }
-  
-  
-  console.log('current user',currentUser._id);
-  console.log('post user',post.user._id);
-  
+  //   const onCommentEdit=(commentId)=>{
+  // editComment({commentId:commentId,postId:post._id})
+  //   }
+
+  const onCommentEdit = (commentId,comment) => {
+    setEditCommentMode(commentId); // Enable edit mode for this comment
+    setEditedComment({...editedComment,content:comment,commentId}); // Set the current comment as the edited comment
+  };
+ const onCommentUpdateHandler=()=>{
+editComment(editedComment)
+
+ }
+
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
@@ -194,7 +202,7 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
           <div className="w-[90%] mt-4 px-5">
             {commentsDetails?.data?.map((comment) => (
 
-            
+
               <div key={comment._id}>
                 <div className="flex gap-5  items-start mb-2">
                   <Image
@@ -213,31 +221,58 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
                         </p>
 
                       </div>
-                     { (currentUser?._id === comment?.user?._id )||(currentUser?._id ===post?.user?._id) ?
-                     <div>
-                     <Menu>
-                       <MenuButton>
-                         <FaEllipsis className="text-md" />
-                       </MenuButton>
-                       {/* Post action bar */}
-                       <MenuList minWidth='120px'>
-                         <MenuItem className="" onClick={()=>onCommentDelete(comment._id)}>
-                           Delete
+                      {(currentUser?._id === comment?.user?._id) || (currentUser?._id === post?.user?._id) ?
+                        <div>
+                          <Menu>
+                            <MenuButton>
+                              <FaEllipsis className="text-md" />
+                            </MenuButton>
+                            {/* Post action bar */}
+                            <MenuList minWidth='120px'>
+                              <MenuItem className="" onClick={() => onCommentDelete(comment._id)}>
+                                Delete
 
-                         </MenuItem>
-                         <MenuItem>Edit</MenuItem>
-                       </MenuList>
+                              </MenuItem>
+                              <MenuItem className="" onClick={() => onCommentEdit(comment._id,comment.comment)}>Edit</MenuItem>
+                            </MenuList>
 
 
-                     </Menu>
-                   </div>
-                   : null
-      
-                     } 
+                          </Menu>
+                        </div>
+                        : null
 
-    
+                      }
+
+
                     </div>
-                    <p className="mt-2">{comment.comment}</p>
+
+
+                    {/*  */}
+
+                    {editCommentMode && editedComment && comment._id === editCommentMode ? (
+                      <InputGroup size="md">
+                        <Input
+                          value={editedComment.content}
+                          onChange={(e) => setEditedComment({content:e.target.value,commentId:comment._id})}
+                          placeholder="Edit your comment"
+                        />
+                        <InputRightElement width="4.5rem">
+                          <Button
+                            h="1.75rem"
+                            size="sm"
+                            bg="#904486"
+                            textColor="white"
+                            onClick={onCommentUpdateHandler}
+                          >
+                            Save
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>
+                    ) : (
+                      <p className="mt-2">{comment.comment}</p>
+                    )}
+
+                   
                   </div>
                 </div>
               </div>)
