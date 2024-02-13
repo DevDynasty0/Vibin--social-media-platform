@@ -1,18 +1,22 @@
-import { useState } from "react";
-import AddNewPostCard from "../pages/home/componnents/AddNewPostCard";
-import AddNewPostModal from "../pages/home/componnents/AddNewPostModal";
 import PostCard from "../pages/home/componnents/PostCard";
 import { Spinner } from "@chakra-ui/react";
 import { useLikeMutation } from "../redux/features/post/postApi";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-const AllPosts = ({ posts, postsRefetch, isSuccess, isLoading }) => {
+const AllPosts = ({
+  posts,
+  isSuccess,
+  isLoading,
+  //  MenuItems
+}) => {
   const currentUser = useSelector((state) => state.auth.user);
-  //   const [like] = useLikeMutation();
+  const { id } = useParams();
+  const [like] = useLikeMutation();
 
-  //   const likeHandler = (postId) => {
-  //     like({ postId });
-  //   };
+  const likeHandler = (postId, userId) => {
+    like({ postId, userId });
+  };
 
   let content;
   if (isLoading) {
@@ -24,13 +28,13 @@ const AllPosts = ({ posts, postsRefetch, isSuccess, isLoading }) => {
   }
 
   if (!isLoading && isSuccess) {
-    content = posts.map((post) => (
+    content = posts?.map((post) => (
       <PostCard
         key={post._id}
         post={post}
-        // likes={post.likes}
-        postsRefetch={postsRefetch}
+        onLikeHandler={() => likeHandler(post._id, id)}
         currentUser={currentUser}
+        // MenuItems={MenuItems}
       ></PostCard>
     ));
   }

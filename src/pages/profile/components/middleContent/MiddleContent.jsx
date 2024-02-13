@@ -1,72 +1,81 @@
-import { TbBrandFeedly } from "react-icons/tb";
-import { IoInformationCircleOutline } from "react-icons/io5";
-import FeedCards from "./FeedCards";
-import { FaUser } from "react-icons/fa";
-import { BsThreeDots } from "react-icons/bs";
-import { Input } from "@chakra-ui/react";
-import { CiEdit } from "react-icons/ci";
-import { MdModeEdit } from "react-icons/md";
-import { FaUniversity } from "react-icons/fa";
-
-import { Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure } from '@chakra-ui/react'
-
-import CustomModal from "../Modal/CustomModal";
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
 import About from "./TabContent.jsx/About";
 import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
-import Media from "./TabContent.jsx/Media";
-const  MiddleContent=({user,setUser,userProfile,profileRefetch ,myPost,reversedPosts})=> {
- 
+import Media from "./TabContent.jsx/Media/Media";
+import AllPosts from "../../../../shared component/AllPosts";
 
- 
+const MiddleContent = ({
+  user,
+  refetchUserInfo,
+  reversedPosts,
+  isSuccess,
+  isLoading,
+}) => {
+  const MenuItems = () => {
+    return (
+      <MenuList>
+        <MenuItem>Save Post</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </MenuList>
+    );
+  };
   return (
     <div className=" mt-10">
-     
       {/* Tab items */}
       <div>
-      <Tabs>
-  <div className="flex items-center justify-between">
-  <TabList>
-    <Tab>Post</Tab>
-    <Tab>Highlights</Tab>
-    <Tab>Likes</Tab>
-    <Tab>About</Tab>
-    <Tab>Media</Tab>
-  </TabList>
-  <div>
-    <button className="btn bg-color-one py-2  px-6 mr-3 rounded-md text-white font-bold">Follow</button>
-  </div>
-  </div>
+        <Tabs>
+          <div className="flex items-center justify-between">
+            <TabList>
+              <Tab>Post</Tab>
+              <Tab>Highlights</Tab>
+              <Tab>Likes</Tab>
+              <Tab>About</Tab>
+              <Tab>Media</Tab>
+            </TabList>
+            <div>
+              <button className="btn bg-color-one py-2  px-6 mr-3 rounded-md text-white font-bold">
+                Follow
+              </button>
+            </div>
+          </div>
 
-  <TabPanels>
-    <TabPanel>
-      <FeedCards myPost={myPost} user={user} reversedPosts={reversedPosts}></FeedCards>
-    </TabPanel>
+          <TabPanels>
+            <TabPanel>
+              <AllPosts
+                isSuccess={isSuccess}
+                isLoading={isLoading}
+                posts={reversedPosts}
+                MenuItems={MenuItems}
+              ></AllPosts>
+            </TabPanel>
 
-    <TabPanel>
-   <Highlights></Highlights>
-    </TabPanel>
+            <TabPanel>
+              <Highlights></Highlights>
+            </TabPanel>
 
-    <TabPanel>
-     <Likes></Likes>
-    </TabPanel>
+            <TabPanel>
+              <Likes></Likes>
+            </TabPanel>
 
-    <TabPanel>
-    <About user={user} setUser={setUser} userProfile={userProfile} profileRefetch={profileRefetch}  ></About>
-
-    </TabPanel>
-    <TabPanel>
-   <Media></Media>
-
-    </TabPanel>
-  </TabPanels>
-</Tabs>
+            <TabPanel>
+              <About user={user} refetchUserInfo={refetchUserInfo}></About>
+            </TabPanel>
+            <TabPanel>
+              <Media reversedPosts={reversedPosts} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </div>
-      
-
-      {/* Feed Cards  */}
-      {/* <FeedCards /> */}
     </div>
   );
-}
+};
 export default MiddleContent;
