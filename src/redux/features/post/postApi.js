@@ -1,3 +1,4 @@
+import { comment } from "postcss";
 import { apiSlice } from "../api/apiSlice";
 
 export const postApi = apiSlice.injectEndpoints({
@@ -24,16 +25,6 @@ export const postApi = apiSlice.injectEndpoints({
         // },
       }),
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
-    }),
-
-    deleteComment: builder.mutation({
-      query: ({ commentId,postId }) => ({
-        url: `/comments/comment/${commentId}/${postId}`,
-        method: "DELETE",
-       
-       
-      }),
-      
     }),
 
 
@@ -125,6 +116,66 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    deleteComment: builder.mutation({
+      query: ({ commentId, postId }) => ({
+        url: `/comments/comment/${commentId}/${postId}`,
+        method: "DELETE",
+
+
+      }),
+      async onQueryStarted({ postId, commentId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: postComment } = await queryFulfilled;
+          // console.log('postcomment',postComment);
+          if (postComment?.data?.deletedCount
+          ) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments -= 1;
+              })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+
+                { postId },
+                (draft) => {
+
+                  // const draftPost = draft.data.find((p) => p._id === commentId);
+                  // const isCommentExist = draftPost.indexOf( p._id === commentId);
+                  // const isCommentExist = draft.data.findIndex(p => p._id === commentId) !== -1;
+                  const commentIndex = draft.data.findIndex(p => p._id === commentId);
+
+                  if (commentIndex !== -1) {
+                    // Comment exists, and its index is stored in commentIndex
+                    console.log("Comment exists at index:", commentIndex);
+                    draft.data.splice(commentIndex,1)
+                  } else {
+                    // Comment does not exist
+                    console.log("Comment does not exist.");
+                  }
+                  // console.log('is comment', isCommentExist);
+
+                 
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+
+    editComment: builder.mutation({
+      query: ({ commentId, content }) => ({
+        url: `/comments/comment/${commentId}`,
+        method: "PATCH",
+        body: { content }
+      }),
+    }),
     getComments: builder.query({
       query: ({ postId }) => ({
         url: `/comments/comment/${postId}`,
@@ -142,4 +193,5 @@ export const {
   useGetCommentsQuery,
   useSharePostMutation,
   useDeleteCommentMutation,
+  useEditCommentMutation,
 } = postApi;
