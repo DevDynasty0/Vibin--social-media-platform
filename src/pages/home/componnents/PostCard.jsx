@@ -3,25 +3,10 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import {
-  Button,
-  InputGroup,
-  InputRightElement,
-  Image,
-  Menu,
-  MenuButton,
-  Input,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { Menu, MenuButton } from "@chakra-ui/react";
 import { useState } from "react";
-import {
-  useCreateCommentMutation,
-  useDeleteCommentMutation,
-  useEditCommentMutation,
-  useGetCommentsQuery,
-  useSharePostMutation,
-} from "../../../redux/features/post/postApi";
+import { useSharePostMutation } from "../../../redux/features/post/postApi";
+import ShowComments from "./ShowComments";
 
 const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
   const {
@@ -34,48 +19,10 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
     createdAt,
     contentType,
   } = post || {};
-  const [editCommentMode, setEditCommentMode] = useState(false); // Track if edit mode is enabled for comment
-  const [editedComment, setEditedComment] = useState({content:'',commentId:''});
   const [showComment, setShowComment] = useState(false);
-  const [comment, setComment] = useState("");
-  const [createComment] = useCreateCommentMutation();
   const [sharePost] = useSharePostMutation();
-  const [deleteComment] = useDeleteCommentMutation();
-  const [editComment] = useEditCommentMutation();
-  const { data: commentsDetails } = useGetCommentsQuery(
-    {
-      postId: post._id,
-    },
-    { skip: !showComment }
-  );
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
-
-  const onCommentHandler = () => {
-    createComment({ comment, user: currentUser._id, postId: post._id });
-    setComment("");
-
-  };
-
-  const onCommentDelete = (commentId) => {
-
-
-    deleteComment({ commentId: commentId, postId: post._id })
-
-  }
-  //   const onCommentEdit=(commentId)=>{
-  // editComment({commentId:commentId,postId:post._id})
-  //   }
-
-  const onCommentEdit = (commentId,comment) => {
-    setEditCommentMode(commentId); // Enable edit mode for this comment
-    setEditedComment({...editedComment,content:comment,commentId}); // Set the current comment as the edited comment
-  };
- const onCommentUpdateHandler=()=>{
-editComment(editedComment)
-
- }
-
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
@@ -94,7 +41,6 @@ editComment(editedComment)
             {/* Post action bar */}
 
             <MenuItems></MenuItems>
-
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
@@ -148,11 +94,7 @@ editComment(editedComment)
           <div>
             <p>Likes</p>
           </div>
-          {/* <GoComment className="text-2xl" /> */}
         </div>
-        {/* <span>
-          {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
-        </span> */}
         <div
           onClick={() => setShowComment((c) => !c)}
           className="flex items-center gap-2 cursor-pointer"
@@ -175,110 +117,11 @@ editComment(editedComment)
       <hr />
       {/* post comment */}
       {showComment && (
-        <div className=" px-5 py-3 transition delay-150 duration-300 ease-in-out">
-          <InputGroup size="lg">
-            <Input
-              pr="4.5rem"
-              onChange={(e) => setComment(e.target.value)}
-              type="text"
-              placeholder="Enter your comment"
-              value={comment}
-            />
-            <InputRightElement width="4.5rem">
-              <Button
-                h="2rem"
-                size="lg"
-                bg="#904486"
-                textColor="white"
-                marginEnd="3"
-                onClick={onCommentHandler}
-              >
-                Post
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          {/* show comment */}
-          <hr className="mt-3"></hr>
-          <div className="w-[90%] mt-4 px-5">
-            {commentsDetails?.data?.map((comment) => (
-
-
-              <div key={comment._id}>
-                <div className="flex gap-5  items-start mb-2">
-                  <Image
-                    borderRadius="full"
-                    boxSize="35px"
-                    src={comment.user.avatar}
-                    alt="Dan Abramov"
-                  />
-
-                  <div className="w-full bg-gray-100 rounded-md p-3">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center justify-start gap-4">
-                        <p className="font-bold">{comment.user.fullName}</p>
-                        <p className="text-[12px]">
-                          {moment(comment.createdAt).fromNow()}
-                        </p>
-
-                      </div>
-                      {(currentUser?._id === comment?.user?._id) || (currentUser?._id === post?.user?._id) ?
-                        <div>
-                          <Menu>
-                            <MenuButton>
-                              <FaEllipsis className="text-md" />
-                            </MenuButton>
-                            {/* Post action bar */}
-                            <MenuList minWidth='120px'>
-                              <MenuItem className="" onClick={() => onCommentDelete(comment._id)}>
-                                Delete
-
-                              </MenuItem>
-                              <MenuItem className="" onClick={() => onCommentEdit(comment._id,comment.comment)}>Edit</MenuItem>
-                            </MenuList>
-
-
-                          </Menu>
-                        </div>
-                        : null
-
-                      }
-
-
-                    </div>
-
-
-                    {/*  */}
-
-                    {editCommentMode && editedComment && comment._id === editCommentMode ? (
-                      <InputGroup size="md">
-                        <Input
-                          value={editedComment.content}
-                          onChange={(e) => setEditedComment({content:e.target.value,commentId:comment._id})}
-                          placeholder="Edit your comment"
-                        />
-                        <InputRightElement width="4.5rem">
-                          <Button
-                            h="1.75rem"
-                            size="sm"
-                            bg="#904486"
-                            textColor="white"
-                            onClick={onCommentUpdateHandler}
-                          >
-                            Save
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    ) : (
-                      <p className="mt-2">{comment.comment}</p>
-                    )}
-
-                   
-                  </div>
-                </div>
-              </div>)
-            )}
-          </div>
-        </div>
+        <ShowComments
+          post={post}
+          showComment={showComment}
+          currentUser={currentUser}
+        />
       )}
     </div>
   );
