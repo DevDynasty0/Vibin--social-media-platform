@@ -26,16 +26,16 @@ const Settings = () => {
 
   // const [getCommentNotifications, setCommentNotifications] = useState(true);
 
-  const {user} = useAuthCheck();
+  const { user } = useAuthCheck();
   console.log(user, "__________afafafaff");
 
   const [blockedUsers, setBlockUsers] = useState([]);
 
-  useEffect(()=> {
-        fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`)
-      .then(res => res.json())
-      .then(data => setBlockUsers(data.data))
-  },[user])
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`)
+      .then((res) => res.json())
+      .then((data) => setBlockUsers(data.data));
+  }, [user]);
 
   console.log(blockedUsers);
   // .................//
@@ -76,24 +76,19 @@ const Settings = () => {
       userEmail: userEmail,
       ...userSetting,
     };
-      fetch(
-      `http://localhost:8000/api/v1/settings/update/${userEmail}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    )
-    .then(res => res.json())
-    .then(data => console.log(data))
+    fetch(`http://localhost:8000/api/v1/settings/update/${userEmail}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
-
-
   return (
-    <div className="mt-12">
+    <div className=" mt-10  max-w-4xl mx-auto">
       {/* <div>
         <h1 className="text-xl font-semibold">Settings</h1>
       </div> */}
@@ -201,9 +196,12 @@ const Settings = () => {
                 <BlockedFriendCard></BlockedFriendCard>
                 <BlockedFriendCard></BlockedFriendCard>
                 <BlockedFriendCard></BlockedFriendCard> */}
-                {
-                  blockedUsers.map(blockedUser => <BlockedFriendCard key={blockedUser._id} blockedUser ={blockedUser}></BlockedFriendCard>)
-                }
+                {blockedUsers.map((blockedUser) => (
+                  <BlockedFriendCard
+                    key={blockedUser._id}
+                    blockedUser={blockedUser}
+                  ></BlockedFriendCard>
+                ))}
               </div>
             </AccordionPanel>
           </AccordionItem>

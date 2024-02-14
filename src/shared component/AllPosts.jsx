@@ -4,7 +4,12 @@ import { useLikeMutation } from "../redux/features/post/postApi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const AllPosts = ({ posts, isSuccess, isLoading, MenuItems }) => {
+const AllPosts = ({
+  posts,
+  isSuccess,
+  isLoading,
+  //  MenuItems
+}) => {
   const currentUser = useSelector((state) => state.auth.user);
   const { id } = useParams();
   const [like] = useLikeMutation();
@@ -29,7 +34,7 @@ const AllPosts = ({ posts, isSuccess, isLoading, MenuItems }) => {
         post={post}
         onLikeHandler={() => likeHandler(post._id, id)}
         currentUser={currentUser}
-        MenuItems={MenuItems}
+        // MenuItems={MenuItems}
       ></PostCard>
     ));
   }

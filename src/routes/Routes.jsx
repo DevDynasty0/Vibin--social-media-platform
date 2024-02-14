@@ -51,6 +51,14 @@ const Routes = createBrowserRouter([
         element: <SearchResult />,
       },
       {
+        path: "profile/:id",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "info",
         element: (
           <InfoRouteHandle>
@@ -60,14 +68,7 @@ const Routes = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/profile/:id",
-    element: (
-      <PrivateRoute>
-        <Profile />
-      </PrivateRoute>
-    ),
-  },
+
   {
     path: "/admin",
     element: (
