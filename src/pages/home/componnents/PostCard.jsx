@@ -3,7 +3,7 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import { Menu, MenuButton } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useState } from "react";
 import {
   useLikeMutation,
@@ -12,7 +12,7 @@ import {
 import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 
-const PostCard = ({ post, currentUser, MenuItems }) => {
+const PostCard = ({ post, currentUser }) => {
   const {
     user,
     likes,
@@ -48,9 +48,10 @@ const PostCard = ({ post, currentUser, MenuItems }) => {
             <MenuButton>
               <FaEllipsis className="text-2xl" />
             </MenuButton>
-            {/* Post action bar */}
-
-            <MenuItems></MenuItems>
+            <MenuList>
+              <MenuItem>Save post</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </MenuList>
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>

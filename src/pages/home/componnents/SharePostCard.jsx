@@ -2,14 +2,14 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { GoComment } from "react-icons/go";
 import { PiShareFatThin } from "react-icons/pi";
 import { FaEllipsis } from "react-icons/fa6";
-import { Menu, MenuButton } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import moment from "moment";
 import { useState } from "react";
 import { useLikeMutation } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 
-const SharePostCard = ({ post, MenuItems, currentUser }) => {
+const SharePostCard = ({ post, currentUser }) => {
   const {
     user,
     post: sharedPostData,
@@ -47,7 +47,10 @@ const SharePostCard = ({ post, MenuItems, currentUser }) => {
               <FaEllipsis className="text-2xl" />
             </MenuButton>
             {/* Post action bar */}
-            <MenuItems></MenuItems>
+            <MenuList>
+              <MenuItem>Save post</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </MenuList>
           </Menu>
         </div>
         <div className="border bg-white my-6 shadow-sm rounded min-h-36 flex flex-col justify-between gap-4">

@@ -3,7 +3,12 @@ import { Spinner } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import SharePostCard from "../pages/home/componnents/SharePostCard";
 
-const AllPosts = ({ posts, isSuccess, isLoading, MenuItems }) => {
+const AllPosts = ({
+  posts,
+  isSuccess,
+  isLoading,
+  //  MenuItems
+}) => {
   const currentUser = useSelector((state) => state.auth.user);
 
   let content;
@@ -19,12 +24,7 @@ const AllPosts = ({ posts, isSuccess, isLoading, MenuItems }) => {
     content = posts?.map((post) => {
       if (post?.post) {
         return (
-          <SharePostCard
-            key={post._id}
-            currentUser={currentUser}
-            post={post}
-            MenuItems={MenuItems}
-          />
+          <SharePostCard key={post._id} currentUser={currentUser} post={post} />
         );
       }
       return (
@@ -32,7 +32,6 @@ const AllPosts = ({ posts, isSuccess, isLoading, MenuItems }) => {
           key={post._id}
           post={post}
           currentUser={currentUser}
-          MenuItems={MenuItems}
         ></PostCard>
       );
     });

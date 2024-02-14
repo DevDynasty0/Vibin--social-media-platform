@@ -63,11 +63,13 @@ const LeftSidebar = () => {
           <hr />
           <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
           <hr />
-          <LeftButton
-            onHandleClick={handleLogout}
-            name={"Logout"}
-            icon={MdLogout}
-          />
+          <div onClick={handleLogout}>
+            <LeftButton
+              onHandleClick={handleLogout}
+              name={"Logout"}
+              icon={MdLogout}
+            />
+          </div>
         </div>
       </div>
     </div>

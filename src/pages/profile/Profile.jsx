@@ -6,7 +6,7 @@ import MiddleContent from "./components/middleContent/MiddleContent";
 import { useGetUserByIdQuery } from "../../redux/features/user/userApi";
 import { Spinner } from "@chakra-ui/react";
 import { useGetPostsByUserIdQuery } from "../../redux/features/post/postApi";
-import Navbar from "../../shared component/Navbar";
+import { useSelector } from "react-redux";
 
 export default function Profile() {
   const { id } = useParams();
@@ -15,6 +15,8 @@ export default function Profile() {
     isLoading,
     refetch: refetchUserInfo,
   } = useGetUserByIdQuery(id);
+  const loggedInUser = useSelector((state) => state.auth.user.email);
+
   const {
     data: myPost,
     isLoading: isPostsLoading,
@@ -23,7 +25,6 @@ export default function Profile() {
   } = useGetPostsByUserIdQuery({
     userId: id,
   });
-  // const reversedPosts = myPost ? [...myPost].reverse() : [];
 
   if (isLoading) {
     return (
@@ -34,10 +35,13 @@ export default function Profile() {
   }
   return (
     <div>
-      <Navbar></Navbar>
-      <div className="bg-vibin pt-14 ">
+      <div className="bg-vibin pt-14">
         <div className=" max-w-7xl mx-auto  ">
-          <Cover user={user} refetchUserInfo={refetchUserInfo}></Cover>
+          <Cover
+            user={user}
+            loggedInUser={loggedInUser}
+            refetchUserInfo={refetchUserInfo}
+          ></Cover>
 
           <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  rounded-lg shadow-lg    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
             <div className="w-full -mt-10 h-[70%]  md:col-span-5  lg:col-span-3  ">
@@ -45,6 +49,7 @@ export default function Profile() {
                 user={user}
                 refetchUserInfo={refetchUserInfo}
                 refetchProfilePosts={refetchProfilePosts}
+                loggedInUser={loggedInUser}
               ></LeftContent>
             </div>
 
@@ -56,6 +61,7 @@ export default function Profile() {
                 isLoading={isPostsLoading}
                 isSuccess={isPostsSuccess}
                 refetchUserInfo={refetchUserInfo}
+                loggedInUser={loggedInUser}
               ></MiddleContent>
             </div>
           </div>
