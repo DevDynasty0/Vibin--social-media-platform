@@ -56,7 +56,7 @@ const ShowComments = ({ post, showComment, currentUser }) => {
       </InputGroup>
       {/* show comment */}
       <hr className="mt-3"></hr>
-      <div className="w-[90%] mt-4 px-5">
+      <div className="md:w-[90%] w-full mt-4 md:px-5 px-1">
         {commentsDetails?.data?.map((comment) => (
           <Comment
             key={comment._id}

@@ -72,28 +72,30 @@ const PostCard = ({ post, currentUser }) => {
           loop
           muted
           controls
-          className="mt-2 w-full h-[300px] md:h-[450px]"
+          className="md:mt-2 w-[90%] mx-auto h-[300px] md:h-[450px]"
         >
           Your browser does not support the video tag.
         </video>
       )}
 
-      <div className="flex justify-between w-[90%] mx-auto">
-        <span>
+      <div className="flex justify-between items-center w-[90%] mx-auto">
+        <span className="text-sm md:text-[16px]">
           {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
         </span>
-        <div className="flex gap-5">
+        <div className="flex items-center gap-2 md:gap-5">
           <p>
-            <span className="mr-1">{comments}</span>
-            {comments === 1 ? "Comment" : "Comments"}
+            <span className="mr-1 text-sm md:text-[16px]">
+              {comments}
+              {comments === 1 ? " Comment" : " Comments"}
+            </span>
           </p>
-          <span>
-            {shares} {shares === 1 ? "Share" : "Shares"}
+          <span className="text-sm md:text-[16px]">
+            {shares} {shares === 1 ? " Share" : " Shares"}
           </span>
         </div>
       </div>
-      <div className="mt-2  pb-4 w-[90%] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="mt-2  pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-1 md:gap-2">
           {isLiked !== -1 ? (
             <AiFillLike
               onClick={() => onLikeHandler(post._id, id)}
@@ -111,21 +113,21 @@ const PostCard = ({ post, currentUser }) => {
         </div>
         <div
           onClick={() => setShowComment((c) => !c)}
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-1 md:gap-2 cursor-pointer"
         >
           <button className=" cursor-pointer">
             {" "}
-            <GoComment className="text-xl" />
+            <GoComment className="md:text-2xl text-md" />
           </button>
-          <p>Comment</p>
+          <p className="text-sm md:text-[16px]">Comment</p>
         </div>
 
         <div
           onClick={() => sharePost({ postId: post._id })}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 md:gap-2"
         >
-          <PiShareFatThin className="text-2xl" />
-          <p>Share</p>
+          <PiShareFatThin className="md:text-2xl text-md" />
+          <p className="text-sm md:text-[16px]">Share</p>
         </div>
       </div>
       <hr />
