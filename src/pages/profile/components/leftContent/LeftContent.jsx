@@ -6,7 +6,7 @@ import { FaHome, FaUniversity } from "react-icons/fa";
 export default function LeftContent({
   user,
   refetchUserInfo,
-  refetchProfilePosts,
+  refetchProfilePosts,loggedInUser
 }) {
   const [profileImage, setProfileImage] = useState("");
 
@@ -49,8 +49,8 @@ export default function LeftContent({
           }
           alt="Profile"
         />
-        <div className="bg-gray-400  p-2 rounded-full absolute bottom-[82%] right-20">
-          <label htmlFor="profileUpload" className="">
+       {loggedInUser === user.data.email &&   <> <div className="bg-gray-400  p-2 rounded-full absolute bottom-[82%] right-20">
+      <label htmlFor="profileUpload" className="">
             <IoCamera className="cursor-pointer" />
           </label>
           <input
@@ -60,7 +60,7 @@ export default function LeftContent({
             onChange={handleFileChange}
             style={{ display: "none" }}
           />
-        </div>
+        </div></>}
         <div className="mb-5 mt-3">
           <h2 className="font-bold md:text-2xl text-[10px]">
             {user?.data?.fullName}

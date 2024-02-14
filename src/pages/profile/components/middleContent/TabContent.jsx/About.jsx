@@ -19,13 +19,13 @@ const About = ({ user, refetchUserInfo }) => {
   const [editedValue, setEditedValue] = useState("");
   const [updateUserInfo] = useUpdateUserInfoMutation();
 
-  const handleEditOpen = (type) => {
+  const handleEditOpen = (type,prevValue) => {
     setIsEditOpen(true);
     setEditType(type);
-    setEditedValue(
-      type === editType || type === "dob"
-        ? user?.data?.editedValue || ""
-        : user[type] || ""
+    setEditedValue( prevValue
+      // type === editType || type === "dob"
+      //   ? prevValue || ""
+      //   : user[type] || ""
     );
 
     onOpen();
@@ -53,21 +53,21 @@ const About = ({ user, refetchUserInfo }) => {
       console.error(`Error updating ${editType}:`, error);
     }
   };
-
+console.log('edited',editedValue);
   return (
-    <div className="h-full bg-white py-2 px-4">
-      <p>About</p>
+    <div className="h-full  py-2 px-4">
+
 
       {/* User Name */}
-      <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
+      <div className=" border  shadow-md border-color-one  flex items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center">
           <FaUser></FaUser>
           <p>{user?.data?.fullName} </p>
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("fullName")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("fullName",user?.data?.fullName)}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one  rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "fullName"}
@@ -82,15 +82,15 @@ const About = ({ user, refetchUserInfo }) => {
         </div>
       </div>
       {/* change username */}
-      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+      <div className=" border  shadow-md border-color-one flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center">
           <FaRegCircleUser></FaRegCircleUser>
           <p>{user?.data?.userName || "Add Your Username"} </p>
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("userName")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("userName",user?.data?.userName)}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "userName"}
@@ -105,15 +105,15 @@ const About = ({ user, refetchUserInfo }) => {
         </div>
       </div>
       {/* add bio */}
-      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+      <div className=" border  shadow-md border-color-one  flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <BiMessageError />
           <p>{user?.data?.bio || "Add Bio"} </p>
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("bio")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("bio",user?.data?.bio )}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "bio"}
@@ -127,46 +127,24 @@ const About = ({ user, refetchUserInfo }) => {
           />
         </div>
       </div>
-      {/* religion */}
-      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
-        <div className="p-2 flex gap-5 items-center ">
-          <PiApertureLight></PiApertureLight>
-          <p>{user?.data?.religion || "Add Your Religion"} </p>
-        </div>
 
-        <div className="">
-          <button onClick={() => handleEditOpen("religion")}>
-            <MdModeEdit></MdModeEdit>
-          </button>
-          <CustomModal
-            isOpen={isEditOpen && editType === "religion"}
-            onClose={handleEditClose}
-            // initialRef={editRef}
-            onEdit={handleEdit}
-            value={editedValue}
-            editType="religion"
-            editedValue={editedValue}
-            setEditedValue={setEditedValue}
-          />
-        </div>
-      </div>
       {/* user default email */}
-      <div className="bg-gray-200 flex items-center my-3 justify-between rounded-md px-2">
+      <div className="bg-gray-300 flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <MdEmail></MdEmail>
           <p>{user?.data?.email} </p>
         </div>
       </div>
       {/* User Extra Email */}
-      <div className="bg-blue-200 flex items-center my-3 justify-between rounded-md px-2">
+      <div className=" border  shadow-md border-color-one  flex items-center my-3 justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <MdEmail></MdEmail>
           <p>{user?.data?.extraEmail || "Add Another  Email"} </p>
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("extraEmail")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("extraEmail",user?.data?.extraEmail)}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "extraEmail"}
@@ -181,14 +159,14 @@ const About = ({ user, refetchUserInfo }) => {
         </div>
       </div>
       {/* User Date of Birth */}
-      <div className="bg-blue-200 flex items-center justify-between rounded-md px-2">
+      <div className=" border  shadow-md border-color-one  flex items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <CgCalendarDates></CgCalendarDates>
           <p>{user?.data?.dob || "Add Your Date of Birth"}</p>
         </div>
         <div>
-          <button onClick={() => handleEditOpen("dob")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("dob",user?.data?.dob)}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "dob"}
@@ -204,15 +182,15 @@ const About = ({ user, refetchUserInfo }) => {
       </div>
 
       {/* User University */}
-      <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
+      <div className="border  shadow-md border-color-one  flex my-2 items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <FaUniversity></FaUniversity>
           <p> {user?.data?.university || "Add Your University"}</p>
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("university")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("university",user?.data?.university)}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "university"}
@@ -228,15 +206,15 @@ const About = ({ user, refetchUserInfo }) => {
       </div>
 
       {/* user address */}
-      <div className="bg-blue-200 flex my-2 items-center justify-between rounded-md px-2">
+      <div className=" border  shadow-md border-color-one  flex my-2 items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center ">
           <FaRegAddressCard></FaRegAddressCard>
           <p> {user?.data?.address || "Add Your Address"}</p>
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("address")}>
-            <MdModeEdit></MdModeEdit>
+          <button onClick={() => handleEditOpen("address",user?.data?.address)}>
+            <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
             isOpen={isEditOpen && editType === "address"}

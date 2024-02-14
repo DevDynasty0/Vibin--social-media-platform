@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 
-const Cover = ({ user, refetchUserInfo }) => {
+const Cover = ({ user, refetchUserInfo,loggedInUser }) => {
   const [coverImage, setCoverImage] = useState("");
 
   const handleCoverChange = async (coverImage) => {
@@ -35,7 +35,8 @@ const Cover = ({ user, refetchUserInfo }) => {
 
   return (
     <div className="relative">
-      <div className="w-full bg-gray-300 lg:h-[72vh] md:h-[44vh] h-[32vh] relative">
+      <div className="w-full 
+       lg:h-[72vh] md:h-[44vh] h-[32vh] relative">
         <img
           src={user?.data?.coverImage}
           alt=""
@@ -45,7 +46,7 @@ const Cover = ({ user, refetchUserInfo }) => {
           htmlFor="imageUpload"
           className="absolute bottom-2 right-2 cursor-pointer text-white"
         >
-          <FaEdit className="bg-gray-400 w-7 h-7 p-1 rounded-full"></FaEdit>
+         {loggedInUser === user.data.email && <FaEdit className="bg-gray-400 w-7 h-7 p-1 rounded-full"></FaEdit>}
         </label>
         <input
           type="file"
