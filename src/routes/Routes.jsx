@@ -3,7 +3,6 @@ import MainLayout from "../layouts/MainLayout";
 import Login from "../pages/login/Login";
 import SignUp from "../pages/sign-up/SignUp";
 import Home from "../pages/home/home/Home";
-// import NotFound from "../pages/not-found/NotFound";
 import ErrorPageNew from "../pages/not-found/ErrorPageNew";
 import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
@@ -51,6 +50,14 @@ const Routes = createBrowserRouter([
         element: <SearchResult />,
       },
       {
+        path: "profile/:id",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "info",
         element: (
           <InfoRouteHandle>
@@ -60,14 +67,7 @@ const Routes = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/profile/:id",
-    element: (
-      <PrivateRoute>
-        <Profile />
-      </PrivateRoute>
-    ),
-  },
+
   {
     path: "/admin",
     element: (
