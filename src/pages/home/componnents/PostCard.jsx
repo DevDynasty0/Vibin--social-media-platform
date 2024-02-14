@@ -5,10 +5,14 @@ import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton } from "@chakra-ui/react";
 import { useState } from "react";
-import { useSharePostMutation } from "../../../redux/features/post/postApi";
+import {
+  useLikeMutation,
+  useSharePostMutation,
+} from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
+import { useParams } from "react-router-dom";
 
-const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
+const PostCard = ({ post, currentUser, MenuItems }) => {
   const {
     user,
     likes,
@@ -19,10 +23,16 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
     createdAt,
     contentType,
   } = post || {};
+  const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
+  const [like] = useLikeMutation();
+
+  const onLikeHandler = (postId, userId) => {
+    like({ postId, userId });
+  };
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
@@ -85,14 +95,17 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
         <div className="flex items-center gap-2">
           {isLiked !== -1 ? (
             <AiFillLike
-              onClick={onLikeHandler}
+              onClick={() => onLikeHandler(post._id, id)}
               className="text-2xl text-color-one"
             />
           ) : (
-            <AiOutlineLike onClick={onLikeHandler} className="text-2xl" />
+            <AiOutlineLike
+              onClick={() => onLikeHandler(post._id, id)}
+              className="text-2xl"
+            />
           )}
           <div>
-            <p>Likes</p>
+            <p>Like</p>
           </div>
         </div>
         <div

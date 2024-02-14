@@ -23,7 +23,7 @@ export default function Profile() {
   } = useGetPostsByUserIdQuery({
     userId: id,
   });
-  const reversedPosts = myPost ? [...myPost].reverse() : [];
+  // const reversedPosts = myPost ? [...myPost].reverse() : [];
 
   if (isLoading) {
     return (
@@ -52,7 +52,7 @@ export default function Profile() {
             <div className="md:col-span-5 ">
               <MiddleContent
                 user={user}
-                reversedPosts={reversedPosts}
+                reversedPosts={myPost}
                 isLoading={isPostsLoading}
                 isSuccess={isPostsSuccess}
                 refetchUserInfo={refetchUserInfo}
