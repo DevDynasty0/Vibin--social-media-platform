@@ -6,7 +6,6 @@ import MiddleContent from "./components/middleContent/MiddleContent";
 import { useGetUserByIdQuery } from "../../redux/features/user/userApi";
 import { Spinner } from "@chakra-ui/react";
 import { useGetPostsByUserIdQuery } from "../../redux/features/post/postApi";
-import Navbar from "../../shared component/Navbar";
 import { useSelector } from "react-redux";
 
 export default function Profile() {
@@ -26,9 +25,6 @@ export default function Profile() {
   } = useGetPostsByUserIdQuery({
     userId: id,
   });
-  console.log("uservvvv", user?.data?.email);
-  console.log(loggedInUser);
-  const reversedPosts = myPost ? [...myPost].reverse() : [];
 
   if (isLoading) {
     return (
@@ -39,12 +35,7 @@ export default function Profile() {
   }
   return (
     <div>
-      <div
-        className="bg-vibin
-       pt-14 
-       
-       "
-      >
+      <div className="bg-vibin pt-14">
         <div className=" max-w-7xl mx-auto  ">
           <Cover
             user={user}
@@ -66,7 +57,7 @@ export default function Profile() {
             <div className="md:col-span-5 ">
               <MiddleContent
                 user={user}
-                reversedPosts={reversedPosts}
+                reversedPosts={myPost}
                 isLoading={isPostsLoading}
                 isSuccess={isPostsSuccess}
                 refetchUserInfo={refetchUserInfo}
