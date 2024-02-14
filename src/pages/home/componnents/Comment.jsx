@@ -49,19 +49,20 @@ const Comment = ({ comment, post, currentUser }) => {
 
   return (
     <div key={comment._id}>
-      <div className="flex gap-5  items-start mb-2">
+      <div className="flex md:gap-5 gap-1 items-start mb-2">
         <Image
           borderRadius="full"
-          boxSize="35px"
+          // boxSize="35px"
+          className=" w-8 h-8 md:w-15 md:h-15"
           src={comment.user.avatar}
           alt={comment.user.fullName}
         />
 
-        <div className="w-full bg-gray-100 rounded-md p-3">
+        <div className="w-full bg-gray-100 rounded-md md:p-3 p-1">
           <div className="flex justify-between items-center">
-            <div className="flex items-center justify-start gap-4">
-              <p className="font-bold">{comment.user.fullName}</p>
-              <p className="text-[12px]">
+            <div className="flex  items-center justify-start gap-1 md:gap-4">
+              <p className="font-bold text-[10px] md:text-[15px]">{comment.user.fullName}</p>
+              <p className="text-[7px] md:text-[12px]">
                 {moment(comment.updatedAt).fromNow()}
               </p>
             </div>
@@ -70,7 +71,7 @@ const Comment = ({ comment, post, currentUser }) => {
               <div>
                 <Menu>
                   <MenuButton>
-                    <FaEllipsis className="text-md" />
+                    <FaEllipsis className="md:text-md text-sm " />
                   </MenuButton>
                   {/* Post action bar */}
                   <MenuList minWidth="120px">
@@ -124,7 +125,7 @@ const Comment = ({ comment, post, currentUser }) => {
               </InputRightElement>
             </InputGroup>
           ) : (
-            <p className="mt-2">{comment.comment}</p>
+            <p className="mt-2 text-sm md:text-md ">{comment.comment}</p>
           )}
         </div>
       </div>
