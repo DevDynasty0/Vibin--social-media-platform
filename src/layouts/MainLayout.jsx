@@ -51,7 +51,12 @@ const MainLayout = () => {
           </div>
         )}
 
-        <div className=" mt-16 w-full lg:mx-auto md:w-2/3 md:ml-auto lg:w-3/5 lg:overflow-y-auto p-6    ">
+        <div
+          className={`mt-16 w-full ${
+            !location.pathname.includes("profile") &&
+            "lg:mx-auto md:w-2/3  ml-auto lg:w-3/5 max-w-[850px]"
+          }lg:overflow-y-auto p-6 `}
+        >
           <Outlet />
         </div>
 
