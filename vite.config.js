@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": "http://localhost:8000",
-      // "/api": "https://vibin-c5r0.onrender.com",
+      // "/api": "http://localhost:8000",
     },
   },
   plugins: [react()],
