@@ -3,26 +3,20 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import {
-  Button,
-  InputGroup,
-  InputRightElement,
-  Image,
-  Menu,
-  MenuButton,
-  Input,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { BiShare } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import {
-  useCreateCommentMutation,
-  useDeleteCommentMutation,
-  useGetCommentsQuery,
-  useSharePostMutation,
-} from "../../../redux/features/post/postApi";
+import { useSharePostMutation } from "../../../redux/features/post/postApi";
+import ShowComments from "./ShowComments";
 
-const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
+const PostCard = ({
+  post,
+  currentUser,
+  onLikeHandler,
+
+  // MenuItems
+}) => {
   const {
     user,
     likes,
@@ -34,40 +28,9 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
     contentType,
   } = post || {};
   const [showComment, setShowComment] = useState(false);
-  const [comment, setComment] = useState("");
-  const [createComment] = useCreateCommentMutation();
   const [sharePost] = useSharePostMutation();
-  const[deleteComment]=useDeleteCommentMutation();
-  const { data: commentsDetails } = useGetCommentsQuery(
-    {
-      postId: post._id,
-    },
-    { skip: !showComment }
-  );
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
-
-  const onCommentHandler = () => {
-    createComment({ comment, user: currentUser._id, postId: post._id });
-    setComment("");
-
-  };
-  
-  const onCommentDelete=(commentId)=>{
-   
-    
-      deleteComment({commentId:commentId,postId:post._id})
-
-    
-    
-    
-      
-  }
-  
-  
-  console.log('current user',currentUser._id);
-  console.log('post user',post.user._id);
-  
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
@@ -83,10 +46,10 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
             <MenuButton>
               <FaEllipsis className="text-2xl" />
             </MenuButton>
-            {/* Post action bar */}
-
-            <MenuItems></MenuItems>
-
+            <MenuList>
+              <MenuItem>Save post</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </MenuList>
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
@@ -107,143 +70,67 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
           loop
           muted
           controls
-          className="mt-2 w-full h-[300px] md:h-[450px]"
+          className="md:mt-2 w-[90%] mx-auto h-[300px] md:h-[450px]"
         >
           Your browser does not support the video tag.
         </video>
       )}
 
-      <div className="flex justify-between w-[90%] mx-auto">
-        <span>
+      <div className="flex justify-between items-center w-[90%] mx-auto">
+        <span className="text-sm md:text-[16px]">
           {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
         </span>
-        <div className="flex gap-5">
+        <div className="flex items-center gap-2 md:gap-5">
           <p>
-            <span className="mr-1">{comments}</span>
-            {comments === 1 ? "Comment" : "Comments"}
+            <span className="mr-1 text-sm md:text-[16px]">{comments}
+            {comments === 1 ? " Comment" : " Comments"}</span>
           </p>
-          <span>
-            {shares} {shares === 1 ? "Share" : "Shares"}
+          <span className="text-sm md:text-[16px]">
+            {shares} {shares === 1 ? " Share" : " Shares"}
           </span>
         </div>
       </div>
-      <div className="mt-2  pb-4 w-[90%] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="mt-2  pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-1 md:gap-2">
           {isLiked !== -1 ? (
             <AiFillLike
               onClick={onLikeHandler}
               className="text-2xl text-color-one"
             />
           ) : (
-            <AiOutlineLike onClick={onLikeHandler} className="text-2xl" />
+            <AiOutlineLike onClick={onLikeHandler} className="md:text-2xl text-md" />
           )}
           <div>
-            <p>Likes</p>
+            <p className="text-sm md:text-[16px]">Likes</p>
           </div>
-          {/* <GoComment className="text-2xl" /> */}
         </div>
-        {/* <span>
-          {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
-        </span> */}
         <div
           onClick={() => setShowComment((c) => !c)}
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-1 md:gap-2 cursor-pointer"
         >
           <button className=" cursor-pointer">
             {" "}
-            <GoComment className="text-xl" />
+            <GoComment className="md:text-2xl text-md"  />
           </button>
-          <p>Comment</p>
+          <p className="text-sm md:text-[16px]">Comment</p>
         </div>
 
         <div
           onClick={() => sharePost({ postId: post._id })}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 md:gap-2"
         >
-          <PiShareFatThin className="text-2xl" />
-          <p>Share</p>
+          <PiShareFatThin className="md:text-2xl text-md"  />
+          <p className="text-sm md:text-[16px]">Share</p>
         </div>
       </div>
       <hr />
       {/* post comment */}
       {showComment && (
-        <div className=" px-5 py-3 transition delay-150 duration-300 ease-in-out">
-          <InputGroup size="lg">
-            <Input
-              pr="4.5rem"
-              onChange={(e) => setComment(e.target.value)}
-              type="text"
-              placeholder="Enter your comment"
-              value={comment}
-            />
-            <InputRightElement width="4.5rem">
-              <Button
-                h="2rem"
-                size="lg"
-                bg="#904486"
-                textColor="white"
-                marginEnd="3"
-                onClick={onCommentHandler}
-              >
-                Post
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          {/* show comment */}
-          <hr className="mt-3"></hr>
-          <div className="w-[90%] mt-4 px-5">
-            {commentsDetails?.data?.map((comment) => (
-
-            
-              <div key={comment._id}>
-                <div className="flex gap-5  items-start mb-2">
-                  <Image
-                    borderRadius="full"
-                    boxSize="35px"
-                    src={comment.user.avatar}
-                    alt="Dan Abramov"
-                  />
-
-                  <div className="w-full bg-gray-100 rounded-md p-3">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center justify-start gap-4">
-                        <p className="font-bold">{comment.user.fullName}</p>
-                        <p className="text-[12px]">
-                          {moment(comment.createdAt).fromNow()}
-                        </p>
-
-                      </div>
-                     { (currentUser?._id === comment?.user?._id )||(currentUser?._id ===post?.user?._id) ?
-                     <div>
-                     <Menu>
-                       <MenuButton>
-                         <FaEllipsis className="text-md" />
-                       </MenuButton>
-                       {/* Post action bar */}
-                       <MenuList minWidth='120px'>
-                         <MenuItem className="" onClick={()=>onCommentDelete(comment._id)}>
-                           Delete
-
-                         </MenuItem>
-                         <MenuItem>Edit</MenuItem>
-                       </MenuList>
-
-
-                     </Menu>
-                   </div>
-                   : null
-      
-                     } 
-
-    
-                    </div>
-                    <p className="mt-2">{comment.comment}</p>
-                  </div>
-                </div>
-              </div>)
-            )}
-          </div>
-        </div>
+        <ShowComments
+          post={post}
+          showComment={showComment}
+          currentUser={currentUser}
+        />
       )}
     </div>
   );

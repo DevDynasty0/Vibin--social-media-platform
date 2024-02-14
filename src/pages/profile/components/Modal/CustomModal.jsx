@@ -21,7 +21,7 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValu
     await onEdit(editedValue);
     onClose();
   };
-
+console.log('editedvalue',editedValue);
   // Reset the edited value when the modal is opened
   useEffect(() => {
     setEditedValue(editedValue);

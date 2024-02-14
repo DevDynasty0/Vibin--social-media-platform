@@ -26,20 +26,6 @@ export const postApi = apiSlice.injectEndpoints({
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
 
-    deleteComment: builder.mutation({
-      query: ({ commentId,postId }) => ({
-        url: `/comments/comment/${commentId}/${postId}`,
-        method: "DELETE",
-       
-       
-      }),
-      
-    }),
-
-
-
-
-
     like: builder.mutation({
       query: ({ postId }) => ({
         url: `/posts/like/${postId}`,
@@ -125,6 +111,78 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    deleteComment: builder.mutation({
+      query: ({ commentId, postId }) => ({
+        url: `/comments/comment/${commentId}/${postId}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted(
+        { postId, commentId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: postComment } = await queryFulfilled;
+          if (postComment?.data?.deletedCount) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments -= 1;
+              })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+                { postId },
+                (draft) => {
+                  const commentIndex = draft.data.findIndex(
+                    (p) => p._id === commentId
+                  );
+                  if (commentIndex !== -1) {
+                    draft.data.splice(commentIndex, 1);
+                  }
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+
+    editComment: builder.mutation({
+      query: ({ commentId, content }) => ({
+        url: `/comments/comment/${commentId}`,
+        method: "PATCH",
+        body: { content },
+      }),
+      async onQueryStarted(
+        { commentId, postId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: editedComment } = await queryFulfilled;
+          if (editedComment?.data?._id) {
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+                { postId },
+                (draft) => {
+                  const findEditedComment = draft.data.find(
+                    (c) => c._id === commentId
+                  );
+                  findEditedComment.comment = editedComment.data.comment;
+                  findEditedComment.updatedAt = editedComment.data.updatedAt;
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
     getComments: builder.query({
       query: ({ postId }) => ({
         url: `/comments/comment/${postId}`,
@@ -142,4 +200,5 @@ export const {
   useGetCommentsQuery,
   useSharePostMutation,
   useDeleteCommentMutation,
+  useEditCommentMutation,
 } = postApi;

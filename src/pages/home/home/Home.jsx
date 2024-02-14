@@ -17,17 +17,8 @@ console.log(posts,"posts_______________________________________");
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const MenuItems = () => {
-    return (
-      <MenuList>
-        <MenuItem>Save post</MenuItem>
-        <MenuItem>Share</MenuItem>
-      </MenuList>
-    );
-  };
-
   return (
-    <section className="w-full max-w-[600px] mx-auto">
+    <section className="w-full max-w-[70%] mx-auto">
       <AddNewPostCard
         caption={caption}
         setCaption={setCaption}
@@ -46,7 +37,7 @@ console.log(posts,"posts_______________________________________");
         onClose={onClose}
       />
       <AllPosts
-        MenuItems={MenuItems}
+        // MenuItems={MenuItems}
         posts={posts}
         isLoading={isLoading}
         isSuccess={isSuccess}
