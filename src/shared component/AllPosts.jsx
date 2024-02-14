@@ -1,8 +1,7 @@
 import PostCard from "../pages/home/componnents/PostCard";
 import { Spinner } from "@chakra-ui/react";
-import { useLikeMutation } from "../redux/features/post/postApi";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import SharePostCard from "../pages/home/componnents/SharePostCard";
 
 const AllPosts = ({
   posts,
@@ -11,12 +10,6 @@ const AllPosts = ({
   //  MenuItems
 }) => {
   const currentUser = useSelector((state) => state.auth.user);
-  const { id } = useParams();
-  const [like] = useLikeMutation();
-
-  const likeHandler = (postId, userId) => {
-    like({ postId, userId });
-  };
 
   let content;
   if (isLoading) {
@@ -28,15 +21,20 @@ const AllPosts = ({
   }
 
   if (!isLoading && isSuccess) {
-    content = posts?.map((post) => (
-      <PostCard
-        key={post._id}
-        post={post}
-        onLikeHandler={() => likeHandler(post._id, id)}
-        currentUser={currentUser}
-        // MenuItems={MenuItems}
-      ></PostCard>
-    ));
+    content = posts?.map((post) => {
+      if (post?.post) {
+        return (
+          <SharePostCard key={post._id} currentUser={currentUser} post={post} />
+        );
+      }
+      return (
+        <PostCard
+          key={post._id}
+          post={post}
+          currentUser={currentUser}
+        ></PostCard>
+      );
+    });
   }
 
   return <div className="mt-5 grid grid-cols-1 gap-5">{content}</div>;
