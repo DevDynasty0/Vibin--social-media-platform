@@ -3,7 +3,6 @@ import useAuthCheck from "../hooks/useAuthCheck";
 import avatar from "../assets/images/avatar.png";
 import { IoArrowUndoOutline } from "react-icons/io5";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import { IoSend } from "react-icons/io5";
 
@@ -14,10 +13,7 @@ import {
 } from "../redux/features/chat/chatApi";
 import ChatBox from "./ChatBox";
 
-const ENDPOINT = "http://localhost:8000";
-
-let socket, selectedChatCompare;
-const MessagingModal = () => {
+const MessagingModal = ({ socket, userData }) => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -25,17 +21,9 @@ const MessagingModal = () => {
     "w-[40px] border border-[#904486]  h-[40px] rounded";
   const messageFromOutsideShow = " p-1 text-sm w-[77%] md:w-[82%] ";
 
-  const userData = useSelector((state) => state.auth.user);
-  const [socketConnected, setSocketConnected] = useState(false);
   const { data: allChats } = useGetConversationsQuery(userData?._id);
 
   const [currentChatId, setCurrentChatId] = useState("");
-
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", userData);
-    socket.on("connection", () => setSocketConnected(true));
-  }, [userData, setSocketConnected]);
 
   // console.log(messeges);
 
@@ -116,7 +104,10 @@ const MessagingModal = () => {
                             setIsChatOpen(!isChatOpen);
                             setCurrentChatId(chat._id);
 
-                            socket.emit("join chat", "Say hello room 1121");
+                            socket.emit(
+                              "join chat",
+                              `${receiver.fullName} joined the room`
+                            );
                           }}
                           className="items-center flex  w-14"
                         >

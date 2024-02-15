@@ -1,18 +1,33 @@
 import { Outlet, useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
 
 import "../styles/color.css";
 import Navbar from "../shared component/Navbar";
 import LeftSidebar from "../shared component/LeftSidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SuggestedUsers from "../shared component/SuggestedUsers";
 import { useGetSearchResultQuery } from "../redux/features/user/userApi";
 import TestMessages from "../hooks/TestMessages";
 import MessagingModal from "../shared component/MessagingModal";
+import { useSelector } from "react-redux";
+
+const ENDPOINT = "http://localhost:8000";
+
+let socket, selectedChatCompare;
 const MainLayout = () => {
+  const userData = useSelector((state) => state.auth.user);
+
+  const [socketConnected, setSocketConnected] = useState(false);
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", userData);
+    socket.on("connection", () => setSocketConnected(true));
+  }, [userData, setSocketConnected]);
+
   const [left, setLeft] = useState(false);
   const [right, setRight] = useState(false);
   const [notification, setNotification] = useState(false);
-  const [modalType, setModalType] = useState("");
   const [showResults, setShowResults] = useState(false);
 
   const [searchInput, setSearchInput] = useState("");
@@ -23,7 +38,7 @@ const MainLayout = () => {
   } = useGetSearchResultQuery(searchInput);
   console.log(searchResults?.users?.slice(0, 4));
   const location = useLocation();
-  console.log(location);
+
   return (
     <div className="gradient-two ">
       <Navbar
@@ -51,7 +66,12 @@ const MainLayout = () => {
           </div>
         )}
 
-        <div className=" mt-16 w-full lg:mx-auto md:w-2/3 md:ml-auto lg:w-3/5 lg:overflow-y-auto p-6    ">
+        <div
+          className={`mt-16 w-full ${
+            !location.pathname.includes("profile") &&
+            "lg:mx-auto md:w-2/3  ml-auto lg:w-3/5 max-w-[850px]"
+          }lg:overflow-y-auto p-6 `}
+        >
           <Outlet />
         </div>
 
@@ -67,7 +87,7 @@ const MainLayout = () => {
           </div>
         )}
       </div>
-      <MessagingModal></MessagingModal>
+      <MessagingModal socket={socket} userData={userData}></MessagingModal>
     </div>
   );
 };

@@ -106,7 +106,10 @@ const ChatBox = ({
 
             <div>
               {/* <!-- Card --> */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-4 space-y-3 dark:bg-slate-900 dark:border-gray-700">
+              <div
+                className="bg-white border border-gray-200 rounded-xl px-4 py-2
+               space-y-3 dark:bg-slate-900 dark:border-gray-700"
+              >
                 <div className="space-y-1.5">
                   <p className="mb-1.5 text-sm text-gray-800 dark:text-white">
                     {message.message}
