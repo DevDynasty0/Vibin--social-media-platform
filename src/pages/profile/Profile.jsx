@@ -35,8 +35,11 @@ export default function Profile() {
   }
   return (
     <div>
+
+      
       <div className="bg-vibin pt-14">
         <div className=" max-w-7xl mx-auto  ">
+
           <Cover
             user={user}
             loggedInUser={loggedInUser}

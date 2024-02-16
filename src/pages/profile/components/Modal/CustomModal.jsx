@@ -1,9 +1,29 @@
 // CustomModal.js
 
-import { Button, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Input, ModalFooter } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Input,
+  ModalFooter,
+} from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
-const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValue, setEditedValue }) => {
+const CustomModal = ({
+  isOpen,
+  onClose,
+  initialRef,
+  onEdit,
+  editType,
+  editedValue,
+  setEditedValue,
+}) => {
   const finalRef = React.useRef(null);
 
   // Set the initial date value to the previous date from today
@@ -21,7 +41,7 @@ const CustomModal = ({ isOpen, onClose, initialRef, onEdit, editType, editedValu
     await onEdit(editedValue);
     onClose();
   };
-console.log('editedvalue',editedValue);
+  console.log("editedvalue", editedValue);
   // Reset the edited value when the modal is opened
   useEffect(() => {
     setEditedValue(editedValue);
@@ -30,8 +50,8 @@ console.log('editedvalue',editedValue);
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
