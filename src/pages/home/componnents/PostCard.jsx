@@ -11,6 +11,8 @@ import {
 } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
+import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
+import { useSelector } from "react-redux";
 
 const PostCard = ({ post, currentUser }) => {
   const {
@@ -29,9 +31,20 @@ const PostCard = ({ post, currentUser }) => {
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
   const [like] = useLikeMutation();
+  const [createNotification] = useCreateNotificationMutation()
+  const userData = useSelector((state) => state.auth.user);
+  console.log('post....',post);
 
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
+    const data = {
+      postId:postId,
+      receiverId: user._id,
+        senderId: userData?._id,
+        message: `${userData?.fullName} liked your post.`,
+        contentType: "postLike"
+    }
+    createNotification(data)
   };
 
   return (

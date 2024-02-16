@@ -4,9 +4,9 @@ import { useGetNotificationsByUserIdQuery } from "../redux/features/notification
 import { useSelector } from "react-redux";
 
 const NotificationsModal = ({ notification }) => {
-  const userData = useSelector((state) => state.auth.user);
- const {data} = useGetNotificationsByUserIdQuery(userData?._id)
- console.log(data);
+//   const userData = useSelector((state) => state.auth.user);
+//  const {data} = useGetNotificationsByUserIdQuery(userData?._id)
+//  console.log(data);
   return (
     <div
       className={`${

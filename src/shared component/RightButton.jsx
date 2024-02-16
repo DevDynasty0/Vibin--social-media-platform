@@ -4,10 +4,14 @@ import { NavLink } from "react-router-dom";
 import avatar from "../assets/images/avatar.png";
 import { followUser } from "../hooks/followUser";
 import useAuthCheck from "../hooks/useAuthCheck";
+import { useCreateNotificationMutation } from "../redux/features/notification/notificationApi";
+import { useSelector } from "react-redux";
 
 const RightButton = ({ person }) => {
   const { user } = useAuthCheck();
   const [follow, setFollow] = useState([]);
+  const userData = useSelector((state) => state.auth.user);
+  const [createNotification] = useCreateNotificationMutation()
 
   const handleFollow = async (id) => {
     setFollow([...follow, id]);
@@ -16,6 +20,16 @@ const RightButton = ({ person }) => {
     console.log(follower, "you");
     const res = await followUser(profile, follower);
     console.log(res);
+    const data = {
+    
+      receiverId: profile,
+        senderId: follower,
+        message: `${userData?.fullName} followed you.`,
+        contentType: "follow"
+    }
+    createNotification(data)
+  
+
   };
 
   return (
