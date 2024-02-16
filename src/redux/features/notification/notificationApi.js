@@ -13,9 +13,21 @@ export const notificationApi = apiSlice.injectEndpoints({
                 method:'GET'
             }),
         }),
+        createNotification: builder.mutation({
+            query: (newNotification) => ({
+              url: "/notifications/create-notification",
+              method: "POST",
+              body: newNotification,
+              // headers: {
+              //   "Content-Type": "multipart/form-data",
+              // },
+            }),
+            // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
+          }),
     })
 })
 export const {
 useGetNotificationsByUserIdQuery,
+useCreateNotificationMutation
 
 } = notificationApi

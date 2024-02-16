@@ -191,7 +191,7 @@ const Navbar = ({
                         boxSize="2rem"
                         borderRadius="full"
                         src="https://placekitten.com/100/100"
-                        alt="Fluffybuns the destroyer"
+                        alt="Avatar"
                         mr="12px"
                       />
                       <span>{notification?.message}</span>
