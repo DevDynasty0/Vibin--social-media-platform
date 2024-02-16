@@ -12,10 +12,19 @@ import SearchButton from "./SearchButton";
 
 import avatar from "../assets/images/avatar.png";
 import { NavLink, useNavigate } from "react-router-dom";
+import {
+  Button,
+  IconButton,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { IoNotifications } from "react-icons/io5";
 const Navbar = ({
   left,
   setLeft,
-  right,
   setRight,
   searchInput,
   setSearchInput,
@@ -156,8 +165,31 @@ const Navbar = ({
             <div className=" hover:text-white  bg-gray-50 shadow-md     text-color-one rounded   p-1  ">
               <FaRegMessage />
             </div>
-            <div className=" hover:text-white shadow-md  bg-gray-50    text-color-one rounded   p-1  ">
-              <FaRegBell />
+            <div className=" shadow-md     text-color-one rounded   p-1  ">
+              <Menu>
+                <MenuButton
+                  variant="outline"
+                  as={IconButton}
+                  // aria-label="Options"
+                  icon={<IoNotifications />}
+                  color={"color-one"}
+                  bgColor={"white"}
+                >
+                  {/* Notifications */}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem minH="48px">
+                    <Image
+                      boxSize="2rem"
+                      borderRadius="full"
+                      src="https://placekitten.com/100/100"
+                      alt="Fluffybuns the destroyer"
+                      mr="12px"
+                    />
+                    <span>Fluffybuns the Destroyer</span>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </div>
 
             {/* <FaUserCircle
@@ -192,29 +224,6 @@ const Navbar = ({
           </div>
         </div>
       </nav>
-
-      {/* <Drawer
-        blockScrollOnMount={false}
-        isOpen={isOpen}
-        placement="top"
-        onClose={onClose}
-        isFullHeight={false}
-        // finalFocusRef={btnRef}
-      >
-        <DrawerContent
-          height={"60vh"}
-          marginTop={"48px"}
-          width={"350px"}
-          marginLeft={"auto"}
-        >
-          <DrawerHeader borderBottomWidth="1px">Notifications</DrawerHeader>
-          <DrawerBody>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer> */}
     </>
   );
 };
