@@ -36,7 +36,7 @@ const MainLayout = () => {
     isLoading,
     isSuccess,
   } = useGetSearchResultQuery(searchInput);
-  console.log(searchResults?.users?.slice(0, 4));
+  // console.log(searchResults?.users?.slice(0, 4));
   const location = useLocation();
 
   return (
