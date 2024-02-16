@@ -71,7 +71,7 @@ const PostCard = ({ post, currentUser }) => {
       </div>
       {postContent && contentType == "image" && (
         <img
-          className=" w-[90%] mx-auto h-[300px] md:h-[450px]"
+          className=" w-[90%]  mx-auto"
           src={postContent}
           alt=""
         />

@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { FaMagnifyingGlass, FaRegMessage, FaXmark } from "react-icons/fa6";
 import SearchButton from "./SearchButton";
+import notificationAvatar from '../assets/images/avatar.png'
 
 import avatar from "../assets/images/avatar.png";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -39,9 +40,9 @@ const Navbar = ({
 
   const userData = useSelector((state) => state.auth.user);
   const { data } = useGetNotificationsByUserIdQuery(userData?._id)
-  //  console.log(data.data[0].message);
+   console.log(data);
   const notificationData = data?.data
-  console.log(notificationData);
+  // console.log(notificationData);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -190,7 +191,8 @@ const Navbar = ({
                       <Image
                         boxSize="2rem"
                         borderRadius="full"
-                        src="https://placekitten.com/100/100"
+                        // src={notificationData?.senderId?.avatar ? notificationData?.senderId?.avatar : 'https://placekitten.com/100/100'}
+                        src= {notification?.senderId?.avatar || notificationAvatar}
                         alt="Avatar"
                         mr="12px"
                       />
