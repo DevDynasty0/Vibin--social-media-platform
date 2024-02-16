@@ -22,6 +22,8 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { IoNotifications } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { useGetNotificationsByUserIdQuery } from "../redux/features/notification/notificationApi";
 const Navbar = ({
   left,
   setLeft,
@@ -34,6 +36,12 @@ const Navbar = ({
 }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
+
+  const userData = useSelector((state) => state.auth.user);
+  const { data } = useGetNotificationsByUserIdQuery(userData?._id)
+  //  console.log(data.data[0].message);
+  const notificationData = data?.data
+  console.log(notificationData);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -86,9 +94,8 @@ const Navbar = ({
                   setSearchInput(searchInput);
                   setShowResults(true);
                 }}
-                className={`${
-                  searchInput.length > 0 && showResults ? "absolute" : "hidden"
-                } bg-white top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
+                className={`${searchInput.length > 0 && showResults ? "absolute" : "hidden"
+                  } bg-white top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
               >
                 <div className="text-lg font-medium mx-2 mt-0.5">
                   Search results
@@ -96,23 +103,23 @@ const Navbar = ({
                 <ul className="p-2">
                   {searchResults?.users.length > 0
                     ? searchResults?.users?.slice(0, 4)?.map((user) => (
-                        <div
-                          onClick={() => {
-                            setShowResults(true);
-                            navigate(`/profile/${user?._id}`);
-                          }}
-                          key={user._id}
-                          className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
-                        >
-                          <img
-                            src={user?.avatar ? user?.avatar : avatar}
-                            alt=""
-                            className="w-12 h-10  rounded    "
-                          />
-                          <li>{user?.fullName}</li>
-                          <FaMagnifyingGlass className="ml-auto text-gray-500" />
-                        </div>
-                      ))
+                      <div
+                        onClick={() => {
+                          setShowResults(true);
+                          navigate(`/profile/${user?._id}`);
+                        }}
+                        key={user._id}
+                        className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
+                      >
+                        <img
+                          src={user?.avatar ? user?.avatar : avatar}
+                          alt=""
+                          className="w-12 h-10  rounded    "
+                        />
+                        <li>{user?.fullName}</li>
+                        <FaMagnifyingGlass className="ml-auto text-gray-500" />
+                      </div>
+                    ))
                     : "No matched results"}
                 </ul>
 
@@ -178,17 +185,20 @@ const Navbar = ({
                   {/* Notifications */}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem minH="48px">
-                    <Image
-                      boxSize="2rem"
-                      borderRadius="full"
-                      src="https://placekitten.com/100/100"
-                      alt="Fluffybuns the destroyer"
-                      mr="12px"
-                    />
-                    <span>Fluffybuns the Destroyer</span>
-                  </MenuItem>
+                  {notificationData?.map((notification, index) => (
+                    <MenuItem key={index} minH="48px">
+                      <Image
+                        boxSize="2rem"
+                        borderRadius="full"
+                        src="https://placekitten.com/100/100"
+                        alt="Fluffybuns the destroyer"
+                        mr="12px"
+                      />
+                      <span>{notification?.message}</span>
+                    </MenuItem>
+                  ))}
                 </MenuList>
+
               </Menu>
             </div>
 
