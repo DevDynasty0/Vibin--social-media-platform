@@ -12,7 +12,10 @@ import PublicRoute from "./PublicRoute";
 import Info from "../pages/info/Info";
 import InfoRouteHandle from "./InfoRouteHandle";
 import SearchResult from "../pages/search/SearchResult";
-import AdminDashboard from "../pages/admin-dashboard/AdminDashboard";
+import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
+import AdminDashboard from "../pages/adminDashboardPages/adminDashboard/AdminDashboard";
+import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
+import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
 
 const Routes = createBrowserRouter([
   {
@@ -72,9 +75,23 @@ const Routes = createBrowserRouter([
     path: "/admin",
     element: (
       <PrivateRoute>
-        <AdminDashboard />
+        <AdminDashboardLayout />
       </PrivateRoute>
     ),
+    children : [
+      {
+        path : "/admin",
+        element : <AdminDashboard/>
+      },
+      {
+        path : "/admin/allUsers",
+        element : <AllUsers/>
+      },
+      {
+        path : "/admin/suspendedUsers",
+        element : <SuspendedUsers/>
+      }
+    ]
   },
   {
     path: "/login",

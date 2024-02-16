@@ -1,153 +1,39 @@
-import { useState } from "react";
-import { IoMdPeople } from "react-icons/io";
-import { IoBook, IoFileTray } from "react-icons/io5";
-import "../../styles/color.css";
-import {
-  MdAddReaction,
-  MdAdminPanelSettings,
-  MdArrowCircleLeft,
-  MdArrowCircleRight,
-  MdHelpCenter,
-  MdLogout,
-  MdPeople,
-  MdPostAdd,
-} from "react-icons/md";
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const AdminDashboard = () => {
-  const user = useSelector((state) => state.auth.user);
-  const [open, setOpen] = useState(false);
+
+  const [users, setUsers] = useState([]);
+
+  const [ postsCount, setPostsCount ] = useState(0);
+
+  const [ suspendedUsers, setSuspendedUsers ] = useState([]);
+
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
+      .then((res) => res.json())
+      .then((data) => setUsers(data.data));
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`)
+      .then((res) => res.json())
+      .then((data) => setPostsCount(data.data));
+  }, []);
+
+  useEffect(()=> {
+    const fetchSuspendedUsers = async () => {
+        const res = await axios.get('http://localhost:8000/api/v1/admin/getSuspendUsers')
+        setSuspendedUsers(res.data.data);
+    }
+    fetchSuspendedUsers();
+},[])
+
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      {/*  Header */}
-
-      <div
-        className="bg-blue-800
- text-white shadow w-full p-2 flex items-center justify-between"
-      >
-        <div className="flex items-center justify-start gap-5 w-full">
-          <div className="  flex items-center w-full">
-            <img
-              src={user?.avatar}
-              alt="Logo"
-              className="w-14 h-12 mr-2 rounded-md"
-            />
-            <h2 className="hidden md:block font-bold text-2xl">
-              {user?.fullName}
-            </h2>
-          </div>
-          <div className="  max-w-md w-full   ">
-            <input
-              className="w-full  h-10 pl-10 pr-4 py-1 text-base
-               placeholder-gray-500 border rounded focus:shadow-outline "
-              type="search"
-              placeholder="Search..."
-            />
-          </div>
-          <div className="w-32  text-center p-2 border-l-2 border-white inline-flex items-center gap-2 justify-end">
-            <MdLogout />
-            Logout
-          </div>
-        </div>
-
-        {/* <!-- Ícono de Notificación y Perfil --> */}
-        <div className="space-x-5">
-          <button>
-            <i className="fas fa-bell text-gray-500 text-lg"></i>
-          </button>
-          {/* <!-- Botón de Perfil --> */}
-          <button>
-            <i className="fas fa-user text-gray-500 text-lg"></i>
-          </button>
-        </div>
-      </div>
-
-      {/* <!-- gray background--> */}
-      <div
-        onDoubleClick={() => setOpen(!open)}
-        className="flex-1 flex  relative "
-      >
-        {/*sidebar arrow for md: */}
-        <MdArrowCircleRight
-          onClick={() => setOpen(!open)}
-          size={"2rem"}
-          className="text-gray-50 absolute left-0  lg:hidden"
-        />
-        <div
-          className={`p-2 bg-blue-800
- w-60 flex flex-col lg:static    absolute  h-full z-50 transition-all duration-300  ${
-   open ? "left-0" : "-left-60"
- }  `}
-          id="sideNav"
-        >
-          <div>
-            <MdArrowCircleLeft
-              onClick={() => setOpen(!open)}
-              size={"2rem"}
-              color="white"
-              className="ml-auto lg:hidden"
-            />
-          </div>
-          <nav className="   ">
-            <a
-              className="inline-flex items-center gap-2 text-gray-50 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white"
-              href="#"
-            >
-              <MdAdminPanelSettings size={"2rem"} />
-              Admin
-            </a>
-            <a
-              className="inline-flex items-center gap-2 text-gray-50 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white"
-              href="#"
-            >
-              <MdAddReaction size={"2rem"} />
-              Total Interactions
-            </a>
-            <a
-              className="inline-flex items-center gap-2 text-gray-50 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white"
-              href="#"
-            >
-              <IoMdPeople size={"2rem"} />
-              All Users
-            </a>
-            <a
-              className="inline-flex items-center gap-2 text-gray-50 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white"
-              href="#"
-            >
-              <IoBook size={"2rem"} />
-              All Posts
-            </a>
-            <a
-              className="inline-flex items-center gap-2 text-gray-50 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white"
-              href="#"
-            >
-              <MdHelpCenter size={"2rem"} />
-              Help Center Issues
-            </a>
-          </nav>
-
-          {/* <!--bottom items in sidebar--> */}
-
-          <a
-            className="block   py-2.5 px-4 my-4 rounded transition duration-200 bg-white font-medium  hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white mt-auto "
-            href="#"
-          >
-            Back To Newsfeed{" "}
-          </a>
-
-          {/* <!-- Señalador de ubicación --> */}
-          <div className="bg-gradient-to-r from-blue-200 to-blue-600 h-px  "></div>
-
-          {/* <!-- Copyright al final de la navegación lateral --> */}
-          <p className="mb-1 px-5 py-3 text-left text-xs text-gray-300 ">
-            Copyright WCSLAT@2023
-          </p>
-        </div>
-
-        {/* <!-- Área de contenido principal --> */}
-        <div className="flex-1 p-4">
-          {/*   Stats card */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
+   <div>
+    {/*   Stats card */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-4">
             <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
               <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
                 <svg
@@ -167,7 +53,7 @@ const AdminDashboard = () => {
                 </svg>
               </div>
               <div className="text-right">
-                <p className="text-2xl">1,157</p>
+                <p className="text-2xl">{users.length}</p>
                 <p>Total Users</p>
               </div>
             </div>
@@ -190,7 +76,7 @@ const AdminDashboard = () => {
                 </svg>
               </div>
               <div className="text-right">
-                <p className="text-2xl">557</p>
+                <p className="text-2xl">{postsCount}</p>
                 <p>Total Posts</p>
               </div>
             </div>
@@ -213,8 +99,8 @@ const AdminDashboard = () => {
                 </svg>
               </div>
               <div className="text-right">
-                <p className="text-2xl"> 157</p>
-                <p>Reported Users</p>
+                <p className="text-2xl">{suspendedUsers?.length}</p>
+                <p>Suspended Users</p>
               </div>
             </div>
             <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
@@ -538,9 +424,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+   </div>
   );
 };
 
