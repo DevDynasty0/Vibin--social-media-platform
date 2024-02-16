@@ -1,6 +1,6 @@
 import { useGetPostsQuery } from "../../../redux/features/post/postApi";
 import AddNewPostCard from "../componnents/AddNewPostCard";
-import { MenuItem, MenuList, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import AddNewPostModal from "../componnents/AddNewPostModal";
 import { useState } from "react";
 import AllPosts from "../../../shared component/AllPosts";
@@ -12,7 +12,7 @@ const Home = () => {
     isSuccess,
     refetch: postsRefetch,
   } = useGetPostsQuery();
-
+console.log(posts,"posts_______________________________________");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
@@ -36,12 +36,7 @@ const Home = () => {
         onOpen={onOpen}
         onClose={onClose}
       />
-      <AllPosts
-        // MenuItems={MenuItems}
-        posts={posts}
-        isLoading={isLoading}
-        isSuccess={isSuccess}
-      />
+      <AllPosts posts={posts} isLoading={isLoading} isSuccess={isSuccess} />
     </section>
   );
 };

@@ -4,19 +4,15 @@ import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { BiShare } from "react-icons/bi";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSharePostMutation } from "../../../redux/features/post/postApi";
+import {
+  useLikeMutation,
+  useSharePostMutation,
+} from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
+import { useParams } from "react-router-dom";
 
-const PostCard = ({
-  post,
-  currentUser,
-  onLikeHandler,
-
-  // MenuItems
-}) => {
+const PostCard = ({ post, currentUser }) => {
   const {
     user,
     likes,
@@ -27,10 +23,16 @@ const PostCard = ({
     createdAt,
     contentType,
   } = post || {};
+  const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
+  const [like] = useLikeMutation();
+
+  const onLikeHandler = (postId, userId) => {
+    like({ postId, userId });
+  };
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
@@ -70,57 +72,62 @@ const PostCard = ({
           loop
           muted
           controls
-          className="mt-2 w-full h-[300px] md:h-[450px]"
+          className="md:mt-2 w-[90%] mx-auto h-[300px] md:h-[450px]"
         >
           Your browser does not support the video tag.
         </video>
       )}
 
-      <div className="flex justify-between w-[90%] mx-auto">
-        <span>
+      <div className="flex justify-between items-center w-[90%] mx-auto">
+        <span className="text-sm md:text-[16px]">
           {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
         </span>
-        <div className="flex gap-5">
+        <div className="flex items-center gap-2 md:gap-5">
           <p>
-            <span className="mr-1">{comments}</span>
-            {comments === 1 ? "Comment" : "Comments"}
+            <span className="mr-1 text-sm md:text-[16px]">
+              {comments}
+              {comments === 1 ? " Comment" : " Comments"}
+            </span>
           </p>
-          <span>
-            {shares} {shares === 1 ? "Share" : "Shares"}
+          <span className="text-sm md:text-[16px]">
+            {shares} {shares === 1 ? " Share" : " Shares"}
           </span>
         </div>
       </div>
-      <div className="mt-2  pb-4 w-[90%] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="mt-2  pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-1 md:gap-2">
           {isLiked !== -1 ? (
             <AiFillLike
-              onClick={onLikeHandler}
+              onClick={() => onLikeHandler(post._id, id)}
               className="text-2xl text-color-one"
             />
           ) : (
-            <AiOutlineLike onClick={onLikeHandler} className="text-2xl" />
+            <AiOutlineLike
+              onClick={() => onLikeHandler(post._id, id)}
+              className="text-2xl"
+            />
           )}
           <div>
-            <p>Likes</p>
+            <p>Like</p>
           </div>
         </div>
         <div
           onClick={() => setShowComment((c) => !c)}
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-1 md:gap-2 cursor-pointer"
         >
           <button className=" cursor-pointer">
             {" "}
-            <GoComment className="text-xl" />
+            <GoComment className="md:text-2xl text-md" />
           </button>
-          <p>Comment</p>
+          <p className="text-sm md:text-[16px]">Comment</p>
         </div>
 
         <div
           onClick={() => sharePost({ postId: post._id })}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 md:gap-2"
         >
-          <PiShareFatThin className="text-2xl" />
-          <p>Share</p>
+          <PiShareFatThin className="md:text-2xl text-md" />
+          <p className="text-sm md:text-[16px]">Share</p>
         </div>
       </div>
       <hr />
