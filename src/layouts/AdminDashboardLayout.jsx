@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoMdPeople } from "react-icons/io";
 import { IoBook, IoFileTray } from "react-icons/io5";
+import { FaUserSlash } from "react-icons/fa";
 import "../../src/styles/color.css";
 import {
   MdAddReaction,
@@ -90,10 +91,9 @@ const AdminDashboardLayout = () => {
                   : "flex items-center gap-2 text-gray-50 py-1 px-4 my-2 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white"
               }
             >
-              <MdAdminPanelSettings size={"2rem"} />
+              <FaUserSlash size={"2rem"} />
               Suspended Users
             </NavLink>
-
 
             <NavLink
               to="/interactions"
@@ -156,9 +156,7 @@ const AdminDashboardLayout = () => {
 
         {/* <!-- Área de contenido principal --> */}
         <div className="lg:w-[calc(100%-240px)] p-8 ml-auto ">
-
           <Outlet></Outlet>
-
         </div>
       </div>
     </div>
