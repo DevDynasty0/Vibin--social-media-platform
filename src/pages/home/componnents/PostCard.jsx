@@ -5,11 +5,12 @@ import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton } from "@chakra-ui/react";
 import { useState } from "react";
-import { useSharePostMutation } from "../../../redux/features/post/postApi";
+import { useDeletePostMutation, useSharePostMutation } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
 
 const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
   const {
+    
     user,
     likes,
     shares,
@@ -21,6 +22,7 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
   } = post || {};
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
+ 
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
 
@@ -40,7 +42,7 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
             </MenuButton>
             {/* Post action bar */}
 
-            <MenuItems></MenuItems>
+            <MenuItems postId={post._id}></MenuItems>
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>

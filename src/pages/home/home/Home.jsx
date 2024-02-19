@@ -1,4 +1,4 @@
-import { useGetPostsQuery } from "../../../redux/features/post/postApi";
+import { useDeletePostMutation, useGetPostsQuery, useSavePostMutation } from "../../../redux/features/post/postApi";
 import AddNewPostCard from "../componnents/AddNewPostCard";
 import { MenuItem, MenuList, useDisclosure } from "@chakra-ui/react";
 import AddNewPostModal from "../componnents/AddNewPostModal";
@@ -16,12 +16,21 @@ const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
+  const[deletePost]=useDeletePostMutation();
+  // const[savePost]=useSavePostMutation();
+  const MenuItems = ({postId}) => {
+    const handleDeletePost = () => {
+      deletePost({ postId });
+      console.log('postttttttid',postId);
+    };
+    // const handleSavePost=()=>{
+    //   savePost({postId});
 
-  const MenuItems = () => {
+    // }
     return (
       <MenuList>
-        <MenuItem>Save post</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        <MenuItem><button  onClick={handleSavePost}>Save post</button></MenuItem>
+        <MenuItem><button  onClick={handleDeletePost}>Delete</button></MenuItem>
         <MenuItem>Edit</MenuItem>
         {/* <MenuItem>Share</MenuItem> */}
       </MenuList>
