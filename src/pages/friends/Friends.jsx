@@ -24,7 +24,7 @@ const Friends = () => {
     fetchData();
   }, []);
   return (
-    <section className="mt-10">
+    <section className="mt-10  max-w-4xl mx-auto">
       <Tabs
         variant="enclosed"
         acitveTab={acitveTab}

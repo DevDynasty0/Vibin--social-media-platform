@@ -6,11 +6,15 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Spinner,
+  Button,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import avatar from "../../../assets/images/avatar.png";
 import { FaPlus, FaXmark } from "react-icons/fa6";
 import axios from "axios";
+import { useState } from "react";
+import { LoaderIcon } from "react-hot-toast";
 
 const AddNewPostModal = ({
   isOpen,
@@ -23,9 +27,11 @@ const AddNewPostModal = ({
 }) => {
   const user = useSelector((state) => state.auth.user);
 
+  const [buttonSpinner, setButtonSpinner] = useState(false);
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-
+    setButtonSpinner(true);
     const formData = new FormData();
     formData.append("postContent", selectedItem?.[0]);
     formData.append("caption", caption);
@@ -53,7 +59,11 @@ const AddNewPostModal = ({
       console.log(res);
       if (res.data) {
         postsRefetch();
+        setButtonSpinner(false);
+
         onClose();
+        setCaption("");
+        setSelectedItem(null);
       }
     } catch (error) {
       console.log(error);
@@ -143,12 +153,27 @@ const AddNewPostModal = ({
               {/* <Button colorScheme='blue' mr={3} onClick={onClose}>
                         Close
                     </Button> */}
-              <button
+              {/* {buttonSpinner ? (
+                <Spinner size="lg" />
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full block py-1.5 px-3 bg-color-one rounded text-lg font-semibold text-white"
+                >
+                  Vibe
+                </button>
+              )} */}
+
+              <Button
+                isLoading={buttonSpinner}
+                colorScheme="color-one"
+                spinner={<LoaderIcon size={8} color="white" />}
                 type="submit"
-                className="w-full block py-0.5 px-3 bg-color-one rounded text-lg font-semibold text-white"
+                className="w-full block py-1.5 px-3
+                 bg-color-one rounded text-2xl font-semibold text-white"
               >
-                Vibe{" "}
-              </button>
+                Drop Vibe
+              </Button>
             </ModalFooter>
           </form>
         </ModalContent>

@@ -6,7 +6,6 @@ import MiddleContent from "./components/middleContent/MiddleContent";
 import { useGetUserByIdQuery } from "../../redux/features/user/userApi";
 import { Spinner } from "@chakra-ui/react";
 import { useGetPostsByUserIdQuery } from "../../redux/features/post/postApi";
-import Navbar from "../../shared component/Navbar";
 import { useSelector } from "react-redux";
 
 export default function Profile() {
@@ -16,7 +15,7 @@ export default function Profile() {
     isLoading,
     refetch: refetchUserInfo,
   } = useGetUserByIdQuery(id);
-  const loggedInUser=useSelector((state)=>state.auth.user.email);
+  const loggedInUser = useSelector((state) => state.auth.user.email);
 
   const {
     data: myPost,
@@ -26,9 +25,6 @@ export default function Profile() {
   } = useGetPostsByUserIdQuery({
     userId: id,
   });
-  console.log('uservvvv',user?.data?.email);
-  console.log(loggedInUser);
-  const reversedPosts = myPost ? [...myPost].reverse() : [];
 
   if (isLoading) {
     return (
@@ -39,10 +35,16 @@ export default function Profile() {
   }
   return (
     <div>
-      <Navbar></Navbar>
-      <div className="bg-vibin pt-14 ">
+
+      
+      <div className="bg-vibin pt-14">
         <div className=" max-w-7xl mx-auto  ">
-          <Cover user={user} loggedInUser={loggedInUser} refetchUserInfo={refetchUserInfo}></Cover>
+
+          <Cover
+            user={user}
+            loggedInUser={loggedInUser}
+            refetchUserInfo={refetchUserInfo}
+          ></Cover>
 
           <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  rounded-lg  shadow-x    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
             <div className="w-full -mt-10 h-[70%]  md:col-span-5  lg:col-span-3  ">
@@ -58,7 +60,7 @@ export default function Profile() {
             <div className="md:col-span-5 ">
               <MiddleContent
                 user={user}
-                reversedPosts={reversedPosts}
+                reversedPosts={myPost}
                 isLoading={isPostsLoading}
                 isSuccess={isPostsSuccess}
                 refetchUserInfo={refetchUserInfo}

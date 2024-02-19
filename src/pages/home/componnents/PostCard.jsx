@@ -3,12 +3,22 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import { Menu, MenuButton } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useState } from "react";
+<<<<<<< HEAD
 import { useDeletePostMutation, useSharePostMutation } from "../../../redux/features/post/postApi";
+=======
+import {
+  useLikeMutation,
+  useSharePostMutation,
+} from "../../../redux/features/post/postApi";
+>>>>>>> bf412f0a260c2540380007874c136b384ee56638
 import ShowComments from "./ShowComments";
+import { useParams } from "react-router-dom";
+import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
+import { useSelector } from "react-redux";
 
-const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
+const PostCard = ({ post, currentUser }) => {
   const {
     
     user,
@@ -20,14 +30,31 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
     createdAt,
     contentType,
   } = post || {};
+  const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
  
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
+  const [like] = useLikeMutation();
+  const [createNotification] = useCreateNotificationMutation()
+  const userData = useSelector((state) => state.auth.user);
+  console.log('post....',post);
+
+  const onLikeHandler = (postId, userId) => {
+    like({ postId, userId });
+    const data = {
+      postId:postId,
+      receiverId: user._id,
+        senderId: userData?._id,
+        message: `${userData?.fullName} liked your post.`,
+        contentType: "postLike"
+    }
+    createNotification(data)
+  };
 
   return (
-    <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
+    <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
       <div className="  w-[90%] mx-auto pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
@@ -40,16 +67,23 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
             <MenuButton>
               <FaEllipsis className="text-2xl" />
             </MenuButton>
+<<<<<<< HEAD
             {/* Post action bar */}
 
             <MenuItems postId={post._id}></MenuItems>
+=======
+            <MenuList>
+              <MenuItem>Save post</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </MenuList>
+>>>>>>> bf412f0a260c2540380007874c136b384ee56638
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
       </div>
       {postContent && contentType == "image" && (
         <img
-          className=" w-[90%] mx-auto h-[300px] md:h-[450px]"
+          className=" w-[90%]  mx-auto"
           src={postContent}
           alt=""
         />
@@ -75,8 +109,10 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
         </span>
         <div className="flex items-center gap-2 md:gap-5">
           <p>
-            <span className="mr-1 text-sm md:text-[16px]">{comments}
-            {comments === 1 ? " Comment" : " Comments"}</span>
+            <span className="mr-1 text-sm md:text-[16px]">
+              {comments}
+              {comments === 1 ? " Comment" : " Comments"}
+            </span>
           </p>
           <span className="text-sm md:text-[16px]">
             {shares} {shares === 1 ? " Share" : " Shares"}
@@ -87,14 +123,17 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
         <div className="flex items-center gap-1 md:gap-2">
           {isLiked !== -1 ? (
             <AiFillLike
-              onClick={onLikeHandler}
+              onClick={() => onLikeHandler(post._id, id)}
               className="text-2xl text-color-one"
             />
           ) : (
-            <AiOutlineLike onClick={onLikeHandler} className="md:text-2xl text-md" />
+            <AiOutlineLike
+              onClick={() => onLikeHandler(post._id, id)}
+              className="text-2xl"
+            />
           )}
           <div>
-            <p className="text-sm md:text-[16px]">Likes</p>
+            <p>Like</p>
           </div>
         </div>
         <div
@@ -103,7 +142,7 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
         >
           <button className=" cursor-pointer">
             {" "}
-            <GoComment className="md:text-2xl text-md"  />
+            <GoComment className="md:text-2xl text-md" />
           </button>
           <p className="text-sm md:text-[16px]">Comment</p>
         </div>
@@ -112,7 +151,7 @@ const PostCard = ({ post, currentUser, onLikeHandler, MenuItems }) => {
           onClick={() => sharePost({ postId: post._id })}
           className="flex items-center gap-1 md:gap-2"
         >
-          <PiShareFatThin className="md:text-2xl text-md"  />
+          <PiShareFatThin className="md:text-2xl text-md" />
           <p className="text-sm md:text-[16px]">Share</p>
         </div>
       </div>

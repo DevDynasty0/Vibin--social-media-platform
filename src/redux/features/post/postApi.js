@@ -113,6 +113,20 @@ export const postApi = apiSlice.injectEndpoints({
         url: `/posts/create-post-share/${postId}`,
         method: "PATCH",
       }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          dispatch(
+            postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+              const draftPost = draft.find((p) => p._id === postId);
+              draftPost.shares += 1;
+            })
+          );
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
     }),
     createComment: builder.mutation({
       query: (data) => ({

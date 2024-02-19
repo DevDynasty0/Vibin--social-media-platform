@@ -7,7 +7,7 @@ import { useGetSearchResultQuery } from "../../redux/features/user/userApi";
 import AllPosts from "../../shared component/AllPosts";
 const SearchResult = () => {
   const location = useLocation();
-
+  console.log(location.search);
   console.log(location.search.split("=")[1].replace("%20", " "));
 
   const {
@@ -16,12 +16,11 @@ const SearchResult = () => {
     isSuccess,
     refetch: searchRefetch,
   } = useGetSearchResultQuery(
-    location?.search?.split("=")[1].replace("%20", " ") || ""
+    location?.search?.split("=")[1].replace("%20", " ")
   );
 
-  console.log(searchResults);
   return (
-    <div className="max-w-[600px] ">
+    <div className="max-w-[650px] mx-auto">
       <Tabs variant="enclosed-colored" colorScheme="pink" size={"lg"}>
         <TabList>
           <Tab>Users</Tab>

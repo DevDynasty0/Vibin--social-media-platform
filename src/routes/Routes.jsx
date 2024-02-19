@@ -3,7 +3,6 @@ import MainLayout from "../layouts/MainLayout";
 import Login from "../pages/login/Login";
 import SignUp from "../pages/sign-up/SignUp";
 import Home from "../pages/home/home/Home";
-// import NotFound from "../pages/not-found/NotFound";
 import ErrorPageNew from "../pages/not-found/ErrorPageNew";
 import Settings from "../pages/home/settings/Settings";
 import Profile from "../pages/profile/Profile";
@@ -13,7 +12,10 @@ import PublicRoute from "./PublicRoute";
 import Info from "../pages/info/Info";
 import InfoRouteHandle from "./InfoRouteHandle";
 import SearchResult from "../pages/search/SearchResult";
-import AdminDashboard from "../pages/admin-dashboard/AdminDashboard";
+import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
+import AdminDashboard from "../pages/adminDashboardPages/adminDashboard/AdminDashboard";
+import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
+import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
 
 const Routes = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ const Routes = createBrowserRouter([
         element: <SearchResult />,
       },
       {
+        path: "profile/:id",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "info",
         element: (
           <InfoRouteHandle>
@@ -60,21 +70,28 @@ const Routes = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/profile/:id",
-    element: (
-      <PrivateRoute>
-        <Profile />
-      </PrivateRoute>
-    ),
-  },
+
   {
     path: "/admin",
     element: (
       <PrivateRoute>
-        <AdminDashboard />
+        <AdminDashboardLayout />
       </PrivateRoute>
     ),
+    children : [
+      {
+        path : "/admin",
+        element : <AdminDashboard/>
+      },
+      {
+        path : "/admin/allUsers",
+        element : <AllUsers/>
+      },
+      {
+        path : "/admin/suspendedUsers",
+        element : <SuspendedUsers/>
+      }
+    ]
   },
   {
     path: "/login",

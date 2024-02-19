@@ -21,8 +21,8 @@ const LeftSidebar = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-56px)]  relative">
-      <div className=" border-b pb-4 px-2 ">
+    <div className="h-[calc(100vh-56px)] flex flex-col items-center overflow-scroll">
+      <div className=" border-b pb-4 px-2 w-full">
         <NavLink
           to={`/profile/${user?._id}`}
           className="flex items-center  gap-3  "
@@ -39,7 +39,7 @@ const LeftSidebar = () => {
         {/* <SearchButton /> */}
       </div>
 
-      <div className="mt-10 h-full  ">
+      <div className="mt-10  w-full ">
         <LeftButton name={"Home"} path={"/"} icon={FaHome} />
 
         <LeftButton
@@ -55,14 +55,17 @@ const LeftSidebar = () => {
         /> */}
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
+      </div>
 
-        <div
-          // onClick={handleLogout}
-          className="flex flex-col absolute w-full  bottom-[48px]"
-        >
-          <hr />
-          <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
-          <hr />
+      <div
+        // onClick={handleLogout}
+        // className="flex flex-col absolute w-full  bottom-[48px]"
+        className="w-full mt-auto"
+      >
+        <hr />
+        <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
+        <hr />
+        <div onClick={handleLogout}>
           <LeftButton
             onHandleClick={handleLogout}
             name={"Logout"}

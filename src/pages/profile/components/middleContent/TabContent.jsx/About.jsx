@@ -19,10 +19,11 @@ const About = ({ user, refetchUserInfo }) => {
   const [editedValue, setEditedValue] = useState("");
   const [updateUserInfo] = useUpdateUserInfoMutation();
 
-  const handleEditOpen = (type,prevValue) => {
+  const handleEditOpen = (type, prevValue) => {
     setIsEditOpen(true);
     setEditType(type);
-    setEditedValue( prevValue
+    setEditedValue(
+      prevValue
       // type === editType || type === "dob"
       //   ? prevValue || ""
       //   : user[type] || ""
@@ -42,22 +43,20 @@ const About = ({ user, refetchUserInfo }) => {
     try {
       updateUserInfo({ [editType]: editedValue });
       refetchUserInfo();
-      // const response = await axios.patch(`/api/v1/users/update-user-details`, {
+      // const response = await axios.patch(/api/v1/users/update-user-details, {
       //   [editType]: editedValue,
       // });
 
-      // console.log(`API response for updating ${editType}:`, response.data);
+      // console.log(API response for updating ${editType}:, response.data);
 
       handleEditClose();
     } catch (error) {
-      console.error(`Error updating ${editType}:`, error);
+      console.error(`Error updating ${editType}: `, error);
     }
   };
-console.log('edited',editedValue);
+  console.log("edited", editedValue);
   return (
     <div className="h-full  py-2 px-4">
-
-
       {/* User Name */}
       <div className=" border  shadow-md border-color-one  flex items-center justify-between rounded-md px-2">
         <div className="p-2 flex gap-5 items-center">
@@ -66,7 +65,9 @@ console.log('edited',editedValue);
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("fullName",user?.data?.fullName)}>
+          <button
+            onClick={() => handleEditOpen("fullName", user?.data?.fullName)}
+          >
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one  rounded-md"></MdModeEdit>
           </button>
           <CustomModal
@@ -89,7 +90,9 @@ console.log('edited',editedValue);
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("userName",user?.data?.userName)}>
+          <button
+            onClick={() => handleEditOpen("userName", user?.data?.userName)}
+          >
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
@@ -112,7 +115,7 @@ console.log('edited',editedValue);
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("bio",user?.data?.bio )}>
+          <button onClick={() => handleEditOpen("bio", user?.data?.bio)}>
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
@@ -143,7 +146,9 @@ console.log('edited',editedValue);
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("extraEmail",user?.data?.extraEmail)}>
+          <button
+            onClick={() => handleEditOpen("extraEmail", user?.data?.extraEmail)}
+          >
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
@@ -165,7 +170,7 @@ console.log('edited',editedValue);
           <p>{user?.data?.dob || "Add Your Date of Birth"}</p>
         </div>
         <div>
-          <button onClick={() => handleEditOpen("dob",user?.data?.dob)}>
+          <button onClick={() => handleEditOpen("dob", user?.data?.dob)}>
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
@@ -189,7 +194,9 @@ console.log('edited',editedValue);
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("university",user?.data?.university)}>
+          <button
+            onClick={() => handleEditOpen("university", user?.data?.university)}
+          >
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal
@@ -213,7 +220,9 @@ console.log('edited',editedValue);
         </div>
 
         <div className="">
-          <button onClick={() => handleEditOpen("address",user?.data?.address)}>
+          <button
+            onClick={() => handleEditOpen("address", user?.data?.address)}
+          >
             <MdModeEdit className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></MdModeEdit>
           </button>
           <CustomModal

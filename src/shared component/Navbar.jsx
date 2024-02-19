@@ -9,13 +9,25 @@ import {
 } from "react-icons/fa";
 import { FaMagnifyingGlass, FaRegMessage, FaXmark } from "react-icons/fa6";
 import SearchButton from "./SearchButton";
+import notificationAvatar from '../assets/images/avatar.png'
 
 import avatar from "../assets/images/avatar.png";
 import { NavLink, useNavigate } from "react-router-dom";
+import {
+  Button,
+  IconButton,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { IoNotifications } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { useGetNotificationsByUserIdQuery } from "../redux/features/notification/notificationApi";
 const Navbar = ({
   left,
   setLeft,
-  right,
   setRight,
   searchInput,
   setSearchInput,
@@ -25,6 +37,12 @@ const Navbar = ({
 }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
+
+  const userData = useSelector((state) => state.auth.user);
+  const { data } = useGetNotificationsByUserIdQuery(userData?._id)
+   console.log(data);
+  const notificationData = data?.data
+  // console.log(notificationData);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -57,7 +75,7 @@ const Navbar = ({
             <a href="/" className="flex items-center  ">
               <figure className="    ">
                 <img
-                  src="/vibin-logo3.png"
+                  src="./vibin-logo3.png"
                   className="h-8 w-16 object-cover drop-shadow-md  "
                   alt="Vibin' Logo"
                 />
@@ -77,9 +95,8 @@ const Navbar = ({
                   setSearchInput(searchInput);
                   setShowResults(true);
                 }}
-                className={`${
-                  searchInput.length > 0 && showResults ? "absolute" : "hidden"
-                } bg-white top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
+                className={`${searchInput.length > 0 && showResults ? "absolute" : "hidden"
+                  } bg-white top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
               >
                 <div className="text-lg font-medium mx-2 mt-0.5">
                   Search results
@@ -87,23 +104,23 @@ const Navbar = ({
                 <ul className="p-2">
                   {searchResults?.users.length > 0
                     ? searchResults?.users?.slice(0, 4)?.map((user) => (
-                        <div
-                          onClick={() => {
-                            setShowResults(true);
-                            navigate(`/profile/${user?._id}`);
-                          }}
-                          key={user._id}
-                          className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
-                        >
-                          <img
-                            src={user?.avatar ? user?.avatar : avatar}
-                            alt=""
-                            className="w-12 h-10  rounded    "
-                          />
-                          <li>{user?.fullName}</li>
-                          <FaMagnifyingGlass className="ml-auto text-gray-500" />
-                        </div>
-                      ))
+                      <div
+                        onClick={() => {
+                          setShowResults(true);
+                          navigate(`/profile/${user?._id}`);
+                        }}
+                        key={user._id}
+                        className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
+                      >
+                        <img
+                          src={user?.avatar ? user?.avatar : avatar}
+                          alt=""
+                          className="w-12 h-10  rounded    "
+                        />
+                        <li>{user?.fullName}</li>
+                        <FaMagnifyingGlass className="ml-auto text-gray-500" />
+                      </div>
+                    ))
                     : "No matched results"}
                 </ul>
 
@@ -156,8 +173,35 @@ const Navbar = ({
             <div className=" hover:text-white  bg-gray-50 shadow-md     text-color-one rounded   p-1  ">
               <FaRegMessage />
             </div>
-            <div className=" hover:text-white shadow-md  bg-gray-50    text-color-one rounded   p-1  ">
-              <FaRegBell />
+            <div className=" shadow-md     text-color-one rounded   p-1  ">
+              <Menu>
+                <MenuButton
+                  variant="outline"
+                  as={IconButton}
+                  // aria-label="Options"
+                  icon={<IoNotifications />}
+                  color={"color-one"}
+                  bgColor={"white"}
+                >
+                  {/* Notifications */}
+                </MenuButton>
+                <MenuList>
+                  {notificationData?.map((notification, index) => (
+                    <MenuItem key={index} minH="48px">
+                      <Image
+                        boxSize="2rem"
+                        borderRadius="full"
+                        // src={notificationData?.senderId?.avatar ? notificationData?.senderId?.avatar : 'https://placekitten.com/100/100'}
+                        src= {notification?.senderId?.avatar || notificationAvatar}
+                        alt="Avatar"
+                        mr="12px"
+                      />
+                      <span>{notification?.message}</span>
+                    </MenuItem>
+                  ))}
+                </MenuList>
+
+              </Menu>
             </div>
 
             {/* <FaUserCircle
@@ -192,29 +236,6 @@ const Navbar = ({
           </div>
         </div>
       </nav>
-
-      {/* <Drawer
-        blockScrollOnMount={false}
-        isOpen={isOpen}
-        placement="top"
-        onClose={onClose}
-        isFullHeight={false}
-        // finalFocusRef={btnRef}
-      >
-        <DrawerContent
-          height={"60vh"}
-          marginTop={"48px"}
-          width={"350px"}
-          marginLeft={"auto"}
-        >
-          <DrawerHeader borderBottomWidth="1px">Notifications</DrawerHeader>
-          <DrawerBody>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer> */}
     </>
   );
 };

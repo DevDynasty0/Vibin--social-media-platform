@@ -3,9 +3,8 @@ import useAuthCheck from "../hooks/useAuthCheck";
 import avatar from "../assets/images/avatar.png";
 import { IoArrowUndoOutline } from "react-icons/io5";
 import { useEffect } from "react";
+import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
-import { IoSend } from "react-icons/io5";
-
 import {
   useCreateMessageMutation,
   useGetConversationsQuery,
@@ -13,7 +12,10 @@ import {
 } from "../redux/features/chat/chatApi";
 import ChatBox from "./ChatBox";
 
-const MessagingModal = ({ socket, userData }) => {
+const ENDPOINT = "http://localhost:8000";
+
+let socket, selectedChatCompare;
+const Temp = () => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -21,11 +23,33 @@ const MessagingModal = ({ socket, userData }) => {
     "w-[40px] border border-[#904486]  h-[40px] rounded";
   const messageFromOutsideShow = " p-1 text-sm w-[77%] md:w-[82%] ";
 
+  const userData = useSelector((state) => state.auth.user);
+  const { socketConnected, setSocketConnected } = useState(false);
+  const [messeges, setMesseges] = useState([]);
   const { data: allChats } = useGetConversationsQuery(userData?._id);
 
   const [currentChatId, setCurrentChatId] = useState("");
 
-  // console.log(messeges);
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", userData);
+    socket.on("connection", () => setSocketConnected(true));
+  }, [userData, setSocketConnected]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      setMesseges([...messeges, newMessageRecieved]);
+    });
+  });
+
+  console.log(messeges);
+
+  const sendMessage = () => {
+    socket.emit("new message", {
+      message: "this is test messate",
+      _id: userData._id,
+    });
+  };
 
   return (
     <>
@@ -75,74 +99,40 @@ const MessagingModal = ({ socket, userData }) => {
 
           {isMessageOpen && (
             <div className="space-y-3 overflow-y-auto h-[calc(100%-4rem)]   relative overflow-x-hidden">
-              {isChatOpen ? (
-                <div className="relative pb-5">
-                  <ChatBox
-                    userId={userData?._id}
-                    currentChatId={currentChatId}
-                    socket={socket}
-                    userData={userData}
-                    currentChatInfo={allChats.results.find(
-                      (chat) => chat._id === currentChatId
-                    )}
-                  />
-                </div>
-              ) : (
-                <div>
-                  {allChats?.results?.map((chat) => {
-                    console.log(chat);
-                    const receiver = chat.participants.find(
-                      (person) => person._id !== userData._id
-                    );
-                    return (
-                      <div
-                        key={chat._id}
-                        className="flex items-center px-4    hover:bg-gray-100   h-[80px]"
-                      >
-                        <div
-                          onClick={() => {
-                            setIsChatOpen(!isChatOpen);
-                            setCurrentChatId(chat._id);
+              {allChats?.results?.map((chat) => (
+                <div
+                  key={chat._id}
+                  className="flex items-center px-3    hover:bg-gray-100   h-[80px]"
+                >
+                  <div
+                    onClick={() => {
+                      setIsChatOpen(!isChatOpen);
+                      setCurrentChatId(chat._id);
 
-                            socket.emit(
-                              "join chat",
-                              `${receiver.fullName} joined the room`
-                            );
-                          }}
-                          className="items-center flex  w-14"
-                        >
-                          <img
-                            className={messageAvatarStyle}
-                            src={receiver.avatar || avatar}
-                            alt=""
-                          />
-                        </div>
-                        <div
-                          onClick={() => {
-                            setIsChatOpen(!isChatOpen);
-                            setCurrentChatId(chat._id);
+                      socket.emit("join chat", "Say hello room 1121");
+                    }}
+                    className="items-center flex  w-14"
+                  >
+                    <img className={messageAvatarStyle} src={avatar} alt="" />
+                  </div>
+                  <div
+                    onClick={() => {
+                      setIsChatOpen(!isChatOpen);
+                      setCurrentChatId(chat._id);
 
-                            socket.emit(
-                              "join chat",
-                              `User joined room:  ${chat._id}`
-                            );
-                          }}
-                          className={messageFromOutsideShow}
-                        >
-                          <p className="font-medium text-gray-800">
-                            {receiver?.fullName}
-                          </p>
-                          <p
-                            className={`text-gray-500 overflow-hidden  whitespace-nowrap overflow-ellipsis`}
-                          >
-                            Test messeges
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                      socket.emit("join chat", "Say hello room 1121");
+                    }}
+                    className={messageFromOutsideShow}
+                  >
+                    <p className="font-medium text-gray-800">Rahida</p>
+                    <p
+                      className={`text-gray-500 overflow-hidden  whitespace-nowrap overflow-ellipsis`}
+                    >
+                      Test messeges
+                    </p>
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
           )}
         </div>
@@ -151,4 +141,4 @@ const MessagingModal = ({ socket, userData }) => {
   );
 };
 
-export default MessagingModal;
+export default Temp;
