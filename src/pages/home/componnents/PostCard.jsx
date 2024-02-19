@@ -1,3 +1,7 @@
+
+
+
+
 import { FaEllipsis } from "react-icons/fa6";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { PiShareFatThin } from "react-icons/pi";
@@ -5,14 +9,11 @@ import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useState } from "react";
-<<<<<<< HEAD
-import { useDeletePostMutation, useSharePostMutation } from "../../../redux/features/post/postApi";
-=======
 import {
+  useDeletePostMutation,
   useLikeMutation,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
->>>>>>> bf412f0a260c2540380007874c136b384ee56638
 import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
@@ -20,7 +21,6 @@ import { useSelector } from "react-redux";
 
 const PostCard = ({ post, currentUser }) => {
   const {
-    
     user,
     likes,
     shares,
@@ -33,13 +33,16 @@ const PostCard = ({ post, currentUser }) => {
   const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
- 
   const isLiked = likes?.indexOf(currentUser?.email);
   const getPostAge = moment(createdAt).fromNow();
   const [like] = useLikeMutation();
   const [createNotification] = useCreateNotificationMutation()
   const userData = useSelector((state) => state.auth.user);
   console.log('post....',post);
+  const[deletePost]=useDeletePostMutation();
+  const handleDeletePost = () => {
+    deletePost({postId:post._id});
+    console.log('postttttttid',post._id)}
 
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
@@ -65,18 +68,12 @@ const PostCard = ({ post, currentUser }) => {
           </div>
           <Menu>
             <MenuButton>
-              <FaEllipsis className="text-2xl" />
+              <FaEllipsis className="text-2xl"/>
             </MenuButton>
-<<<<<<< HEAD
-            {/* Post action bar */}
-
-            <MenuItems postId={post._id}></MenuItems>
-=======
             <MenuList>
               <MenuItem>Save post</MenuItem>
-              <MenuItem>Share</MenuItem>
+              <MenuItem> <button onClick={handleDeletePost }>Delete</button> </MenuItem>
             </MenuList>
->>>>>>> bf412f0a260c2540380007874c136b384ee56638
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
