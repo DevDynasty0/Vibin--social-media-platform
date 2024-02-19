@@ -28,8 +28,6 @@ const RightButton = ({ person }) => {
         contentType: "follow"
     }
     createNotification(data)
-  
-
   };
 
   return (
