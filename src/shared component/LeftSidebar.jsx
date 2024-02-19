@@ -1,7 +1,7 @@
 import LeftButton from "./LeftButton";
 import { FaUser, FaCog, FaHome, FaUserFriends } from "react-icons/fa";
 import { MdDashboard, MdLogout } from "react-icons/md";
-import avatar from "../assets/images/avatar.png";
+import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

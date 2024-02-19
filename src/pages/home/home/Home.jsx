@@ -21,7 +21,9 @@ const Home = () => {
     return (
       <MenuList>
         <MenuItem>Save post</MenuItem>
-        <MenuItem>Share</MenuItem>
+        <MenuItem>Delete</MenuItem>
+        <MenuItem>Edit</MenuItem>
+        {/* <MenuItem>Share</MenuItem> */}
       </MenuList>
     );
   };
