@@ -13,9 +13,10 @@ import Highlights from "./TabContent.jsx/Highlights";
 import Likes from "./TabContent.jsx/Likes";
 import Media from "./TabContent.jsx/Media/Media";
 import AllPosts from "../../../../shared component/AllPosts";
-import {  getFollowingUsers } from "../../../../hooks/getFollowers";
+// import {  getFollowingUsers } from "../../../../hooks/getFollowers";
 import { useSelector } from "react-redux";
-import { followUser } from "../../../../hooks/followUser";
+// import { followUser } from "../../../../hooks/followUser";
+import { useFollowUserMutation, useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 
 
 const MiddleContent = ({
@@ -26,15 +27,20 @@ const MiddleContent = ({
   isLoading,
   loggedInUser,
 }) => {
-  const [following, setFollowing] = useState([]);
+  // const [following, setFollowing] = useState([]);
   const userData = useSelector((state) => state.auth.user);
+  const [followUser] = useFollowUserMutation()
+  const {data,refetch : getFollowingRefetch} = useGetFollowingUsersQuery()
+  console.log(data);
 
   const handleFollow = async (id) => {
     // setFollow([...follow, id]);
     const profile = id;
     const follower = userData?._id
     console.log(follower, "you");
-    const res = await followUser(profile, follower);
+    const res = await followUser({profile, follower});
+    getFollowingRefetch()
+    refetchUserInfo()
     console.log(res);
     // const data = {
     
@@ -46,19 +52,19 @@ const MiddleContent = ({
     // createNotification(data)
   };
     
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const followingData = await getFollowingUsers();
-        setFollowing(followingData);
-        console.log(user.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const followingData = await getFollowingUsers();
+  //       setFollowing(followingData);
+  //       console.log(user.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
   const MenuItems = () => {
    
     return (
@@ -89,7 +95,7 @@ const MiddleContent = ({
                  onClick={() => handleFollow(user?.data?._id)}
                 className=" bg-color-one md:py-2  py-1 px-1 md:px-6 md:mr-3  rounded-md  text-xs md:text-xl text-white font-bold">
 
-                {following?.find((singleFollowing) => singleFollowing?.profile?._id === user?.data?._id) ? "Following" : "Follow"}
+                {data?.data?.find((singleFollowing) => singleFollowing?.profile?._id === user?.data?._id) ? "Following" : "Follow"}
                 
                 </button>
                 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IoCamera } from "react-icons/io5";
 import axios from "axios";
 import { FaHome, FaUniversity } from "react-icons/fa";
+import { useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 
 export default function LeftContent({
   user,
@@ -10,6 +11,7 @@ export default function LeftContent({
   loggedInUser,
 }) {
   const [profileImage, setProfileImage] = useState("");
+  const {data} = useGetFollowingUsersQuery()
 
   const handleImageChange = async (avatar) => {
     try {
@@ -83,7 +85,7 @@ export default function LeftContent({
               Following
             </h3>
             <h3 className="font-bold text-[10px] md:text-sm">
-              {user?.data?.followingCount}
+              {data?.data?.length}
             </h3>
           </div>
           <div className=" items-center">
