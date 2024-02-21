@@ -19,6 +19,11 @@ import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
+import useSocket from "../../../hooks/useSocket";
+=======
+import { userLoggedIn } from "../../../redux/features/auth/authSlice";
+>>>>>>> 881e329c3301194388f36e73146f387a4177b133
 
 const PostCard = ({ post, currentUser,postOwner}) => {
   const {
@@ -43,7 +48,30 @@ const PostCard = ({ post, currentUser,postOwner}) => {
   const [createNotification] = useCreateNotificationMutation()
 
   const userData = useSelector((state) => state.auth.user);
-  console.log('post....',post);
+  // console.log('post....',post);
+  const { socket, isSocketConnected } = useSocket();
+ 
+  const[deletePost]=useDeletePostMutation();
+  const[savePost]=useSavePostMutation();
+  console.log('----------------post',post);
+  const handleDeletePost = () => {
+    deletePost({postId:post._id});
+    console.log('postttttttid',post._id)
+  }
+  const handleSavePost = () => {
+   
+    const newSavePost={
+      postContent:post.postContent,
+      post:post?._id,
+      postOwner:user._id,
+      user:userData._id
+      // contentType: "savePost"
+    }
+    console.log('postid',post._id);
+    savePost(newSavePost);
+    console.log('newsave post',newSavePost);
+    console.log('post save successfully',post._id,post.user._id)
+  }
 
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
