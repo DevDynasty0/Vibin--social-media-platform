@@ -1,8 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
 import avatar from "../../../assets/images/avatar.png";
+import { useFollowUserMutation, useGetFollowingUsersQuery } from "../../../redux/features/user/userApi";
+import { useSelector } from "react-redux";
 
 const SearchUserCard = ({ user }) => {
+
+  const userData = useSelector((state) => state.auth.user);
+  const [followUser] = useFollowUserMutation()
+  const {data,refetch : getFollowingRefetch} = useGetFollowingUsersQuery()
+
+  const handleFollow = async (id) => {
+    // setFollow([...follow, id]);
+    const profile = id;
+    const follower = userData?._id
+    // console.log(follower, "you");
+    const res = await followUser({profile, follower});
+    getFollowingRefetch()
+    console.log(res);
+    // const data = {
+    
+    //   receiverId: profile,
+    //     senderId: follower,
+    //     message: `${userData?.fullName} followed you.`,
+    //     contentType: "follow"
+    // }
+    // createNotification(data)
+  };
+  // console.log(user);
+
   return (
     <div className="bg-gray-50 w-full mb-16 max-w-[768px] flex justify-start items-center p-8 relative max-h-40 shadow-sm rounded-md ">
       <img
@@ -14,7 +40,11 @@ const SearchUserCard = ({ user }) => {
         <br />
         <span className="text-lg font-normal">Sleeping in my car</span>
       </p>
-      <span className="  rounded  bg-[#eff0f9] p-2 cursor-pointer group [&_*]:transition-all duration-150 ease-in ">
+      <span  onClick={() => handleFollow(user?._id)} className="  rounded  bg-[#eff0f9] p-2 cursor-pointer group [&_*]:transition-all duration-150 ease-in ">
+       { data?.data?.find((singleFollowing) => singleFollowing?.profile?._id === user?._id) 
+       ?
+        "Following" 
+        :
         <span className="p-2   bg-white rounded  shadow-md group-hover:bg-color-one group-hover:text-white inline-flex items-center gap-2 font-medium">
           <span>Follow</span>
           <svg
@@ -60,6 +90,7 @@ const SearchUserCard = ({ user }) => {
             </g>{" "}
           </svg>
         </span>
+        }
       </span>
     </div>
   );

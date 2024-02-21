@@ -17,6 +17,13 @@ export const userApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    followUser: builder.mutation({
+      query: (data) => ({
+        url: "/users/follow-user",
+        method: "POST",
+        body: data,
+      }),
+    }),
 
     getSearchResult: builder.query({
       query: (searchInput) => ({
@@ -24,6 +31,20 @@ export const userApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getFollowingUsers: builder.query({
+      query: () => ({
+        url: `/users/get-following-users`,
+        method: "GET",
+      }),
+    }),
+    getFollowers: builder.query({
+      query: () => ({
+        url: `/users/get-followers`,
+        method: "GET",
+      }),
+    }),
+
     getUserById: builder.query({
       query: (id) => ({
         url: `/users/${id}`,
@@ -39,4 +60,7 @@ export const {
   useUpdateUserInfoMutation,
   useGetSearchResultQuery,
   useGetUserByIdQuery,
+  useFollowUserMutation,
+  useGetFollowingUsersQuery,
+  useGetFollowersQuery
 } = userApi;

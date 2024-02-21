@@ -2,7 +2,10 @@ import { useState } from "react";
 import { IoCamera } from "react-icons/io5";
 import axios from "axios";
 import { FaHome, FaUniversity } from "react-icons/fa";
+
+import { useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 import { useGetSavePostQuery } from "../../../../redux/features/post/postApi";
+
 
 
 export default function LeftContent({
@@ -13,6 +16,7 @@ export default function LeftContent({
   reversedPosts,
 }) {
   const [profileImage, setProfileImage] = useState("");
+  const {data} = useGetFollowingUsersQuery()
 
 if (!reversedPosts || reversedPosts.length === 0) {
   return <p>No photos uploaded yet!</p>;
@@ -96,7 +100,7 @@ const imagePosts = reversedPosts.filter(
               Following
             </h3>
             <h3 className="font-bold text-[10px] md:text-sm">
-              {user?.data?.followingCount}
+              {data?.data?.length}
             </h3>
           </div>
           <div className=" items-center">
