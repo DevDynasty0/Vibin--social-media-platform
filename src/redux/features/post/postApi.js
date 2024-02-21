@@ -25,7 +25,49 @@ export const postApi = apiSlice.injectEndpoints({
       }),
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
+    savePost: builder.mutation({
+      query: ( newSavePost ) => {
+        console.log('newsaveposttttt',newSavePost);
 
+        return {url: `/posts/savePost`,
+        method: "POST",
+        body: newSavePost,}
+       
+      },
+      
+    }),
+    getSavePost: builder.query({
+      query: () => ({
+       
+        url: `/posts/getSavePost`,
+        method: "GET",
+      }),
+    }),
+    deletePost: builder.mutation({
+      query: ({ postId }) => ({
+        url: `/posts/delete-post/${postId}`,
+        method: "DELETE",
+      }), async onQueryStarted(
+        { postId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: deletePost } = await queryFulfilled;
+          console.log('deletepost',deletePost);
+          if (deletePost?.result?.deletedCount) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                return draft.filter((p) => p._id != postId);
+                
+              })
+            );
+           
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
     like: builder.mutation({
       query: ({ postId }) => ({
         url: `/posts/like/${postId}`,
@@ -125,7 +167,8 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
-
+   
+ 
     deleteComment: builder.mutation({
       query: ({ commentId, postId }) => ({
         url: `/comments/comment/${commentId}/${postId}`,
@@ -215,4 +258,7 @@ export const {
   useSharePostMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
+useDeletePostMutation,
+useSavePostMutation,
+useGetSavePostQuery,
 } = postApi;

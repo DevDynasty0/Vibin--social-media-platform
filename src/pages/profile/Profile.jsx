@@ -53,6 +53,7 @@ export default function Profile() {
                 refetchUserInfo={refetchUserInfo}
                 refetchProfilePosts={refetchProfilePosts}
                 loggedInUser={loggedInUser}
+                reversedPosts={myPost}
               ></LeftContent>
             </div>
 
