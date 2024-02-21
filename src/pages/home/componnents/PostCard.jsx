@@ -8,7 +8,7 @@ import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useDeletePostMutation,
   useLikeMutation,
@@ -19,7 +19,11 @@ import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
+import useSocket from "../../../hooks/useSocket";
+=======
 import { userLoggedIn } from "../../../redux/features/auth/authSlice";
+>>>>>>> 881e329c3301194388f36e73146f387a4177b133
 
 const PostCard = ({ post, currentUser,postOwner}) => {
   const {
@@ -38,10 +42,14 @@ const PostCard = ({ post, currentUser,postOwner}) => {
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
   const isLiked = likes?.indexOf(currentUser?.email);
+  // console.log("is liked", isLiked);
   const getPostAge = moment(createdAt).fromNow();
   const [like] = useLikeMutation();
   const [createNotification] = useCreateNotificationMutation()
+
   const userData = useSelector((state) => state.auth.user);
+  // console.log('post....',post);
+  const { socket, isSocketConnected } = useSocket();
  
   const[deletePost]=useDeletePostMutation();
   const[savePost]=useSavePostMutation();
@@ -67,15 +75,31 @@ const PostCard = ({ post, currentUser,postOwner}) => {
 
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
-    const data = {
-      postId:postId,
-      receiverId: user._id,
+
+    // if like then send notification
+    if (isLiked < 0) {
+
+      const data = {
+        postId: postId,
+        receiverId: user._id,
         senderId: userData?._id,
         message: `${userData?.fullName} liked your post.`,
         contentType: "postLike"
+      }
+      const emitData = {
+        ...data,
+        isRead: false,
+        senderId: { senderId: userData?._id, avatar: userData?.avatar }
+      }
+
+      // store data on database
+      createNotification(data)
+
+      // send notification to reciever 
+      socket.emit("new notification", emitData)
     }
-    createNotification(data)
   };
+
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">

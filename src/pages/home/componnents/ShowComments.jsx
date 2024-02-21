@@ -7,12 +7,14 @@ import {
 import Comment from "./Comment";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
+import useSocket from "../../../hooks/useSocket";
 
 const ShowComments = ({ post, showComment, currentUser }) => {
   const [comment, setComment] = useState("");
   const [createComment] = useCreateCommentMutation();
   const [createNotification] = useCreateNotificationMutation()
   const userData = useSelector((state) => state.auth.user);
+  const {socket} = useSocket();
 
   const { data: commentsDetails } = useGetCommentsQuery(
     {
@@ -31,7 +33,16 @@ const ShowComments = ({ post, showComment, currentUser }) => {
         message: `${userData?.fullName} commented on your post.`,
         contentType: "postComment"
     }
+    const emitData = {
+      ...data,
+      isRead: false,
+      senderId: { senderId: userData?._id, avatar: userData?.avatar }
+    }
+    // store notification on the database 
     createNotification(data)
+
+    // send notification to reciever 
+    socket.emit("new notification", emitData)
   };
 
   const onSetCommentHandler = (e) => {

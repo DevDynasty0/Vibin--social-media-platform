@@ -6,18 +6,18 @@ import { Spinner } from "@chakra-ui/spinner";
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
-  const { user } = useAuthCheck();
+  const { user,loading } = useAuthCheck();
 
-  if (!user) {
+  
+  if (user && !loading) {
+    return children;
+  }
+  if (!user & !loading) {
     return (
       <PublicRoute>
         <Landing />
       </PublicRoute>
     );
-  }
-
-  if (user) {
-    return children;
   }
 
   return <Navigate to="/" state={{ from: location }} replace></Navigate>;
