@@ -26,10 +26,11 @@ export const postApi = apiSlice.injectEndpoints({
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
 
-    like: builder.mutation({
-      query: ({ postId }) => ({
-        url: `/posts/like/${postId}`,
+    addReaction: builder.mutation({
+      query: ({ postId, type }) => ({
+        url: `/posts/reaction/${postId}`,
         method: "PATCH",
+        body: { type },
       }),
       async onQueryStarted(
         { postId, userId },
@@ -208,7 +209,7 @@ export const postApi = apiSlice.injectEndpoints({
 export const {
   useGetPostsQuery,
   useCreatePostMutation,
-  useLikeMutation,
+  useAddReactionMutation,
   useGetPostsByUserIdQuery,
   useCreateCommentMutation,
   useGetCommentsQuery,

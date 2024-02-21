@@ -6,18 +6,16 @@ import moment from "moment";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useState } from "react";
 import {
-  useLikeMutation,
+  useAddReactionMutation,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
-import { useParams } from "react-router-dom";
-import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
-import { useSelector } from "react-redux";
+import Reactions from "./Reactions";
 
 const PostCard = ({ post, currentUser }) => {
   const {
     user,
-    likes,
+    reactions,
     shares,
     comments,
     caption,
@@ -25,26 +23,40 @@ const PostCard = ({ post, currentUser }) => {
     createdAt,
     contentType,
   } = post || {};
-  const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
+  const [isShowReactions, setIsShowReactions] = useState(false);
   const [sharePost] = useSharePostMutation();
-  const isLiked = likes?.indexOf(currentUser?.email);
+  const isLiked = reactions?.find(
+    (reaction) => reaction.user === currentUser?._id
+  );
   const getPostAge = moment(createdAt).fromNow();
-  const [like] = useLikeMutation();
-  const [createNotification] = useCreateNotificationMutation()
-  const userData = useSelector((state) => state.auth.user);
-  console.log('post....',post);
+  const [addReaction] = useAddReactionMutation();
+  // const [createNotification] = useCreateNotificationMutation();
+  // const userData = useSelector((state) => state.auth.user);
 
-  const onLikeHandler = (postId, userId) => {
-    like({ postId, userId });
-    const data = {
-      postId:postId,
-      receiverId: user._id,
-        senderId: userData?._id,
-        message: `${userData?.fullName} liked your post.`,
-        contentType: "postLike"
-    }
-    createNotification(data)
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return function (isHover) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(isHover);
+      }, delay);
+    };
+  };
+
+  const onHandleReaction = debounce(setIsShowReactions, 400);
+  console.log("this is from postCard: ", reactions);
+  const react = (postId, reaction) => {
+    addReaction({ postId, type: reaction });
+    // const data = {
+    //   postId: postId,
+    //   receiverId: user._id,
+    //   senderId: userData?._id,
+    //   message: `${userData?.fullName} liked your post.`,
+    //   contentType: "postLike",
+    // };
+    // createNotification(data);
+    setIsShowReactions(false);
   };
 
   return (
@@ -70,11 +82,7 @@ const PostCard = ({ post, currentUser }) => {
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
       </div>
       {postContent && contentType == "image" && (
-        <img
-          className=" w-[90%]  mx-auto"
-          src={postContent}
-          alt=""
-        />
+        <img className=" w-[90%]  mx-auto" src={postContent} alt="" />
       )}
       {postContent && contentType == "video" && (
         <video
@@ -93,7 +101,8 @@ const PostCard = ({ post, currentUser }) => {
 
       <div className="flex justify-between items-center w-[90%] mx-auto">
         <span className="text-sm md:text-[16px]">
-          {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
+          {reactions?.length}{" "}
+          {reactions?.length === 1 ? "Reaction" : "Reactions"}
         </span>
         <div className="flex items-center gap-2 md:gap-5">
           <p>
@@ -107,16 +116,36 @@ const PostCard = ({ post, currentUser }) => {
           </span>
         </div>
       </div>
-      <div className="mt-2  pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-1 md:gap-2">
-          {isLiked !== -1 ? (
-            <AiFillLike
-              onClick={() => onLikeHandler(post._id, id)}
-              className="text-2xl text-color-one"
-            />
+      <div className="mt-2 relative pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
+        {isShowReactions && (
+          <Reactions
+            postId={post._id}
+            react={react}
+            onHandleReaction={onHandleReaction}
+          />
+        )}
+        <div
+          onMouseEnter={() => onHandleReaction(true)}
+          onMouseLeave={() => onHandleReaction(false)}
+          className="flex items-center gap-1 md:gap-2"
+        >
+          {isLiked ? (
+            <>
+              {isLiked.type === "like" && (
+                <AiFillLike
+                  onClick={() => react(post._id)}
+                  className="text-2xl text-color-one"
+                />
+              )}
+              {isLiked.type === "love" && <span className="text-2xl">❤️</span>}
+              {isLiked.type === "haha" && <span className="text-2xl">😆</span>}
+              {isLiked.type === "wow" && <span className="text-2xl">😮</span>}
+              {isLiked.type === "sad" && <span className="text-2xl">😢</span>}
+              {isLiked.type === "angry" && <span className="text-2xl">😡</span>}
+            </>
           ) : (
             <AiOutlineLike
-              onClick={() => onLikeHandler(post._id, id)}
+              onClick={() => react(post._id, "like")}
               className="text-2xl"
             />
           )}
