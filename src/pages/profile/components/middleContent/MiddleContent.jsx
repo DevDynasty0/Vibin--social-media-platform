@@ -21,14 +21,14 @@ const MiddleContent = ({
   isLoading,
   loggedInUser,
 }) => {
-  const MenuItems = () => {
-    return (
-      <MenuList>
-        <MenuItem>Save Post</MenuItem>
-        {loggedInUser == user.data.email && <MenuItem>Delete</MenuItem>}
-      </MenuList>
-    );
-  };
+  // const MenuItems = () => {
+  //   return (
+  //     <MenuList>
+  //       <MenuItem>Save Post</MenuItem>
+  //       {loggedInUser == user.data.email && <MenuItem>Delete</MenuItem>}
+  //     </MenuList>
+  //   );
+  // };
   return (
     <div className=" mt-10">
       {/* Tab items */}
@@ -59,7 +59,7 @@ const MiddleContent = ({
                 isSuccess={isSuccess}
                 isLoading={isLoading}
                 posts={reversedPosts}
-                MenuItems={MenuItems}
+                // MenuItems={MenuItems}
               ></AllPosts>
             </TabPanel>
 

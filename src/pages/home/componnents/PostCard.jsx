@@ -42,7 +42,8 @@ const PostCard = ({ post, currentUser,postOwner}) => {
   const [like] = useLikeMutation();
   const [createNotification] = useCreateNotificationMutation()
   const userData = useSelector((state) => state.auth.user);
- 
+  const loggedInUser = userData?.email;
+  const [isPostSaved, setIsPostSaved] = useState(false);
   const[deletePost]=useDeletePostMutation();
   const[savePost]=useSavePostMutation();
   console.log('----------------post',post);
@@ -61,6 +62,7 @@ const PostCard = ({ post, currentUser,postOwner}) => {
     }
     console.log('postid',post._id);
     savePost(newSavePost);
+    setIsPostSaved(true)
     console.log('newsave post',newSavePost);
     console.log('post save successfully',post._id,post.user._id)
   }
@@ -76,7 +78,7 @@ const PostCard = ({ post, currentUser,postOwner}) => {
     }
     createNotification(data)
   };
-
+console.log('postowneeeeeeeeeeeeeeeeeer',postOwner);
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
       <div className="  w-[90%] mx-auto pt-4">
@@ -92,8 +94,9 @@ const PostCard = ({ post, currentUser,postOwner}) => {
               <FaEllipsis className="text-2xl"/>
             </MenuButton>
             <MenuList>
-              <MenuItem><button onClick={handleSavePost}>Save post</button></MenuItem>
-              <MenuItem> <button onClick={handleDeletePost }>Delete</button> </MenuItem>
+            {loggedInUser != user?.email && (<MenuItem> <button onClick={isPostSaved ? null : handleSavePost}>
+                  {isPostSaved ? "Saved" : "Save post"}</button></MenuItem>)}
+              {loggedInUser == user?.email && (<MenuItem> <button onClick={handleDeletePost }>Delete</button> </MenuItem>)}
             </MenuList>
           </Menu>
         </div>
