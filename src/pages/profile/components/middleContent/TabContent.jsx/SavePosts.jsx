@@ -14,7 +14,7 @@ const SavePosts = () => {
       {data.map((savepost) => (
         savepost.postContent && (
           <div key={savepost._id}>
-             <Link to={`/post/${savepost._id}`}>
+             <Link to="/savePost">
             <div>
               <img className="w-52 h-52 bg-white cursor-pointer" src={savepost.postContent} alt="" />
             </div>

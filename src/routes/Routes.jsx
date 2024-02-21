@@ -64,7 +64,7 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "/post/:id",
+        path: "/savePost",
         element: (
           <PrivateRoute>
             <ShowSavePosts></ShowSavePosts>

@@ -5,7 +5,7 @@ import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const LeftSidebar = () => {
@@ -55,6 +55,7 @@ const LeftSidebar = () => {
         /> */}
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
+        <LeftButton name={"Saved Posts"} path='/savePost' icon={ FaBookmark } />
       </div>
 
       <div
