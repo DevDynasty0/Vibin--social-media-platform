@@ -19,6 +19,7 @@ import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
+import { userLoggedIn } from "../../../redux/features/auth/authSlice";
 
 const PostCard = ({ post, currentUser }) => {
   const {
@@ -39,10 +40,10 @@ const PostCard = ({ post, currentUser }) => {
   const [like] = useLikeMutation();
   const [createNotification] = useCreateNotificationMutation()
   const userData = useSelector((state) => state.auth.user);
-  console.log('post....',post);
-  console.log('post user....',post?.user?._id);
+ 
   const[deletePost]=useDeletePostMutation();
   const[savePost]=useSavePostMutation();
+  console.log('----------------post',post);
   const handleDeletePost = () => {
     deletePost({postId:post._id});
     console.log('postttttttid',post._id)
@@ -50,9 +51,10 @@ const PostCard = ({ post, currentUser }) => {
   const handleSavePost = () => {
    
     const newSavePost={
-      postId:post?._id,
-      userId:post?.user?._id,
-      contentType: "savePost"
+      postContent:post.postContent,
+      post:post?._id,
+      user:userData._id,
+      // contentType: "savePost"
     }
     console.log('postid',post._id);
     savePost(newSavePost);

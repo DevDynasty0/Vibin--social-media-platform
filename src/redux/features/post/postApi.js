@@ -26,15 +26,22 @@ export const postApi = apiSlice.injectEndpoints({
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
     savePost: builder.mutation({
-      query: ({ newSavePost }) => ({
-        url: `/posts/savePost/${newSavePost.postId}`,
+      query: ( newSavePost ) => {
+        console.log('newsaveposttttt',newSavePost);
+
+        return {url: `/posts/savePost`,
         method: "POST",
-        body: newSavePost,
+        body: newSavePost,}
        
-      }),
+      },
       
     }),
-   
+    getSavePost: builder.query({
+      query: () => ({
+        url: `/posts/getSavePost`,
+        method: "GET",
+      }),
+    }),
     deletePost: builder.mutation({
       query: ({ postId }) => ({
         url: `/posts/delete-post/${postId}`,
@@ -252,4 +259,5 @@ export const {
   useEditCommentMutation,
 useDeletePostMutation,
 useSavePostMutation,
+useGetSavePostQuery,
 } = postApi;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IoCamera } from "react-icons/io5";
 import axios from "axios";
 import { FaHome, FaUniversity } from "react-icons/fa";
+import { useGetSavePostQuery } from "../../../../redux/features/post/postApi";
 
 export default function LeftContent({
   user,
@@ -10,7 +11,8 @@ export default function LeftContent({
   loggedInUser,
 }) {
   const [profileImage, setProfileImage] = useState("");
-
+  const {data}=useGetSavePostQuery()
+console.log('allllll savepost',data);
   const handleImageChange = async (avatar) => {
     try {
       const formData = new FormData();
@@ -71,11 +73,11 @@ export default function LeftContent({
           <h2 className="font-bold md:text-2xl text-[10px]">
             {user?.data?.fullName}
           </h2>
-          <span className="text-[14px] font-bold">@{user?.data?.userName}</span>
+          <span className="text-[14px] font-bold">@{user?.data?.userName||'username'}</span>
         </div>
         <div className="bg-white  rounded-tl-fulldescxdfd   px-2 py-6 my-2">
           <h1 className="font-bold text-lg">Intro</h1>
-          <h2>{user?.data?.bio}</h2>
+          <h2>{user?.data?.bio || 'Bio not added yet'}</h2>
         </div>
         <div className="flex items-center gap-4 justify-center bg-white rounded-md px-2 py-6">
           <div className=" ">
@@ -96,26 +98,43 @@ export default function LeftContent({
           </div>
         </div>
         <div className="bg-white px-2 py-6 my-2 text-start">
-          <div className="flex flex-col justify-center items-center ">
-            <FaUniversity className="text-2xl bg-slate-400 rounded-full w-7 p-1 h-7 "></FaUniversity>
-            <p>
-              {" "}
-              <span className="font-bold ml-1"></span> {user?.data?.university}
-            </p>
-          </div>
-          <div className="flex items-center my-2 flex-col ">
-            <FaHome className="text-2xl bg-slate-400 rounded-full w-7 p-1 h-7 "></FaHome>
-            <p>
-              {" "}
-              <span className="font-bold ml-1 mr-3 "></span>{" "}
-              {user?.data?.address}
-            </p>
-          </div>
-        </div>
+  <div className="flex flex-col justify-center items-center ">
+    <FaUniversity className="text-2xl bg-slate-400 rounded-full w-7 p-1 h-7 "></FaUniversity>
+    <p>
+      {" "}
+      <span className="font-bold ml-1"></span>{" "}
+      {user?.data?.university ? user?.data?.university : "University not added yet"}
+    </p>
+  </div>
+  <div className="flex items-center my-2 flex-col ">
+    <FaHome className="text-2xl bg-slate-400 rounded-full w-7 p-1 h-7 "></FaHome>
+    <p>
+      {" "}
+      <span className="font-bold ml-1 mr-3 "></span>{" "}
+      {user?.data?.address ? user?.data?.address : "Location not added yet"}
+    </p>
+  </div>
+</div>
 
-        <div>
-          <p>savepost</p>
-        </div>
+<div className="bg-white px-5 py-10 rounded-md">
+  <p className="font-bold text-xl mb-5">Saved Post</p>
+  {data && data.length > 0 ? (
+    <div className="grid grid-cols-3 gap-1">
+      {data.map((savepost) => (
+        savepost.postContent && (
+          <div key={savepost._id}>
+            <div>
+              <img className="w-28 h-28" src={savepost.postContent} alt="" />
+            </div>
+          </div>
+        )
+      ))}
+    </div>
+  ) : (
+    <p>No saved posts found</p>
+  )}
+</div>
+
       </div>
     </div>
   );
