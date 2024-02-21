@@ -25,15 +25,15 @@ export const postApi = apiSlice.injectEndpoints({
       }),
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
-    // savePost: builder.mutation({
-    //   query: ({ newSavePost }) => ({
-    //     url: "/posts/savePost/:postId",
-    //     method: "POST",
-    //     body: newSavePost,
+    savePost: builder.mutation({
+      query: ({ newSavePost }) => ({
+        url: `/posts/savePost/${newSavePost.postId}`,
+        method: "POST",
+        body: newSavePost,
        
-    //   }),
+      }),
       
-    // }),
+    }),
    
     deletePost: builder.mutation({
       query: ({ postId }) => ({

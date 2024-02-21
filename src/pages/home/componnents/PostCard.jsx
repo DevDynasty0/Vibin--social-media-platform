@@ -12,6 +12,7 @@ import { useState } from "react";
 import {
   useDeletePostMutation,
   useLikeMutation,
+  useSavePostMutation,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
@@ -39,10 +40,25 @@ const PostCard = ({ post, currentUser }) => {
   const [createNotification] = useCreateNotificationMutation()
   const userData = useSelector((state) => state.auth.user);
   console.log('post....',post);
+  console.log('post user....',post?.user?._id);
   const[deletePost]=useDeletePostMutation();
+  const[savePost]=useSavePostMutation();
   const handleDeletePost = () => {
     deletePost({postId:post._id});
-    console.log('postttttttid',post._id)}
+    console.log('postttttttid',post._id)
+  }
+  const handleSavePost = () => {
+   
+    const newSavePost={
+      postId:post?._id,
+      userId:post?.user?._id,
+      contentType: "savePost"
+    }
+    console.log('postid',post._id);
+    savePost(newSavePost);
+    console.log('newsave post',newSavePost);
+    console.log('post save successfully',post._id,post.user._id)
+  }
 
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
@@ -71,7 +87,7 @@ const PostCard = ({ post, currentUser }) => {
               <FaEllipsis className="text-2xl"/>
             </MenuButton>
             <MenuList>
-              <MenuItem>Save post</MenuItem>
+              <MenuItem><button onClick={handleSavePost}>Save post</button></MenuItem>
               <MenuItem> <button onClick={handleDeletePost }>Delete</button> </MenuItem>
             </MenuList>
           </Menu>

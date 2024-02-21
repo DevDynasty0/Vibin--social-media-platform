@@ -112,6 +112,10 @@ export default function LeftContent({
             </p>
           </div>
         </div>
+
+        <div>
+          <p>savepost</p>
+        </div>
       </div>
     </div>
   );
