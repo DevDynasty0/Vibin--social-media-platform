@@ -19,11 +19,7 @@ import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
-<<<<<<< HEAD
 import useSocket from "../../../hooks/useSocket";
-=======
-import { userLoggedIn } from "../../../redux/features/auth/authSlice";
->>>>>>> 881e329c3301194388f36e73146f387a4177b133
 
 const PostCard = ({ post, currentUser,postOwner}) => {
   const {
