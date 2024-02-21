@@ -17,6 +17,9 @@ import AdminDashboard from "../pages/adminDashboardPages/adminDashboard/AdminDas
 import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
 import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
 
+import ShowSavePosts from "../pages/profile/ShowSavePosts";
+
+
 const Routes = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +60,14 @@ const Routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/post/:id",
+        element: (
+          <PrivateRoute>
+            <ShowSavePosts></ShowSavePosts>
           </PrivateRoute>
         ),
       },

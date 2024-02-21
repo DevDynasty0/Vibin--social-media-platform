@@ -21,9 +21,9 @@ import { useCreateNotificationMutation } from "../../../redux/features/notificat
 import { useSelector } from "react-redux";
 import { userLoggedIn } from "../../../redux/features/auth/authSlice";
 
-const PostCard = ({ post, currentUser }) => {
+const PostCard = ({ post, currentUser,postOwner}) => {
   const {
-    user,
+    // user,
     likes,
     shares,
     comments,
@@ -32,6 +32,8 @@ const PostCard = ({ post, currentUser }) => {
     createdAt,
     contentType,
   } = post || {};
+  const user=postOwner? postOwner : post.user;
+  
   const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
@@ -53,7 +55,8 @@ const PostCard = ({ post, currentUser }) => {
     const newSavePost={
       postContent:post.postContent,
       post:post?._id,
-      user:userData._id,
+      postOwner:user._id,
+      user:userData._id
       // contentType: "savePost"
     }
     console.log('postid',post._id);
@@ -119,7 +122,7 @@ const PostCard = ({ post, currentUser }) => {
       )}
 
       <div className="flex justify-between items-center w-[90%] mx-auto">
-        <span className="text-sm md:text-[16px]">
+        <span className="text-sm md:text-[16px] ">
           {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
         </span>
         <div className="flex items-center gap-2 md:gap-5">
@@ -135,11 +138,11 @@ const PostCard = ({ post, currentUser }) => {
         </div>
       </div>
       <div className="mt-2  pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-1 md:gap-2">
+        <div className="flex items-center gap-1 md:gap-2 cursor-pointer ">
           {isLiked !== -1 ? (
             <AiFillLike
               onClick={() => onLikeHandler(post._id, id)}
-              className="text-2xl text-color-one"
+              className="text-2xl text-color-one "
             />
           ) : (
             <AiOutlineLike
@@ -164,10 +167,10 @@ const PostCard = ({ post, currentUser }) => {
 
         <div
           onClick={() => sharePost({ postId: post._id })}
-          className="flex items-center gap-1 md:gap-2"
+          className="flex items-center gap-1 md:gap-2 cursor-pointer"
         >
           <PiShareFatThin className="md:text-2xl text-md" />
-          <p className="text-sm md:text-[16px]">Share</p>
+          <p className="text-sm md:text-[16px] ">Share</p>
         </div>
       </div>
       <hr />

@@ -8,7 +8,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import About from "./TabContent.jsx/About";
-import Highlights from "./TabContent.jsx/Highlights";
+import Highlights from "./TabContent.jsx/SavePosts";
 import Likes from "./TabContent.jsx/Likes";
 import Media from "./TabContent.jsx/Media/Media";
 import AllPosts from "../../../../shared component/AllPosts";
@@ -37,7 +37,7 @@ const MiddleContent = ({
           <div className="flex items-center  justify-between">
             <TabList>
               <Tab className="!px-2 md:!px-4 ">Post</Tab>
-              <Tab className="!px-2 md:!px-4">Highlights</Tab>
+              <Tab className="!px-2 md:!px-4">Save Posts</Tab>
               <Tab className="!px-2 md:!px-4">Likes</Tab>
               {loggedInUser == user.data.email && (
                 <Tab className="!px-2 md:!px-4">About</Tab>

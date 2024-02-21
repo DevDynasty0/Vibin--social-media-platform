@@ -4,15 +4,26 @@ import axios from "axios";
 import { FaHome, FaUniversity } from "react-icons/fa";
 import { useGetSavePostQuery } from "../../../../redux/features/post/postApi";
 
+
 export default function LeftContent({
   user,
   refetchUserInfo,
   refetchProfilePosts,
   loggedInUser,
+  reversedPosts,
 }) {
   const [profileImage, setProfileImage] = useState("");
-  const {data}=useGetSavePostQuery()
-console.log('allllll savepost',data);
+
+if (!reversedPosts || reversedPosts.length === 0) {
+  return <p>No photos uploaded yet!</p>;
+}
+
+// Filter image posts
+const imagePosts = reversedPosts.filter(
+  (singlePost) =>
+    singlePost.contentType === "image" && singlePost.postContent
+);
+
   const handleImageChange = async (avatar) => {
     try {
       const formData = new FormData();
@@ -75,7 +86,7 @@ console.log('allllll savepost',data);
           </h2>
           <span className="text-[14px] font-bold">@{user?.data?.userName||'username'}</span>
         </div>
-        <div className="bg-white  rounded-tl-fulldescxdfd   px-2 py-6 my-2">
+        <div className="bg-color-one text-white rounded-md  rounded-tl-fulldescxdfd   px-2 py-6 my-2">
           <h1 className="font-bold text-lg">Intro</h1>
           <h2>{user?.data?.bio || 'Bio not added yet'}</h2>
         </div>
@@ -117,25 +128,29 @@ console.log('allllll savepost',data);
 </div>
 
 <div className="bg-white px-5 py-10 rounded-md">
-  <p className="font-bold text-xl mb-5">Saved Post</p>
-  {data && data.length > 0 ? (
+  <p className="font-bold text-xl mb-5">Recent Images</p>
+ 
+  {imagePosts.length === 0 ? (
+    <p>No images uploaded yet!</p>
+  ) : (
     <div className="grid grid-cols-3 gap-1">
-      {data.map((savepost) => (
-        savepost.postContent && (
-          <div key={savepost._id}>
-            <div>
-              <img className="w-28 h-28" src={savepost.postContent} alt="" />
-            </div>
-          </div>
-        )
+      {imagePosts.slice(0, 6).map((singlePost, index) => (
+        <div className="" key={index}>
+          <img
+            className="bg-white w-28 h-28"
+            src={singlePost.postContent}
+            alt={`media-${index}`}
+          />
+        </div>
       ))}
     </div>
-  ) : (
-    <p>No saved posts found</p>
   )}
+</div>
+ 
 </div>
 
       </div>
-    </div>
+   
+    
   );
 }

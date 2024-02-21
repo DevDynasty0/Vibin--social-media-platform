@@ -38,6 +38,7 @@ export const postApi = apiSlice.injectEndpoints({
     }),
     getSavePost: builder.query({
       query: () => ({
+       
         url: `/posts/getSavePost`,
         method: "GET",
       }),

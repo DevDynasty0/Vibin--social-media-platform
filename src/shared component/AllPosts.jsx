@@ -2,6 +2,9 @@ import PostCard from "../pages/home/componnents/PostCard";
 import { Spinner } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import SharePostCard from "../pages/home/componnents/SharePostCard";
+import SavePosts from "../pages/profile/components/middleContent/TabContent.jsx/SavePosts";
+import ShowSavePosts from "../pages/profile/ShowSavePosts";
+
 
 const AllPosts = ({
   posts,
@@ -10,7 +13,7 @@ const AllPosts = ({
   //  MenuItems
 }) => {
   const currentUser = useSelector((state) => state.auth.user);
-
+console.log('allpost',posts);
   let content;
   if (isLoading) {
     content = (
@@ -24,7 +27,10 @@ const AllPosts = ({
     content = posts?.map((post) => {
       if (post?.post) {
         return (
+          <>
           <SharePostCard key={post._id} currentUser={currentUser} post={post} />
+          {/* <ShowSavePosts key={post._id} post={post} ></ShowSavePosts> */}
+          </>
         );
       }
       return (
