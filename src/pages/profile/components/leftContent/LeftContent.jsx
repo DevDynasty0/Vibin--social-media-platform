@@ -5,6 +5,7 @@ import { FaHome, FaUniversity } from "react-icons/fa";
 
 import { useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 import { useGetSavePostQuery } from "../../../../redux/features/post/postApi";
+import profilepdefault from '../../../../assets/images/user-profile.webp'
 
 
 
@@ -18,12 +19,12 @@ export default function LeftContent({
   const [profileImage, setProfileImage] = useState("");
   const {data} = useGetFollowingUsersQuery()
 
-if (!reversedPosts || reversedPosts.length === 0) {
-  return <p>No photos uploaded yet!</p>;
-}
+// if (!reversedPosts || reversedPosts.length === 0) {
+//   return <p>No photos uploaded yet!</p>;
+// }
 
 // Filter image posts
-const imagePosts = reversedPosts.filter(
+const imagePosts = reversedPosts?.filter(
   (singlePost) =>
     singlePost.contentType === "image" && singlePost.postContent
 );
@@ -62,12 +63,12 @@ const imagePosts = reversedPosts.filter(
         <img
           className="object-cover w-44  h-44 block mx-auto md:-mt-[35%] -mt-[30%] rounded-full"
           src={
-            user?.data?.avatar ||
-            "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
+            user?.data?.avatar ||profilepdefault
+            // "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
           }
           alt="Profile"
         />
-        {loggedInUser === user.data.email && (
+        {loggedInUser === user?.data?.email && (
           <>
             {" "}
             <div className="bg-gray-400  p-2 rounded-full absolute bottom-[82%] right-20">
@@ -134,11 +135,11 @@ const imagePosts = reversedPosts.filter(
 <div className="bg-white px-5 py-10 rounded-md">
   <p className="font-bold text-xl mb-5">Recent Images</p>
  
-  {imagePosts.length === 0 ? (
+  {imagePosts?.length === 0 ? (
     <p>No images uploaded yet!</p>
   ) : (
     <div className="grid grid-cols-3 gap-1">
-      {imagePosts.slice(0, 6).map((singlePost, index) => (
+      {imagePosts?.slice(0, 6).map((singlePost, index) => (
         <div className="" key={index}>
           <img
             className="bg-white w-28 h-28"

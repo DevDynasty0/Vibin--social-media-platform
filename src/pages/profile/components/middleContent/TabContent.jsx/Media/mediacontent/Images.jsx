@@ -2,15 +2,15 @@ import React from "react";
 
 const Images = ({ reversedPosts }) => {
   // Check if reversedPosts is defined and not null
-  if (!reversedPosts || reversedPosts.length === 0) {
-    return <p>No photos uploaded yet!</p>;
-  }
-
+  
   // Filter image posts
-  const imagePosts = reversedPosts.filter(
+  const imagePosts = reversedPosts?.filter(
     (singlePost) =>
-      singlePost.contentType === "image" && singlePost.postContent
+      singlePost?.contentType === "image" && singlePost.postContent
   );
+  if (!reversedPosts || imagePosts?.length === 0) {
+    return <p className="font-bold">No photos uploaded yet!</p>;
+  }
 
   return (
     <div>
