@@ -33,11 +33,12 @@ export default function Profile() {
       </div>
     );
   }
+  console.log('userrrrrrrrrr',user);
   return (
     <div>
 
       
-      <div className="bg-vibin pt-14">
+      <div className="bg-vibin ">
         <div className=" max-w-7xl mx-auto  ">
 
           <Cover

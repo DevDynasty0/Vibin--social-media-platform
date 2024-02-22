@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
-
+import coverdefault from '../../../../assets/images/coverdefault.png'
 const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
   const [coverImage, setCoverImage] = useState("");
 
@@ -40,7 +40,7 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
        lg:h-[72vh] md:h-[44vh] h-[32vh] relative"
       >
         <img
-          src={user?.data?.coverImage}
+          src={user?.data?.coverImage || coverdefault}
           alt=""
           className="w-full h-full rounded-md"
         />

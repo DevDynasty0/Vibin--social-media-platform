@@ -7,10 +7,14 @@ const Videos = ({ reversedPosts }) => {
   }
 
   // Filter video posts
-  const videoPosts = reversedPosts.filter(
+  const videoPosts = reversedPosts?.filter(
     (singlePost) =>
-      singlePost.contentType === "video" && singlePost.postContent
+      singlePost?.contentType === "video" && singlePost?.postContent
+    
   );
+  if (!reversedPosts || videoPosts?.length === 0) {
+    return <p className="font-bold">No videos uploaded yet!</p>;
+  }
 
   return (
     <div>

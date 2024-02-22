@@ -27,7 +27,7 @@ const SharePostCard = ({ post, currentUser }) => {
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
   };
-
+console.log('shaeddata',sharedPostData);
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
       <div className="  w-[90%] mx-auto pt-4">
@@ -63,7 +63,7 @@ const SharePostCard = ({ post, currentUser }) => {
                   alt=""
                 />
 
-                <h4 className="font-bold">{user?.fullName}</h4>
+                <h4 className="font-bold">{sharedPostData?.user?.fullName}</h4>
                 <p>{getPostAge}</p>
               </div>
             </div>

@@ -5,6 +5,7 @@ import { FaHome, FaUniversity } from "react-icons/fa";
 
 import { useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 import { useGetSavePostQuery } from "../../../../redux/features/post/postApi";
+import profilepdefault from '../../../../assets/images/user-profile.webp'
 
 
 
@@ -18,12 +19,12 @@ export default function LeftContent({
   const [profileImage, setProfileImage] = useState("");
   const {data} = useGetFollowingUsersQuery()
 
-if (!reversedPosts || reversedPosts.length === 0) {
-  return <p>No photos uploaded yet!</p>;
-}
+// if (!reversedPosts || reversedPosts.length === 0) {
+//   return <p>No photos uploaded yet!</p>;
+// }
 
 // Filter image posts
-const imagePosts = reversedPosts.filter(
+const imagePosts = reversedPosts?.filter(
   (singlePost) =>
     singlePost.contentType === "image" && singlePost.postContent
 );
@@ -38,10 +39,10 @@ const imagePosts = reversedPosts.filter(
         formData
       );
 
-      // Assuming your response contains the updated image URL, you can update the profileImage state
-      if (response.data && response.data.data.avatar !== "") {
-        setProfileImage(response.data.data.avatar);
-      }
+      // // Assuming your response contains the updated image URL, you can update the profileImage state
+      // if (response.data && response.data.data.avatar !== "") {
+      //   setProfileImage(response.data.data.avatar);
+      // }
       refetchUserInfo();
       refetchProfilePosts();
     } catch (error) {
@@ -62,12 +63,12 @@ const imagePosts = reversedPosts.filter(
         <img
           className="object-cover w-44  h-44 block mx-auto md:-mt-[35%] -mt-[30%] rounded-full"
           src={
-            user?.data?.avatar ||
-            "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
+            user?.data?.avatar ||profilepdefault
+            // "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
           }
           alt="Profile"
         />
-        {loggedInUser === user.data.email && (
+        {loggedInUser === user?.data?.email && (
           <>
             {" "}
             <div className="bg-gray-400  p-2 rounded-full absolute bottom-[82%] right-20">
