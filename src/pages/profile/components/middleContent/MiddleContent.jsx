@@ -9,8 +9,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import About from "./TabContent.jsx/About";
-import Highlights from "./TabContent.jsx/SavePosts";
-import Likes from "./TabContent.jsx/Likes";
+
 import Media from "./TabContent.jsx/Media/Media";
 import AllPosts from "../../../../shared component/AllPosts";
 // import {  getFollowingUsers } from "../../../../hooks/getFollowers";
@@ -18,7 +17,7 @@ import { useSelector } from "react-redux";
 // import { followUser } from "../../../../hooks/followUser";
 import { useFollowUserMutation, useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 import SavePosts from "./TabContent.jsx/SavePosts";
-import AboutForVisitors from "./TabContent.jsx/AboutForVisitors";
+
 
 
 const MiddleContent = ({
