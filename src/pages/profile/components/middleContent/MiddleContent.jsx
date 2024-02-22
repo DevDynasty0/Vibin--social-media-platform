@@ -9,14 +9,15 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import About from "./TabContent.jsx/About";
-import Highlights from "./TabContent.jsx/SavePosts";
-import Likes from "./TabContent.jsx/Likes";
+
 import Media from "./TabContent.jsx/Media/Media";
 import AllPosts from "../../../../shared component/AllPosts";
 // import {  getFollowingUsers } from "../../../../hooks/getFollowers";
 import { useSelector } from "react-redux";
 // import { followUser } from "../../../../hooks/followUser";
 import { useFollowUserMutation, useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
+import SavePosts from "./TabContent.jsx/SavePosts";
+
 
 
 const MiddleContent = ({
@@ -82,12 +83,12 @@ const MiddleContent = ({
           <div className="flex items-center  justify-between">
             <TabList>
               <Tab className="!px-2 md:!px-4 ">Post</Tab>
-              <Tab className="!px-2 md:!px-4">Save Posts</Tab>
-              <Tab className="!px-2 md:!px-4">Likes</Tab>
-              {loggedInUser == user.data.email && (
+              {loggedInUser == user.data.email && (   <Tab className="!px-2 md:!px-4">Save Posts</Tab>)}
+              {/* <Tab className="!px-2 md:!px-4">Likes</Tab> */}
+              {/* {loggedInUser == user.data.email && ( */}
                 <Tab className="!px-2 md:!px-4">About</Tab>
-              )}
-              <Tab className="!px-2 md:!px-4">Media</Tab>
+              {/* )} */}
+              {loggedInUser == user.data.email && (   <Tab className="!px-2 md:!px-4">Media</Tab>)}
             </TabList>
             {loggedInUser !== user.data.email && (
               <div>
@@ -113,22 +114,23 @@ const MiddleContent = ({
               ></AllPosts>
             </TabPanel>
 
-            <TabPanel>
-              <Highlights></Highlights>
-            </TabPanel>
+            {loggedInUser == user.data.email && ( <TabPanel>
+             <SavePosts></SavePosts>
+            </TabPanel>)}
 
-            <TabPanel>
-              <Likes></Likes>
-            </TabPanel>
+            {/* {loggedInUser != user.data.email && (<TabPanel>
+             <AboutForVisitors user={user} loggedInUser={loggedInUser}></AboutForVisitors>
+            </TabPanel>)} */}
 
-            {loggedInUser == user.data.email && (
+            {/* {loggedInUser == user.data.email && ( */}
               <TabPanel>
-                <About user={user} refetchUserInfo={refetchUserInfo}></About>
+                <About user={user} loggedInUser={loggedInUser} refetchUserInfo={refetchUserInfo}></About>
               </TabPanel>
-            )}
+            {/* )} */}
+             {loggedInUser == user.data.email && (
             <TabPanel>
               <Media reversedPosts={reversedPosts} />
-            </TabPanel>
+            </TabPanel>)}
           </TabPanels>
         </Tabs>
       </div>

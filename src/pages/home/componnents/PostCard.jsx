@@ -101,7 +101,7 @@ const PostCard = ({ post, currentUser,postOwner}) => {
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
-      <div className="  w-[90%] mx-auto pt-4">
+      <div className="  w-[90%]  mx-auto pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <img className="w-10 h-10 rounded-full" src={user?.avatar} alt="" />

@@ -29,9 +29,9 @@ if (isLoading) {
   if (posts.length === 0) {
     content = (
 
-      <div>
-        <img src={nodatafound} alt="" />
-        <p className=" text-center">No posts found.</p>
+      <div className="flex items-center justify-center flex-col">
+        <img className="w-96" src={nodatafound} alt="" />
+        <p className=" text-center font-bold">No posts found!</p>
       </div>
     );
   } else {

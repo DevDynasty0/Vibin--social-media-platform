@@ -1,10 +1,7 @@
-import React from "react";
 
+import nomedia from '../../../../../../../assets/images/no media.png'
 const Videos = ({ reversedPosts }) => {
-  // Check if reversedPosts is defined and not null
-  if (!reversedPosts || reversedPosts.length === 0) {
-    return <p>No videos uploaded yet!</p>;
-  }
+  
 
   // Filter video posts
   const videoPosts = reversedPosts?.filter(
@@ -13,7 +10,10 @@ const Videos = ({ reversedPosts }) => {
     
   );
   if (!reversedPosts || videoPosts?.length === 0) {
-    return <p className="font-bold">No videos uploaded yet!</p>;
+    return  <div className="flex flex-col justify-center items-center">
+    <img src={nomedia} className="  w-72 h-64" alt="" />
+          <p className="font-bold text-center">No videos uploaded yet!</p>
+        </div>;
   }
 
   return (
