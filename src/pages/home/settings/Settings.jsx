@@ -56,18 +56,6 @@ const Settings = () => {
       });
   }, [userEmail]);
 
-  // .................//
-
-  // const { register, handleSubmit } = useForm();
-
-  // const onSubmit = (data) => {
-  //   // console.log(userSetting, "User settings state");
-  //   console.log("Notification values", {
-  //     posts: data.posts,
-  //     likes: data.likes,
-  //     comments: data.comments,
-  //   });
-  // };
 
   const handleNotificationSubmit = (e) => {
     e.preventDefault();
@@ -88,114 +76,82 @@ const Settings = () => {
   };
 
   return (
-    <div className=" mt-10  max-w-4xl mx-auto">
-      {/* <div>
-        <h1 className="text-xl font-semibold">Settings</h1>
-      </div> */}
+    <div className="max-w-4xl mx-auto">
 
-      <div className="mt-10">
-        <Accordion allowMultiple>
-          {/* notification */}
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box
-                  className="text-xl font-semibold flex gap-2"
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                >
-                  <IoMdNotifications className="mt-1" /> Notification
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
 
-            <AccordionPanel className="text-medium font-semibold">
-              <form onSubmit={handleNotificationSubmit}>
-                <div className="flex flex-col gap-4">
-                  <FormControl className=" flex gap-4 items-center">
-                    <Switch
-                      id="posts"
-                      isChecked={userSetting.posts}
-                      onChange={() =>
-                        setUserSetting({
-                          ...userSetting,
-                          posts: !userSetting.posts,
-                        })
-                      }
-                      // colorScheme="purple"
-                      // trackColor={{ true: "#904486", false: "#edf2f7" }}
-                    />
-                    <FormLabel htmlFor="posts" mb="0">
-                      Turn off notification for posts
-                    </FormLabel>
-                  </FormControl>
 
-                  <FormControl className=" flex gap-4 items-center">
-                    <Switch
-                      id="likes"
-                      isChecked={userSetting.likes}
-                      onChange={() =>
-                        setUserSetting({
-                          ...userSetting,
-                          likes: !userSetting.likes,
-                        })
-                      }
-                    />
-                    <FormLabel htmlFor="likes" mb="0">
-                      Turn off notification for likes
-                    </FormLabel>
-                  </FormControl>
+      <form onSubmit={handleNotificationSubmit}>
+        <h3 className="text-2xl font-semibold shadow-md p-2 rounded">Notifications</h3>
+        <div className="mt-5 flex flex-col gap-4 p-2">
+          <FormControl className=" flex gap-4 items-center justify-between">
 
-                  <FormControl className=" flex gap-4 items-center">
-                    <Switch
-                      id="comments"
-                      isChecked={userSetting.comments}
-                      onChange={() =>
-                        setUserSetting({
-                          ...userSetting,
-                          comments: !userSetting.comments,
-                        })
-                      }
-                    />
-                    <FormLabel htmlFor="comments" mb="0">
-                      Turn off notification for comments
-                    </FormLabel>
-                  </FormControl>
-                </div>
-                <button
-                  className="mt-4 bg-color-one text-white font-medium px-3 py-1 shadow rounded"
-                  type="submit"
-                >
-                  Save
-                </button>
-              </form>
-            </AccordionPanel>
-          </AccordionItem>
+            <FormLabel htmlFor="posts" mb="0">
+              <h3 className="text-xl font-medium">Turn off notification for posts</h3>
+              <p className="mt-2">Turn off if you do not want to get notification for posts</p>
+            </FormLabel>
+            <Switch
+              id="posts"
+              isChecked={userSetting.posts}
+              onChange={() =>
+                setUserSetting({
+                  ...userSetting,
+                  posts: !userSetting.posts,
+                })
+              }
+            />
+          </FormControl>
 
-          {/* block */}
-          <AccordionItem className="mt-2">
-            <h2>
-              <AccordionButton>
-                <Box
-                  className="text-xl font-semibold flex gap-2"
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                >
-                  <ImBlocked className="mt-1" /> Blocklist
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
+          <FormControl className=" flex gap-4 items-center justify-between">
 
-            <AccordionPanel className="text-medium font-semibold">
+            <FormLabel htmlFor="likes" mb="0">
+              <h3 className="text-xl font-medium">Turn off notification for likes</h3>
+              <p className="mt-2">Please turn off if you do not want to get notification for likes</p>
+            </FormLabel>
+            <Switch
+              id="likes"
+              isChecked={userSetting.likes}
+              onChange={() =>
+                setUserSetting({
+                  ...userSetting,
+                  likes: !userSetting.likes,
+                })
+              }
+            />
+          </FormControl>
+
+          <FormControl className=" flex gap-4 items-center justify-between">
+
+            <FormLabel htmlFor="comments" mb="0">
+              <h3 className="text-xl font-medium">Turn off notification for comments</h3>
+              <p className="mt-2">Please turn off if you do not want to get notification for comments</p>
+            </FormLabel>
+            <Switch
+              id="comments"
+              isChecked={userSetting.comments}
+              onChange={() =>
+                setUserSetting({
+                  ...userSetting,
+                  comments: !userSetting.comments,
+                })
+              }
+            />
+          </FormControl>
+
+        </div>
+        <button
+          className="mx-2 mt-4 bg-color-one text-white font-medium px-3 py-1 shadow rounded"
+          type="submit"
+        >
+          Save
+        </button>
+      </form>
+      <div className="mt-7">
+        <h3 className="text-2xl font-semibold shadow-md p-2 rounded">Blocklist</h3>
+        <div className="mt-5 px-2">
+          {
+            blockedUsers.length > 0
+              ?
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* <BlockedFriendCard></BlockedFriendCard>
-                <BlockedFriendCard></BlockedFriendCard>
-                <BlockedFriendCard></BlockedFriendCard>
-                <BlockedFriendCard></BlockedFriendCard> */}
                 {blockedUsers.map((blockedUser) => (
                   <BlockedFriendCard
                     key={blockedUser._id}
@@ -203,53 +159,13 @@ const Settings = () => {
                   ></BlockedFriendCard>
                 ))}
               </div>
-            </AccordionPanel>
-          </AccordionItem>
-
-          {/* privacy */}
-          <AccordionItem className="mt-2">
-            <h2>
-              <AccordionButton>
-                <Box
-                  className="text-xl font-semibold flex gap-2"
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                >
-                  <MdAccountCircle className="mt-1" />
-                  Account Information
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-
-            <AccordionPanel className="text-medium font-semibold">
-              {/* ......... */}
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box
-                      className="text-xl font-semibold"
-                      as="span"
-                      flex="1"
-                      textAlign="left"
-                    >
-                      Account Privacy
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel>
-                  <div>
-                    <ChangePassword></ChangePassword>
-                  </div>
-                </AccordionPanel>
-              </AccordionItem>
-              {/* ......... */}
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
+              :
+              <p className="text-xl">No have no blocked users</p>
+          }
+        </div>
       </div>
+
+
     </div>
   );
 };
