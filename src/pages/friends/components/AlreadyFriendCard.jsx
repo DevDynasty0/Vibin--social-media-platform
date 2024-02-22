@@ -34,26 +34,30 @@ const AlreadyFriendCard = ({ user }) => {
   };
 
   return (
-    <div className="border p-2 flex flex-col gap-3 cursor-pointer rounded relative">
-      <img
-        className="w-full h-[200px]"
-        src={user?.profile?.avatar ? user?.profile?.avatar : avatar}
-        alt=""
-      />
-      <h5 className="font-semibold text-xl px-2">{user?.profile?.fullName}</h5>
-      <div className="flex justify-between px-2">
-        {/* <BiBlock size="1.5rem" />
-        <LuUserX2 size="1.5rem" /> */}
-        <BsMessenger size="1.5rem" />
-        <Menu placement="top">
-          <MenuButton>
-            <BsThreeDotsVertical size="1.5rem" />
-          </MenuButton>
-          <MenuList>
-            <MenuItem onClick={handleUnfollow}>Unfollow</MenuItem>
-            <MenuItem onClick={handleBlock}>Block</MenuItem>
-          </MenuList>
-        </Menu>
+    <div className="border p-2 flex items-center gap-3  rounded shadow-md">
+          
+      <div className="w-[120px] shrink-0">
+        <img
+          className="w-full rounded"
+          src={user?.profile?.avatar ? user?.profile?.avatar : avatar}
+          alt=""
+        />
+      </div>
+      <div className="flex-1">
+        <h5 className="font-semibold text-xl">{user?.profile?.fullName}</h5>
+        <div className="mt-3 flex gap-2 justify-between">
+          <Menu placement="top">
+            <BsMessenger size="1.5rem"/>
+            <MenuButton>
+              <BsThreeDotsVertical size="1.5rem" className="cursor-pointer" />
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={handleUnfollow}>Unfollow</MenuItem>
+              <MenuItem onClick={handleBlock}>Block</MenuItem>
+            </MenuList>
+          </Menu>
+        </div>
+
       </div>
     </div>
   );

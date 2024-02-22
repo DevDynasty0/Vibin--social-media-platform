@@ -58,15 +58,15 @@ const MainLayout = () => {
 
         <div
           className={`mt-16 w-full ${
-            !location.pathname.includes("profile") &&
-            "lg:mx-auto md:w-2/3  ml-auto lg:w-3/5 max-w-[850px]"
-          }lg:overflow-y-auto p-6 `}
+            location.pathname === "/" ?
+            "lg:mx-auto md:w-2/3 lg:w-3/5 max-w-[850px]" : "md:w-2/3 lg:w-4/5"
+          } lg:overflow-y-auto p-6 ml-auto`}
         >
           <Outlet />
         </div>
 
         {/* right side */}
-        {!location.pathname.includes("profile") && (
+        {location.pathname === "/" && (
           <div
             className={`${
               right ? "right-0" : " -right-[52rem]"
