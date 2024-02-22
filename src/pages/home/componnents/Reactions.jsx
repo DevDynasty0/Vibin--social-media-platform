@@ -1,7 +1,9 @@
-const ReactionButton = ({ icon, onClick }) => {
+const ReactionButton = ({ icon, onClick, isLiked, type }) => {
   return (
     <button
-      className="p-2 rounded-full hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
+      className={`${
+        isLiked?.type === type && "bg-gray-300"
+      } p-1 md:p-2 rounded-full border border-gray-200 hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-400`}
       onClick={onClick}
     >
       {icon}
@@ -9,20 +11,44 @@ const ReactionButton = ({ icon, onClick }) => {
   );
 };
 
-const Reactions = ({ onHandleReaction, react, postId }) => {
+const Reactions = ({ onHandleReaction, react, postId, isLiked }) => {
   return (
     <div
       onMouseEnter={() => onHandleReaction(true)}
       onMouseLeave={() => onHandleReaction(false)}
-      className="absolute bottom-12 max-w-md mx-auto p-2 bg-gray-100 rounded-lg shadow-md"
+      className="absolute bottom-12 mx-auto p-[2px] md:p-1 border border-gray-200 bg-white rounded-lg shadow-sm z-20"
     >
-      <div className="flex justify-center space-x-4">
-        <ReactionButton icon="👍" onClick={() => react(postId, "like")} />
-        <ReactionButton icon="❤️" onClick={() => react(postId, "love")} />
-        <ReactionButton icon="😆" onClick={() => react(postId, "haha")} />
-        <ReactionButton icon="😮" onClick={() => react(postId, "wow")} />
-        <ReactionButton icon="😢" onClick={() => react(postId, "sad")} />
-        <ReactionButton icon="😡" onClick={() => react(postId, "angry")} />
+      <div className="flex justify-center space-x-1 md:space-x-2">
+        <ReactionButton
+          isLiked={isLiked}
+          icon="❤️"
+          type="love"
+          onClick={() => react(postId, "love")}
+        />
+        <ReactionButton
+          isLiked={isLiked}
+          icon="👎"
+          type="unlike"
+          onClick={() => react(postId, "unlike")}
+        />
+        <ReactionButton
+          isLiked={isLiked}
+          icon="🤣"
+          type="funny"
+          onClick={() => react(postId, "funny")}
+        />
+        <ReactionButton
+          isLiked={isLiked}
+          icon="⚡"
+          type="vibe boost"
+          onClick={() => react(postId, "vibe boost")}
+        />
+        <ReactionButton
+          isLiked={isLiked}
+          icon="😬"
+          type="awkward"
+          onClick={() => react(postId, "awkward")}
+        />
       </div>
     </div>
   );

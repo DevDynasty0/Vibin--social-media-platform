@@ -33,45 +33,59 @@ export const postApi = apiSlice.injectEndpoints({
         body: { type },
       }),
       async onQueryStarted(
-        { postId, userId },
+        { postId, type },
         { getState, dispatch, queryFulfilled }
       ) {
-        const userEmail = getState()?.auth?.user?.email;
+        const loggedInUser = getState()?.auth?.user;
 
         // optimistic cache update for liking start
         const likeForHomePost = dispatch(
           postApi.util.updateQueryData("getPosts", undefined, (draft) => {
             const draftPost = draft.find((p) => p._id === postId);
-            const isLikeExist = draftPost.likes.indexOf(userEmail);
-            if (isLikeExist !== -1) {
-              draftPost.likes.splice(isLikeExist, 1);
+            const existingReact = draftPost.reactions.find(
+              (reaction) => reaction.user._id === loggedInUser._id
+            );
+
+            const isReactionExist = draftPost.reactions.find(
+              (reaction) => reaction.user._id === loggedInUser._id
+            );
+
+            if (isReactionExist) {
+              if (type) {
+                existingReact.type = type;
+              } else {
+                const filteredData = draftPost.reactions.filter(
+                  (reaction) => reaction.user._id !== loggedInUser._id
+                );
+                draftPost.reactions = filteredData;
+              }
             } else {
-              draftPost.likes.push(userEmail);
+              draftPost.reactions.push({ user: loggedInUser, type });
             }
           })
         );
-        const likeForProfilePost = dispatch(
-          postApi.util.updateQueryData(
-            "getPostsByUserId",
-            { userId },
-            (draft) => {
-              const draftPost = draft.find((p) => p._id === postId);
-              const isLikeExist = draftPost.likes.indexOf(userEmail);
-              if (isLikeExist !== -1) {
-                draftPost.likes.splice(isLikeExist, 1);
-              } else {
-                draftPost.likes.push(userEmail);
-              }
-            }
-          )
-        );
+        // const likeForProfilePost = dispatch(
+        //   postApi.util.updateQueryData(
+        //     "getPostsByUserId",
+        //     { loggedInUserId },
+        //     (draft) => {
+        //       const draftPost = draft.find((p) => p._id === postId);
+        //       const isLikeExist = draftPost.likes.indexOf(userEmail);
+        //       if (isLikeExist !== -1) {
+        //         draftPost.likes.splice(isLikeExist, 1);
+        //       } else {
+        //         draftPost.likes.push(userEmail);
+        //       }
+        //     }
+        //   )
+        // );
         // optimistic cache update for liking end
 
         try {
           await queryFulfilled;
         } catch (error) {
           likeForHomePost.undo();
-          likeForProfilePost.undo();
+          // likeForProfilePost.undo();
         }
       },
     }),

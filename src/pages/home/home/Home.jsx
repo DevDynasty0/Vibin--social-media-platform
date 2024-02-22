@@ -12,13 +12,13 @@ const Home = () => {
     isSuccess,
     refetch: postsRefetch,
   } = useGetPostsQuery();
-console.log(posts,"posts_______________________________________");
+  console.log(posts, "posts_______________________________________");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-    <section className="w-full max-w-[70%] mx-auto">
+    <section className="w-full md:max-w-[70%] mx-auto">
       <AddNewPostCard
         caption={caption}
         setCaption={setCaption}
