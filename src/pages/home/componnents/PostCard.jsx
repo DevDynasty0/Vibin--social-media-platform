@@ -114,9 +114,9 @@ const PostCard = ({ post, currentUser,postOwner}) => {
               <FaEllipsis className="text-2xl"/>
             </MenuButton>
             <MenuList  minWidth="120px" className="ml-auto">
-            {loggedInUser != user?.email && (<MenuItem className=""> <button onClick={isPostSaved ? null : handleSavePost}>
-                  {isPostSaved ? "Saved" : "Save post"}</button></MenuItem>)}
-              {loggedInUser == user?.email && (<MenuItem> <button onClick={handleDeletePost }>Delete</button> </MenuItem>)}
+            {loggedInUser != user?.email && (<MenuItem className=""> <div onClick={isPostSaved ? null : handleSavePost}>
+                  {isPostSaved ? "Saved" : "Save post"}</div></MenuItem>)}
+              {loggedInUser == user?.email && (<MenuItem> <div onClick={handleDeletePost }>Delete</div> </MenuItem>)}
             </MenuList>
           </Menu>
         </div>

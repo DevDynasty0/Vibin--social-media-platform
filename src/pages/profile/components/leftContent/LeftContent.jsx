@@ -39,10 +39,10 @@ const imagePosts = reversedPosts?.filter(
         formData
       );
 
-      // // Assuming your response contains the updated image URL, you can update the profileImage state
-      // if (response.data && response.data.data.avatar !== "") {
-      //   setProfileImage(response.data.data.avatar);
-      // }
+      // Assuming your response contains the updated image URL, you can update the profileImage state
+      if (response.data && response.data.data.avatar !== "") {
+        setProfileImage(response.data.data.avatar);
+      }
       refetchUserInfo();
       refetchProfilePosts();
     } catch (error) {
@@ -135,11 +135,11 @@ const imagePosts = reversedPosts?.filter(
 <div className="bg-white px-5 py-10 rounded-md">
   <p className="font-bold text-xl mb-5">Recent Images</p>
  
-  {imagePosts.length === 0 ? (
+  {imagePosts?.length === 0 ? (
     <p>No images uploaded yet!</p>
   ) : (
     <div className="grid grid-cols-3 gap-1">
-      {imagePosts.slice(0, 6).map((singlePost, index) => (
+      {imagePosts?.slice(0, 6).map((singlePost, index) => (
         <div className="" key={index}>
           <img
             className="bg-white w-28 h-28"
