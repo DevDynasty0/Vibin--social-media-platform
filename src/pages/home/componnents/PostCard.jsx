@@ -8,7 +8,7 @@ import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useDeletePostMutation,
   useLikeMutation,
@@ -19,7 +19,7 @@ import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
-import { userLoggedIn } from "../../../redux/features/auth/authSlice";
+import useSocket from "../../../hooks/useSocket";
 
 const PostCard = ({ post, currentUser,postOwner}) => {
   const {
@@ -38,12 +38,17 @@ const PostCard = ({ post, currentUser,postOwner}) => {
   const [showComment, setShowComment] = useState(false);
   const [sharePost] = useSharePostMutation();
   const isLiked = likes?.indexOf(currentUser?.email);
+  // console.log("is liked", isLiked);
   const getPostAge = moment(createdAt).fromNow();
   const [like] = useLikeMutation();
   const [createNotification] = useCreateNotificationMutation()
+
   const userData = useSelector((state) => state.auth.user);
   const loggedInUser = userData?.email;
   const [isPostSaved, setIsPostSaved] = useState(false);
+  // console.log('post....',post);
+  const { socket, isSocketConnected } = useSocket();
+ 
   const[deletePost]=useDeletePostMutation();
   const[savePost]=useSavePostMutation();
   console.log('----------------post',post);
@@ -69,16 +74,31 @@ const PostCard = ({ post, currentUser,postOwner}) => {
 
   const onLikeHandler = (postId, userId) => {
     like({ postId, userId });
-    const data = {
-      postId:postId,
-      receiverId: user._id,
+
+    // if like then send notification
+    if (isLiked < 0) {
+
+      const data = {
+        postId: postId,
+        receiverId: user._id,
         senderId: userData?._id,
         message: `${userData?.fullName} liked your post.`,
         contentType: "postLike"
+      }
+      const emitData = {
+        ...data,
+        isRead: false,
+        senderId: { senderId: userData?._id, avatar: userData?.avatar }
+      }
+
+      // store data on database
+      createNotification(data)
+
+      // send notification to reciever 
+      socket.emit("new notification", emitData)
     }
-    createNotification(data)
   };
-console.log('postowneeeeeeeeeeeeeeeeeer',postOwner);
+
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
       <div className="  w-[90%] mx-auto pt-4">
@@ -89,12 +109,12 @@ console.log('postowneeeeeeeeeeeeeeeeeer',postOwner);
             <h4 className="font-bold">{user?.fullName}</h4>
             <p>{getPostAge}</p>
           </div>
-          <Menu>
+          <Menu >
             <MenuButton>
               <FaEllipsis className="text-2xl"/>
             </MenuButton>
-            <MenuList>
-            {loggedInUser != user?.email && (<MenuItem> <button onClick={isPostSaved ? null : handleSavePost}>
+            <MenuList  minWidth="120px" className="ml-auto">
+            {loggedInUser != user?.email && (<MenuItem className=""> <button onClick={isPostSaved ? null : handleSavePost}>
                   {isPostSaved ? "Saved" : "Save post"}</button></MenuItem>)}
               {loggedInUser == user?.email && (<MenuItem> <button onClick={handleDeletePost }>Delete</button> </MenuItem>)}
             </MenuList>

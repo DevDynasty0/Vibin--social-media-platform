@@ -24,10 +24,16 @@ export const notificationApi = apiSlice.injectEndpoints({
             }),
             // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
           }),
+        changeNotificationStatus: builder.mutation({
+            query:()=> ({
+                url: "/notifications/change-notication-status",
+                method: "PATCH"
+            })
+        })
     })
 })
 export const {
 useGetNotificationsByUserIdQuery,
-useCreateNotificationMutation
-
+useCreateNotificationMutation,
+useChangeNotificationStatusMutation
 } = notificationApi
