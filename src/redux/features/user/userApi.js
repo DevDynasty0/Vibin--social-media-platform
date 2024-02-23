@@ -62,5 +62,5 @@ export const {
   useGetUserByIdQuery,
   useFollowUserMutation,
   useGetFollowingUsersQuery,
-  useGetFollowersQuery
+  useGetFollowersQuery,
 } = userApi;
