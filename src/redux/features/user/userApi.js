@@ -10,6 +10,13 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    callRefreshToken: builder.mutation({
+      query: () => ({
+        url: "/users/refresh-token",
+        method: "PATCH",
+        body: "",
+      }),
+    }),
     updateUserInfo: builder.mutation({
       query: (data) => ({
         url: "/users/update-user-details",
@@ -17,6 +24,7 @@ export const userApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
     followUser: builder.mutation({
       query: (data) => ({
         url: "/users/follow-user",
@@ -63,4 +71,5 @@ export const {
   useFollowUserMutation,
   useGetFollowingUsersQuery,
   useGetFollowersQuery,
+  useCallRefreshTokenMutation,
 } = userApi;

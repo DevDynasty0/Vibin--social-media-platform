@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-const LeftButton = ({ onHandleClick, name = "", path = "", icon: Icon }) => {
+const LeftButton = ({ name = "", path = "", icon: Icon }) => {
   return (
     <div>
       <NavLink
         to={path}
-        onClick={onHandleClick}
+        // onClick={onHandleClick}
         className={({ isActive }) =>
           isActive
             ? "flex items-center px-2 py-3 gap-2 hover:bg-white rounded bg-white"
