@@ -10,9 +10,10 @@ import { BiMessageError } from "react-icons/bi";
 import { PiApertureLight } from "react-icons/pi";
 import { FaRegAddressCard } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { RiContactsFill, RiContactsLine } from "react-icons/ri";
 import { useUpdateUserInfoMutation } from "../../../../../redux/features/user/userApi";
 
-const About = ({ user, refetchUserInfo }) => {
+const About = ({ user, refetchUserInfo,loggedInUser }) => {
   const { onOpen, onClose } = useDisclosure();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editType, setEditType] = useState("");
@@ -56,6 +57,7 @@ const About = ({ user, refetchUserInfo }) => {
   };
   console.log("edited", editedValue);
   return (
+    <div> {loggedInUser === user.data.email ? (
     <div className="h-full  py-2 px-4">
       {/* User Name */}
       <div className=" border  shadow-md border-color-one  flex items-center justify-between rounded-md px-2">
@@ -237,6 +239,48 @@ const About = ({ user, refetchUserInfo }) => {
           />
         </div>
       </div>
+    </div>):(
+      <div className="w-full p-6 bg-white h-64 rounded-md">
+<div className=" grid grid-cols-3 items-center justify-center">
+        {/* <p>{user.data.fullName}</p> */}
+        <div className="p-2 flex gap-5  items-center"> <FaUser className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></FaUser>
+          <p className="font-bold">Name</p></div>
+        <div className="col-span-2"> 
+          <p>{user?.data?.fullName} </p>
+        </div>
+
+        <div className="p-2 flex gap-5 items-center ">
+          <RiContactsFill className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></RiContactsFill>
+          <p className="font-bold">Contact</p>
+        </div>
+
+<div className="col-span-2"> <p>{user?.data?.extraEmail || `${user.data.fullName} doesn't added contact yet`} </p></div>
+
+        <div className="p-2 flex gap-5 items-center ">
+          <CgCalendarDates className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></CgCalendarDates>
+          <p className="font-bold">Birth Date</p>
+        </div>
+<div className="col-span-2"><p>{user?.data?.dob || `${user.data.fullName} doesn't added birth date yet`}</p></div>
+
+        <div className="p-2 flex gap-5 items-center ">
+          <FaUniversity className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></FaUniversity>
+          <p className="font-bold">University</p>
+        </div>
+        <div className="col-span-2"> <p> {user?.data?.university || `${user.data.fullName} doesn't added university yet`}</p></div>
+
+
+        <div className="p-2 flex gap-5 items-center ">
+          <FaRegAddressCard className="w-6 h-6 p-1 text-white bg-color-one rounded-md"></FaRegAddressCard>
+          <p className="font-bold">Address</p>
+         
+        </div>
+        <div className="col-span-2"> <p> {user?.data?.address || `${user.data.fullName} doesn't added Address yet`}</p></div>
+      </div>
+      </div>
+      
+    )
+    }
+    
     </div>
   );
 };

@@ -7,6 +7,8 @@ import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useState } from "react";
 import {
   useAddReactionMutation,
+  useDeletePostMutation,
+  useSavePostMutation,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
@@ -14,10 +16,10 @@ import Reactions from "./Reactions";
 import reactionsMap from "../../../utils/reactionsMap";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
+import useSocket from "../../../hooks/useSocket";
 
-const PostCard = ({ post, currentUser }) => {
+const PostCard = ({ post, currentUser, postOwner }) => {
   const {
-    user,
     reactions,
     shares,
     comments,
@@ -26,6 +28,7 @@ const PostCard = ({ post, currentUser }) => {
     createdAt,
     contentType,
   } = post || {};
+  const user = postOwner ? postOwner : post.user;
   const [showComment, setShowComment] = useState(false);
   const [isShowReactions, setIsShowReactions] = useState(false);
   const [sharePost] = useSharePostMutation();
@@ -35,7 +38,21 @@ const PostCard = ({ post, currentUser }) => {
   const getPostAge = moment(createdAt).fromNow();
   const [addReaction] = useAddReactionMutation();
   const [createNotification] = useCreateNotificationMutation();
+  // const userData = useSelector((state) => state.auth.user);
+
+  // const isLiked = likes?.indexOf(currentUser?.email);
+  // console.log("is liked", isLiked);
+  // const getPostAge = moment(createdAt).fromNow();
+  // const [like] = useLikeMutation();
+  // const [createNotification] = useCreateNotificationMutation()
+
   const userData = useSelector((state) => state.auth.user);
+  const loggedInUser = userData?.email;
+  const [isPostSaved, setIsPostSaved] = useState(false);
+  const { socket } = useSocket();
+
+  const [deletePost] = useDeletePostMutation();
+  const [savePost] = useSavePostMutation();
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -47,26 +64,55 @@ const PostCard = ({ post, currentUser }) => {
     };
   };
 
+  const handleDeletePost = () => {
+    deletePost({ postId: post._id });
+  };
+
+  const handleSavePost = () => {
+    const newSavePost = {
+      postContent: post.postContent,
+      post: post?._id,
+      postOwner: user._id,
+      user: userData._id,
+      // contentType: "savePost"
+    };
+    savePost(newSavePost);
+    setIsPostSaved(true);
+  };
+
   const onHandleReaction = debounce(setIsShowReactions, 500);
   const react = (e, postId, reaction) => {
     e.stopPropagation();
     addReaction({ postId, type: reaction });
-    const data = {
-      postId: postId,
-      receiverId: user._id,
-      senderId: userData?._id,
-      message: `${userData?.fullName} liked your post.`,
-      contentType: "postLike",
-    };
-    createNotification(data);
     setIsShowReactions(false);
+    // if like then send notification
+    if (!isLiked) {
+      const data = {
+        postId: postId,
+        receiverId: user._id,
+        senderId: userData?._id,
+        message: `${userData?.fullName} liked your post.`,
+        contentType: "postLike",
+      };
+      const emitData = {
+        ...data,
+        isRead: false,
+        senderId: { senderId: userData?._id, avatar: userData?.avatar },
+      };
+
+      // store data on database
+      createNotification(data);
+
+      // send notification to reciever
+      socket.emit("new notification", emitData);
+    }
   };
 
   const mostReaction = reactionsMap(reactions);
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
-      <div className="  w-[90%] mx-auto pt-4">
+      <div className="  w-[90%]  mx-auto pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <img className="w-10 h-10 rounded-full" src={user?.avatar} alt="" />
@@ -78,14 +124,27 @@ const PostCard = ({ post, currentUser }) => {
             <MenuButton>
               <FaEllipsis className="text-2xl" />
             </MenuButton>
-            <MenuList>
-              <MenuItem>Save post</MenuItem>
-              <MenuItem>Share</MenuItem>
+            <MenuList minWidth="120px" className="ml-auto">
+              {loggedInUser != user?.email && (
+                <MenuItem className="">
+                  {" "}
+                  <div onClick={isPostSaved ? null : handleSavePost}>
+                    {isPostSaved ? "Saved" : "Save post"}
+                  </div>
+                </MenuItem>
+              )}
+              {loggedInUser == user?.email && (
+                <MenuItem>
+                  {" "}
+                  <div onClick={handleDeletePost}>Delete</div>{" "}
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
       </div>
+
       {postContent && contentType == "image" && (
         <img className=" w-[90%]  mx-auto" src={postContent} alt="" />
       )}
@@ -103,7 +162,6 @@ const PostCard = ({ post, currentUser }) => {
           Your browser does not support the video tag.
         </video>
       )}
-
       <div className="flex text-[8px] sm:text-sm md:text-md justify-between items-center w-[90%] mx-auto">
         {reactions.length > 0 ? (
           <div className="flex items-center">

@@ -15,6 +15,7 @@ import { FaPlus, FaXmark } from "react-icons/fa6";
 import axios from "axios";
 import { useState } from "react";
 import { LoaderIcon } from "react-hot-toast";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const AddNewPostModal = ({
   isOpen,
@@ -26,7 +27,7 @@ const AddNewPostModal = ({
   postsRefetch,
 }) => {
   const user = useSelector((state) => state.auth.user);
-
+  const token = getAccessToken();
   const [buttonSpinner, setButtonSpinner] = useState(false);
 
   const handlePostSubmit = async (e) => {
@@ -51,6 +52,7 @@ const AddNewPostModal = ({
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

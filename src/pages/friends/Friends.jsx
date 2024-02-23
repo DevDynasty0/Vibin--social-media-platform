@@ -24,7 +24,7 @@ const Friends = () => {
     fetchData();
   }, []);
   return (
-    <section className="mt-10  max-w-4xl mx-auto">
+    <section className="mx-auto">
       <Tabs
         variant="enclosed"
         acitveTab={acitveTab}
@@ -37,20 +37,20 @@ const Friends = () => {
 
         <TabPanels>
           <TabPanel>
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-3 grid gap-5 grid-cols-1  lg:grid-cols-2">
               {following?.map((user) => (
                 <AlreadyFriendCard key={user?._id} user={user} />
               ))}
             </div>
           </TabPanel>
           <TabPanel>
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-3 grid gap-5 grid-cols-1  lg:grid-cols-2">
               {followers.length > 0 ? (
                 followers?.map((user) => (
                   <FriendRequestCard key={user?._id} user={user} />
                 ))
               ) : (
-                <p>No Followers yet.</p>
+                <p className="text-xl">No Followers yet.</p>
               )}
             </div>
           </TabPanel>

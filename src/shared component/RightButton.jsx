@@ -6,13 +6,14 @@ import { followUser } from "../hooks/followUser";
 import useAuthCheck from "../hooks/useAuthCheck";
 import { useCreateNotificationMutation } from "../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
+import useSocket from "../hooks/useSocket";
 
 const RightButton = ({ person }) => {
   const { user } = useAuthCheck();
   const [follow, setFollow] = useState([]);
   const userData = useSelector((state) => state.auth.user);
   const [createNotification] = useCreateNotificationMutation()
-
+  const {socket} = useSocket();
   const handleFollow = async (id) => {
     setFollow([...follow, id]);
     const profile = id;
@@ -27,8 +28,17 @@ const RightButton = ({ person }) => {
         message: `${userData?.fullName} followed you.`,
         contentType: "follow"
     }
+    
+    // save notificaitont to the database
     createNotification(data)
-  
+    const emitData = {
+      ...data,
+      isRead: false,
+      senderId: { senderId: userData?._id, avatar: userData?.avatar }
+    }
+
+    // send notification to reciever 
+    socket.emit("new notification", emitData)
 
   };
 

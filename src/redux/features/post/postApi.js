@@ -25,7 +25,166 @@ export const postApi = apiSlice.injectEndpoints({
       }),
       // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
+    savePost: builder.mutation({
+      query: (newSavePost) => {
+        console.log("newsaveposttttt", newSavePost);
 
+        return { url: `/posts/savePost`, method: "POST", body: newSavePost };
+      },
+    }),
+    getSavePost: builder.query({
+      query: () => ({
+        url: `/posts/getSavePost`,
+        method: "GET",
+      }),
+    }),
+    deletePost: builder.mutation({
+      query: ({ postId }) => ({
+        url: `/posts/delete-post/${postId}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: deletePost } = await queryFulfilled;
+          console.log("deletepost", deletePost);
+          if (deletePost?.result?.deletedCount) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                return draft.filter((p) => p._id != postId);
+              })
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    sharePost: builder.mutation({
+      query: ({ postId }) => ({
+        url: `/posts/create-post-share/${postId}`,
+        method: "PATCH",
+      }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          dispatch(
+            postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+              const draftPost = draft.find((p) => p._id === postId);
+              draftPost.shares += 1;
+            })
+          );
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    createComment: builder.mutation({
+      query: (data) => ({
+        url: "/comments/comment",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: postComment } = await queryFulfilled;
+          if (postComment?.data?._id) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments += 1;
+              })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+                { postId },
+                (draft) => {
+                  draft.data.unshift(postComment.data);
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    deleteComment: builder.mutation({
+      query: ({ commentId, postId }) => ({
+        url: `/comments/comment/${commentId}/${postId}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted(
+        { postId, commentId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: postComment } = await queryFulfilled;
+          if (postComment?.data?.deletedCount) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments -= 1;
+              })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+                { postId },
+                (draft) => {
+                  const commentIndex = draft.data.findIndex(
+                    (p) => p._id === commentId
+                  );
+                  if (commentIndex !== -1) {
+                    draft.data.splice(commentIndex, 1);
+                  }
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    editComment: builder.mutation({
+      query: ({ commentId, content }) => ({
+        url: `/comments/comment/${commentId}`,
+        method: "PATCH",
+        body: { content },
+      }),
+      async onQueryStarted(
+        { commentId, postId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: editedComment } = await queryFulfilled;
+          if (editedComment?.data?._id) {
+            dispatch(
+              postApi.util.updateQueryData(
+                "getComments",
+                { postId },
+                (draft) => {
+                  const findEditedComment = draft.data.find(
+                    (c) => c._id === commentId
+                  );
+                  findEditedComment.comment = editedComment.data.comment;
+                  findEditedComment.updatedAt = editedComment.data.updatedAt;
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    getComments: builder.query({
+      query: ({ postId }) => ({
+        url: `/comments/comment/${postId}`,
+      }),
+    }),
     addReaction: builder.mutation({
       query: ({ postId, type }) => ({
         url: `/posts/reaction/${postId}`,
@@ -89,145 +248,20 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    sharePost: builder.mutation({
-      query: ({ postId }) => ({
-        url: `/posts/create-post-share/${postId}`,
-        method: "PATCH",
-      }),
-      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-
-          dispatch(
-            postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-              const draftPost = draft.find((p) => p._id === postId);
-              draftPost.shares += 1;
-            })
-          );
-        } catch {
-          console.log("error from postApi on createComment: ");
-        }
-      },
-    }),
-    createComment: builder.mutation({
-      query: (data) => ({
-        url: "/comments/comment",
-        method: "POST",
-        body: data,
-      }),
-      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
-        try {
-          const { data: postComment } = await queryFulfilled;
-          if (postComment?.data?._id) {
-            dispatch(
-              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-                const draftPost = draft.find((p) => p._id === postId);
-                draftPost.comments += 1;
-              })
-            );
-            dispatch(
-              postApi.util.updateQueryData(
-                "getComments",
-                { postId },
-                (draft) => {
-                  draft.data.unshift(postComment.data);
-                }
-              )
-            );
-          }
-        } catch {
-          console.log("error from postApi on createComment: ");
-        }
-      },
-    }),
-
-    deleteComment: builder.mutation({
-      query: ({ commentId, postId }) => ({
-        url: `/comments/comment/${commentId}/${postId}`,
-        method: "DELETE",
-      }),
-      async onQueryStarted(
-        { postId, commentId },
-        { dispatch, queryFulfilled }
-      ) {
-        try {
-          const { data: postComment } = await queryFulfilled;
-          if (postComment?.data?.deletedCount) {
-            dispatch(
-              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-                const draftPost = draft.find((p) => p._id === postId);
-                draftPost.comments -= 1;
-              })
-            );
-            dispatch(
-              postApi.util.updateQueryData(
-                "getComments",
-                { postId },
-                (draft) => {
-                  const commentIndex = draft.data.findIndex(
-                    (p) => p._id === commentId
-                  );
-                  if (commentIndex !== -1) {
-                    draft.data.splice(commentIndex, 1);
-                  }
-                }
-              )
-            );
-          }
-        } catch {
-          console.log("error from postApi on createComment: ");
-        }
-      },
-    }),
-
-    editComment: builder.mutation({
-      query: ({ commentId, content }) => ({
-        url: `/comments/comment/${commentId}`,
-        method: "PATCH",
-        body: { content },
-      }),
-      async onQueryStarted(
-        { commentId, postId },
-        { dispatch, queryFulfilled }
-      ) {
-        try {
-          const { data: editedComment } = await queryFulfilled;
-          if (editedComment?.data?._id) {
-            dispatch(
-              postApi.util.updateQueryData(
-                "getComments",
-                { postId },
-                (draft) => {
-                  const findEditedComment = draft.data.find(
-                    (c) => c._id === commentId
-                  );
-                  findEditedComment.comment = editedComment.data.comment;
-                  findEditedComment.updatedAt = editedComment.data.updatedAt;
-                }
-              )
-            );
-          }
-        } catch {
-          console.log("error from postApi on createComment: ");
-        }
-      },
-    }),
-    getComments: builder.query({
-      query: ({ postId }) => ({
-        url: `/comments/comment/${postId}`,
-      }),
-    }),
   }),
 });
 
 export const {
   useGetPostsQuery,
-  useCreatePostMutation,
-  useAddReactionMutation,
   useGetPostsByUserIdQuery,
-  useCreateCommentMutation,
-  useGetCommentsQuery,
+  useCreatePostMutation,
+  useSavePostMutation,
+  useGetSavePostQuery,
+  useDeletePostMutation,
   useSharePostMutation,
+  useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
+  useGetCommentsQuery,
+  useAddReactionMutation,
 } = postApi;
