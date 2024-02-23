@@ -47,8 +47,9 @@ const PostCard = ({ post, currentUser }) => {
     };
   };
 
-  const onHandleReaction = debounce(setIsShowReactions, 450);
-  const react = (postId, reaction) => {
+  const onHandleReaction = debounce(setIsShowReactions, 500);
+  const react = (e, postId, reaction) => {
+    e.stopPropagation();
     addReaction({ postId, type: reaction });
     const data = {
       postId: postId,
@@ -152,12 +153,13 @@ const PostCard = ({ post, currentUser }) => {
           />
         )}
         <div
-          onMouseEnter={() => onHandleReaction(true)}
+          onMouseOver={() => onHandleReaction(true)}
           onMouseLeave={() => onHandleReaction(false)}
+          onMouseDown={() => onHandleReaction(true)}
           className="flex items-center gap-1 md:gap-2"
         >
           {isLiked ? (
-            <button onClick={() => react(post._id)}>
+            <button onClick={(e) => react(e, post._id)}>
               {isLiked.type === "love" && <span>❤️ Love</span>}
               {isLiked.type === "unlike" && <span>👎 Unlike</span>}
               {isLiked.type === "funny" && <span>🤣 Funny</span>}
@@ -166,7 +168,7 @@ const PostCard = ({ post, currentUser }) => {
             </button>
           ) : (
             <button
-              onClick={() => react(post._id, "love")}
+              onClick={(e) => react(e, post._id, "love")}
               className="flex justify-center items-center space-x-1"
             >
               <CiHeart className="text-2xl" />

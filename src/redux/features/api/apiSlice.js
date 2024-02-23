@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedOut } from "../auth/authSlice";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_API_URL,
   credentials: "include",
-  prepareHeaders: async (headers, { getState }) => {
-    const token = getState()?.auth?.accessToken;
+  prepareHeaders: async (headers) => {
+    const token = await getAccessToken();
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("authorization", `Bearer ${token}`);
     }
     return headers;
   },

@@ -16,6 +16,7 @@ const LeftSidebar = () => {
   const handleLogout = async () => {
     const results = await logout();
     if (results?.data?.success) {
+      window.location.reload();
       navigate("/login");
     }
   };

@@ -14,7 +14,7 @@ const ReactionButton = ({ icon, onClick, isLiked, type }) => {
 const Reactions = ({ onHandleReaction, react, postId, isLiked }) => {
   return (
     <div
-      onMouseEnter={() => onHandleReaction(true)}
+      onMouseOver={() => onHandleReaction(true)}
       onMouseLeave={() => onHandleReaction(false)}
       className="absolute bottom-12 mx-auto p-[2px] md:p-1 border border-gray-200 bg-white rounded-lg shadow-sm z-20"
     >
@@ -23,31 +23,31 @@ const Reactions = ({ onHandleReaction, react, postId, isLiked }) => {
           isLiked={isLiked}
           icon="❤️"
           type="love"
-          onClick={() => react(postId, "love")}
+          onClick={(e) => react(e, postId, "love")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="👎"
           type="unlike"
-          onClick={() => react(postId, "unlike")}
+          onClick={(e) => react(e, postId, "unlike")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="🤣"
           type="funny"
-          onClick={() => react(postId, "funny")}
+          onClick={(e) => react(e, postId, "funny")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="⚡"
           type="vibe boost"
-          onClick={() => react(postId, "vibe boost")}
+          onClick={(e) => react(e, postId, "vibe boost")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="😬"
           type="awkward"
-          onClick={() => react(postId, "awkward")}
+          onClick={(e) => react(e, postId, "awkward")}
         />
       </div>
     </div>
