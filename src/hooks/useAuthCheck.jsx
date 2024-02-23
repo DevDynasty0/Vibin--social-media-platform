@@ -12,30 +12,6 @@ export default function useAuthCheck() {
   const [user, setUser] = useState(null);
   const { data: currentUser } = useCurrentUserQuery();
   useEffect(() => {
-    const localAuth = localStorage?.getItem("auth");
-    const auth = JSON.parse(localAuth);
-
-    // async function getUserAuth() {
-    //   if (auth?.user) {
-    //   const res = await currentUser();
-    //   { _id: auth.user._id }
-    //   console.log(res.data.data);
-    //   dispatch(
-    //     userLoggedIn({
-    //       user: res.data.data.user,
-    //       accessToken: res.data.data.accessToken,
-    //     })
-    //   );
-    //   setUser(res.data.data.user);
-    //   setLoading(false);
-    //   } else {
-    //     setLoading(false);
-    //     dispatch(userLoggedOut());
-    //   }
-    // }
-
-    // getUserAuth();
-
     if (currentUser) {
       setUser(currentUser.data.user);
       // console.log(currentUser.data.accessToken);

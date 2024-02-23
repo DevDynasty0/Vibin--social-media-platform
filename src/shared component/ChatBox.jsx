@@ -7,15 +7,29 @@ import { useEffect, useState } from "react";
 import avatar from "../assets/images/avatar.png";
 import { IoSend } from "react-icons/io5";
 import { FaSpinner } from "react-icons/fa6";
+import { TiMessageTyping } from "react-icons/ti";
 
-const ChatBox = ({ socket, userData, otherUserInfo, allChatsRefetch }) => {
+const ChatBox = ({
+  socket,
+  userData,
+  otherUserInfo,
+  allChatsRefetch,
+  setNewMessage,
+}) => {
   const [chatInput, setChatInput] = useState("");
   const [allMessages, setAllMessages] = useState([]);
   const [messageLoding, setMessageLoading] = useState(true);
+  const [typing, setTyping] = useState(false);
   console.log(allMessages);
 
   console.log(otherUserInfo);
   console.log(userData);
+
+  const typingInfo = {
+    receiver: otherUserInfo?._id,
+    sender: userData?._id,
+    typingStatus: true,
+  };
 
   console.log(allMessages);
 
@@ -24,6 +38,10 @@ const ChatBox = ({ socket, userData, otherUserInfo, allChatsRefetch }) => {
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       setAllMessages([...allMessages, newMessageRecieved]);
+    });
+
+    socket.on("typing recieved", (info) => {
+      setTyping(info.typingStatus);
     });
   });
 
@@ -103,7 +121,7 @@ const ChatBox = ({ socket, userData, otherUserInfo, allChatsRefetch }) => {
           <p>Your conversation starts here</p>
         </div>
       )}
-      <ul className="space-y-5 p-4 flex flex-col overflow-y-scroll">
+      <ul className="space-y-5 p-4 flex flex-col overflow-y-scroll  ">
         {/* <!-- Chat --> */}
 
         {!messageLoding &&
@@ -164,8 +182,26 @@ const ChatBox = ({ socket, userData, otherUserInfo, allChatsRefetch }) => {
       </ul>
       <div className="fixed w-full bottom-0 px-4">
         <span className="relative flex items-center ">
+          {typing && (
+            <TiMessageTyping
+              size={"1.6rem"}
+              className="text-color-one animate-bounce   absolute -top-7 left-0"
+            />
+          )}
           <input
-            onChange={(e) => setChatInput(e.target.value)}
+            onChange={(e) => {
+              setChatInput(e.target.value);
+              if (e.target.value.length > 2) {
+                socket.emit("on typing", typingInfo);
+              }
+            }}
+            onBlur={() =>
+              socket.emit("on typing", {
+                receiver: otherUserInfo?._id,
+                sender: userData?._id,
+                typingStatus: false,
+              })
+            }
             value={chatInput}
             type="text"
             className=" w-full border-2 p-2 border-color-one rounded-md"

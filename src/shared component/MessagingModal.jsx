@@ -7,11 +7,7 @@ import { useSelector } from "react-redux";
 import { IoSend } from "react-icons/io5";
 import { LuMailPlus } from "react-icons/lu";
 
-import {
-  useCreateMessageMutation,
-  useGetConversationsQuery,
-  useGetMessagesQuery,
-} from "../redux/features/chat/chatApi";
+import { useGetConversationsQuery } from "../redux/features/chat/chatApi";
 import ChatBox from "./ChatBox";
 import { useGetFollowingUsersQuery } from "../redux/features/user/userApi";
 
@@ -19,6 +15,7 @@ const MessagingModal = ({ socket, userData }) => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [fullChatList, setFullChatList] = useState(false);
+  const [newMessage, setNewMessage] = useState(0);
 
   const messageAvatarStyle =
     "w-[40px] border border-[#904486]  h-[40px] rounded";
@@ -30,11 +27,9 @@ const MessagingModal = ({ socket, userData }) => {
     userData?._id
   );
   console.log("____________allchat", allChats);
-
+  console.log(newMessage);
   const [currentChatId, setCurrentChatId] = useState("");
   const [otherUserInfo, setOtherUserInfo] = useState({});
-
-  // console.log(messeges);
 
   return (
     <div
@@ -44,12 +39,12 @@ const MessagingModal = ({ socket, userData }) => {
           : "transition-all duration-500 h-[45px] "
       }`}
     >
-      <div className="flex justify-between   items-center   px-1.5 border-color-one border-b-[.5px] ">
+      <div className="flex justify-between rounded-t-lg  items-center bg-white  px-1.5   border-[.8px] border-b shadow-md">
         <div className="flex items-center gap-3  w-full ">
           {!isChatOpen ? (
             <img
               src={userData?.avatar ? userData.avatar : avatar}
-              className="w-[50px] text-gray-800 border-2 border-[#904486] h-[45px] rounded"
+              className="w-[40px] text-gray-800 border-2 border-[#904486] h-[40px] p-1 rounded"
             />
           ) : (
             <IoArrowUndoOutline
@@ -57,18 +52,18 @@ const MessagingModal = ({ socket, userData }) => {
                 setIsChatOpen(!isChatOpen);
                 setFullChatList(false);
               }}
-              className="text-3xl   text-color-one hover:bg-white
+              className="text-3xl text-color-one   hover:bg-color-one hover:text-white
                    rounded-full p-0.5"
             />
           )}
-          <div className=" w-full   flex items-end justify-between pr-2 p-0.5">
+          <div className=" w-full    flex items-center justify-between pr-2 ">
             <h4
               onClick={() => {
                 setIsMessageOpen(!isMessageOpen);
                 setFullChatList(false);
                 setIsChatOpen(false);
               }}
-              className="font-medium  text-xl w-full   text-color-one   "
+              className="font-medium  text-lg  w-full   text-color-one   "
             >
               Messages
             </h4>
@@ -102,10 +97,11 @@ const MessagingModal = ({ socket, userData }) => {
       </div>
 
       {isMessageOpen && (
-        <div className="space-y-3 overflow-y-auto h-[calc(100%-4rem)]   relative overflow-x-hidden">
+        <div className="space-y-3 overflow-y-auto h-[calc(100%-4rem)] cursor-default  relative overflow-x-hidden">
           {isChatOpen ? (
-            <div className="relative pb-5">
+            <div className="relative pb-5 ">
               <ChatBox
+                setNewMessage={setNewMessage}
                 allChatsRefetch={allChatsRefetch}
                 currentChatId={currentChatId}
                 socket={socket}
@@ -127,7 +123,7 @@ const MessagingModal = ({ socket, userData }) => {
                       chat.lastMessage && (
                         <div
                           key={chat._id}
-                          className="flex items-center px-4    hover:bg-gray-100   h-[80px]"
+                          className="flex items-center px-4 cursor-pointer   hover:bg-gray-100   h-[80px]"
                         >
                           <div
                             onClick={() => {
@@ -176,7 +172,7 @@ const MessagingModal = ({ socket, userData }) => {
                     return (
                       <div
                         key={following._id}
-                        className="flex items-center px-4   border-b  hover:bg-gray-100   h-[80px]"
+                        className="flex items-center px-4 cursor-pointer  border-b  hover:bg-gray-100   h-[80px]"
                       >
                         <div
                           onClick={() => {
