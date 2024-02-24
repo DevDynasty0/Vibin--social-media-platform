@@ -37,7 +37,7 @@ const SignUp = () => {
       const results = await registerApi(newUser);
       if (results?.data?.success) {
          // From here the userInformation Logic starts.onOpen() is for opening the modal.
-    onOpen(); 
+    // onOpen(); 
         // navigate(from, { replace: true });
       }
     } catch (error) {

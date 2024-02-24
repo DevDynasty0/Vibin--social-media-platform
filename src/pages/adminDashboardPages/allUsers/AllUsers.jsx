@@ -13,13 +13,13 @@ import { useNavigate } from "react-router-dom";
 import useAuthCheck from "../../../hooks/useAuthCheck";
 import axios from "axios";
 import Swal from "sweetalert2";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
-
   const { user: currentUser } = useAuthCheck();
-
   const navigate = useNavigate();
+  const token = getAccessToken();
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/v1/admin/allUsers`)
@@ -27,7 +27,7 @@ const AllUsers = () => {
       .then((data) => setUsers(data.data));
   }, []);
 
-    console.log(users);
+  console.log(users);
 
   const handleSuspendUser = (id) => {
     Swal.fire({
@@ -38,7 +38,7 @@ const AllUsers = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes!",
-    }).then( async  (result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         const data = {
           normalUser: id,
@@ -47,10 +47,15 @@ const AllUsers = () => {
 
         const res = await axios.post(
           `http://localhost:8000/api/v1/admin/suspendUser`,
-          data
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         console.log(res, "crated suspend user");
-        
+
         // if (res.data.insertedId) {
         //   Swal.fire({
         //     title: "Deleted!",

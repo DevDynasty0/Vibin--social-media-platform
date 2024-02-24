@@ -16,6 +16,7 @@ const LeftSidebar = () => {
   const handleLogout = async () => {
     const results = await logout();
     if (results?.data?.success) {
+      window.location.reload();
       navigate("/login");
     }
   };
@@ -55,21 +56,22 @@ const LeftSidebar = () => {
         /> */}
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
-        <LeftButton name={"Saved Posts"} path='/savePost' icon={ FaBookmark } />
+        <LeftButton name={"Saved Posts"} path="/savePost" icon={FaBookmark} />
       </div>
 
       <div
         // onClick={handleLogout}
         // className="flex flex-col absolute w-full  bottom-[48px]"
-        className="w-full mt-auto"
+        className="w-full mt-auto   "
       >
         <hr />
         <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
         <hr />
         <div onClick={handleLogout}>
           <LeftButton
-            onHandleClick={handleLogout}
+            // onHandleClick={handleLogout}
             name={"Logout"}
+            path={"/login"}
             icon={MdLogout}
           />
         </div>

@@ -3,15 +3,15 @@ import { apiSlice } from "../api/apiSlice";
 export const chatApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getConversations: builder.query({
-      query: (id) => ({
-        url: `/chats/conversations/${id}`,
+      query: (userId) => ({
+        url: `/chats/conversations/${userId}`,
         method: "GET",
       }),
     }),
 
     getMessages: builder.query({
-      query: (userId, chatId) => ({
-        url: `/chats/messages/${userId}/${chatId}`,
+      query: (userId, otherId) => ({
+        url: `/chats/messages/${userId}/${otherId}`,
         method: "GET",
       }),
     }),

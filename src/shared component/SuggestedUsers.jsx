@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import RightButton from "./RightButton";
+import getAccessToken from "../utils/getAccessToken";
 
 const SuggestedUsers = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const token = getAccessToken();
   console.log(suggestedUsers);
 
   useEffect(() => {
-    axios("/api/v1/users/suggested-users")
+    axios("/api/v1/users/suggested-users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then(({ data }) => {
         setSuggestedUsers(data?.data);
       })

@@ -1,16 +1,19 @@
 import React from "react";
-
+import nomedia from '../../../../../../../assets/images/no media.png'
 const Images = ({ reversedPosts }) => {
   // Check if reversedPosts is defined and not null
-  if (!reversedPosts || reversedPosts.length === 0) {
-    return <p>No photos uploaded yet!</p>;
-  }
-
+  
   // Filter image posts
-  const imagePosts = reversedPosts.filter(
+  const imagePosts = reversedPosts?.filter(
     (singlePost) =>
-      singlePost.contentType === "image" && singlePost.postContent
+      singlePost?.contentType === "image" && singlePost.postContent
   );
+  if (!reversedPosts || imagePosts?.length === 0) {
+    return <div className="flex flex-col justify-center items-center">
+<img src={nomedia} className="  w-72 h-64" alt="" />
+      <p className="font-bold text-center">No photos uploaded yet!</p>
+    </div>;
+  }
 
   return (
     <div>
