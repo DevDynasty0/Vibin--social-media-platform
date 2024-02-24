@@ -13,7 +13,6 @@ export const userApi = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
-
     updateUserInfo: builder.mutation({
       query: (data) => ({
         url: "/users/update-user-details",
@@ -21,6 +20,7 @@ export const userApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
     followUser: builder.mutation({
       query: (data) => ({
         url: "/users/follow-user",

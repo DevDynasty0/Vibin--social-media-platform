@@ -38,13 +38,6 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   const getPostAge = moment(createdAt).fromNow();
   const [addReaction] = useAddReactionMutation();
   const [createNotification] = useCreateNotificationMutation();
-  // const userData = useSelector((state) => state.auth.user);
-
-  // const isLiked = likes?.indexOf(currentUser?.email);
-  // console.log("is liked", isLiked);
-  // const getPostAge = moment(createdAt).fromNow();
-  // const [like] = useLikeMutation();
-  // const [createNotification] = useCreateNotificationMutation()
 
   const userData = useSelector((state) => state.auth.user);
   const loggedInUser = userData?.email;
@@ -163,7 +156,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
         </video>
       )}
       <div className="flex text-[8px] sm:text-sm md:text-md justify-between items-center w-[90%] mx-auto">
-        {reactions.length > 0 ? (
+        {reactions?.length > 0 ? (
           <div className="flex items-center">
             <div className="flex space-x-[-5px] md:space-x-[-7px]">
               <span className="bg-gray-50 rounded-full p-[2px] z-20">
@@ -177,13 +170,13 @@ const PostCard = ({ post, currentUser, postOwner }) => {
               </span>
             </div>
             <span className="ml-[2px] md:ml-2">
-              {reactions.length > 5 && isLiked
+              {reactions?.length > 5 && isLiked
                 ? `You and ${reactions.length - 1} others`
-                : reactions.length > 5 && !isLiked
+                : reactions?.length > 5 && !isLiked
                 ? `${reactions[0].user.fullName} and ${
                     reactions.length - 1
                   } others`
-                : reactions.length}
+                : reactions?.length}
             </span>
           </div>
         ) : (
