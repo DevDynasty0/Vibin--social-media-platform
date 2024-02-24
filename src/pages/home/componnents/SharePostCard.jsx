@@ -27,7 +27,7 @@ const SharePostCard = ({ post, currentUser }) => {
   const onLikeHandler = (postId, userId) => {
     addReaction({ postId, userId });
   };
-console.log('shaeddata',sharedPostData);
+// console.log('shaeddata',sharedPostData);
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
       <div className="  w-[90%] mx-auto pt-4">

@@ -7,13 +7,13 @@ import React from "react";
 
 import nodatafound from "../assets/images/No data-cuate.png";
 const AllPosts = ({
-  posts,
+  posts = [],
   isSuccess,
   isLoading,
   //  MenuItems
 }) => {
   const currentUser = useSelector((state) => state.auth.user);
-  console.log("allpost", posts);
+  console.log("allpost______________________", posts);
   let content;
   if (isLoading) {
     content = (
@@ -26,16 +26,16 @@ const AllPosts = ({
       content = (
         <div className="flex items-center justify-center flex-col">
           <img className="w-96" src={nodatafound} alt="" />
-          <p className=" text-center font-bold">No posts found!</p>
+          <p className=" text-center font-bold">No posts ...!</p>
         </div>
       );
     } else {
       content = posts.map((post) => {
         if (post?.post) {
           return (
-            <React.Fragment key={post._id}>
-              <SharePostCard currentUser={currentUser} post={post} />
-            </React.Fragment>
+            // <React.Fragment >
+              <SharePostCard key={post._id} currentUser={currentUser} post={post} />
+            // </React.Fragment>
           );
         } else {
           return (
