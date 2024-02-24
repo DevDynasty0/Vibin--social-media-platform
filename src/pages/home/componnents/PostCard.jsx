@@ -1,30 +1,26 @@
-
-
-
-
 import { FaEllipsis } from "react-icons/fa6";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { CiHeart } from "react-icons/ci";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
+  useAddReactionMutation,
   useDeletePostMutation,
-  useLikeMutation,
   useSavePostMutation,
   useSharePostMutation,
 } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
-import { useParams } from "react-router-dom";
+import Reactions from "./Reactions";
+import reactionsMap from "../../../utils/reactionsMap";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
 import useSocket from "../../../hooks/useSocket";
 
-const PostCard = ({ post, currentUser,postOwner}) => {
+const PostCard = ({ post, currentUser, postOwner }) => {
   const {
-    // user,
-    likes,
+    reactions,
     shares,
     comments,
     caption,
@@ -32,72 +28,80 @@ const PostCard = ({ post, currentUser,postOwner}) => {
     createdAt,
     contentType,
   } = post || {};
-  const user=postOwner? postOwner : post.user;
-  
-  const { id } = useParams();
+  const user = postOwner ? postOwner : post.user;
   const [showComment, setShowComment] = useState(false);
+  const [isShowReactions, setIsShowReactions] = useState(false);
   const [sharePost] = useSharePostMutation();
-  const isLiked = likes?.indexOf(currentUser?.email);
-  // console.log("is liked", isLiked);
+  const isLiked = reactions?.find(
+    (reaction) => reaction.user._id === currentUser?._id
+  );
   const getPostAge = moment(createdAt).fromNow();
-  const [like] = useLikeMutation();
-  const [createNotification] = useCreateNotificationMutation()
+  const [addReaction] = useAddReactionMutation();
+  const [createNotification] = useCreateNotificationMutation();
 
   const userData = useSelector((state) => state.auth.user);
   const loggedInUser = userData?.email;
   const [isPostSaved, setIsPostSaved] = useState(false);
-  // console.log('post....',post);
-  const { socket, isSocketConnected } = useSocket();
- 
-  const[deletePost]=useDeletePostMutation();
-  const[savePost]=useSavePostMutation();
-  console.log('----------------post',post);
+  const { socket } = useSocket();
+
+  const [deletePost] = useDeletePostMutation();
+  const [savePost] = useSavePostMutation();
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return function (isHover) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(isHover);
+      }, delay);
+    };
+  };
+
   const handleDeletePost = () => {
-    deletePost({postId:post._id});
-    console.log('postttttttid',post._id)
-  }
+    deletePost({ postId: post._id });
+  };
+
   const handleSavePost = () => {
-   
-    const newSavePost={
-      postContent:post.postContent,
-      post:post?._id,
-      postOwner:user._id,
-      user:userData._id
+    const newSavePost = {
+      postContent: post.postContent,
+      post: post?._id,
+      postOwner: user._id,
+      user: userData._id,
       // contentType: "savePost"
-    }
-    console.log('postid',post._id);
+    };
     savePost(newSavePost);
-    setIsPostSaved(true)
-    console.log('newsave post',newSavePost);
-    console.log('post save successfully',post._id,post.user._id)
-  }
+    setIsPostSaved(true);
+  };
 
-  const onLikeHandler = (postId, userId) => {
-    like({ postId, userId });
-
+  const onHandleReaction = debounce(setIsShowReactions, 500);
+  const react = (e, postId, reaction) => {
+    e.stopPropagation();
+    addReaction({ postId, type: reaction });
+    setIsShowReactions(false);
     // if like then send notification
-    if (isLiked < 0) {
-
+    if (!isLiked) {
       const data = {
         postId: postId,
         receiverId: user._id,
         senderId: userData?._id,
         message: `${userData?.fullName} liked your post.`,
-        contentType: "postLike"
-      }
+        contentType: "postLike",
+      };
       const emitData = {
         ...data,
         isRead: false,
-        senderId: { senderId: userData?._id, avatar: userData?.avatar }
-      }
+        senderId: { senderId: userData?._id, avatar: userData?.avatar },
+      };
 
       // store data on database
-      createNotification(data)
+      createNotification(data);
 
-      // send notification to reciever 
-      socket.emit("new notification", emitData)
+      // send notification to reciever
+      socket.emit("new notification", emitData);
     }
   };
+
+  const mostReaction = reactionsMap(reactions);
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
@@ -109,25 +113,33 @@ const PostCard = ({ post, currentUser,postOwner}) => {
             <h4 className="font-bold">{user?.fullName}</h4>
             <p>{getPostAge}</p>
           </div>
-          <Menu >
+          <Menu>
             <MenuButton>
-              <FaEllipsis className="text-2xl"/>
+              <FaEllipsis className="text-2xl" />
             </MenuButton>
-            <MenuList  minWidth="120px" className="ml-auto">
-            {loggedInUser != user?.email && (<MenuItem className=""> <div onClick={isPostSaved ? null : handleSavePost}>
-                  {isPostSaved ? "Saved" : "Save post"}</div></MenuItem>)}
-              {loggedInUser == user?.email && (<MenuItem> <div onClick={handleDeletePost }>Delete</div> </MenuItem>)}
+            <MenuList minWidth="120px" className="ml-auto">
+              {loggedInUser != user?.email && (
+                <MenuItem className="">
+                  {" "}
+                  <div onClick={isPostSaved ? null : handleSavePost}>
+                    {isPostSaved ? "Saved" : "Save post"}
+                  </div>
+                </MenuItem>
+              )}
+              {loggedInUser == user?.email && (
+                <MenuItem>
+                  {" "}
+                  <div onClick={handleDeletePost}>Delete</div>{" "}
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         </div>
         <p className="mt-2 w-[90%]  text-xl">{caption}</p>
       </div>
+
       {postContent && contentType == "image" && (
-        <img
-          className=" w-[90%]  mx-auto"
-          src={postContent}
-          alt=""
-        />
+        <img className=" w-[90%]  mx-auto" src={postContent} alt="" />
       )}
       {postContent && contentType == "video" && (
         <video
@@ -143,39 +155,77 @@ const PostCard = ({ post, currentUser,postOwner}) => {
           Your browser does not support the video tag.
         </video>
       )}
-
-      <div className="flex justify-between items-center w-[90%] mx-auto">
-        <span className="text-sm md:text-[16px] ">
-          {likes?.length} {likes?.length === 1 ? "Like" : "Likes"}
-        </span>
+      <div className="flex text-[8px] sm:text-sm md:text-md justify-between items-center w-[90%] mx-auto">
+        {reactions?.length > 0 ? (
+          <div className="flex items-center">
+            <div className="flex space-x-[-5px] md:space-x-[-7px]">
+              <span className="bg-gray-50 rounded-full p-[2px] z-20">
+                {mostReaction[0]}
+              </span>
+              <span className="bg-gray-50 rounded-full p-[2px] z-10">
+                {mostReaction[1]}
+              </span>
+              <span className="bg-gray-50 rounded-full p-[2px]">
+                {mostReaction[2]}
+              </span>
+            </div>
+            <span className="ml-[2px] md:ml-2">
+              {reactions?.length > 5 && isLiked
+                ? `You and ${reactions.length - 1} others`
+                : reactions?.length > 5 && !isLiked
+                ? `${reactions[0].user.fullName} and ${
+                    reactions.length - 1
+                  } others`
+                : reactions?.length}
+            </span>
+          </div>
+        ) : (
+          <span></span>
+        )}
         <div className="flex items-center gap-2 md:gap-5">
           <p>
-            <span className="mr-1 text-sm md:text-[16px]">
+            <span className="mr-1">
               {comments}
               {comments === 1 ? " Comment" : " Comments"}
             </span>
           </p>
-          <span className="text-sm md:text-[16px]">
+          <span>
             {shares} {shares === 1 ? " Share" : " Shares"}
           </span>
         </div>
       </div>
-      <div className="mt-2  pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-1 md:gap-2 cursor-pointer ">
-          {isLiked !== -1 ? (
-            <AiFillLike
-              onClick={() => onLikeHandler(post._id, id)}
-              className="text-2xl text-color-one "
-            />
+      <div className="mt-2 relative pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
+        {isShowReactions && (
+          <Reactions
+            postId={post._id}
+            react={react}
+            isLiked={isLiked}
+            onHandleReaction={onHandleReaction}
+          />
+        )}
+        <div
+          onMouseOver={() => onHandleReaction(true)}
+          onMouseLeave={() => onHandleReaction(false)}
+          onMouseDown={() => onHandleReaction(true)}
+          className="flex items-center gap-1 md:gap-2"
+        >
+          {isLiked ? (
+            <button onClick={(e) => react(e, post._id)}>
+              {isLiked.type === "love" && <span>❤️ Love</span>}
+              {isLiked.type === "unlike" && <span>👎 Unlike</span>}
+              {isLiked.type === "funny" && <span>🤣 Funny</span>}
+              {isLiked.type === "vibe boost" && <span>⚡ Vibe Boost</span>}
+              {isLiked.type === "awkward" && <span>😬 Awkward</span>}
+            </button>
           ) : (
-            <AiOutlineLike
-              onClick={() => onLikeHandler(post._id, id)}
-              className="text-2xl"
-            />
+            <button
+              onClick={(e) => react(e, post._id, "love")}
+              className="flex justify-center items-center space-x-1"
+            >
+              <CiHeart className="text-2xl" />
+              <span>Love</span>
+            </button>
           )}
-          <div>
-            <p>Like</p>
-          </div>
         </div>
         <div
           onClick={() => setShowComment((c) => !c)}
@@ -190,10 +240,10 @@ const PostCard = ({ post, currentUser,postOwner}) => {
 
         <div
           onClick={() => sharePost({ postId: post._id })}
-          className="flex items-center gap-1 md:gap-2 cursor-pointer"
+          className="flex items-center gap-1 md:gap-2"
         >
           <PiShareFatThin className="md:text-2xl text-md" />
-          <p className="text-sm md:text-[16px] ">Share</p>
+          <p className="text-sm md:text-[16px]">Share</p>
         </div>
       </div>
       <hr />

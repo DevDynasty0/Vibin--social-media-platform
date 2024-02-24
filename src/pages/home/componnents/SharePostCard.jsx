@@ -5,7 +5,7 @@ import { FaEllipsis } from "react-icons/fa6";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import moment from "moment";
 import { useState } from "react";
-import { useLikeMutation } from "../../../redux/features/post/postApi";
+import { useAddReactionMutation } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
 import { useParams } from "react-router-dom";
 
@@ -19,13 +19,13 @@ const SharePostCard = ({ post, currentUser }) => {
     createdAt,
   } = post || {};
   const { id } = useParams();
-  const [like] = useLikeMutation();
+  const [addReaction] = useAddReactionMutation();
   const [showComment, setShowComment] = useState(false);
   const isLiked = post?.likes?.indexOf(currentUser?.email);
   const getPostAge = moment(sharedPostData.createdAt).fromNow();
   const getSharedPostAge = moment(createdAt).fromNow();
   const onLikeHandler = (postId, userId) => {
-    like({ postId, userId });
+    addReaction({ postId, userId });
   };
 console.log('shaeddata',sharedPostData);
   return (

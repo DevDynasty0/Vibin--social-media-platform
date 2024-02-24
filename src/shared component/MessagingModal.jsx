@@ -165,7 +165,7 @@ const MessagingModal = ({ socket, userData }) => {
                       )
                     );
                   })
-                : followingUsers.data.map((following) => {
+                : followingUsers?.data.map((following) => {
                     const otherUser = following.profile;
                     console.log(otherUser);
 
