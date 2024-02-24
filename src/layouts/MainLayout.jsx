@@ -9,6 +9,7 @@ import { useGetSearchResultQuery } from "../redux/features/user/userApi";
 import MessagingModal from "../shared component/MessagingModal";
 import { useSelector } from "react-redux";
 import useSocket from "../hooks/useSocket";
+import GenarateCaption from "../shared component/viben-ai/GenarateCaption";
 
 
 const MainLayout = () => {
@@ -57,7 +58,7 @@ const MainLayout = () => {
 
         <div
           className={`mt-16 w-full ${location.pathname === "/" ?
-              "lg:mx-auto md:w-2/3  ml-auto  lg:w-3/5 max-w-[850px]" : `md:w-2/3 lg:w-4/5  ${location.pathname.includes("profile") ? "mx-auto" : "ml-auto"}`
+            "lg:mx-auto md:w-2/3  ml-auto  lg:w-3/5 max-w-[850px]" : `md:w-2/3 lg:w-4/5  ${location.pathname.includes("profile") ? "mx-auto" : "ml-auto"}`
             } lg:overflow-y-auto p-6 `}
         >
           <Outlet />
@@ -69,16 +70,7 @@ const MainLayout = () => {
             className={`${right ? "right-0" : " -right-[52rem]"
               }   w-full  lg:w-1/5  max-w-96 p-6 fixed  lg:right-0 overflow-hidden   lg:top-0 transition-all duration-300 pt-10 top-8 mt-6   h-full`}
           >
-            <div className="bg-white rounded p-3 mt-6 mb-4">
-              <div>
-                <h3 className="text-2xl font-medium"> Confused how to express your vibe?</h3>
-                <p className="mt-1">Let <span className="text-color-one">Vibin AI</span> elevate your expression.</p>
-                <form className="mt-2">
-                  <textarea className="border border-black outline-none w-full rounded p-2 focus-visible:border-color-one" type="text" placeholder="Give you prompt" />
-                  <button className="mt-1 bg-color-one text-white rounded p-1">Genarate</button>
-                </form>
-              </div>
-            </div>
+            <GenarateCaption/>
             <SuggestedUsers />
             {/* <TestMessages /> */}
           </div>

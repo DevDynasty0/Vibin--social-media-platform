@@ -26,8 +26,8 @@ const MessagingModal = ({ socket, userData }) => {
   const { data: allChats, refetch: allChatsRefetch } = useGetConversationsQuery(
     userData?._id
   );
-  console.log("____________allchat", allChats);
-  console.log(newMessage);
+  // console.log("____________allchat", allChats);
+  // console.log(newMessage);
   const [currentChatId, setCurrentChatId] = useState("");
   const [otherUserInfo, setOtherUserInfo] = useState({});
 
@@ -39,8 +39,8 @@ const MessagingModal = ({ socket, userData }) => {
           : "transition-all duration-500 h-[45px] "
       }`}
     >
-      <div className="flex justify-between rounded-t-lg  items-center bg-white  px-1.5   border-[.8px] border-b shadow-md">
-        <div className="flex items-center gap-3  w-full ">
+      <div className="flex justify-between rounded-t-lg  items-center bg-white h-[50px]  px-1.5   border-[.8px] border-b shadow-md">
+        <div className="flex items-center gap-3  w-full">
           {!isChatOpen ? (
             <img
               src={userData?.avatar ? userData.avatar : avatar}
@@ -82,7 +82,7 @@ const MessagingModal = ({ socket, userData }) => {
           </div>
         </div>
 
-        <div className=" ">
+        <div className="">
           <i
             onClick={() => {
               setIsMessageOpen(!isMessageOpen);

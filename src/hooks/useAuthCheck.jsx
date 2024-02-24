@@ -2,55 +2,32 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLoggedIn, userLoggedOut } from "../redux/features/auth/authSlice";
 import {
+  // useCurrentUserMutation,
   useCurrentUserQuery,
-  useRefreshTokenMutation,
 } from "../redux/features/user/userApi";
 
 export default function useAuthCheck() {
   const dispatch = useDispatch();
-  const [refreshToken] = useRefreshTokenMutation();
-  const { error } = useCurrentUserQuery();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-
+  const { data: currentUser } = useCurrentUserQuery();
   useEffect(() => {
-    const localAuth = localStorage?.getItem("auth");
-    const auth = JSON.parse(localAuth);
-
-    if (auth?.user) {
+    if (currentUser) {
+      setUser(currentUser.data.user);
+      // console.log(currentUser.data.accessToken);
       dispatch(
         userLoggedIn({
-          user: auth.user,
-          accessToken: auth.accessToken,
+          user: currentUser.data.user,
+          accessToken: currentUser.data.accessToken,
         })
       );
-      setUser(auth.user);
+      setUser(currentUser.data.user);
       setLoading(false);
     } else {
-      setUser(null);
       setLoading(false);
       dispatch(userLoggedOut());
     }
-
-    const getRefreshToken = async () => {
-      if (error && error.originalStatus === 401) {
-        const refreshT = await refreshToken();
-        const userData = refreshT?.data?.data;
-
-        if (userData) {
-          localStorage.setItem(
-            "auth",
-            JSON.stringify({
-              accessToken: userData.accessToken,
-              user: userData.user,
-            })
-          );
-          dispatch(userLoggedIn(userData));
-        }
-      }
-    };
-    getRefreshToken();
-  }, [dispatch, refreshToken, error]);
+  }, [dispatch, currentUser]);
 
   return { user, loading };
 }
