@@ -160,20 +160,24 @@ const PostCard = ({ post, currentUser, postOwner }) => {
           <div className="flex items-center">
             <div className="flex space-x-[-5px] md:space-x-[-7px]">
               <span className="bg-gray-50 rounded-full p-[2px] z-20">
-                {mostReaction[0]}
+                {mostReaction[0][0]}
               </span>
-              <span className="bg-gray-50 rounded-full p-[2px] z-10">
-                {mostReaction[1]}
-              </span>
-              <span className="bg-gray-50 rounded-full p-[2px]">
-                {mostReaction[2]}
-              </span>
+              {mostReaction[1] && (
+                <span className="bg-gray-50 rounded-full p-[2px] z-10">
+                  {mostReaction[1][0]}
+                </span>
+              )}
+              {mostReaction[2] && (
+                <span className="bg-gray-50 rounded-full p-[2px]">
+                  {mostReaction[2][0]}
+                </span>
+              )}
             </div>
             <span className="ml-[2px] md:ml-2">
               {reactions?.length > 5 && isLiked
                 ? `You and ${reactions.length - 1} others`
                 : reactions?.length > 5 && !isLiked
-                ? `${reactions[0].user.fullName} and ${
+                ? `${reactions[reactions.length - 1].user.fullName} and ${
                     reactions.length - 1
                   } others`
                 : reactions?.length}

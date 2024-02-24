@@ -1,47 +1,34 @@
 const reactionsMap = (reactions) => {
   const reactionsMap = new Map();
-  if (reactions?.length > 0) {
-    for (let i = 0; i < reactions.length; i++) {
-      const reaction = reactionsMap[reactions[i].type];
-      const type = reactions[i].type;
-      switch (type) {
-        case "love":
-          if (!reaction) {
-            reactionsMap["❤️"] = 0;
-          }
-          reactionsMap["❤️"]++;
-          break;
-        case "unlike":
-          if (!reaction) {
-            reactionsMap["👎"] = 0;
-          }
-          reactionsMap["👎"]++;
-          break;
-        case "funny":
-          if (!reaction) {
-            reactionsMap["🤣"] = 0;
-          }
-          reactionsMap["🤣"]++;
-          break;
-        case "vibe boost":
-          if (!reaction) {
-            reactionsMap["⚡"] = 0;
-          }
-          reactionsMap["⚡"]++;
-          break;
-        case "awkward":
-          if (!reaction) {
-            reactionsMap["😬"] = 0;
-          }
-          reactionsMap["😬"]++;
-          break;
-        default:
-          break;
-      }
+  for (let i = 0; i < reactions.length; i++) {
+    const type = reactions[i].type;
+    switch (type) {
+      case "love":
+        reactionsMap.set("❤️", (reactionsMap.get("❤️") || 0) + 1);
+        break;
+      case "unlike":
+        reactionsMap.set("👎", (reactionsMap.get("👎") || 0) + 1);
+        break;
+      case "funny":
+        reactionsMap.set("🤣", (reactionsMap.get("🤣") || 0) + 1);
+        break;
+      case "vibe boost":
+        reactionsMap.set("⚡", (reactionsMap.get("⚡") || 0) + 1);
+        break;
+      case "awkward":
+        reactionsMap.set("😬", (reactionsMap.get("😬") || 0) + 1);
+        break;
+      default:
+        break;
     }
   }
 
-  return Object.keys(reactionsMap);
+  // Convert Map to array of [key, value] pairs and sort by value in descending order
+  const sortedArray = Array.from(reactionsMap.entries()).sort(
+    (a, b) => b[1] - a[1]
+  );
+
+  return sortedArray;
 };
 
 export default reactionsMap;
