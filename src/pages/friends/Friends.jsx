@@ -37,14 +37,14 @@ const Friends = () => {
 
         <TabPanels>
           <TabPanel>
-            <div className="mt-3 grid gap-5 grid-cols-1  lg:grid-cols-2">
+            <div className="mt-3 grid gap-5 grid-cols-1  lg:grid-cols-3 ">
               {following?.map((user) => (
                 <AlreadyFriendCard key={user?._id} user={user} />
               ))}
             </div>
           </TabPanel>
           <TabPanel>
-            <div className="mt-3 grid gap-5 grid-cols-1  lg:grid-cols-2">
+            <div className="mt-3 grid gap-5 grid-cols-1 md:grid-cols-1 lg:grid-cols-2  xl:grid-cols-3">
               {followers?.length > 0 ? (
                 followers?.map((user) => (
                   <FriendRequestCard key={user?._id} user={user} />
