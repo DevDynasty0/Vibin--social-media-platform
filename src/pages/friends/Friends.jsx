@@ -24,15 +24,16 @@ const Friends = () => {
     fetchData();
   }, []);
   return (
-    <section className="mx-auto">
+    <section className="mx-auto ">
       <Tabs
         variant="enclosed"
         acitveTab={acitveTab}
         onChange={(index) => setActiveTab(index)}
+       
       >
         <TabList>
-          <Tab>Following</Tab>
-          <Tab>Followers</Tab>
+          <Tab className=" text-black">Following <span className="text-white ml-2 bg-purple-500 rounded-full w-6 h-6">{following?.length}</span></Tab>
+          <Tab >Followers <span className="text-white ml-2 bg-green-500 rounded-full w-6 h-6">{followers?.length}</span></Tab>
         </TabList>
 
         <TabPanels>

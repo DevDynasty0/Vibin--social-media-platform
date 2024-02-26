@@ -40,7 +40,7 @@ const AlreadyFriendCard = ({ user }) => {
     <div className="">
   
 <div
-    className="max-w-2xl mx-4 h-96 w-10/12 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
+    className="max-w-2xl mx-4 h-96 w-10/12 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-1 bg-white shadow-xl rounded-lg text-gray-900">
 <Link  to ={`/profile/${user?.profile?._id}`}><div>
 <div className="rounded-t-lg h-32 overflow-hidden">
         <img className="object-cover object-top w-full" src={user?.profile?.coverImage
