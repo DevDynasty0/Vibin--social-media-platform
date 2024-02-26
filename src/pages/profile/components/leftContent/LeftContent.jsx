@@ -35,7 +35,7 @@ const imagePosts = reversedPosts?.filter(
       formData.append("avatar", avatar); // append the image file
 
       const response = await axios.patch(
-        "/api/v1/users/change-avatar",
+        "https://vibin-c5r0.onrender.com/api/v1/users/change-avatar",
         formData
       );
 

@@ -3,7 +3,8 @@ import { userLoggedOut } from "../auth/authSlice";
 import getAccessToken from "../../../utils/getAccessToken";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_BASE_API_URL,
+  // baseUrl: import.meta.env.VITE_BASE_API_URL,
+  baseUrl: "https://vibin-c5r0.onrender.com/api/v1",
   credentials: "include",
   prepareHeaders: async (headers) => {
     const token = await getAccessToken();

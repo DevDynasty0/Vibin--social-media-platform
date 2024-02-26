@@ -12,7 +12,7 @@ import {
 } from "../redux/features/chat/chatApi";
 import ChatBox from "./ChatBox";
 
-const ENDPOINT = "http://localhost:8000";
+const ENDPOINT = " ";
 
 let socket, selectedChatCompare;
 const Temp = () => {
