@@ -18,8 +18,8 @@ const AdminDashboard = () => {
 
   const [suspendedUsers, setSuspendedUsers] = useState([]);
 
-  const data = [ 
-    { name: "Jan 1-7", uv: 400,  },
+  const data = [
+    { name: "Jan 1-7", uv: 400, },
     { name: "Jan 8-14", uv: 500, },
     { name: "Jan 15-21", uv: 600, },
     { name: "Jan 15-21", uv: 700, },
@@ -27,16 +27,16 @@ const AdminDashboard = () => {
     { name: "Jan 15-21", uv: 800, },
     { name: "Jan 15-21", uv: 900, },
     { name: "Jan 15-21", uv: 950, },
-];
+  ];
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/totalPostCount`)
       .then((res) => res.json())
       .then((data) => setPostsCount(data.data));
   }, []);
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getSuspendUsers"
+        " https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers"
       );
       setSuspendedUsers(res.data.data);
     };
@@ -155,11 +155,11 @@ const AdminDashboard = () => {
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
         >
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" name="Weekly posts"/>
+          <Line type="monotone" dataKey="uv" stroke="#8884d8" name="Weekly posts" />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          
-          <XAxis dataKey="name" >  
-          {/* <Label value="Weekly posts" offset={-1} position="insideBottom" /> */}
+
+          <XAxis dataKey="name" >
+            {/* <Label value="Weekly posts" offset={-1} position="insideBottom" /> */}
           </XAxis>
           <Legend></Legend>
           <YAxis />

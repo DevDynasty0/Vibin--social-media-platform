@@ -45,7 +45,7 @@ const Friends = () => {
           </TabPanel>
           <TabPanel>
             <div className="mt-3 grid gap-5 grid-cols-1  lg:grid-cols-2">
-              {followers.length > 0 ? (
+              {followers?.length > 0 ? (
                 followers?.map((user) => (
                   <FriendRequestCard key={user?._id} user={user} />
                 ))

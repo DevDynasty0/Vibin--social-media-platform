@@ -13,7 +13,7 @@ const AllPosts = ({
   //  MenuItems
 }) => {
   const currentUser = useSelector((state) => state.auth.user);
-  console.log("allpost______________________", posts);
+  // console.log("allpost______________________", posts);
   let content;
   if (isLoading) {
     content = (

@@ -13,7 +13,7 @@ const GenarateCaption = () => {
         const userPrompt = e.target.userPrompt.value;
         console.log(userPrompt);
         const result = await captionGenarator({prompt: userPrompt});
-        console.log(result.data.caption);
+        // console.log(result.data.caption);
         if(result?.data?.caption){
             e.target.userPrompt.value = "";
             setPrompt(userPrompt);

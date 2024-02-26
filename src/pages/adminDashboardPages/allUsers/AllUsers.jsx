@@ -22,7 +22,7 @@ const AllUsers = () => {
   const token = getAccessToken();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
   }, []);
@@ -46,7 +46,7 @@ const AllUsers = () => {
         };
 
         const res = await axios.post(
-          `http://localhost:8000/api/v1/admin/suspendUser`,
+          `https://vibin-c5r0.onrender.com/api/v1/admin/suspendUser`,
           data,
           {
             headers: {

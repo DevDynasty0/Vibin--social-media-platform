@@ -22,7 +22,7 @@ const AlreadyFriendCard = ({ user }) => {
       blockedPerson: user.profile._id,
       blockedBy: currentUser._id,
     };
-    fetch(`http://localhost:8000/api/v1/settings/blockUser`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/settings/blockUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const AlreadyFriendCard = ({ user }) => {
 
   return (
     <div className="border p-2 flex items-center gap-3  rounded shadow-md">
-          
+
       <div className="w-[120px] shrink-0">
         <img
           className="w-full rounded"
@@ -47,7 +47,7 @@ const AlreadyFriendCard = ({ user }) => {
         <h5 className="font-semibold text-xl">{user?.profile?.fullName}</h5>
         <div className="mt-3 flex gap-2 justify-between">
           <Menu placement="top">
-            <BsMessenger size="1.5rem"/>
+            <BsMessenger size="1.5rem" />
             <MenuButton>
               <BsThreeDotsVertical size="1.5rem" className="cursor-pointer" />
             </MenuButton>
