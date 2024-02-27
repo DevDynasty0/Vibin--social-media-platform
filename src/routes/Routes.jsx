@@ -51,6 +51,7 @@ const Routes = createBrowserRouter([
         path: "friends",
         element: <Friends />,
       },
+     
       {
         path: "search",
         element: <SearchResult />,
