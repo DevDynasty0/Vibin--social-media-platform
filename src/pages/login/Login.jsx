@@ -6,7 +6,14 @@ import { FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleSignIn from "../../shared component/GoogleSignIn";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
-
+import signin from '../../assets/images/login-cuate-rahida.png'
+import { MdOutlineMailOutline } from "react-icons/md";
+import { CiLock } from "react-icons/ci";
+import { TfiEmail } from "react-icons/tfi";
+import { PiEnvelopeSimpleLight } from "react-icons/pi";
+import { GrFormViewHide } from "react-icons/gr";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { RxCrossCircled } from "react-icons/rx";
 const Login = () => {
   const [login, { isError, isLoading }] = useLoginMutation();
   const navigate = useNavigate();
@@ -30,29 +37,31 @@ const Login = () => {
     <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-2">
       <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto md:mx-0 ">
         <h2 className="font-semibold text-3xl ">Welcome Back</h2>
-        <p className="my-2 text-lg">Log in to your Account.</p>
+        <p className="my-2 text-md ">Log in to your account.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative my-3 w-[90%] md:w-[75%] mx-auto md:mx-0">
+          <div className="relative mb-3 mt-7 w-[90%] md:w-[75%] mx-auto md:mx-0">
+         
             <input
               required
               id="email"
-              className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
+              className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full  text-sm text-gray-900  border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
               type="email"
               {...register("email", { required: true })}
               placeholder=" "
             />
+           
             <label
               htmlFor="email"
               className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
             >
-              Email
+             <div className="flex items-center gap-3"> <  PiEnvelopeSimpleLight className="text-2xl text-color-one "></ PiEnvelopeSimpleLight> Email address</div>
             </label>
           </div>
           <div className="relative w-[90%] md:w-[75%] mx-auto md:mx-0">
             <input
               required
               id="password"
-              className="block w-full rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
+              className="block w-full rounded-t-lg px-2.5 pb-2.5 pt-5 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#904486] peer"
               type={displayPassIcon ? "text" : "password"}
               {...register("password", { required: true })}
               placeholder=" "
@@ -61,32 +70,25 @@ const Login = () => {
               onClick={() => setDisplayPassIcon(!displayPassIcon)}
               className="cursor-pointer absolute right-[2%] top-[35%]"
             >
-              {displayPassIcon ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+              {displayPassIcon ? <RxCrossCircled className="text-md text-color-one font-bold"></RxCrossCircled> : <IoIosCheckmarkCircle className="text-md text-color-one font-bold"></IoIosCheckmarkCircle>}
             </span>
             <label
               htmlFor="password"
               className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
                          peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
             >
-              Password
+              <div className="flex items-center gap-2"> < CiLock className="text-2xl text-color-one"></CiLock> Password</div>
             </label>
           </div>
-          <div className="flex justify-between mt-2 w-[90%] md:w-[75%] mx-auto md:mx-0 text-xs lg:text-sm ">
-            <Link to="" className="text-color-one">
-              Forget Your Password?
-            </Link>
-            <Link to="/sign-up" className="underline text-color-one">
-              Create Account
-            </Link>
-          </div>
+         
 
-          <div className="mt-3 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
+          <div className="mt-7 w-[90%] md:w-[75%] text-center mx-auto md:mx-0">
             <button
               disabled={isLoading}
-              className={`w-1/2 md:w-2/3 lg:w-1/2 px-6 py-3 text-center  border-[1px] text-gray-800 bg-white shadow-md  rounded-md ${
+              className={`w-1/2 md:w-2/3 lg:w-full px-6 py-3 text-center  text-white bg-color-one shadow-md  rounded-md ${
                 isLoading
                   ? "cursor-not-allowed"
-                  : "hover:text-gray-600 hover:bg-gray-200  "
+                  : "hover:text-black hover:bg-color-one hover:opacity-80  "
               }`}
               type="submit"
             >
@@ -115,12 +117,23 @@ const Login = () => {
                   </path>
                 </svg>
               ) : (
-                <div className="flex justify-center items-center gap-2">
-                  <p>Login</p>
-                  <FaArrowRight></FaArrowRight>
+                <div className="flex justify-center items-center gap-2 ">
+                  <p>Sign In </p>
+                  {/* <FaArrowRight></FaArrowRight> */}
                 </div>
               )}
             </button>
+          </div>
+          <div className="flex justify-between mt-4 w-[90%] md:w-[75%] mx-auto md:mx-0 text-xs lg:text-sm ">
+            <Link to="" className="text-color-one">
+              Forget password?
+            </Link>
+            <div className="flex items-center gap-2">
+            <p>New here?</p>
+            <Link to="/sign-up" className=" text-color-one hover:underline">
+             Sign Up
+            </Link>
+            </div>
           </div>
           {isError && (
             <span className="text-rose-600 my-1">
@@ -174,7 +187,7 @@ const Login = () => {
         </div>
       </div>
       <div className="w-[53%] hidden md:block ">
-        <img src={loginBanner} alt="Sign In Image" />
+        <img src={signin} alt="Sign In Image" />
       </div>
       {/* call here footer  */}
     </div>
