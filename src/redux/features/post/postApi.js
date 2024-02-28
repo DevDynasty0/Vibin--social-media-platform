@@ -56,19 +56,29 @@ export const postApi = apiSlice.injectEndpoints({
       },
     }),
     sharePost: builder.mutation({
-      query: ({ postId }) => ({
-        url: `/posts/create-post-share/${postId}`,
+      query: ({ post }) => ({
+        url: `/posts/create-post-share/${post._id}`,
         method: "PATCH",
       }),
-      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ post }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
 
           dispatch(
             postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-              const draftPost = draft.find((p) => p._id === postId);
+              const draftPost = draft.find((p) => p._id === post._id);
               draftPost.shares += 1;
             })
+          );
+          dispatch(
+            postApi.util.updateQueryData(
+              "getPostsByUserId",
+              { userId: post.user._id },
+              (draft) => {
+                const draftPost = draft.find((p) => p._id === post._id);
+                draftPost.shares += 1;
+              }
+            )
           );
         } catch {
           console.log("error from postApi on createComment: ");
@@ -182,26 +192,27 @@ export const postApi = apiSlice.injectEndpoints({
       }),
     }),
     addReaction: builder.mutation({
-      query: ({ postId, type }) => ({
-        url: `/posts/reaction/${postId}`,
+      query: ({ post, type }) => ({
+        url: `/posts/reaction/${post._id}`,
         method: "PATCH",
         body: { type },
       }),
       async onQueryStarted(
-        { postId, type },
+        { post, type },
         { getState, dispatch, queryFulfilled }
       ) {
         const loggedInUser = getState()?.auth?.user;
+        const userId = post.user._id;
 
         // optimistic cache update for liking start
         const likeForHomePost = dispatch(
           postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-            const draftPost = draft.find((p) => p._id === postId);
-            const existingReact = draftPost.reactions.find(
+            const draftPost = draft.find((p) => p._id === post._id);
+            const existingReact = draftPost?.reactions.find(
               (reaction) => reaction.user._id === loggedInUser._id
             );
 
-            const isReactionExist = draftPost.reactions.find(
+            const isReactionExist = draftPost?.reactions.find(
               (reaction) => reaction.user._id === loggedInUser._id
             );
 
@@ -219,28 +230,124 @@ export const postApi = apiSlice.injectEndpoints({
             }
           })
         );
-        // const likeForProfilePost = dispatch(
-        //   postApi.util.updateQueryData(
-        //     "getPostsByUserId",
-        //     { loggedInUserId },
-        //     (draft) => {
-        //       const draftPost = draft.find((p) => p._id === postId);
-        //       const isLikeExist = draftPost.likes.indexOf(userEmail);
-        //       if (isLikeExist !== -1) {
-        //         draftPost.likes.splice(isLikeExist, 1);
-        //       } else {
-        //         draftPost.likes.push(userEmail);
-        //       }
-        //     }
-        //   )
-        // );
+        const likeForProfilePost = dispatch(
+          postApi.util.updateQueryData(
+            "getPostsByUserId",
+            {
+              userId,
+            },
+            (draft) => {
+              const draftPost = draft.find((p) => p._id === post?._id);
+              const existingReact = draftPost?.reactions.find(
+                (reaction) => reaction.user._id === loggedInUser._id
+              );
+
+              const isReactionExist = draftPost?.reactions.find(
+                (reaction) => reaction.user._id === loggedInUser._id
+              );
+
+              if (isReactionExist) {
+                if (type) {
+                  existingReact.type = type;
+                } else {
+                  const filteredData = draftPost.reactions.filter(
+                    (reaction) => reaction.user._id !== loggedInUser._id
+                  );
+                  draftPost.reactions = filteredData;
+                }
+              } else {
+                draftPost.reactions.push({ user: loggedInUser, type });
+              }
+            }
+          )
+        );
         // optimistic cache update for liking end
 
         try {
           await queryFulfilled;
         } catch (error) {
           likeForHomePost.undo();
-          // likeForProfilePost.undo();
+          likeForProfilePost.undo();
+        }
+      },
+    }),
+    addReactionOnSharePost: builder.mutation({
+      query: ({ post, type }) => ({
+        url: `/posts/reaction-on-share-post/${post._id}`,
+        method: "PATCH",
+        body: { type },
+      }),
+      async onQueryStarted(
+        { post, type },
+        { getState, dispatch, queryFulfilled }
+      ) {
+        const loggedInUser = getState()?.auth?.user;
+        const userId = post.user._id;
+
+        // optimistic cache update for liking start
+        const likeForHomePost = dispatch(
+          postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+            const draftPost = draft.find((p) => p._id === post._id);
+            const existingReact = draftPost?.reactions.find(
+              (reaction) => reaction.user._id === loggedInUser._id
+            );
+
+            const isReactionExist = draftPost?.reactions.find(
+              (reaction) => reaction.user._id === loggedInUser._id
+            );
+
+            if (isReactionExist) {
+              if (type) {
+                existingReact.type = type;
+              } else {
+                const filteredData = draftPost.reactions.filter(
+                  (reaction) => reaction.user._id !== loggedInUser._id
+                );
+                draftPost.reactions = filteredData;
+              }
+            } else {
+              draftPost.reactions.push({ user: loggedInUser, type });
+            }
+          })
+        );
+        const likeForProfilePost = dispatch(
+          postApi.util.updateQueryData(
+            "getPostsByUserId",
+            {
+              userId,
+            },
+            (draft) => {
+              const draftPost = draft.find((p) => p._id === post?._id);
+              const existingReact = draftPost?.reactions.find(
+                (reaction) => reaction.user._id === loggedInUser._id
+              );
+
+              const isReactionExist = draftPost?.reactions.find(
+                (reaction) => reaction.user._id === loggedInUser._id
+              );
+
+              if (isReactionExist) {
+                if (type) {
+                  existingReact.type = type;
+                } else {
+                  const filteredData = draftPost.reactions.filter(
+                    (reaction) => reaction.user._id !== loggedInUser._id
+                  );
+                  draftPost.reactions = filteredData;
+                }
+              } else {
+                draftPost.reactions.push({ user: loggedInUser, type });
+              }
+            }
+          )
+        );
+        // optimistic cache update for liking end
+
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          likeForHomePost.undo();
+          likeForProfilePost.undo();
         }
       },
     }),
@@ -260,4 +367,5 @@ export const {
   useEditCommentMutation,
   useGetCommentsQuery,
   useAddReactionMutation,
+  useAddReactionOnSharePostMutation,
 } = postApi;

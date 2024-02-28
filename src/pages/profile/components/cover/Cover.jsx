@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
-import coverdefault from '../../../../assets/images/coverdefault.png'
+import coverdefault from "../../../../assets/images/coverdefault.png";
 const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
   const [coverImage, setCoverImage] = useState("");
 
@@ -11,7 +11,7 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
       formData.append("coverImage", coverImage);
 
       const response = await axios.patch(
-        "/api/v1/users/change-cover-image",
+        "http://localhost:8000/api/v1/users/change-cover-image",
         formData
       );
       console.log(response);

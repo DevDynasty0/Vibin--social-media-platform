@@ -20,7 +20,7 @@ const ReactionButton = ({ icon, onClick, isLiked, type }) => {
   );
 };
 
-const Reactions = ({ onHandleReaction, react, postId, isLiked }) => {
+const Reactions = ({ onHandleReaction, react, post, isLiked }) => {
   return (
     <motion.div
       initial={{ y: 28, x: -85, scale: 0.2, opacity: 0 }}
@@ -45,31 +45,31 @@ const Reactions = ({ onHandleReaction, react, postId, isLiked }) => {
           isLiked={isLiked}
           icon="❤️"
           type="love"
-          onClick={(e) => react(e, postId, "love")}
+          onClick={(e) => react(e, post, "love")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="👎"
           type="unlike"
-          onClick={(e) => react(e, postId, "unlike")}
+          onClick={(e) => react(e, post, "unlike")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="🤣"
           type="funny"
-          onClick={(e) => react(e, postId, "funny")}
+          onClick={(e) => react(e, post, "funny")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="⚡"
           type="vibe boost"
-          onClick={(e) => react(e, postId, "vibe boost")}
+          onClick={(e) => react(e, post, "vibe boost")}
         />
         <ReactionButton
           isLiked={isLiked}
           icon="😬"
           type="awkward"
-          onClick={(e) => react(e, postId, "awkward")}
+          onClick={(e) => react(e, post, "awkward")}
         />
       </div>
     </motion.div>

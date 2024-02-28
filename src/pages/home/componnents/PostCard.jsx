@@ -3,8 +3,15 @@ import { CiHeart } from "react-icons/ci";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useState } from "react";
+import {
+  Box,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useToast,
+} from "@chakra-ui/react";
+import { useRef, useState } from "react";
 import {
   useAddReactionMutation,
   useDeletePostMutation,
@@ -35,6 +42,8 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   const isLiked = reactions?.find(
     (reaction) => reaction.user._id === currentUser?._id
   );
+  const toast = useToast();
+  const toastIdRef = useRef();
   const getPostAge = moment(createdAt).fromNow();
   const [addReaction] = useAddReactionMutation();
   const [createNotification] = useCreateNotificationMutation();
@@ -74,14 +83,14 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   };
 
   const onHandleReaction = debounce(setIsShowReactions, 450);
-  const react = (e, postId, reaction) => {
+  const react = (e, post, reaction) => {
     e.stopPropagation();
-    addReaction({ postId, type: reaction });
+    addReaction({ post, type: reaction });
     setIsShowReactions(false);
     // if like then send notification
     if (!isLiked) {
       const data = {
-        postId: postId,
+        postId: post._id,
         receiverId: user._id,
         senderId: userData?._id,
         message: `${userData?.fullName} liked your post.`,
@@ -102,6 +111,26 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   };
 
   const mostReaction = reactionsMap(reactions);
+
+  const onHandleSharePost = (post) => {
+    if (toastIdRef.current) {
+      toast.close(toastIdRef.current);
+    }
+    sharePost({ post });
+    toastIdRef.current = toast({
+      duration: 1500,
+      render: () => (
+        <Box
+          color="black"
+          bg="white"
+          p={1}
+          className="shadow-md rounded-md text-center"
+        >
+          You shared this post.
+        </Box>
+      ),
+    });
+  };
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4  ">
@@ -201,7 +230,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
       <div className="mt-2 relative pb-4 md:w-[90%] w-[96%] mx-auto flex items-center justify-between">
         {isShowReactions && (
           <Reactions
-            postId={post._id}
+            post={post}
             react={react}
             isLiked={isLiked}
             onHandleReaction={onHandleReaction}
@@ -214,7 +243,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
           className="flex items-center gap-1 md:gap-2"
         >
           {isLiked ? (
-            <button onClick={(e) => react(e, post._id)}>
+            <button onClick={(e) => react(e, post)}>
               {isLiked.type === "love" && <span>❤️ Love</span>}
               {isLiked.type === "unlike" && <span>👎 Unlike</span>}
               {isLiked.type === "funny" && <span>🤣 Funny</span>}
@@ -223,7 +252,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
             </button>
           ) : (
             <button
-              onClick={(e) => react(e, post._id, "love")}
+              onClick={(e) => react(e, post, "love")}
               className="flex justify-center items-center space-x-1"
             >
               <CiHeart className="text-2xl" />
@@ -243,7 +272,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
         </div>
 
         <div
-          onClick={() => sharePost({ postId: post._id })}
+          onClick={() => onHandleSharePost(post)}
           className="flex items-center gap-1 md:gap-2"
         >
           <PiShareFatThin className="md:text-2xl text-md" />

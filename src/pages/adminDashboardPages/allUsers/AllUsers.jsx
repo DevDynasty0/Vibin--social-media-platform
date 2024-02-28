@@ -19,7 +19,7 @@ const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const { user: currentUser } = useAuthCheck();
   const navigate = useNavigate();
-  const token = getAccessToken();
+  const auth = getAccessToken();
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/v1/admin/allUsers`)
@@ -50,7 +50,7 @@ const AllUsers = () => {
           data,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${auth.accessToken}`,
             },
           }
         );

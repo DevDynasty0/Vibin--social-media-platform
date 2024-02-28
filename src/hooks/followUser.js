@@ -2,18 +2,17 @@ import axios from "axios";
 import getAccessToken from "../utils/getAccessToken";
 
 export const followUser = async (profileId, followerId) => {
-  // const res = await useAxiosSecure()
   try {
-    const token = getAccessToken();
+    const auth = await getAccessToken();
     const res = await axios.post(
-      "/api/v1/users/follow-user",
+      "http://localhost:8000/api/v1/users/follow-user",
       {
         profile: profileId,
         follower: followerId,
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${auth.accessToken}`,
         },
       }
     );

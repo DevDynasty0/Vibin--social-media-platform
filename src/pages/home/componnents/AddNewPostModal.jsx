@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Spinner,
   Button,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
@@ -27,7 +26,7 @@ const AddNewPostModal = ({
   postsRefetch,
 }) => {
   const user = useSelector((state) => state.auth.user);
-  const token = getAccessToken();
+  const auth = getAccessToken();
   const [buttonSpinner, setButtonSpinner] = useState(false);
 
   const handlePostSubmit = async (e) => {
@@ -46,13 +45,13 @@ const AddNewPostModal = ({
     };
     try {
       const res = await axios.post(
-        "/api/v1/posts/post",
+        "http://localhost:8000/api/v1/posts/post",
         // { newPost, formData },
         newPost,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${auth.accessToken}`,
           },
         }
       );

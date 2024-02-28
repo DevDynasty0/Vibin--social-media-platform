@@ -67,14 +67,14 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
     logout: builder.mutation({
-      query: () => ({
-        url: "/users/logout",
+      query: ({ userId }) => ({
+        url: `/users/logout/${userId}`,
         method: "POST",
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if (result.data.success) {
+          if (result?.data?.user) {
             localStorage.clear("auth");
             dispatch(userLoggedOut());
           }

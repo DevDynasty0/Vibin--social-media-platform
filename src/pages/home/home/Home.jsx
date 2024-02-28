@@ -12,7 +12,7 @@ const Home = () => {
     isSuccess,
     refetch: postsRefetch,
   } = useGetPostsQuery();
-  console.log(posts, "posts_______________________________________");
+  // console.log(posts, "posts_______________________________________");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [caption, setCaption] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);

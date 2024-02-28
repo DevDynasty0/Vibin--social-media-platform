@@ -44,7 +44,7 @@ const Navbar = ({
   const { data:notificationsData, refetch:refetchNotifications } = useGetNotificationsByUserIdQuery(userData?._id)
   
   const [notificationState, setNotificationState] = useState([]);
-  console.log("Notification  state", notificationState);
+  // console.log("Notification  state", notificationState);
   const { socket } = useSocket();
   const [changeNotificationStatus] = useChangeNotificationStatusMutation();
 

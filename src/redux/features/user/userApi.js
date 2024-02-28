@@ -7,6 +7,12 @@ export const userApi = apiSlice.injectEndpoints({
         url: "/users/current-user",
       }),
     }),
+    suggestedUsers: builder.query({
+      query: () => ({
+        url: "/users/suggested-users",
+        method: "GET",
+      }),
+    }),
     updateUserInfo: builder.mutation({
       query: (data) => ({
         url: "/users/update-user-details",
@@ -60,4 +66,5 @@ export const {
   useGetFollowingUsersQuery,
   useGetFollowersQuery,
   useGetUserByIdQuery,
+  useSuggestedUsersQuery,
 } = userApi;

@@ -49,7 +49,7 @@ const ChatBox = ({
     const fetchData = async () => {
       if (otherUserInfo._id && userData._id) {
         const { data } = await axios.get(
-          `/api/v1/chats/messages/${userData?._id}/${otherUserInfo?._id}`
+          `http://localhost:8000/api/v1/chats/messages/${userData?._id}/${otherUserInfo?._id}`
         );
 
         if (data?.messages) {
