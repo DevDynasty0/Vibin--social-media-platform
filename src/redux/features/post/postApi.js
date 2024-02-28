@@ -19,11 +19,7 @@ export const postApi = apiSlice.injectEndpoints({
         url: "/posts/post",
         method: "POST",
         body: newPost,
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        // },
       }),
-      // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
     savePost: builder.mutation({
       query: (newSavePost) => {

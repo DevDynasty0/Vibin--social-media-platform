@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLoggedIn, userLoggedOut } from "../redux/features/auth/authSlice";
-import {
-  useCurrentUserQuery,
-  useRefreshTokenMutation,
-} from "../redux/features/user/userApi";
 
 export default function useAuthCheck() {
   const dispatch = useDispatch();
-  const [refreshToken] = useRefreshTokenMutation();
-  const { error } = useCurrentUserQuery();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
@@ -31,26 +25,7 @@ export default function useAuthCheck() {
       setLoading(false);
       dispatch(userLoggedOut());
     }
-
-    const getRefreshToken = async () => {
-      if (error && error.originalStatus === 401) {
-        const refreshT = await refreshToken();
-        const userData = refreshT?.data?.data;
-
-        if (userData) {
-          localStorage.setItem(
-            "auth",
-            JSON.stringify({
-              accessToken: userData.accessToken,
-              user: userData.user,
-            })
-          );
-          dispatch(userLoggedIn(userData));
-        }
-      }
-    };
-    getRefreshToken();
-  }, [dispatch, refreshToken, error]);
+  }, [dispatch]);
 
   return { user, loading };
 }

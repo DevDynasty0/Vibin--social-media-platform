@@ -73,7 +73,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
     setIsPostSaved(true);
   };
 
-  const onHandleReaction = debounce(setIsShowReactions, 500);
+  const onHandleReaction = debounce(setIsShowReactions, 450);
   const react = (e, postId, reaction) => {
     e.stopPropagation();
     addReaction({ postId, type: reaction });

@@ -7,12 +7,6 @@ export const userApi = apiSlice.injectEndpoints({
         url: "/users/current-user",
       }),
     }),
-    refreshToken: builder.mutation({
-      query: () => ({
-        url: "/users/refresh-token",
-        method: "POST",
-      }),
-    }),
     updateUserInfo: builder.mutation({
       query: (data) => ({
         url: "/users/update-user-details",
@@ -60,7 +54,6 @@ export const userApi = apiSlice.injectEndpoints({
 
 export const {
   useCurrentUserQuery,
-  useRefreshTokenMutation,
   useUpdateUserInfoMutation,
   useFollowUserMutation,
   useGetSearchResultQuery,

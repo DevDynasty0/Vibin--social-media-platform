@@ -7,7 +7,7 @@ const Friends = () => {
   const [acitveTab, setActiveTab] = useState(1);
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
-  console.log(following);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

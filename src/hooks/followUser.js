@@ -2,6 +2,7 @@ import axios from "axios";
 import getAccessToken from "../utils/getAccessToken";
 
 export const followUser = async (profileId, followerId) => {
+  // const res = await useAxiosSecure()
   try {
     const token = getAccessToken();
     const res = await axios.post(

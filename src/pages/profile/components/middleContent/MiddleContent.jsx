@@ -1,24 +1,13 @@
-import { useEffect, useState } from "react";
-import {
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import About from "./TabContent.jsx/About";
-
 import Media from "./TabContent.jsx/Media/Media";
 import AllPosts from "../../../../shared component/AllPosts";
-// import {  getFollowingUsers } from "../../../../hooks/getFollowers";
 import { useSelector } from "react-redux";
-// import { followUser } from "../../../../hooks/followUser";
-import { useFollowUserMutation, useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
+import {
+  useFollowUserMutation,
+  useGetFollowingUsersQuery,
+} from "../../../../redux/features/user/userApi";
 import SavePosts from "./TabContent.jsx/SavePosts";
-
-
 
 const MiddleContent = ({
   user,
@@ -30,21 +19,21 @@ const MiddleContent = ({
 }) => {
   // const [following, setFollowing] = useState([]);
   const userData = useSelector((state) => state.auth.user);
-  const [followUser] = useFollowUserMutation()
-  const {data,refetch : getFollowingRefetch} = useGetFollowingUsersQuery()
+  const [followUser] = useFollowUserMutation();
+  const { data, refetch: getFollowingRefetch } = useGetFollowingUsersQuery();
   console.log(data);
 
   const handleFollow = async (id) => {
     // setFollow([...follow, id]);
     const profile = id;
-    const follower = userData?._id
+    const follower = userData?._id;
     console.log(follower, "you");
-    const res = await followUser({profile, follower});
-    getFollowingRefetch()
-    refetchUserInfo()
+    const res = await followUser({ profile, follower });
+    getFollowingRefetch();
+    refetchUserInfo();
     console.log(res);
     // const data = {
-    
+
     //   receiverId: profile,
     //     senderId: follower,
     //     message: `${userData?.fullName} followed you.`,
@@ -52,7 +41,7 @@ const MiddleContent = ({
     // }
     // createNotification(data)
   };
-    
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -67,7 +56,7 @@ const MiddleContent = ({
   //   fetchData();
   // }, []);
   // const MenuItems = () => {
-   
+
   //   return (
   //     <MenuList>
   //       <MenuItem>Save Post</MenuItem>
@@ -83,23 +72,30 @@ const MiddleContent = ({
           <div className="flex items-center  justify-between">
             <TabList>
               <Tab className="!px-2 md:!px-4 ">Post</Tab>
-              {loggedInUser == user.data.email && (   <Tab className="!px-2 md:!px-4">Save Posts</Tab>)}
+              {loggedInUser == user.data.email && (
+                <Tab className="!px-2 md:!px-4">Save Posts</Tab>
+              )}
               {/* <Tab className="!px-2 md:!px-4">Likes</Tab> */}
               {/* {loggedInUser == user.data.email && ( */}
-                <Tab className="!px-2 md:!px-4">About</Tab>
+              <Tab className="!px-2 md:!px-4">About</Tab>
               {/* )} */}
-              {loggedInUser == user.data.email && (   <Tab className="!px-2 md:!px-4">Media</Tab>)}
+              {loggedInUser == user.data.email && (
+                <Tab className="!px-2 md:!px-4">Media</Tab>
+              )}
             </TabList>
             {loggedInUser !== user.data.email && (
               <div>
                 <button
-                 onClick={() => handleFollow(user?.data?._id)}
-                className=" bg-color-one md:py-2  py-1 px-1 md:px-6 md:mr-3  rounded-md  text-xs md:text-xl text-white font-bold">
-
-                {data?.data?.find((singleFollowing) => singleFollowing?.profile?._id === user?.data?._id) ? "Following" : "Follow"}
-                
+                  onClick={() => handleFollow(user?.data?._id)}
+                  className=" bg-color-one md:py-2  py-1 px-1 md:px-6 md:mr-3  rounded-md  text-xs md:text-xl text-white font-bold"
+                >
+                  {data?.data?.find(
+                    (singleFollowing) =>
+                      singleFollowing?.profile?._id === user?.data?._id
+                  )
+                    ? "Following"
+                    : "Follow"}
                 </button>
-                
               </div>
             )}
           </div>
@@ -114,23 +110,30 @@ const MiddleContent = ({
               ></AllPosts>
             </TabPanel>
 
-            {loggedInUser == user.data.email && ( <TabPanel>
-             <SavePosts></SavePosts>
-            </TabPanel>)}
+            {loggedInUser == user.data.email && (
+              <TabPanel>
+                <SavePosts></SavePosts>
+              </TabPanel>
+            )}
 
             {/* {loggedInUser != user.data.email && (<TabPanel>
              <AboutForVisitors user={user} loggedInUser={loggedInUser}></AboutForVisitors>
             </TabPanel>)} */}
 
             {/* {loggedInUser == user.data.email && ( */}
-              <TabPanel>
-                <About user={user} loggedInUser={loggedInUser} refetchUserInfo={refetchUserInfo}></About>
-              </TabPanel>
-            {/* )} */}
-             {loggedInUser == user.data.email && (
             <TabPanel>
-              <Media reversedPosts={reversedPosts} />
-            </TabPanel>)}
+              <About
+                user={user}
+                loggedInUser={loggedInUser}
+                refetchUserInfo={refetchUserInfo}
+              ></About>
+            </TabPanel>
+            {/* )} */}
+            {loggedInUser == user.data.email && (
+              <TabPanel>
+                <Media reversedPosts={reversedPosts} />
+              </TabPanel>
+            )}
           </TabPanels>
         </Tabs>
       </div>
