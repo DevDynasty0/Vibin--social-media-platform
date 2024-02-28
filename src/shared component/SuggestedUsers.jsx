@@ -28,7 +28,7 @@ const SuggestedUsers = () => {
 console.log("suggested users", suggestedUsers);
   return (
     <>
-      <h4 className=" text-color-one text-opacity-85 underline font-semibold   mb-3">
+      <h4 className="p-3 text-color-one text-opacity-85 underline font-semibold   mb-3">
         Suggested Friends
       </h4>
       {suggestedUsers?.data?.map((user) => (

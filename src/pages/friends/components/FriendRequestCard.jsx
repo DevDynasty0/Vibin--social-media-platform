@@ -4,7 +4,7 @@ const FriendRequestCard = ({ user }) => {
 console.log('frifoooooo',user?.follower?._id);
   return (
     <div
-    className="py-8 px-8 max-w-sm mx-auto bg-white   rounded-xl shadow-md space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
+    className="py-8 px-8  mx-auto bg-white   rounded-xl shadow-md  sm:py-4 sm:flex sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full">
    <Link  to ={`/profile/${user?.follower?._id}`}> <img className="block mx-auto h-24 rounded-full cursor-pointer sm:mx-0 sm:shrink-0"  src={user?.profile?.avatar ? user?.profile?.avatar : avatar} alt="Woman's Face"></img></Link>
     <div className="text-center space-y-2 sm:text-left">
         <div className="space-y-0.5">
