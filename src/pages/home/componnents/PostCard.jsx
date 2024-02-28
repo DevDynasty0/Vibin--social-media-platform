@@ -135,7 +135,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
             </MenuList>
           </Menu>
         </div>
-        <p className="mt-2 w-[90%]  text-xl">{caption}</p>
+        <p className="mt-2 w-[90%]  text-md">{caption}</p>
       </div>
 
       {postContent && contentType == "image" && (
