@@ -51,7 +51,7 @@ const MainLayout = () => {
         {!location.pathname.includes("profile") && (
           <div
             className={`${!left ? " -left-[52rem]" : " left-0"
-              } w-full   md:w-1/3 lg:w-[25%]  pl-6 pt-6 fixed top-8 mt-6   md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-transparent  `}
+              } w-full   md:w-1/3 lg:w-[25%]  p-6  fixed top-8 mt-6   md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-white  `}
           >
             <LeftSidebar />
           </div>
@@ -68,8 +68,8 @@ const MainLayout = () => {
         {/* right side */}
         {location.pathname === "/" && (
           <div
-            className={`${right ? "right-0" : " -right-[52rem]"
-              }   w-full  lg:w-[30%] p-6 fixed  lg:right-0 overflow-hidden   lg:top-0 transition-all duration-300 pt-10 top-8 mt-6   h-full`}
+            className="
+                 w-full  lg:w-[30%] px-6 pt-6 fixed hidden lg:block right-0 overflow-hidden   lg:top-0 transition-all duration-300 top-8 mt-6   h-full"
           >
             {/* <GenarateCaption/> */}
           

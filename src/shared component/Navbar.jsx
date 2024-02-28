@@ -55,7 +55,7 @@ const Navbar = ({
   useEffect(() => {
     setNotificationState(notificationsData?.data || [])
   }, [notificationsData])
-
+  const user = useSelector((state) => state.auth.user);
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -65,7 +65,7 @@ const Navbar = ({
         setShowResults(false);
       }
     }
-
+console.log('navvvvvvvvvvvvvv',user);
     document.addEventListener("click", handleClickOutside);
 
     // Cleanup function to remove event listener
@@ -104,7 +104,7 @@ return (
               <img
                 // src="./vibin-logo3.png"
                 src={logo}
-                className="h-10 w-14 object-cover   "
+                className="md:h-10 md:w-14 w-10 h-7 object-cover   "
                 alt="Vibin' Logo"
               />
             </figure>
@@ -112,52 +112,13 @@ return (
               Vibin<span className="">'</span>
             </span> */}
           </a>{" "}
-          <div><p className="text-3xl font-bold font-serif text-color-one ">ibin'</p></div>
+          <div><p className="lg:text-3xl md:text-2xl text-xl font-bold font-serif text-color-one ">ibin'</p></div>
           
         </div>
 
-        {/* <div className=" max-w-[600px] mx-auto flex items-center justify-between flex-grow-1 w-full   cursor-pointer text-white  ">
-          <NavLink
-            to={"/"}
-            className={({ isActive }) =>
-              isActive
-                ? "text-color-one  flex border-white border-b   justify-center bg-white rounded   p-1   text-center mx-auto"
-                : "flex  text-center mx-auto  justify-center  p-1   text-white      "
-            }
-          >
-            <div className="  rounded   px-1  ">
-              <FaHome size={"1.2rem"} />
-            </div>
-          </NavLink>
-          <NavLink
-            to={"/trending"}
-            className={({ isActive }) =>
-              isActive
-                ? "text-color-one  flex border-white border-b   justify-center bg-white rounded   p-1   text-center mx-auto"
-                : "flex  text-center mx-auto  justify-center  p-1   text-white      "
-            }
-          >
-            <div className=" text-white hover:text-color-one rounded    px-1">
-              <FaFire />
-            </div>
-          </NavLink>
-          <NavLink
-            to={"/videos"}
-            className={({ isActive }) =>
-              isActive
-                ? "text-color-one  flex border-white border-b   justify-center bg-white rounded   p-1   text-center mx-auto"
-                : "flex  text-center mx-auto  justify-center  p-1   text-white      "
-            }
-          >
-            <div className=" text-white hover:text-color-one rounded    px-1">
-              <FaVideo />
-            </div>
-          </NavLink>
-        </div> */}
+      
         <div className="w-full text-white hover:text-color-one   justify-end flex items-center gap-3 ">
-          {/* <div className=" hover:text-white  bg-gray-50 shadow-md     text-color-one rounded   p-1  ">
-            <FaRegMessage />
-          </div> */}
+          
           {/* Notifications  start*/}
           <SearchButton
             setShowResults={setShowResults}
@@ -204,16 +165,17 @@ return (
               </div>
             </div>
           )}
-          <div className=" shadow-md  text-color-one rounded   p-1 relative">
+          <div className="  text-color-one rounded   p-1 relative">
             <Menu>
               <MenuButton
                 onClick={() => {changeNotificationStatus(); refetchNotifications() }}
-                variant="outline"
+                // variant="outline"
                 as={IconButton}
                 // aria-label="Options"
-                icon={<IoNotifications />}
+                icon={<IoNotifications className="text-xl"></IoNotifications>}
                 color={"color-one"}
                 bgColor={"white"}
+                className=" !shadow-none !p-0"
               >
                
               </MenuButton>
@@ -248,14 +210,7 @@ return (
             </Menu>
           </div>
           {/* Notifications end*/}
-          {/* <FaUserCircle
-              className="block md:hidden"
-              size={"1.125rem"}
-              onClick={() => {
-                setRight(false);
-                setLeft(!left);
-              }}
-            />  */}
+          
           <div className=" text-white  hover:text-color-one rounded   px-1  ">
             {left ? (
               <FaXmark
@@ -280,7 +235,7 @@ return (
           {/* try avater */}
           <div>
           <Stack direction='row' spacing={4}>
-  <Avatar className="w-6 h-6 rounded-full" boxSize={10}>
+  <Avatar className="w-6 h-6 rounded-full" boxSize={10} src={user?.avatar}>
     <AvatarBadge boxSize='0.80em' bg='green.500' />
   </Avatar>
 

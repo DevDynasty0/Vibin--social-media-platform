@@ -44,8 +44,10 @@ const RightButton = ({ person }) => {
 
   return (
     <div>
-      <div className="flex   px-2 py-3 gap-2 hover:bg-white hover:bg-opacity-40 rounded">
-        <NavLink to={`/profile/${person?._id}`} className={""}>
+      <div className="grid grid-cols-3  items-center  px-2 py-3  hover:bg-white hover:bg-opacity-40 rounded">
+        <div className=" col-span-2">
+       <div className="flex items-center gap-3">
+       <NavLink to={`/profile/${person?._id}`} className=" ">
           <img
             className="h-14 w-14 rounded bg-gray-50"
             src={person?.avatar || avatar}
@@ -53,15 +55,20 @@ const RightButton = ({ person }) => {
         </NavLink>
 
         {/* Render the icon if provided */}
-        <div className=" ">
+        <div className="text-start  items-center">
           <span className="  font-medium">{person?.fullName}</span> <br />
-          <button
+          <p className="text-[12px] lg:text-[9px] xl:text-[12px] text-gray-500">Suggested for you</p>
+        </div>
+       </div>
+        </div>
+       <div className="col-span-1">
+       <button
             onClick={() => handleFollow(person?._id)}
-            className="px-1 w-16  gradient-one  text-white text-xs rounded-sm py-1 shadow"
+            className="px-1 w-16 h-7 gradient-one  text-white text-xs rounded-sm py-1 shadow"
           >
             {follow?.find((id) => id === person?._id) ? "Following" : "Follow"}
           </button>
-        </div>
+       </div>
       </div>
     </div>
   );
