@@ -27,7 +27,7 @@ const AddNewPostCard = ({ onOpen, caption }) => {
             onClick={onOpen}
             readOnly
           />
-          <div className="mt-2 flex items-center gap-3">
+          <div className="mt-2 flex items-center gap-3 ">
             <IoImageOutline
               size="1.5rem"
               onClick={onOpen}

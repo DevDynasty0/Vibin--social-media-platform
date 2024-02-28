@@ -18,6 +18,8 @@ import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
 import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
 
 import ShowSavePosts from "../pages/profile/ShowSavePosts";
+import { Video } from "cloudinary-react";
+import Trending from "../pages/Trending/Trending";
 
 
 const Routes = createBrowserRouter([
@@ -50,6 +52,14 @@ const Routes = createBrowserRouter([
       {
         path: "friends",
         element: <Friends />,
+      },
+      {
+        path: "video",
+        element: <Video />,
+      },
+      {
+        path: "trending",
+        element: <Trending />,
       },
      
       {

@@ -27,14 +27,14 @@ const SuggestedUsers = () => {
 
 console.log("suggested users", suggestedUsers);
   return (
-    <>
-      <h4 className="p-3 text-color-one text-opacity-85 underline font-semibold   mb-3">
+    <div className="bg-white p-3 xl:w-[80%] py-3 mt-10 mb-3 rounded">
+      <h4 className=" text-color-one pb-2 font-semibold ">
         Suggested Friends
       </h4>
       {suggestedUsers?.data?.map((user) => (
         <RightButton key={user._id} person={user} />
       ))}
-    </>
+    </div>
   );
 };
 
