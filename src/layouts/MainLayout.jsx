@@ -10,6 +10,7 @@ import MessagingModal from "../shared component/MessagingModal";
 import { useSelector } from "react-redux";
 import useSocket from "../hooks/useSocket";
 import GenarateCaption from "../shared component/viben-ai/GenarateCaption";
+import AiAdvertisement from "../shared component/viben-ai/AiAdvertisement";
 
 
 const MainLayout = () => {
@@ -50,7 +51,7 @@ const MainLayout = () => {
         {!location.pathname.includes("profile") && (
           <div
             className={`${!left ? " -left-[52rem]" : " left-0"
-              } w-full   md:w-1/3 lg:w-1/5  max-w-96  pl-6 pt-6 fixed top-8 mt-6   md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-transparent  `}
+              } w-full   md:w-1/3 lg:w-[25%]   pl-6 pt-6 fixed top-8 mt-6   md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-transparent  `}
           >
             <LeftSidebar />
           </div>
@@ -58,7 +59,7 @@ const MainLayout = () => {
 
         <div
           className={`mt-16 w-full ${location.pathname === "/" ?
-            "lg:mx-auto md:w-2/3  ml-auto  lg:w-3/5 max-w-[850px]" : `md:w-2/3 lg:w-4/5  ${location.pathname.includes("profile") ? "mx-auto" : "ml-auto"}`
+            "lg:mx-auto md:w-2/3  ml-auto  lg:w-[45%] " : `md:w-2/3 lg:w-4/5  ${location.pathname.includes("profile") ? "mx-auto" : "ml-auto"}`
             } lg:overflow-y-auto p-6 `}
         >
           <Outlet />
@@ -68,10 +69,12 @@ const MainLayout = () => {
         {location.pathname === "/" && (
           <div
             className={`${right ? "right-0" : " -right-[52rem]"
-              }   w-full  lg:w-1/5  max-w-96 p-6 fixed  lg:right-0 overflow-hidden   lg:top-0 transition-all duration-300 pt-10 top-8 mt-6   h-full`}
+              }   w-full  lg:w-[25%]   p-6 fixed  lg:right-0 overflow-hidden   lg:top-0 transition-all duration-300 pt-10 top-8 mt-6   h-full`}
           >
-            <GenarateCaption/>
+            {/* <GenarateCaption/> */}
+          
             <SuggestedUsers />
+            <AiAdvertisement></AiAdvertisement>
             {/* <TestMessages /> */}
           </div>
         )}

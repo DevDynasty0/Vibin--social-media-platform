@@ -18,7 +18,7 @@ const Home = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-    <section className="w-full max-w-[80%] mx-auto">
+    <section className="w-full  mx-auto">
       <AddNewPostCard
         caption={caption}
         setCaption={setCaption}

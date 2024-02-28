@@ -38,7 +38,7 @@ const AdminDashboardLayout = () => {
         />
         {/* left sidebar */}
         <div
-          className={`p-2 bg-blue-800
+          className={`p-2       bg-blue-800
  w-60 flex flex-col   top-0 lg:left-0  fixed  h-full z-50 transition-all duration-300  ${
    open ? "left-0" : "-left-60"
  }  `}

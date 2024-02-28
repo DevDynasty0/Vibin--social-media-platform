@@ -50,11 +50,17 @@
 }
 
 .gradient-one {
-  background: linear-gradient(130deg, #914887 20%, #8b257e 77.5%);
+  background: linear-gradient(130deg, #914887 10%, #8b257e 77.5%);
+  /* background: rgba(43, 80, 202, 0.619); */
+  /* background: #8F43EE; */
+ /* @apply bg-blue-800 */
+ /* @apply bg-purple-500 */
 }
 
 .gradient-two {
-  background: linear-gradient(
+  background-color: rgba(245, 233, 233, .5);
+ 
+  /* background: linear-gradient(
     90deg,
     rgb(238, 237, 243) 0%,
     0.77381%,
@@ -85,7 +91,7 @@
     rgb(224, 224, 252) 91.1905%,
     95.5952%,
     rgb(220, 223, 252) 100%
-  );
+  ); */
 }
 .myBg {
   background: #5433FF;  /* fallback for old browsers */

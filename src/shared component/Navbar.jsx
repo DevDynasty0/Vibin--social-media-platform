@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/color.css";
+import logo from "../assets/images/PurpleLogo2.png"
 import {
   FaAlignJustify,
   FaFire,
@@ -14,6 +15,8 @@ import notificationAvatar from '../assets/images/avatar.png'
 import avatar from "../assets/images/avatar.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
+  Avatar,
+  AvatarBadge,
   Button,
   IconButton,
   Image,
@@ -21,6 +24,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Stack,
 } from "@chakra-ui/react";
 import { IoNotifications } from "react-icons/io5";
 import { useSelector } from "react-redux";
@@ -87,19 +91,20 @@ const Navbar = ({
 
 return (
   <>
-    <nav className=" px-5 text-white gradient-one   w-full z-50 dark:bg-gray-900 shadow-md fixed min-w-full">
-      <div className="flex  items-center justify-between  ">
+    <nav className=" px-5 text-white bg-white   w-full z-50  shadow-md fixed min-w-full">
+      <div className="flex  items-center  ">
         <div
           // onBlur={() => setShowResults(false)}
           ref={containerRef}
           className="flex w-full   
-          gap-4 items-center  py-2 relative"
+           items-center  py-2 relative"
         >
           <a href="/" className="flex items-center  ">
             <figure className="    ">
               <img
-                src="./vibin-logo3.png"
-                className="h-8 w-16 object-cover drop-shadow-md  "
+                // src="./vibin-logo3.png"
+                src={logo}
+                className="h-10 w-14 object-cover   "
                 alt="Vibin' Logo"
               />
             </figure>
@@ -107,54 +112,11 @@ return (
               Vibin<span className="">'</span>
             </span> */}
           </a>{" "}
-          <SearchButton
-            setShowResults={setShowResults}
-            setSearchInput={setSearchInput}
-            searchInput={searchInput}
-          />
-          {searchInput && (
-            <div
-              onClick={() => {
-                setSearchInput(searchInput);
-                setShowResults(true);
-              }}
-              className={`${searchInput.length > 0 && showResults ? "absolute" : "hidden"
-                } bg-white top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
-            >
-              <div className="text-lg font-medium mx-2 mt-0.5">
-                Search results
-              </div>
-              <ul className="p-2">
-                {searchResults?.users.length > 0
-                  ? searchResults?.users?.slice(0, 4)?.map((user) => (
-                    <div
-                      onClick={() => {
-                        setShowResults(true);
-                        navigate(`/profile/${user?._id}`);
-                      }}
-                      key={user._id}
-                      className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
-                    >
-                      <img
-                        src={user?.avatar ? user?.avatar : avatar}
-                        alt=""
-                        className="w-12 h-10  rounded    "
-                      />
-                      <li>{user?.fullName}</li>
-                      <FaMagnifyingGlass className="ml-auto text-gray-500" />
-                    </div>
-                  ))
-                  : "No matched results"}
-              </ul>
-
-              <div className="  w-full gradient-one rounded-b-md text-white p-1  border-t-2 ">
-                <p>See All</p>{" "}
-              </div>
-            </div>
-          )}
+          <div><p className="text-3xl font-bold font-serif text-color-one ">ibin'</p></div>
+          
         </div>
 
-        <div className=" max-w-[600px] mx-auto flex items-center justify-between flex-grow-1 w-full   cursor-pointer text-white  ">
+        {/* <div className=" max-w-[600px] mx-auto flex items-center justify-between flex-grow-1 w-full   cursor-pointer text-white  ">
           <NavLink
             to={"/"}
             className={({ isActive }) =>
@@ -191,12 +153,57 @@ return (
               <FaVideo />
             </div>
           </NavLink>
-        </div>
-        <div className="w-full text-white hover:text-color-one  justify-end flex items-center gap-3 ">
+        </div> */}
+        <div className="w-full text-white hover:text-color-one   justify-end flex items-center gap-3 ">
           {/* <div className=" hover:text-white  bg-gray-50 shadow-md     text-color-one rounded   p-1  ">
             <FaRegMessage />
           </div> */}
           {/* Notifications  start*/}
+          <SearchButton
+            setShowResults={setShowResults}
+            setSearchInput={setSearchInput}
+            searchInput={searchInput}
+          />
+          {searchInput && (
+            <div
+              onClick={() => {
+                setSearchInput(searchInput);
+                setShowResults(true);
+              }}
+              className={`${searchInput.length > 0 && showResults ? "absolute" : "hidden"
+                } bg-white  top-14 rounded   z-[999] w-full max-w-[400px] text-black transition-all   duration-150  `}
+            >
+              <div className="text-lg font-medium mx-2 mt-0.5">
+                Search results
+              </div>
+              <ul className="p-2">
+                {searchResults?.users.length > 0
+                  ? searchResults?.users?.slice(0, 4)?.map((user) => (
+                    <div
+                      onClick={() => {
+                        setShowResults(true);
+                        navigate(`/profile/${user?._id}`);
+                      }}
+                      key={user._id}
+                      className={`flex items-center gap-5 p-1 hover:bg-gray-100 `}
+                    >
+                      <img
+                        src={user?.avatar ? user?.avatar : avatar}
+                        alt=""
+                        className="w-12 h-10  rounded    "
+                      />
+                      <li>{user?.fullName}</li>
+                      <FaMagnifyingGlass className="ml-auto text-gray-500" />
+                    </div>
+                  ))
+                  : "No matched results"}
+              </ul>
+
+              <div className="  w-full gradient-one rounded-b-md text-white p-1  border-t-2 ">
+                <p>See All</p>{" "}
+              </div>
+            </div>
+          )}
           <div className=" shadow-md  text-color-one rounded   p-1 relative">
             <Menu>
               <MenuButton
@@ -270,6 +277,17 @@ return (
               />
             )}{" "}
           </div>
+          {/* try avater */}
+          <div>
+          <Stack direction='row' spacing={4}>
+  <Avatar className="w-6 h-6 rounded-full" boxSize={10}>
+    <AvatarBadge boxSize='0.80em' bg='green.500' />
+  </Avatar>
+
+ 
+</Stack>
+          </div>
+          {/*  */}
         </div>
       </div>
     </nav>
