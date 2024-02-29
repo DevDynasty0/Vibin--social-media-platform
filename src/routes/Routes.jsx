@@ -18,8 +18,12 @@ import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
 import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
 
 import ShowSavePosts from "../pages/profile/ShowSavePosts";
-import { Video } from "cloudinary-react";
+
 import Trending from "../pages/Trending/Trending";
+import AiAdvertisement from "../shared component/viben-ai/AiAdvertisement";
+import VibinAi from "../pages/VibinAi/VibinAi";
+import VideoHome from "../pages/Video/VideoHome";
+import GenarateCaption from "../shared component/viben-ai/GenarateCaption";
 
 
 const Routes = createBrowserRouter([
@@ -54,14 +58,18 @@ const Routes = createBrowserRouter([
         element: <Friends />,
       },
       {
-        path: "video",
-        element: <Video />,
+        path: "videohome",
+        element: <VideoHome></VideoHome>,
       },
       {
         path: "trending",
         element: <Trending />,
       },
-     
+      {
+        path: "vibinai",
+        // element: <VibinAi></VibinAi>,
+        element: <GenarateCaption></GenarateCaption>,
+      },
       {
         path: "search",
         element: <SearchResult />,
