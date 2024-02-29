@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { userLoggedIn, userLoggedOut } from "../auth/authSlice";
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -6,6 +7,21 @@ export const userApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "/users/current-user",
       }),
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          const userData = result?.data?.data?.user;
+          if (userData?._id) {
+            dispatch(
+              userLoggedIn({
+                user: userData,
+              })
+            );
+          }
+        } catch (err) {
+          dispatch(userLoggedOut());
+        }
+      },
     }),
     suggestedUsers: builder.query({
       query: () => ({

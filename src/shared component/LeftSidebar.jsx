@@ -6,7 +6,6 @@ import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
-import getAccessToken from "../utils/getAccessToken";
 
 const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
@@ -15,8 +14,7 @@ const LeftSidebar = () => {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    const auth = await getAccessToken();
-    const logoutRes = await logout({ userId: auth?.user?._id });
+    const logoutRes = await logout({ userId: user?._id });
     if (logoutRes?.data?.user) {
       navigate("/login");
     }

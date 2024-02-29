@@ -1,10 +1,21 @@
 import { GoComment } from "react-icons/go";
 import { PiShareFatThin } from "react-icons/pi";
 import { FaEllipsis } from "react-icons/fa6";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Box,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useToast,
+} from "@chakra-ui/react";
 import moment from "moment";
-import { useState } from "react";
-import { useAddReactionOnSharePostMutation } from "../../../redux/features/post/postApi";
+import { useRef, useState } from "react";
+import {
+  useAddReactionMutation,
+  useCreatePostMutation,
+  useDeletePostMutation,
+} from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
 import reactionsMap from "../../../utils/reactionsMap";
 import { CiHeart } from "react-icons/ci";
@@ -17,13 +28,19 @@ const SharePostCard = ({ post, currentUser }) => {
     shares,
     comments,
     createdAt,
+    user,
   } = post || {};
-  const [addReactionOnSharePost] = useAddReactionOnSharePostMutation();
+  const [addReaction] = useAddReactionMutation();
+  const [createPost] = useCreatePostMutation();
+  const [deletePost] = useDeletePostMutation();
   const [showComment, setShowComment] = useState(false);
   const isLiked = reactions?.find(
     (reaction) => reaction.user._id === currentUser?._id
   );
-  const getPostAge = moment(sharedPostData.createdAt).fromNow();
+  const toast = useToast();
+  const toastIdRef = useRef();
+
+  const getPostAge = moment(sharedPostData?.createdAt).fromNow();
   const getSharedPostAge = moment(createdAt).fromNow();
   const [isShowReactions, setIsShowReactions] = useState(false);
 
@@ -41,34 +58,65 @@ const SharePostCard = ({ post, currentUser }) => {
 
   const react = (e, post, reaction) => {
     e.stopPropagation();
-    addReactionOnSharePost({ post, type: reaction });
+    addReaction({ post, type: reaction });
     setIsShowReactions(false);
   };
 
   const mostReaction = reactionsMap(reactions);
+
+  const onHandleSharePost = async () => {
+    if (toastIdRef.current) {
+      toast.close(toastIdRef.current);
+    }
+    const newPost = {
+      post: sharedPostData._id,
+      postId: post._id,
+      userId: user._id,
+      user: currentUser._id,
+      type: "shared",
+    };
+
+    await createPost(newPost);
+
+    toastIdRef.current = toast({
+      duration: 1500,
+      render: () => (
+        <Box
+          color="black"
+          bg="white"
+          p={1}
+          className="shadow-md rounded-md text-center w-44"
+        >
+          You shared this post.
+        </Box>
+      ),
+    });
+  };
+
+  const handleDeletePost = () => {
+    deletePost({ postId: post._id, userId: post.user._id });
+  };
 
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
       <div className="  w-[90%] mx-auto pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
-            <img
-              className="w-10 h-10 rounded-full"
-              src={post.user?.avatar}
-              alt=""
-            />
+            <img className="w-10 h-10 rounded-full" src={user?.avatar} alt="" />
 
-            <h4 className="font-bold">{post.user?.fullName}</h4>
+            <h4 className="font-bold">{user?.fullName}</h4>
             <p>{getSharedPostAge}</p>
           </div>
           <Menu>
             <MenuButton>
               <FaEllipsis className="text-2xl" />
             </MenuButton>
-            {/* Post action bar */}
-            <MenuList>
-              <MenuItem>Save post</MenuItem>
-              <MenuItem>Share</MenuItem>
+            <MenuList minWidth="120px" className="ml-auto">
+              {currentUser.email === user?.email && (
+                <MenuItem>
+                  <div onClick={handleDeletePost}>Delete</div>{" "}
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         </div>
@@ -86,9 +134,9 @@ const SharePostCard = ({ post, currentUser }) => {
                 <p>{getPostAge}</p>
               </div>
             </div>
-            <p className="mt-2 w-[90%]  text-xl">{sharedPostData.caption}</p>
+            <p className="mt-2 w-[90%]  text-xl">{sharedPostData?.caption}</p>
           </div>
-          {sharedPostData.postContent &&
+          {sharedPostData?.postContent &&
             sharedPostData.contentType == "image" && (
               <img
                 className=" w-[90%] mx-auto h-[300px] md:h-[450px]"
@@ -96,7 +144,7 @@ const SharePostCard = ({ post, currentUser }) => {
                 alt=""
               />
             )}
-          {sharedPostData.postContent &&
+          {sharedPostData?.postContent &&
             sharedPostData.contentType == "video" && (
               <video
                 src={sharedPostData.postContent}
@@ -155,7 +203,7 @@ const SharePostCard = ({ post, currentUser }) => {
             </span>
           </div>
         </div>
-        <div className="mt-2  pb-4 w-[90%] mx-auto flex items-center justify-between">
+        <div className="mt-2 relative pb-4 w-[90%] mx-auto flex items-center justify-between">
           {isShowReactions && (
             <Reactions
               key={post._id}
@@ -200,7 +248,10 @@ const SharePostCard = ({ post, currentUser }) => {
             <p className="text-sm md:text-[16px]">Comment</p>
           </div>
 
-          <div className="flex items-center gap-1 md:gap-2">
+          <div
+            onClick={onHandleSharePost}
+            className="flex items-center gap-1 md:gap-2"
+          >
             <PiShareFatThin className="md:text-2xl text-md" />
             <p className="text-sm md:text-[16px]">Share</p>
           </div>

@@ -1,24 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedIn, userLoggedOut } from "../auth/authSlice";
-import getAccessToken from "../../../utils/getAccessToken";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_API_URL,
   credentials: "include",
-  prepareHeaders: async (headers) => {
-    const auth = await getAccessToken();
-    if (auth?.accessToken) {
-      headers.set("authorization", `Bearer ${auth.accessToken}`);
-    }
-    return headers;
-  },
 });
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: async (args, api, extraOptions) => {
     const result = await baseQuery(args, api, extraOptions);
-    const auth = await getAccessToken();
+    const user = api.getState().auth?.user;
 
     if (result?.error?.originalStatus === 401) {
       const response = await fetch(
@@ -31,9 +23,7 @@ export const apiSlice = createApi({
 
       if (!response.ok) {
         const logout = await fetch(
-          `${import.meta.env.VITE_BASE_API_URL}/users/logout/${
-            auth?.user?._id
-          }`,
+          `${import.meta.env.VITE_BASE_API_URL}/users/logout/${user._id}`,
           {
             method: "POST",
             credentials: "include",
@@ -42,7 +32,6 @@ export const apiSlice = createApi({
 
         await logout.json();
         api.dispatch(userLoggedOut());
-        localStorage.clear("auth");
         window.location.pathname = "/login";
 
         throw new Error("Network response was not ok");
@@ -50,11 +39,9 @@ export const apiSlice = createApi({
 
       const { data } = await response.json();
       if (data?.user) {
-        localStorage.setItem("auth", JSON.stringify(data));
         api.dispatch(
           userLoggedIn({
             user: data.user,
-            accessToken: data.accessToken,
           })
         );
         return await baseQuery(args, api, extraOptions);

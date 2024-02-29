@@ -15,11 +15,47 @@ export const postApi = apiSlice.injectEndpoints({
       }),
     }),
     createPost: builder.mutation({
-      query: ({ newPost }) => ({
+      query: (newPost) => ({
         url: "/posts/post",
         method: "POST",
         body: newPost,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data: createdPost } = await queryFulfilled;
+          const postId = args.postId || args.post;
+          const userId = args.userId;
+
+          if (createdPost?.newPost && postId) {
+            dispatch(
+              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id == postId);
+                if (draftPost && draftPost.shares) {
+                  draftPost.shares += 1;
+                } else {
+                  draftPost.shares = 1;
+                }
+              })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getPostsByUserId",
+                { userId },
+                (draft) => {
+                  const draftPost = draft.find((p) => p._id == postId);
+                  if (draftPost && draftPost.shares) {
+                    draftPost.shares += 1;
+                  } else {
+                    draftPost.shares = 1;
+                  }
+                }
+              )
+            );
+          }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
     }),
     savePost: builder.mutation({
       query: (newSavePost) => {
@@ -39,47 +75,25 @@ export const postApi = apiSlice.injectEndpoints({
         url: `/posts/delete-post/${postId}`,
         method: "DELETE",
       }),
-      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ postId, userId }, { dispatch, queryFulfilled }) {
         try {
           const { data: deletePost } = await queryFulfilled;
-          console.log("deletepost", deletePost);
           if (deletePost?.result?.deletedCount) {
             dispatch(
               postApi.util.updateQueryData("getPosts", undefined, (draft) => {
                 return draft.filter((p) => p._id != postId);
               })
             );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getPostsByUserId",
+                { userId },
+                (draft) => {
+                  return draft.filter((p) => p._id != postId);
+                }
+              )
+            );
           }
-        } catch {
-          console.log("error from postApi on createComment: ");
-        }
-      },
-    }),
-    sharePost: builder.mutation({
-      query: ({ post }) => ({
-        url: `/posts/create-post-share/${post._id}`,
-        method: "PATCH",
-      }),
-      async onQueryStarted({ post }, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-
-          dispatch(
-            postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-              const draftPost = draft.find((p) => p._id === post._id);
-              draftPost.shares += 1;
-            })
-          );
-          dispatch(
-            postApi.util.updateQueryData(
-              "getPostsByUserId",
-              { userId: post.user._id },
-              (draft) => {
-                const draftPost = draft.find((p) => p._id === post._id);
-                draftPost.shares += 1;
-              }
-            )
-          );
         } catch {
           console.log("error from postApi on createComment: ");
         }
@@ -271,86 +285,6 @@ export const postApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    addReactionOnSharePost: builder.mutation({
-      query: ({ post, type }) => ({
-        url: `/posts/reaction-on-share-post/${post._id}`,
-        method: "PATCH",
-        body: { type },
-      }),
-      async onQueryStarted(
-        { post, type },
-        { getState, dispatch, queryFulfilled }
-      ) {
-        const loggedInUser = getState()?.auth?.user;
-        const userId = post.user._id;
-
-        // optimistic cache update for liking start
-        const likeForHomePost = dispatch(
-          postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-            const draftPost = draft.find((p) => p._id === post._id);
-            const existingReact = draftPost?.reactions.find(
-              (reaction) => reaction.user._id === loggedInUser._id
-            );
-
-            const isReactionExist = draftPost?.reactions.find(
-              (reaction) => reaction.user._id === loggedInUser._id
-            );
-
-            if (isReactionExist) {
-              if (type) {
-                existingReact.type = type;
-              } else {
-                const filteredData = draftPost.reactions.filter(
-                  (reaction) => reaction.user._id !== loggedInUser._id
-                );
-                draftPost.reactions = filteredData;
-              }
-            } else {
-              draftPost.reactions.push({ user: loggedInUser, type });
-            }
-          })
-        );
-        const likeForProfilePost = dispatch(
-          postApi.util.updateQueryData(
-            "getPostsByUserId",
-            {
-              userId,
-            },
-            (draft) => {
-              const draftPost = draft.find((p) => p._id === post?._id);
-              const existingReact = draftPost?.reactions.find(
-                (reaction) => reaction.user._id === loggedInUser._id
-              );
-
-              const isReactionExist = draftPost?.reactions.find(
-                (reaction) => reaction.user._id === loggedInUser._id
-              );
-
-              if (isReactionExist) {
-                if (type) {
-                  existingReact.type = type;
-                } else {
-                  const filteredData = draftPost.reactions.filter(
-                    (reaction) => reaction.user._id !== loggedInUser._id
-                  );
-                  draftPost.reactions = filteredData;
-                }
-              } else {
-                draftPost.reactions.push({ user: loggedInUser, type });
-              }
-            }
-          )
-        );
-        // optimistic cache update for liking end
-
-        try {
-          await queryFulfilled;
-        } catch (error) {
-          likeForHomePost.undo();
-          likeForProfilePost.undo();
-        }
-      },
-    }),
   }),
 });
 
@@ -361,11 +295,9 @@ export const {
   useSavePostMutation,
   useGetSavePostQuery,
   useDeletePostMutation,
-  useSharePostMutation,
   useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
   useGetCommentsQuery,
   useAddReactionMutation,
-  useAddReactionOnSharePostMutation,
 } = postApi;

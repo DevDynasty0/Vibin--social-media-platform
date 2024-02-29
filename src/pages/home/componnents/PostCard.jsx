@@ -14,9 +14,9 @@ import {
 import { useRef, useState } from "react";
 import {
   useAddReactionMutation,
+  useCreatePostMutation,
   useDeletePostMutation,
   useSavePostMutation,
-  useSharePostMutation,
 } from "../../../redux/features/post/postApi";
 import ShowComments from "./ShowComments";
 import Reactions from "./Reactions";
@@ -38,7 +38,6 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   const user = postOwner ? postOwner : post.user;
   const [showComment, setShowComment] = useState(false);
   const [isShowReactions, setIsShowReactions] = useState(false);
-  const [sharePost] = useSharePostMutation();
   const isLiked = reactions?.find(
     (reaction) => reaction.user._id === currentUser?._id
   );
@@ -47,6 +46,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   const getPostAge = moment(createdAt).fromNow();
   const [addReaction] = useAddReactionMutation();
   const [createNotification] = useCreateNotificationMutation();
+  const [createPost] = useCreatePostMutation();
 
   const userData = useSelector((state) => state.auth.user);
   const loggedInUser = userData?.email;
@@ -67,7 +67,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   };
 
   const handleDeletePost = () => {
-    deletePost({ postId: post._id });
+    deletePost({ postId: post._id, userId: post.user._id });
   };
 
   const handleSavePost = () => {
@@ -76,7 +76,6 @@ const PostCard = ({ post, currentUser, postOwner }) => {
       post: post?._id,
       postOwner: user._id,
       user: userData._id,
-      // contentType: "savePost"
     };
     savePost(newSavePost);
     setIsPostSaved(true);
@@ -109,14 +108,21 @@ const PostCard = ({ post, currentUser, postOwner }) => {
       socket.emit("new notification", emitData);
     }
   };
-
   const mostReaction = reactionsMap(reactions);
 
-  const onHandleSharePost = (post) => {
+  const onHandleSharePost = async () => {
     if (toastIdRef.current) {
       toast.close(toastIdRef.current);
     }
-    sharePost({ post });
+    const newPost = {
+      post: post._id,
+      user: userData._id,
+      userId: user._id,
+      type: "shared",
+    };
+
+    await createPost(newPost);
+
     toastIdRef.current = toast({
       duration: 1500,
       render: () => (
@@ -124,7 +130,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
           color="black"
           bg="white"
           p={1}
-          className="shadow-md rounded-md text-center"
+          className="shadow-md rounded-md text-center w-44"
         >
           You shared this post.
         </Box>
@@ -272,7 +278,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
         </div>
 
         <div
-          onClick={() => onHandleSharePost(post)}
+          onClick={onHandleSharePost}
           className="flex items-center gap-1 md:gap-2"
         >
           <PiShareFatThin className="md:text-2xl text-md" />

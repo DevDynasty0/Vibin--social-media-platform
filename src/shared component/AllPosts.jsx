@@ -26,7 +26,7 @@ const AllPosts = ({ posts = [], isSuccess, isLoading }) => {
       );
     } else {
       content = posts.map((post) => {
-        if (post?.post) {
+        if (post.type === "shared") {
           return (
             <SharePostCard
               key={post._id}
