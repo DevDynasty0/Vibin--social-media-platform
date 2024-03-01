@@ -1,15 +1,11 @@
 import axios from "axios";
-import getAccessToken from "../utils/getAccessToken";
-const auth = getAccessToken();
 
 export const getFollowingUsers = async () => {
   try {
     const { data } = await axios(
       "http://localhost:8000/api/v1/users/get-following-users",
       {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
+        withCredentials: true,
       }
     );
     console.log(data.data);
@@ -24,9 +20,7 @@ export const getFollowers = async () => {
     const res = await axios(
       "http://localhost:8000/api/v1/users/get-followers",
       {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
+        withCredentials: true,
       }
     );
     console.log(res.data.data);

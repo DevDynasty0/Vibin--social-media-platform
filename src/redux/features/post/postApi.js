@@ -105,13 +105,25 @@ export const postApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ post }, { dispatch, queryFulfilled }) {
         try {
           const { data: postComment } = await queryFulfilled;
+          const userId = post.user._id;
+          const postId = post._id;
           if (postComment?.data?._id) {
             dispatch(
+              postApi.util.updateQueryData(
+                "getPostsByUserId",
+                { userId },
+                (draft) => {
+                  const draftPost = draft.find((p) => p._id === post._id);
+                  draftPost.comments += 1;
+                }
+              )
+            );
+            dispatch(
               postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-                const draftPost = draft.find((p) => p._id === postId);
+                const draftPost = draft.find((p) => p._id === post._id);
                 draftPost.comments += 1;
               })
             );
@@ -136,7 +148,7 @@ export const postApi = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
       async onQueryStarted(
-        { postId, commentId },
+        { postId, commentId, userId },
         { dispatch, queryFulfilled }
       ) {
         try {
@@ -147,6 +159,16 @@ export const postApi = apiSlice.injectEndpoints({
                 const draftPost = draft.find((p) => p._id === postId);
                 draftPost.comments -= 1;
               })
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getPostsByUserId",
+                { userId },
+                (draft) => {
+                  const draftPost = draft.find((p) => p._id === postId);
+                  draftPost.comments -= 1;
+                }
+              )
             );
             dispatch(
               postApi.util.updateQueryData(

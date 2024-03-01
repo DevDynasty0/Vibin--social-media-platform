@@ -12,14 +12,15 @@ const SearchButton = ({ searchInput, setSearchInput, setShowResults }) => {
               setShowResults(true);
               setSearchInput(e.target.value);
             }}
-            className="px-2 py-1 focus:outline-color-one   lg:block rounded-r-full rounded-l-full hover:cursor-text shadow drop-shadow text-black focus:cursor-text w-full border-2"
+            className="px-2 py-1 focus:outline-color-one bg-white  lg:block rounded-r-full rounded-l-full hover:cursor-text  text-white focus:cursor-text w-full border-2"
             type="text"
             placeholder="Search..."
+            
           />
           <Link
             to={searchInput && `/search?query=${searchInput}`}
             className="lg:absolute lg:text-color-one lg:right-0 py-2 px-4
-             bg-gray-200 cursor-pointer rounded-l-full rounded-r-full"
+             bg-white cursor-pointer rounded-l-full rounded-r-full"
           >
             <FaMagnifyingGlass />
           </Link>
