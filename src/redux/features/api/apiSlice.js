@@ -22,17 +22,14 @@ export const apiSlice = createApi({
       );
 
       if (!response.ok) {
-        const logout = await fetch(
+        await fetch(
           `${import.meta.env.VITE_BASE_API_URL}/users/logout/${user._id}`,
           {
-            method: "POST",
             credentials: "include",
           }
         );
-
-        await logout.json();
         api.dispatch(userLoggedOut());
-        window.location.pathname = "/login";
+        window.location.pathname = "/";
 
         throw new Error("Network response was not ok");
       }

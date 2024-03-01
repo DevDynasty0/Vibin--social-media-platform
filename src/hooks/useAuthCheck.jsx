@@ -13,12 +13,11 @@ export default function useAuthCheck() {
     const getAwait = async () => {
       if (isSuccess) {
         setUser(currentUser.data.user);
-        await dispatch(userLoggedIn({ user: currentUser.data.user }));
+        dispatch(userLoggedIn({ user: currentUser.data.user }));
       }
-      setLoading(false);
     };
-
     getAwait();
+    setLoading(false);
   }, [isSuccess, currentUser, dispatch]);
 
   return { user, loading };

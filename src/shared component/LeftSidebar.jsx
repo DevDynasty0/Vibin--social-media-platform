@@ -5,18 +5,19 @@ import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { FaBookmark } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
-  const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    const logoutRes = await logout({ userId: user?._id });
-    if (logoutRes?.data?.user) {
-      navigate("/login");
+    try {
+      await logout({ userId: user?._id });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
     }
   };
 
