@@ -28,7 +28,9 @@ const SharePostCard = ({ post, currentUser }) => {
     addReaction({ postId, userId });
   };
   // console.log('shaeddata',sharedPostData);
-  console.log();
+ const reportPostHandler=(postId)=>{
+  console.log(postId,user);
+ }
   return (
     <div className="border bg-white mt-2 shadow-md rounded min-h-36 flex flex-col justify-between gap-4">
       <div className="  w-[90%] mx-auto pt-4">
@@ -51,7 +53,7 @@ const SharePostCard = ({ post, currentUser }) => {
             <MenuList>
               <MenuItem>Save post</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Report</MenuItem>
+              
             </MenuList>
           </Menu>
         </div>
