@@ -242,7 +242,7 @@ const [postTypeChartData, setPostTypeChartData] = useState([]);
         <ResponsiveContainer>
           <LineChart
             data={postRateChartData}
-            margin={{ top: 5, right: 20, bottom: 20, left: 0 }}
+            margin={{ top: 10 , right: 20, bottom: 20, left: 0 }}
 
           >
             <XAxis dataKey="_id" >
