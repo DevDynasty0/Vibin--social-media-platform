@@ -72,7 +72,7 @@ console.log('navvvvvvvvvvvvvv',user);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [setShowResults]);
+  }, [setShowResults, user]);
 
   useEffect(() => {
 

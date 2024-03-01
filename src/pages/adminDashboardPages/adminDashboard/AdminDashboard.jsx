@@ -9,6 +9,10 @@ import {
   YAxis,
   Tooltip,
   Legend,
+  ResponsiveContainer,
+  Label,
+  BarChart,
+  Bar,
 } from "recharts";
 
 const AdminDashboard = () => {
@@ -18,16 +22,15 @@ const AdminDashboard = () => {
 
   const [suspendedUsers, setSuspendedUsers] = useState([]);
 
-  const data = [
-    { name: "Jan 1-7", uv: 400, },
-    { name: "Jan 8-14", uv: 500, },
-    { name: "Jan 15-21", uv: 600, },
-    { name: "Jan 15-21", uv: 700, },
-    { name: "Jan 15-21", uv: 650, },
-    { name: "Jan 15-21", uv: 800, },
-    { name: "Jan 15-21", uv: 900, },
-    { name: "Jan 15-21", uv: 950, },
-  ];
+  // const [totalReportCount, setTotalReportCount] = useState({
+  //   reportedUsersCount: 0,
+  //   reportedPostsCount: 0,
+  // });
+
+  const [userGrowthChartData, setUserGrowthChartData] = useState([]);
+
+const [postRateChartData, setPostRateChartData] = useState([]);
+const [postTypeChartData, setPostTypeChartData] = useState([]);
 
   useEffect(() => {
     fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
@@ -51,9 +54,52 @@ const AdminDashboard = () => {
     fetchSuspendedUsers();
   }, []);
 
+  // useEffect(() => {
+  //   const loadTotalReportCount = async () => {
+  //     const res = await axios.get(
+  //       "https://vibin-c5r0.onrender.com/api/v1/admin/getTotalReportsCount"
+  //     );
+  //     // console.log(res.data);
+  //     setTotalReportCount(res.data);
+  //   };
+  //   loadTotalReportCount();
+  // }, []);
+  
+  useEffect(() => {
+    const loadUserGrowthChartData = async () => {
+
+      const res = await axios.get(
+        "http://localhost:8000/api/v1/admin/getUserGrowthChartData"
+      );
+      setUserGrowthChartData(res.data);
+    };
+    loadUserGrowthChartData();
+  }, []);
+  useEffect(() => {
+    const loadPostRateChartData = async () => {
+
+      const res = await axios.get(
+        "http://localhost:8000/api/v1/admin/GetPostRateChartData"
+      );
+      console.log(res.data, "_____________--i");
+      setPostRateChartData(res.data);
+    };
+    loadPostRateChartData();
+  }, []);
+  useEffect(() => {
+    const loadPostTypeChartData = async () => {
+
+      const res = await axios.get(
+        "http://localhost:8000/api/v1/admin/getPostTypeChartData"
+      );
+      setPostTypeChartData(res.data);
+    };
+    loadPostTypeChartData();
+  }, []);
+
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4">
         <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
           <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
             <svg
@@ -123,6 +169,31 @@ const AdminDashboard = () => {
             <p>Suspended Users</p>
           </div>
         </div>
+        {/* <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+          <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
+            <svg
+              width="30"
+              height="30"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 2C13 2 6 2 5 7M5 7V15C5 16.0609 5.42143 17.0783 6.12132 17.7782C6.82121 18.4781 7.83858 18.8985 8.89949 18.8985H15.2426C16.3035 18.8985 17.3209 18.4781 18.0208 17.7782C18.7207 17.0783 19.1411 16.0609 19.1411 15V7M5 7H19M8 11H16"
+              ></path>
+            </svg>
+
+
+          </div>
+          <div className="text-right">
+            <p className="text-2xl">{totalReportCount?.reportedUsersCount}</p>
+            <p>Reported Users</p>
+          </div>
+        </div>
         <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
           <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
             <svg
@@ -142,31 +213,51 @@ const AdminDashboard = () => {
             </svg>
           </div>
           <div className="text-right">
-            <p className="text-2xl"> 157</p>
-            <p>Reported Posts</p>
+            <p className="text-2xl">{totalReportCount?.reportedPostsCount}</p>
+            <p>Reported Post</p>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      <div className="w-[800px] h-auto mt-20 mx-auto">
-        <LineChart
-          width={800}
-          height={400}
-          data={data}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-        >
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" name="Weekly posts" />
-          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+      <div className="mt-20 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 auto-rows-[400px]">
+        <ResponsiveContainer>
+          <BarChart
+            // width={800}
+            // height={400}
+            data={userGrowthChartData}
+            margin={{ top: 5, right: 20, bottom: 20, left: 0 }}
+          >
+            <XAxis dataKey="_id"
 
-          <XAxis dataKey="name" >
-            {/* <Label value="Weekly posts" offset={-1} position="insideBottom" /> */}
-          </XAxis>
-          <Legend></Legend>
-          <YAxis />
-          <Tooltip />
-        </LineChart>
+            >
+              <Label value="Last 7th week users growth" offset={0} position="bottom" />
+            </XAxis>
+
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="userJoined" name="Users Joined" fill="#8884d8" barSize={30} />
+          </BarChart>
+
+        </ResponsiveContainer >
+        <ResponsiveContainer>
+          <LineChart
+            data={postRateChartData}
+            margin={{ top: 5, right: 20, bottom: 20, left: 0 }}
+
+          >
+            <XAxis dataKey="_id" >
+              <Label value="Last 7th week post rates" offset={0} position="bottom" />
+            </XAxis>
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" name="Post" dataKey="totalPosts" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <CartesianGrid strokeDasharray="3 3" />
+
+          </LineChart>
+        </ResponsiveContainer >
+
       </div>
-    </div>
+    </div >
   );
 };
 
