@@ -29,8 +29,8 @@ const AdminDashboard = () => {
 
   const [userGrowthChartData, setUserGrowthChartData] = useState([]);
 
-const [postRateChartData, setPostRateChartData] = useState([]);
-const [postTypeChartData, setPostTypeChartData] = useState([]);
+  const [postRateChartData, setPostRateChartData] = useState([]);
+  const [postTypeChartData, setPostTypeChartData] = useState([]);
 
   useEffect(() => {
     fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
@@ -64,12 +64,11 @@ const [postTypeChartData, setPostTypeChartData] = useState([]);
   //   };
   //   loadTotalReportCount();
   // }, []);
-  
+
   useEffect(() => {
     const loadUserGrowthChartData = async () => {
-
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getUserGrowthChartData"
+        "https://vibin-c5r0.onrender.com/api/v1/admin/getUserGrowthChartData"
       );
       setUserGrowthChartData(res.data);
     };
@@ -77,9 +76,8 @@ const [postTypeChartData, setPostTypeChartData] = useState([]);
   }, []);
   useEffect(() => {
     const loadPostRateChartData = async () => {
-
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/GetPostRateChartData"
+        "https://vibin-c5r0.onrender.com/api/v1/admin/GetPostRateChartData"
       );
       console.log(res.data, "_____________--i");
       setPostRateChartData(res.data);
@@ -88,9 +86,8 @@ const [postTypeChartData, setPostTypeChartData] = useState([]);
   }, []);
   useEffect(() => {
     const loadPostTypeChartData = async () => {
-
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getPostTypeChartData"
+        "https://vibin-c5r0.onrender.com/api/v1/admin/getPostTypeChartData"
       );
       setPostTypeChartData(res.data);
     };
@@ -227,37 +224,50 @@ const [postTypeChartData, setPostTypeChartData] = useState([]);
             data={userGrowthChartData}
             margin={{ top: 5, right: 20, bottom: 20, left: 0 }}
           >
-            <XAxis dataKey="_id"
-
-            >
-              <Label value="Last 7th week users growth" offset={0} position="bottom" />
+            <XAxis dataKey="_id">
+              <Label
+                value="Last 7th week users growth"
+                offset={0}
+                position="bottom"
+              />
             </XAxis>
 
             <YAxis />
             <Tooltip />
-            <Bar dataKey="userJoined" name="Users Joined" fill="#8884d8" barSize={30} />
+            <Bar
+              dataKey="userJoined"
+              name="Users Joined"
+              fill="#8884d8"
+              barSize={30}
+            />
           </BarChart>
-
-        </ResponsiveContainer >
+        </ResponsiveContainer>
         <ResponsiveContainer>
           <LineChart
             data={postRateChartData}
-            margin={{ top: 10 , right: 20, bottom: 20, left: 0 }}
-
+            margin={{ top: 10, right: 20, bottom: 20, left: 0 }}
           >
-            <XAxis dataKey="_id" >
-              <Label value="Last 7th week post rates" offset={0} position="bottom" />
+            <XAxis dataKey="_id">
+              <Label
+                value="Last 7th week post rates"
+                offset={0}
+                position="bottom"
+              />
             </XAxis>
             <YAxis />
             <Tooltip />
-            <Line type="monotone" name="Post" dataKey="totalPosts" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <Line
+              type="monotone"
+              name="Post"
+              dataKey="totalPosts"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
             <CartesianGrid strokeDasharray="3 3" />
-
           </LineChart>
-        </ResponsiveContainer >
-
+        </ResponsiveContainer>
       </div>
-    </div >
+    </div>
   );
 };
 

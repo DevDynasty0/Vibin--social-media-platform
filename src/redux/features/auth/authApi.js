@@ -31,6 +31,7 @@ export const authApi = apiSlice.injectEndpoints({
           }
         } catch (err) {
           // do nothing
+          console.log(err);
         }
       },
     }),
@@ -63,6 +64,7 @@ export const authApi = apiSlice.injectEndpoints({
           }
         } catch (err) {
           // do nothing
+          console.log(err);
         }
       },
     }),
@@ -111,6 +113,7 @@ export const authApi = apiSlice.injectEndpoints({
           }
         } catch (err) {
           // do nothing
+          console.log(err);
         }
       },
     }),
