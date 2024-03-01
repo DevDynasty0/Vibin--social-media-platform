@@ -1,6 +1,6 @@
+import React from 'react';
 
-
-const VideoHome = () => {
+const Video = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const VideoHome = () => {
     );
 };
 
-export default VideoHome;
+export default Video;

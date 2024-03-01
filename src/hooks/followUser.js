@@ -3,16 +3,16 @@ import getAccessToken from "../utils/getAccessToken";
 
 export const followUser = async (profileId, followerId) => {
   try {
-    const auth = await getAccessToken();
+    const token = getAccessToken();
     const res = await axios.post(
-      "http://localhost:8000/api/v1/users/follow-user",
+      "https://vibin-c5r0.onrender.com/api/v1/users/follow-user",
       {
         profile: profileId,
         follower: followerId,
       },
       {
         headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

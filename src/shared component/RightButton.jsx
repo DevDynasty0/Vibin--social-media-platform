@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import avatar from "../assets/images/avatar.png";
 import { followUser } from "../hooks/followUser";
@@ -11,8 +12,8 @@ const RightButton = ({ person }) => {
   const { user } = useAuthCheck();
   const [follow, setFollow] = useState([]);
   const userData = useSelector((state) => state.auth.user);
-  const [createNotification] = useCreateNotificationMutation();
-  const { socket } = useSocket();
+  const [createNotification] = useCreateNotificationMutation()
+  const {socket} = useSocket();
   const handleFollow = async (id) => {
     setFollow([...follow, id]);
     const profile = id;
@@ -21,22 +22,24 @@ const RightButton = ({ person }) => {
     const res = await followUser(profile, follower);
     console.log(res);
     const data = {
+    
       receiverId: profile,
-      senderId: follower,
-      message: `${userData?.fullName} followed you.`,
-      contentType: "follow",
-    };
-
+        senderId: follower,
+        message: `${userData?.fullName} followed you.`,
+        contentType: "follow"
+    }
+    
     // save notificaitont to the database
-    createNotification(data);
+    createNotification(data)
     const emitData = {
       ...data,
       isRead: false,
-      senderId: { senderId: userData?._id, avatar: userData?.avatar },
-    };
+      senderId: { senderId: userData?._id, avatar: userData?.avatar }
+    }
 
-    // send notification to reciever
-    socket.emit("new notification", emitData);
+    // send notification to reciever 
+    socket.emit("new notification", emitData)
+
   };
 
   return (

@@ -4,20 +4,20 @@ import { MdDashboard, MdLogout } from "react-icons/md";
 import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { FaRobot } from "react-icons/fa6";
+
 const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    try {
-      await logout({ userId: user?._id });
+  const handleLogout = async () => {
+    const results = await logout();
+    if (results?.data?.success) {
       window.location.reload();
-    } catch (error) {
-      console.log(error);
+      navigate("/login");
     }
   };
 
@@ -43,7 +43,7 @@ const LeftSidebar = () => {
       <div className="mt-2  w-full ">
         <LeftButton name={"Home"} path={"/"} icon={FaHome} />
         <LeftButton name={"Trending"} path={"trending"} icon={FaFire} />
-        <LeftButton name={"Video"} path={"videohome"} icon={FaVideo} />
+        <LeftButton name={"Video"} path={"video"} icon={FaVideo} />
         
 
         <LeftButton
@@ -60,7 +60,6 @@ const LeftSidebar = () => {
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
         <LeftButton name={"Saved Posts"} path="/savePost" icon={FaBookmark} />
-        <LeftButton name={"VibinAi"} path={"vibinai"} icon={FaRobot} />
       </div>
 
       <div
@@ -71,8 +70,13 @@ const LeftSidebar = () => {
         <hr />
         <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
         <hr />
-        <div onClick={(e) => handleLogout(e)}>
-          <LeftButton name={"Logout"} icon={MdLogout} />
+        <div onClick={handleLogout}>
+          <LeftButton
+            // onHandleClick={handleLogout}
+            name={"Logout"}
+            path={"/login"}
+            icon={MdLogout}
+          />
         </div>
       </div>
     </div>
