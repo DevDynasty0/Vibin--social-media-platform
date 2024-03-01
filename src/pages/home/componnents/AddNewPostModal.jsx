@@ -6,16 +6,14 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Spinner,
   Button,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import avatar from "../../../assets/images/avatar.png";
 import { FaPlus, FaXmark } from "react-icons/fa6";
-import axios from "axios";
 import { useState } from "react";
 import { LoaderIcon } from "react-hot-toast";
-import getAccessToken from "../../../utils/getAccessToken";
+import axios from "axios";
 
 const AddNewPostModal = ({
   isOpen,
@@ -27,7 +25,6 @@ const AddNewPostModal = ({
   postsRefetch,
 }) => {
   const user = useSelector((state) => state.auth.user);
-  const token = getAccessToken();
   const [buttonSpinner, setButtonSpinner] = useState(false);
 
   const handlePostSubmit = async (e) => {
@@ -41,28 +38,31 @@ const AddNewPostModal = ({
     const newPost = {
       user: user._id,
       caption,
+      type: "post",
       postContent: formData.get("postContent"),
       contentType: selectedItem ? selectedItem[0].type.split("/")[0] : "",
     };
     try {
       const res = await axios.post(
-        "https://vibin-c5r0.onrender.com/api/v1/posts/post",
-        // { newPost, formData },
+        "http://localhost:8000/api/v1/posts/post",
         newPost,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         }
       );
 
-      // const res = await createPost(newPost);
-      console.log(res);
-      if (res.data) {
+      if (res.data?.newPost) {
         postsRefetch();
         setButtonSpinner(false);
-
+        onClose();
+        setCaption("");
+        setSelectedItem(null);
+      } else {
+        postsRefetch();
+        setButtonSpinner(false);
         onClose();
         setCaption("");
         setSelectedItem(null);

@@ -15,17 +15,9 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
-            localStorage.setItem(
-              "auth",
-              JSON.stringify({
-                accessToken: userData.accessToken,
-                user: userData.user,
-              })
-            );
             dispatch(
               userLoggedIn({
                 user: userData.user,
-                accessToken: userData.accessToken,
               })
             );
           }
@@ -47,17 +39,9 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
-            localStorage.setItem(
-              "auth",
-              JSON.stringify({
-                accessToken: userData.accessToken,
-                user: userData.user,
-              })
-            );
             dispatch(
               userLoggedIn({
                 user: userData.user,
-                accessToken: userData.accessToken,
               })
             );
           }
@@ -67,15 +51,14 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
     logout: builder.mutation({
-      query: () => ({
-        url: "/users/logout",
+      query: ({ userId }) => ({
+        url: `/users/logout/${userId}`,
         method: "POST",
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if (result.data.success) {
-            localStorage.clear("auth");
+          if (result?.data?.user) {
             dispatch(userLoggedOut());
           }
         } catch (err) {
@@ -95,17 +78,9 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
-            localStorage.setItem(
-              "auth",
-              JSON.stringify({
-                accessToken: userData.accessToken,
-                user: userData.user,
-              })
-            );
             dispatch(
               userLoggedIn({
                 user: userData.user,
-                accessToken: userData.accessToken,
               })
             );
           }

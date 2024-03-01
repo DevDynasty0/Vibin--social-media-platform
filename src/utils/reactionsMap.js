@@ -1,6 +1,6 @@
 const reactionsMap = (reactions=[]) => {
   const reactionsMap = new Map();
-  for (let i = 0; i < reactions.length; i++) {
+  for (let i = 0; i < reactions?.length; i++) {
     const type = reactions[i].type;
     switch (type) {
       case "love":

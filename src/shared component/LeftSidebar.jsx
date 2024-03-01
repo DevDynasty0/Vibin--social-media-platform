@@ -4,20 +4,20 @@ import { MdDashboard, MdLogout } from "react-icons/md";
 import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
-  const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
-  const handleLogout = async () => {
-    const results = await logout();
-    if (results?.data?.success) {
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await logout({ userId: user?._id });
       window.location.reload();
-      navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -70,13 +70,8 @@ const LeftSidebar = () => {
         <hr />
         <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
         <hr />
-        <div onClick={handleLogout}>
-          <LeftButton
-            // onHandleClick={handleLogout}
-            name={"Logout"}
-            path={"/login"}
-            icon={MdLogout}
-          />
+        <div onClick={(e) => handleLogout(e)}>
+          <LeftButton name={"Logout"} icon={MdLogout} />
         </div>
       </div>
     </div>
