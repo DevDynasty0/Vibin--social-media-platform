@@ -8,9 +8,23 @@ export const vibinAiApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+        }),
+        imageGenarator: builder.mutation({
+            query: (data) => ({
+                url: "/vibinai/genarate-image",
+                method: "POST",
+                body: data,
+            }),
         })
     })
-})
+    })
 
-export const { useCaptionGenaratorMutation} = vibinAiApi;
+   
+     
+
+
+export const {
+     useCaptionGenaratorMutation,useImageGenaratorMutation
+     
+    } = vibinAiApi;
   
