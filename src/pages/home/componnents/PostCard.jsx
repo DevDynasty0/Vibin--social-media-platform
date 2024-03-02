@@ -3,7 +3,8 @@ import { CiHeart } from "react-icons/ci";
 import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import toast, { Toaster } from "react-hot-toast";
+import { Button, Menu, MenuButton, MenuItem, MenuList, Radio, RadioGroup, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import {
   useAddReactionMutation,
@@ -18,6 +19,13 @@ import { useCreateNotificationMutation } from "../../../redux/features/notificat
 import { useSelector } from "react-redux";
 import useSocket from "../../../hooks/useSocket";
 
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal';
+import React from 'react';
+import { usePostReportMutation } from "../../../redux/features/report/reportApi";
+
+
+
+
 const PostCard = ({ post, currentUser, postOwner }) => {
   const {
     reactions,
@@ -31,6 +39,11 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   const user = postOwner ? postOwner : post.user;
   const [showComment, setShowComment] = useState(false);
   const [isShowReactions, setIsShowReactions] = useState(false);
+  const [reason, setReason] = useState('');
+  // const [openReportModal,setOpenReportModal] = useState(false)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [scrollBehavior, setScrollBehavior] = React.useState('inside')
+  const btnRef = React.useRef(null)
   const [sharePost] = useSharePostMutation();
   const isLiked = reactions?.find(
     (reaction) => reaction.user._id === currentUser?._id
@@ -40,12 +53,14 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   const [createNotification] = useCreateNotificationMutation();
 
   const userData = useSelector((state) => state.auth.user);
+
   const loggedInUser = userData?.email;
   const [isPostSaved, setIsPostSaved] = useState(false);
   const { socket } = useSocket();
 
   const [deletePost] = useDeletePostMutation();
   const [savePost] = useSavePostMutation();
+  const [postReport,{isLoading}] = usePostReportMutation()
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -58,6 +73,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
   };
 
   const handleDeletePost = () => {
+
     deletePost({ postId: post._id });
   };
 
@@ -72,6 +88,36 @@ const PostCard = ({ post, currentUser, postOwner }) => {
     savePost(newSavePost);
     setIsPostSaved(true);
   };
+
+  const reportPostHandler = async (e) => {
+    e.preventDefault()
+
+    const postReportInfo = {
+      reportedPost: post?._id,
+      reportedBy: userData._id,
+      reason: reason,
+      description: e.target?.description?.value || '',
+      reportType: 'Post'
+    }
+
+      try {
+        const res = await postReport(postReportInfo)
+        console.log(res.data);
+        if(res?.data?.success){
+          toast.success('Reported successfully!')
+          e.target.reset()
+          setReason('')
+          onClose()
+        }
+        else{
+          toast.error('Something went wrong!')
+        }
+      } catch (error) {
+        toast.error(error.message)
+      }
+    
+   
+  }
 
   const onHandleReaction = debounce(setIsShowReactions, 500);
   const react = (e, postId, reaction) => {
@@ -125,6 +171,11 @@ const PostCard = ({ post, currentUser, postOwner }) => {
                     {isPostSaved ? "Saved" : "Save post"}
                   </div>
                 </MenuItem>
+
+              )}
+              {loggedInUser != user?.email && (
+                <MenuItem onClick={onOpen}>Report</MenuItem>
+
               )}
               {loggedInUser == user?.email && (
                 <MenuItem>
@@ -135,7 +186,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
             </MenuList>
           </Menu>
         </div>
-        <p className="mt-2 w-[90%]  text-md">{caption}</p>
+        <p className="mt-2 w-[90%] text-md">{caption}</p>
       </div>
 
       {postContent && contentType == "image" && (
@@ -177,10 +228,9 @@ const PostCard = ({ post, currentUser, postOwner }) => {
               {reactions?.length > 5 && isLiked
                 ? `You and ${reactions.length - 1} others`
                 : reactions?.length > 5 && !isLiked
-                ? `${reactions[reactions.length - 1].user.fullName} and ${
-                    reactions.length - 1
+                  ? `${reactions[reactions.length - 1].user.fullName} and ${reactions.length - 1
                   } others`
-                : reactions?.length}
+                  : reactions?.length}
             </span>
           </div>
         ) : (
@@ -259,6 +309,56 @@ const PostCard = ({ post, currentUser, postOwner }) => {
           currentUser={currentUser}
         />
       )}
+      <Modal
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        isOpen={isOpen}
+        scrollBehavior={scrollBehavior}
+        closeOnOverlayClick={false}
+        motionPreset='slideInRight'
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader className="text-center">Report</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form onSubmit={reportPostHandler}>
+              <RadioGroup className="space-y-6" onChange={setReason} value={reason}>
+                <div>
+                  <Radio value='Spam'>Spam</Radio>
+                  <p className="ml-9">- Content violates community guidelines.</p>
+                </div>
+                <div>
+                  <Radio value='Harassment'>Bullying or harassment</Radio>
+                  <p className="ml-9">- Content is used to bully, harass, or intimidate others.</p>
+                </div>
+                <div>
+                  <Radio value='Inappropriate content'>Inappropriate content</Radio>
+                  <p className="ml-9">- Content contains inappropriate or offensive material.</p>
+                </div>
+                <div>
+                  <Radio value='Violence'>Violence</Radio>
+                  <p className="ml-9">- Content depicts violent or harmful acts.</p>
+                </div>
+                <div>
+                  <Radio value='Others'>Others</Radio>
+                  {/* Add description for Others here if needed */}
+                </div>
+              </RadioGroup>
+              {
+                reason === 'Others' && <textarea type="text" className="border-2 my-3 border-gray-300 w-full " rows={3} name="description" />
+              }
+              <div className=" w-[40%] my-3 mx-auto border-black">
+                <input disabled={isLoading || !reason} className={`p-2 w-full  border-1 rounded text-white bg-color-one cursor-pointer ${isLoading && 'cursor-not-allowed'}`} type="submit" value="Submit report" />
+              </div>
+            </form>
+          </ModalBody>
+          {/* <ModalFooter>
+            <Button onClick={reportPostHandler}>Submit Report</Button>
+          </ModalFooter> */}
+        </ModalContent>
+      </Modal>
+      <Toaster />
     </div>
   );
 };

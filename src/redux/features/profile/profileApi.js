@@ -13,8 +13,6 @@ export const profileApi = apiSlice.injectEndpoints({
     
   }),
 
-
-
 });
 
 export const { useUpdateUserInfoMutation} =
