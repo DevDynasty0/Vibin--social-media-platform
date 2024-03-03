@@ -6,7 +6,7 @@ import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-
+import { FaRobot } from "react-icons/fa6";
 const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
   const [logout] = useLogoutMutation();
@@ -43,7 +43,7 @@ const LeftSidebar = () => {
       <div className="mt-2  w-full ">
         <LeftButton name={"Home"} path={"/"} icon={FaHome} />
         <LeftButton name={"Trending"} path={"trending"} icon={FaFire} />
-        <LeftButton name={"Video"} path={"video"} icon={FaVideo} />
+        <LeftButton name={"Video"} path={"videohome"} icon={FaVideo} />
         
 
         <LeftButton
@@ -60,6 +60,7 @@ const LeftSidebar = () => {
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
         <LeftButton name={"Saved Posts"} path="/savePost" icon={FaBookmark} />
+        <LeftButton name={"VibinAi"} path={"vibinai"} icon={FaRobot} />
       </div>
 
       <div
