@@ -7,7 +7,7 @@ const useSocket = () => {
     const userData = useSelector((state) => state.auth.user);
 
     const [isSocketConnected, setIsSocketConnected] = useState(false);
-    const ENDPOINT = "https://vibin-c5r0.onrender.com";
+    const ENDPOINT = "https://vibin-social-media-platform-backend.onrender.com";
 
 
     useEffect(() => {

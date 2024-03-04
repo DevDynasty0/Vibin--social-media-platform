@@ -12,7 +12,7 @@ const BlockedFriendCard = ({blockedUser}) => {
     
         };
           fetch(
-          `https://vibin-c5r0.onrender.com/api/v1/settings/unBlockUser`,
+          `https://vibin-social-media-platform-backend.onrender.com/api/v1/settings/unBlockUser`,
           {
             method: "DELETE",
             headers: {

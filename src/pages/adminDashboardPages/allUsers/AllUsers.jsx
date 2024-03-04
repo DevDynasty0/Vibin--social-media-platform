@@ -38,7 +38,7 @@ const AllUsers = () => {
         };
 
         const res = await axios.post(
-          `https://vibin-c5r0.onrender.com/api/v1/admin/suspendUser`,
+          `https://vibin-social-media-platform-backend.onrender.com/api/v1/admin/suspendUser`,
           data,
           {
             headers: {
@@ -100,7 +100,7 @@ const AllUsers = () => {
   ]);
   const [rowData, setRowData] = useState([]);
   useEffect(() => {
-    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
+    fetch(`https://vibin-social-media-platform-backend.onrender.com/api/v1/admin/allUsers`)
       .then((res) => res.json())
 
       .then((data) => { setRowData(data.data) });

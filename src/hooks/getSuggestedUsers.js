@@ -3,7 +3,7 @@ import getAccessToken from "../utils/getAccessToken";
 
 export const getSuggestedUsers = async () => {
   const token = getAccessToken();
-  const { data } = await axios("https://vibin-c5r0.onrender.coms/api/v1/users/suggested-users", {
+  const { data } = await axios("https://vibin-social-media-platform-backend.onrender.com/api/v1/users/suggested-users", {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -11,7 +11,7 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
       formData.append("coverImage", coverImage);
 
       const response = await axios.patch(
-        "https://vibin-c5r0.onrender.com/api/v1/users/change-cover-image",
+        "https://vibin-social-media-platform-backend.onrender.com/api/v1/users/change-cover-image",
         formData
       );
       console.log(response);

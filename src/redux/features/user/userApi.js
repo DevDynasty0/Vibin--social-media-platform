@@ -5,6 +5,7 @@ export const userApi = apiSlice.injectEndpoints({
     currentUser: builder.query({
       query: () => ({
         url: "/users/current-user",
+        method: "GET"
       }),
     }),
     suggestedUsers: builder.query({
