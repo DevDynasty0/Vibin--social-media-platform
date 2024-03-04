@@ -18,7 +18,7 @@ import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
 import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
 import ShowSavePosts from "../pages/profile/ShowSavePosts";
 import Trending from "../pages/Trending/Trending";
-import VideoHome from "../pages/Video/VideoHome";
+import Videos from "../pages/Videos/Videos";
 import GenarateCaption from "../shared component/viben-ai/GenarateCaption";
 
 const Routes = createBrowserRouter([
@@ -60,7 +60,7 @@ const Routes = createBrowserRouter([
         path: "videos",
         element: (
           <PrivateRoute>
-            <VideoHome></VideoHome>
+            <Videos></Videos>
           </PrivateRoute>
         ),
       },

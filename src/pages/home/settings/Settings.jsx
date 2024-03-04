@@ -32,7 +32,7 @@ const Settings = () => {
   const [blockedUsers, setBlockUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/settings/getblockUsers/${user?._id}`)
       .then((res) => res.json())
       .then((data) => setBlockUsers(data.data));
   }, [user]);
@@ -48,13 +48,14 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/settings/getSetting/${userEmail}`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/settings/getSetting/${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
         setUserSetting(data);
         console.log(data, "anfalkjfal;'kjfa");
       });
   }, [userEmail]);
+
 
   const handleNotificationSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +64,7 @@ const Settings = () => {
       userEmail: userEmail,
       ...userSetting,
     };
-    fetch(`http://localhost:8000/api/v1/settings/update/${userEmail}`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/settings/update/${userEmail}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -76,19 +77,17 @@ const Settings = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
+
+
+
       <form onSubmit={handleNotificationSubmit}>
-        <h3 className="text-2xl font-semibold shadow-md p-2 rounded">
-          Notifications
-        </h3>
+        <h3 className="text-2xl font-semibold shadow-md p-2 rounded">Notifications</h3>
         <div className="mt-5 flex flex-col gap-4 p-2">
           <FormControl className=" flex gap-4 items-center justify-between">
+
             <FormLabel htmlFor="posts" mb="0">
-              <h3 className="text-xl font-medium">
-                Turn off notification for posts
-              </h3>
-              <p className="mt-2">
-                Turn off if you do not want to get notification for posts
-              </p>
+              <h3 className="text-xl font-medium">Turn off notification for posts</h3>
+              <p className="mt-2">Turn off if you do not want to get notification for posts</p>
             </FormLabel>
             <Switch
               id="posts"
@@ -103,13 +102,10 @@ const Settings = () => {
           </FormControl>
 
           <FormControl className=" flex gap-4 items-center justify-between">
+
             <FormLabel htmlFor="likes" mb="0">
-              <h3 className="text-xl font-medium">
-                Turn off notification for likes
-              </h3>
-              <p className="mt-2">
-                Please turn off if you do not want to get notification for likes
-              </p>
+              <h3 className="text-xl font-medium">Turn off notification for likes</h3>
+              <p className="mt-2">Please turn off if you do not want to get notification for likes</p>
             </FormLabel>
             <Switch
               id="likes"
@@ -124,14 +120,10 @@ const Settings = () => {
           </FormControl>
 
           <FormControl className=" flex gap-4 items-center justify-between">
+
             <FormLabel htmlFor="comments" mb="0">
-              <h3 className="text-xl font-medium">
-                Turn off notification for comments
-              </h3>
-              <p className="mt-2">
-                Please turn off if you do not want to get notification for
-                comments
-              </p>
+              <h3 className="text-xl font-medium">Turn off notification for comments</h3>
+              <p className="mt-2">Please turn off if you do not want to get notification for comments</p>
             </FormLabel>
             <Switch
               id="comments"
@@ -144,6 +136,7 @@ const Settings = () => {
               }
             />
           </FormControl>
+
         </div>
         <button
           className="mx-2 mt-4 bg-color-one text-white font-medium px-3 py-1 shadow rounded"
@@ -153,24 +146,26 @@ const Settings = () => {
         </button>
       </form>
       <div className="mt-7">
-        <h3 className="text-2xl font-semibold shadow-md p-2 rounded">
-          Blocklist
-        </h3>
+        <h3 className="text-2xl font-semibold shadow-md p-2 rounded">Blocklist</h3>
         <div className="mt-5 px-2">
-          {blockedUsers.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {blockedUsers.map((blockedUser) => (
-                <BlockedFriendCard
-                  key={blockedUser._id}
-                  blockedUser={blockedUser}
-                ></BlockedFriendCard>
-              ))}
-            </div>
-          ) : (
-            <p className="text-xl">No have no blocked users</p>
-          )}
+          {
+            blockedUsers.length > 0
+              ?
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {blockedUsers.map((blockedUser) => (
+                  <BlockedFriendCard
+                    key={blockedUser._id}
+                    blockedUser={blockedUser}
+                  ></BlockedFriendCard>
+                ))}
+              </div>
+              :
+              <p className="text-xl">No have no blocked users</p>
+          }
         </div>
       </div>
+
+
     </div>
   );
 };

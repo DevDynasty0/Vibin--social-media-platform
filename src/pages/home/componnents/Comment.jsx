@@ -26,11 +26,7 @@ const Comment = ({ comment, post, currentUser }) => {
   const [deleteComment] = useDeleteCommentMutation();
   const [editComment] = useEditCommentMutation();
   const onCommentDelete = (commentId) => {
-    deleteComment({
-      commentId: commentId,
-      postId: post._id,
-      userId: post.user._id,
-    });
+    deleteComment({ commentId: commentId, postId: post._id });
     setEditCommentMode(false);
   };
 
@@ -65,9 +61,7 @@ const Comment = ({ comment, post, currentUser }) => {
         <div className="w-full bg-gray-100 rounded-md md:p-3 p-1">
           <div className="flex justify-between items-center">
             <div className="flex  items-center justify-start gap-1 md:gap-4">
-              <p className="font-bold text-[10px] md:text-[15px]">
-                {comment.user.fullName}
-              </p>
+              <p className="font-bold text-[10px] md:text-[15px]">{comment.user.fullName}</p>
               <p className="text-[7px] md:text-[12px]">
                 {moment(comment.updatedAt).fromNow()}
               </p>

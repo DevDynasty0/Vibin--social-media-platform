@@ -2,6 +2,12 @@ import { apiSlice } from "../api/apiSlice";
 
 export const postApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getTrendingPosts: builder.query({
+      query: () => ({
+        url: "/posts/getTrendingPosts",
+      }),
+    }),
+
     getPosts: builder.query({
       query: () => ({
         url: "/posts/get-followings-posts",
@@ -15,47 +21,15 @@ export const postApi = apiSlice.injectEndpoints({
       }),
     }),
     createPost: builder.mutation({
-      query: (newPost) => ({
+      query: ({ newPost }) => ({
         url: "/posts/post",
         method: "POST",
         body: newPost,
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
       }),
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          const { data: createdPost } = await queryFulfilled;
-          const postId = args.postId || args.post;
-          const userId = args.userId;
-
-          if (createdPost?.newPost && postId) {
-            dispatch(
-              postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-                const draftPost = draft.find((p) => p._id == postId);
-                if (draftPost && draftPost.shares) {
-                  draftPost.shares += 1;
-                } else {
-                  draftPost.shares = 1;
-                }
-              })
-            );
-            dispatch(
-              postApi.util.updateQueryData(
-                "getPostsByUserId",
-                { userId },
-                (draft) => {
-                  const draftPost = draft.find((p) => p._id == postId);
-                  if (draftPost && draftPost.shares) {
-                    draftPost.shares += 1;
-                  } else {
-                    draftPost.shares = 1;
-                  }
-                }
-              )
-            );
-          }
-        } catch {
-          console.log("error from postApi on createComment: ");
-        }
-      },
+      // invalidatesTags: (data) => [{ type: "Posts", id: data._id }],
     }),
     savePost: builder.mutation({
       query: (newSavePost) => {
@@ -75,25 +49,37 @@ export const postApi = apiSlice.injectEndpoints({
         url: `/posts/delete-post/${postId}`,
         method: "DELETE",
       }),
-      async onQueryStarted({ postId, userId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
         try {
           const { data: deletePost } = await queryFulfilled;
+          console.log("deletepost", deletePost);
           if (deletePost?.result?.deletedCount) {
             dispatch(
               postApi.util.updateQueryData("getPosts", undefined, (draft) => {
                 return draft.filter((p) => p._id != postId);
               })
             );
-            dispatch(
-              postApi.util.updateQueryData(
-                "getPostsByUserId",
-                { userId },
-                (draft) => {
-                  return draft.filter((p) => p._id != postId);
-                }
-              )
-            );
           }
+        } catch {
+          console.log("error from postApi on createComment: ");
+        }
+      },
+    }),
+    sharePost: builder.mutation({
+      query: ({ postId }) => ({
+        url: `/posts/create-post-share/${postId}`,
+        method: "PATCH",
+      }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          dispatch(
+            postApi.util.updateQueryData("getPosts", undefined, (draft) => {
+              const draftPost = draft.find((p) => p._id === postId);
+              draftPost.shares += 1;
+            })
+          );
         } catch {
           console.log("error from postApi on createComment: ");
         }
@@ -105,25 +91,13 @@ export const postApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      async onQueryStarted({ post }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled }) {
         try {
           const { data: postComment } = await queryFulfilled;
-          const userId = post.user._id;
-          const postId = post._id;
           if (postComment?.data?._id) {
             dispatch(
-              postApi.util.updateQueryData(
-                "getPostsByUserId",
-                { userId },
-                (draft) => {
-                  const draftPost = draft.find((p) => p._id === post._id);
-                  draftPost.comments += 1;
-                }
-              )
-            );
-            dispatch(
               postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-                const draftPost = draft.find((p) => p._id === post._id);
+                const draftPost = draft.find((p) => p._id === postId);
                 draftPost.comments += 1;
               })
             );
@@ -148,7 +122,7 @@ export const postApi = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
       async onQueryStarted(
-        { postId, commentId, userId },
+        { postId, commentId },
         { dispatch, queryFulfilled }
       ) {
         try {
@@ -159,16 +133,6 @@ export const postApi = apiSlice.injectEndpoints({
                 const draftPost = draft.find((p) => p._id === postId);
                 draftPost.comments -= 1;
               })
-            );
-            dispatch(
-              postApi.util.updateQueryData(
-                "getPostsByUserId",
-                { userId },
-                (draft) => {
-                  const draftPost = draft.find((p) => p._id === postId);
-                  draftPost.comments -= 1;
-                }
-              )
             );
             dispatch(
               postApi.util.updateQueryData(
@@ -228,27 +192,26 @@ export const postApi = apiSlice.injectEndpoints({
       }),
     }),
     addReaction: builder.mutation({
-      query: ({ post, type }) => ({
-        url: `/posts/reaction/${post._id}`,
+      query: ({ postId, type }) => ({
+        url: `/posts/reaction/${postId}`,
         method: "PATCH",
         body: { type },
       }),
       async onQueryStarted(
-        { post, type },
+        { postId, type },
         { getState, dispatch, queryFulfilled }
       ) {
         const loggedInUser = getState()?.auth?.user;
-        const userId = post.user._id;
 
         // optimistic cache update for liking start
         const likeForHomePost = dispatch(
           postApi.util.updateQueryData("getPosts", undefined, (draft) => {
-            const draftPost = draft.find((p) => p._id === post._id);
-            const existingReact = draftPost?.reactions.find(
+            const draftPost = draft.find((p) => p._id === postId);
+            const existingReact = draftPost.reactions.find(
               (reaction) => reaction.user._id === loggedInUser._id
             );
 
-            const isReactionExist = draftPost?.reactions.find(
+            const isReactionExist = draftPost.reactions.find(
               (reaction) => reaction.user._id === loggedInUser._id
             );
 
@@ -266,44 +229,28 @@ export const postApi = apiSlice.injectEndpoints({
             }
           })
         );
-        const likeForProfilePost = dispatch(
-          postApi.util.updateQueryData(
-            "getPostsByUserId",
-            {
-              userId,
-            },
-            (draft) => {
-              const draftPost = draft.find((p) => p._id === post?._id);
-              const existingReact = draftPost?.reactions.find(
-                (reaction) => reaction.user._id === loggedInUser._id
-              );
-
-              const isReactionExist = draftPost?.reactions.find(
-                (reaction) => reaction.user._id === loggedInUser._id
-              );
-
-              if (isReactionExist) {
-                if (type) {
-                  existingReact.type = type;
-                } else {
-                  const filteredData = draftPost.reactions.filter(
-                    (reaction) => reaction.user._id !== loggedInUser._id
-                  );
-                  draftPost.reactions = filteredData;
-                }
-              } else {
-                draftPost.reactions.push({ user: loggedInUser, type });
-              }
-            }
-          )
-        );
+        // const likeForProfilePost = dispatch(
+        //   postApi.util.updateQueryData(
+        //     "getPostsByUserId",
+        //     { loggedInUserId },
+        //     (draft) => {
+        //       const draftPost = draft.find((p) => p._id === postId);
+        //       const isLikeExist = draftPost.likes.indexOf(userEmail);
+        //       if (isLikeExist !== -1) {
+        //         draftPost.likes.splice(isLikeExist, 1);
+        //       } else {
+        //         draftPost.likes.push(userEmail);
+        //       }
+        //     }
+        //   )
+        // );
         // optimistic cache update for liking end
 
         try {
           await queryFulfilled;
         } catch (error) {
           likeForHomePost.undo();
-          likeForProfilePost.undo();
+          // likeForProfilePost.undo();
         }
       },
     }),
@@ -317,9 +264,11 @@ export const {
   useSavePostMutation,
   useGetSavePostQuery,
   useDeletePostMutation,
+  useSharePostMutation,
   useCreateCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
   useGetCommentsQuery,
   useAddReactionMutation,
+  useGetTrendingPostsQuery,
 } = postApi;

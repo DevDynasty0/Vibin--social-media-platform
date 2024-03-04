@@ -43,6 +43,7 @@ export const apiSlice = createApi({
             user: data.user,
           })
         );
+        localStorage.setItem("auth", JSON.stringify(data.user._id));
         return await baseQuery(args, api, extraOptions);
       }
     }

@@ -3,12 +3,17 @@ import PostCard from "../pages/home/componnents/PostCard";
 import { Spinner } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import SharePostCard from "../pages/home/componnents/SharePostCard";
+import React from "react";
 
 import nodatafound from "../assets/images/No data-cuate.png";
-
-const AllPosts = ({ posts = [], isSuccess, isLoading }) => {
+const AllPosts = ({
+  posts = [],
+  isSuccess,
+  isLoading,
+  //  MenuItems
+}) => {
   const currentUser = useSelector((state) => state.auth.user);
-
+  // console.log("allpost______________________", posts);
   let content;
   if (isLoading) {
     content = (
@@ -26,13 +31,11 @@ const AllPosts = ({ posts = [], isSuccess, isLoading }) => {
       );
     } else {
       content = posts.map((post) => {
-        if (post.type === "shared") {
+        if (post?.post) {
           return (
-            <SharePostCard
-              key={post._id}
-              currentUser={currentUser}
-              post={post}
-            />
+            // <React.Fragment >
+              <SharePostCard key={post._id} currentUser={currentUser} post={post} />
+            // </React.Fragment>
           );
         } else {
           return (

@@ -20,8 +20,7 @@ const LeftSidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const userId = JSON.parse(localStorage?.getItem("auth"));
-      const res = await logout({ userId });
+      const res = await logout({ userId: user._id });
       if (res?.data?.user) {
         window.location.reload();
       }
