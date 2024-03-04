@@ -11,8 +11,11 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
       formData.append("coverImage", coverImage);
 
       const response = await axios.patch(
-        "https://vibin-social-media-platform-backend.onrender.com/api/v1/users/change-cover-image",
-        formData
+        "http://localhost:8000/api/v1/users/change-cover-image",
+        formData,
+        {
+          withCredentials: true // Add withCredentials option here
+        }
       );
       console.log(response);
 
@@ -37,12 +40,12 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
     <div className="relative">
       <div
         className="w-full 
-       lg:h-[72vh] md:h-[44vh] h-[32vh] relative"
+       lg:h-[44vh] md:h-[32vh] h-[20vh] relative"
       >
         <img
           src={user?.data?.coverImage || coverdefault}
           alt=""
-          className="w-full h-full rounded-md"
+          className="w-full object-cover h-full"
         />
         <label
           htmlFor="imageUpload"

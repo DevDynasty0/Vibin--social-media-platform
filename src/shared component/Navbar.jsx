@@ -72,7 +72,7 @@ console.log('navvvvvvvvvvvvvv',user);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [setShowResults, user]);
+  }, [setShowResults]);
 
   useEffect(() => {
 
@@ -91,20 +91,20 @@ console.log('navvvvvvvvvvvvvv',user);
 
 return (
   <>
-    <nav className=" px-5 text-white bg-white   w-full z-50  shadow-md fixed min-w-full">
+    <nav className=" px-5 text-white bg-white py-1  w-full z-50  shadow-md fixed min-w-full">
       <div className="flex  items-center  ">
         <div
           // onBlur={() => setShowResults(false)}
           ref={containerRef}
           className="flex w-full   
-           items-center  py-2 relative"
+           items-center  py-2  relative"
         >
           <a href="/" className="flex items-center  ">
             <figure className="    ">
               <img
                 // src="./vibin-logo3.png"
                 src={logo}
-                className="md:h-10 md:w-14 w-10 h-7 object-cover   "
+                className="md:h-8 md:w-11 w-10 h-7 object-cover   "
                 alt="Vibin' Logo"
               />
             </figure>
@@ -112,7 +112,7 @@ return (
               Vibin<span className="">'</span>
             </span> */}
           </a>{" "}
-          <div><p className="lg:text-3xl md:text-2xl text-xl font-bold font-serif text-color-one ">ibin'</p></div>
+          <div><p className="ml-2 lg:text-2xl md:text-2xl text-xl font-bold  font-serif text-black ">vibin'</p></div>
           
         </div>
 

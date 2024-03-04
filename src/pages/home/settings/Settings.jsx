@@ -32,7 +32,7 @@ const Settings = () => {
   const [blockedUsers, setBlockUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`https://vibin-social-media-platform-backend.onrender.com/api/v1/settings/getblockUsers/${user?._id}`)
+    fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`)
       .then((res) => res.json())
       .then((data) => setBlockUsers(data.data));
   }, [user]);
@@ -48,7 +48,7 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    fetch(`https://vibin-social-media-platform-backend.onrender.com/api/v1/settings/getSetting/${userEmail}`)
+    fetch(`http://localhost:8000/api/v1/settings/getSetting/${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
         setUserSetting(data);
@@ -64,7 +64,7 @@ const Settings = () => {
       userEmail: userEmail,
       ...userSetting,
     };
-    fetch(`https://vibin-social-media-platform-backend.onrender.com/api/v1/settings/update/${userEmail}`, {
+    fetch(`http://localhost:8000/api/v1/settings/update/${userEmail}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

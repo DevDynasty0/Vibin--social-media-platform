@@ -4,7 +4,7 @@ const token = getAccessToken();
 
 export const getFollowingUsers = async () => {
   try {
-    const { data } = await axios("https://vibin-social-media-platform-backend.onrender.com/api/v1/users/get-following-users", {
+    const { data } = await axios("http://localhost:8000/api/v1/users/get-following-users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -18,7 +18,7 @@ export const getFollowingUsers = async () => {
 
 export const getFollowers = async () => {
   try {
-    const res = await axios("https://vibin-social-media-platform-backend.onrender.com/api/v1/users/get-followers", {
+    const res = await axios("http://localhost:8000/api/v1/users/get-followers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

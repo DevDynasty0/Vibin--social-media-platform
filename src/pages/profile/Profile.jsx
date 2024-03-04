@@ -15,7 +15,7 @@ export default function Profile() {
     isLoading,
     refetch: refetchUserInfo,
   } = useGetUserByIdQuery(id);
-  const loggedInUser = useSelector((state) => state.auth.user.email);
+  const loggedInUser = useSelector((state) => state.auth.user?.email);
 
   const {
     data: myPost,
@@ -34,13 +34,14 @@ export default function Profile() {
     );
   }
   console.log('userrrrrrrrrr',user);
+
   return (
     <div>
 
       
 <div className="min-h-screen bg-gradient-to-b from-purple-50 via-purple-100 to-pink-200">
 
-        <div className=" max-w-7xl mx-auto  ">
+        <div className="  mx-auto  ">
 
           <Cover
             user={user}
@@ -48,7 +49,7 @@ export default function Profile() {
             refetchUserInfo={refetchUserInfo}
           ></Cover>
 
-          <div className="lg:w-[70vw] gap-3 mt-10 w-full mx-auto  rounded-lg  shadow-x    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
+          <div className="lg:w-[80%] gap-3 mt-10 w-full mx-auto  rounded-lg  shadow-x    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
             <div className="w-full -mt-10 h-[70%]  md:col-span-5  lg:col-span-3  ">
               <LeftContent
                 user={user}
