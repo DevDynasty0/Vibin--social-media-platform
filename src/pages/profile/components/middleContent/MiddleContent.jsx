@@ -76,21 +76,21 @@ const MiddleContent = ({
   //   );
   // };
   return (
-    <div className=" mt-10">
+    <div className=" mt-16">
       {/* Tab items */}
       <div>
         <Tabs className="mx-3 md:mx-0">
           <div className="flex items-center  justify-between">
             <TabList>
               <Tab className="!px-2 md:!px-4 ">Post</Tab>
-              {loggedInUser == user.data.email && (   <Tab className="!px-2 md:!px-4">Save Posts</Tab>)}
+              {loggedInUser == user.data?.email && (   <Tab className="!px-2 md:!px-4">Saved</Tab>)}
               {/* <Tab className="!px-2 md:!px-4">Likes</Tab> */}
               {/* {loggedInUser == user.data.email && ( */}
                 <Tab className="!px-2 md:!px-4">About</Tab>
               {/* )} */}
-              {loggedInUser == user.data.email && (   <Tab className="!px-2 md:!px-4">Media</Tab>)}
+              {loggedInUser == user.data?.email && (   <Tab className="!px-2 md:!px-4">Media</Tab>)}
             </TabList>
-            {loggedInUser !== user.data.email && (
+            {loggedInUser !== user.data?.email && (
               <div>
                 <button
                  onClick={() => handleFollow(user?.data?._id)}

@@ -66,7 +66,7 @@ const LeftSidebar = () => {
         /> */}
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
-        <LeftButton name={"Saved Posts"} path="/savePost" icon={FaBookmark} />
+        <LeftButton name={"Saved"} path="/savePost" icon={FaBookmark} />
         <LeftButton name={"VibinAi"} path={"vibinai"} icon={FaRobot} />
       </div>
 

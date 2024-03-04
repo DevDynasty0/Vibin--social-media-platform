@@ -33,21 +33,22 @@ const AdminDashboard = () => {
   const [postTypeChartData, setPostTypeChartData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`)
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/totalPostCount`)
       .then((res) => res.json())
       .then((data) => setPostsCount(data.data));
   }, []);
 
   useEffect(() => {
+    console.log("urioujer");
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        " http://localhost:8000/api/v1/admin/getSuspendUsers"
+        " https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers"
       );
       setSuspendedUsers(res.data.data);
     };

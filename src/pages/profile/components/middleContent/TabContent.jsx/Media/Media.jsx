@@ -26,3 +26,6 @@ const Media = ({ reversedPosts }) => {
 };
 
 export default Media;
+
+
+

@@ -16,8 +16,8 @@ const SavePosts = () => {
               savepost.postContent && (
                 <div key={savepost._id}>
                   <Link to="/savePost">
-                    <div>
-                      <img className="w-52 h-52 bg-white cursor-pointer" src={savepost.postContent} alt="" />
+                    <div className="bg-white  p-2 rounded-md shadow-md h-[200px]">
+                      <img className="bg-white w-full rounded-md  h-full object-cover cursor-pointer" src={savepost.postContent} alt="" />
                     </div>
                   </Link>
                 </div>
