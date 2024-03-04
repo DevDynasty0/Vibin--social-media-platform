@@ -16,15 +16,10 @@ import AdminDashboardLayout from "../layouts/AdminDashboardLayout";
 import AdminDashboard from "../pages/adminDashboardPages/adminDashboard/AdminDashboard";
 import AllUsers from "../pages/adminDashboardPages/allUsers/AllUsers";
 import SuspendedUsers from "../pages/adminDashboardPages/suspendedUsers/SuspendedUsers";
-
 import ShowSavePosts from "../pages/profile/ShowSavePosts";
-
 import Trending from "../pages/Trending/Trending";
-import AiAdvertisement from "../shared component/viben-ai/AiAdvertisement";
-import VibinAi from "../pages/VibinAi/VibinAi";
 import VideoHome from "../pages/Video/VideoHome";
 import GenarateCaption from "../shared component/viben-ai/GenarateCaption";
-
 
 const Routes = createBrowserRouter([
   {
@@ -55,24 +50,43 @@ const Routes = createBrowserRouter([
       },
       {
         path: "friends",
-        element: <Friends />,
+        element: (
+          <PrivateRoute>
+            <Friends />
+          </PrivateRoute>
+        ),
       },
       {
-        path: "videohome",
-        element: <VideoHome></VideoHome>,
+        path: "videos",
+        element: (
+          <PrivateRoute>
+            <VideoHome></VideoHome>
+          </PrivateRoute>
+        ),
       },
       {
         path: "trending",
-        element: <Trending />,
+        element: (
+          <PrivateRoute>
+            <Trending />
+          </PrivateRoute>
+        ),
       },
       {
         path: "vibinai",
-        // element: <VibinAi></VibinAi>,
-        element: <GenarateCaption></GenarateCaption>,
+        element: (
+          <PrivateRoute>
+            <GenarateCaption></GenarateCaption>
+          </PrivateRoute>
+        ),
       },
       {
         path: "search",
-        element: <SearchResult />,
+        element: (
+          <PrivateRoute>
+            <SearchResult />
+          </PrivateRoute>
+        ),
       },
       {
         path: "profile/:id",
@@ -108,20 +122,20 @@ const Routes = createBrowserRouter([
         <AdminDashboardLayout />
       </PrivateRoute>
     ),
-    children : [
+    children: [
       {
-        path : "/admin",
-        element : <AdminDashboard/>
+        path: "/admin",
+        element: <AdminDashboard />,
       },
       {
-        path : "/admin/allUsers",
-        element : <AllUsers/>
+        path: "/admin/allUsers",
+        element: <AllUsers />,
       },
       {
-        path : "/admin/suspendedUsers",
-        element : <SuspendedUsers/>
-      }
-    ]
+        path: "/admin/suspendedUsers",
+        element: <SuspendedUsers />,
+      },
+    ],
   },
   {
     path: "/login",

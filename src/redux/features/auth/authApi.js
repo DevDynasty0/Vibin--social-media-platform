@@ -15,6 +15,7 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
+            localStorage.setItem("auth", JSON.stringify(userData.user._id));
             dispatch(
               userLoggedIn({
                 user: userData.user,
@@ -33,12 +34,13 @@ export const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
 
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
+            localStorage.setItem("auth", JSON.stringify(userData.user._id));
             dispatch(
               userLoggedIn({
                 user: userData.user,
@@ -59,6 +61,7 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           if (result?.data?.user) {
+            localStorage.clear("auth");
             dispatch(userLoggedOut());
           }
         } catch (err) {
@@ -78,6 +81,7 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
+            localStorage.setItem("auth", JSON.stringify(userData.user._id));
             dispatch(
               userLoggedIn({
                 user: userData.user,

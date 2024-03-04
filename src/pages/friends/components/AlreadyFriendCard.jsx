@@ -24,7 +24,7 @@ const AlreadyFriendCard = ({ user }) => {
       blockedPerson: user.profile._id,
       blockedBy: currentUser._id,
     };
-    fetch(`http://localhost:800/api/v1/settings/blockUser`, {
+    fetch(`http://localhost:8000/api/v1/settings/blockUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

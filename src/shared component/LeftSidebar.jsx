@@ -1,5 +1,12 @@
 import LeftButton from "./LeftButton";
-import { FaUser, FaCog, FaHome, FaUserFriends ,FaFire,FaVideo} from "react-icons/fa";
+import {
+  FaUser,
+  FaCog,
+  FaHome,
+  FaUserFriends,
+  FaFire,
+  FaVideo,
+} from "react-icons/fa";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
@@ -11,11 +18,13 @@ const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
   const [logout] = useLogoutMutation();
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
+  const handleLogout = async () => {
     try {
-      await logout({ userId: user?._id });
-      window.location.reload();
+      const userId = JSON.parse(localStorage?.getItem("auth"));
+      const res = await logout({ userId });
+      if (res?.data?.user) {
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -43,8 +52,7 @@ const LeftSidebar = () => {
       <div className="mt-2  w-full ">
         <LeftButton name={"Home"} path={"/"} icon={FaHome} />
         <LeftButton name={"Trending"} path={"trending"} icon={FaFire} />
-        <LeftButton name={"Video"} path={"videohome"} icon={FaVideo} />
-        
+        <LeftButton name={"Video"} path={"videos"} icon={FaVideo} />
 
         <LeftButton
           name={"Profile"}
@@ -71,7 +79,7 @@ const LeftSidebar = () => {
         <hr />
         <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
         <hr />
-        <div onClick={(e) => handleLogout(e)}>
+        <div onClick={handleLogout}>
           <LeftButton name={"Logout"} icon={MdLogout} />
         </div>
       </div>

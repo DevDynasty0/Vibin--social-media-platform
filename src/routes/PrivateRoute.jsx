@@ -1,9 +1,11 @@
-import useAuthCheck from "../hooks/useAuthCheck";
-import Landing from "../pages/landing/landing/Landing";
+import { Navigate, useLocation } from "react-router-dom";
 import PublicRoute from "./PublicRoute";
-import { Spinner } from "@chakra-ui/react";
+import Landing from "../pages/landing/landing/Landing";
+import useAuthCheck from "../hooks/useAuthCheck";
+import { Spinner } from "@chakra-ui/spinner";
 
 const PrivateRoute = ({ children }) => {
+  const location = useLocation();
   const { user, loading } = useAuthCheck();
 
   if (loading) {
@@ -22,7 +24,11 @@ const PrivateRoute = ({ children }) => {
     );
   }
 
-  return children;
+  if (user) {
+    return children;
+  }
+
+  return <Navigate to="/" state={{ from: location }} replace></Navigate>;
 };
 
 export default PrivateRoute;

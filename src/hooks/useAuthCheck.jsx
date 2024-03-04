@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
-import { useCurrentUserQuery } from "../redux/features/user/userApi";
 import { useDispatch } from "react-redux";
+import { useCurrentUserQuery } from "../redux/features/user/userApi";
 import { userLoggedIn } from "../redux/features/auth/authSlice";
 
 export default function useAuthCheck() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
   const { data: currentUser, isSuccess } = useCurrentUserQuery();
 
   useEffect(() => {
-    const getAwait = async () => {
-      if (isSuccess) {
-        setUser(currentUser.data.user);
-        dispatch(userLoggedIn({ user: currentUser.data.user }));
-      }
-    };
-    getAwait();
+    const localAuth = localStorage?.getItem("auth");
+    if (localAuth) {
+      const auth = JSON.parse(localAuth);
+      setUser(auth);
+    }
     setLoading(false);
-  }, [isSuccess, currentUser, dispatch]);
+  }, [dispatch, setUser]);
+
+  useEffect(() => {
+    if (isSuccess && currentUser?.data?.user) {
+      dispatch(
+        userLoggedIn({
+          user: currentUser.data.user,
+        })
+      );
+    }
+  }, [isSuccess, dispatch, currentUser]);
 
   return { user, loading };
 }

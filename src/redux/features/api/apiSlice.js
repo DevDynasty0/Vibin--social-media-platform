@@ -10,27 +10,29 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: async (args, api, extraOptions) => {
     const result = await baseQuery(args, api, extraOptions);
-    const user = api.getState().auth?.user;
 
     if (result?.error?.originalStatus === 401) {
       const response = await fetch(
         `${import.meta.env.VITE_BASE_API_URL}/users/refresh-token`,
         {
-          method: "POST",
           credentials: "include",
         }
       );
 
       if (!response.ok) {
+        const userId = await JSON.parse(localStorage.getItem("auth"));
         await fetch(
-          `${import.meta.env.VITE_BASE_API_URL}/users/logout/${user._id}`,
+          `${import.meta.env.VITE_BASE_API_URL}/users/logout/${userId}`,
           {
+            method: "POST",
             credentials: "include",
           }
         );
-        api.dispatch(userLoggedOut());
-        window.location.pathname = "/";
 
+        api.dispatch(userLoggedOut());
+        localStorage.clear("auth");
+
+        window.location.reload();
         throw new Error("Network response was not ok");
       }
 

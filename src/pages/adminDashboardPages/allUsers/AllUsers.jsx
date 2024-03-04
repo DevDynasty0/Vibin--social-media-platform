@@ -8,17 +8,12 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useAuthCheck from "../../../hooks/useAuthCheck";
+import getAccessToken from "../../../utils/getAccessToken";
 import { useNavigate } from "react-router-dom";
 
 const AllUsers = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState(null);
-
-  useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
-      .then((res) => res.json())
-      .then((data) => setUsers(data.data));
-  }, []);
+  const token = getAccessToken();
 
   const { user: currentUser } = useAuthCheck();
 
@@ -42,7 +37,9 @@ const AllUsers = () => {
           `http://localhost:8000/api/v1/admin/suspendUser`,
           data,
           {
-            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         console.log(res, "crated suspend user");
@@ -137,7 +134,7 @@ const AllUsers = () => {
   ]);
   const [rowData, setRowData] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:800/api/v1/admin/allUsers`)
+    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
       .then((res) => res.json())
 
       .then((data) => {
