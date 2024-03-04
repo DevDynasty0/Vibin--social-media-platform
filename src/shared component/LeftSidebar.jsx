@@ -1,23 +1,31 @@
 import LeftButton from "./LeftButton";
-import { FaUser, FaCog, FaHome, FaUserFriends ,FaFire,FaVideo} from "react-icons/fa";
+import {
+  FaUser,
+  FaCog,
+  FaHome,
+  FaUserFriends,
+  FaFire,
+  FaVideo,
+} from "react-icons/fa";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import avatar from "../assets/images/user-profile.webp";
 import { useLogoutMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FaRobot } from "react-icons/fa6";
 const LeftSidebar = () => {
   const user = useSelector((state) => state.auth.user);
-  const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
   const handleLogout = async () => {
-    const results = await logout();
-    if (results?.data?.success) {
-      window.location.reload();
-      navigate("/login");
+    try {
+      const res = await logout({ userId: user._id });
+      if (res?.data?.user) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -43,8 +51,7 @@ const LeftSidebar = () => {
       <div className="mt-2  w-full ">
         <LeftButton name={"Home"} path={"/"} icon={FaHome} />
         <LeftButton name={"Trending"} path={"trending"} icon={FaFire} />
-        <LeftButton name={"Video"} path={"videohome"} icon={FaVideo} />
-        
+        <LeftButton name={"Video"} path={"videos"} icon={FaVideo} />
 
         <LeftButton
           name={"Profile"}
@@ -72,12 +79,7 @@ const LeftSidebar = () => {
         <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
         <hr />
         <div onClick={handleLogout}>
-          <LeftButton
-            // onHandleClick={handleLogout}
-            name={"Logout"}
-            path={"/login"}
-            icon={MdLogout}
-          />
+          <LeftButton name={"Logout"} icon={MdLogout} />
         </div>
       </div>
     </div>

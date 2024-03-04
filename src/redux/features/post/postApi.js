@@ -2,6 +2,12 @@ import { apiSlice } from "../api/apiSlice";
 
 export const postApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getTrendingPosts: builder.query({
+      query: () => ({
+        url: "/posts/getTrendingPosts",
+      }),
+    }),
+
     getPosts: builder.query({
       query: () => ({
         url: "/posts/get-followings-posts",
@@ -264,4 +270,5 @@ export const {
   useEditCommentMutation,
   useGetCommentsQuery,
   useAddReactionMutation,
+  useGetTrendingPostsQuery,
 } = postApi;

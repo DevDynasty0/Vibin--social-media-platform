@@ -1,33 +1,32 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { userLoggedIn, userLoggedOut } from "../redux/features/auth/authSlice";
-import {
-  // useCurrentUserMutation,
-  useCurrentUserQuery,
-} from "../redux/features/user/userApi";
+import { useCurrentUserQuery } from "../redux/features/user/userApi";
+import { userLoggedIn } from "../redux/features/auth/authSlice";
 
 export default function useAuthCheck() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const { data: currentUser } = useCurrentUserQuery();
+  const { data: currentUser, isSuccess } = useCurrentUserQuery();
+
   useEffect(() => {
-    if (currentUser) {
-      setUser(currentUser.data.user);
-      // console.log(currentUser.data.accessToken);
+    const localAuth = localStorage?.getItem("auth");
+    if (localAuth) {
+      const auth = JSON.parse(localAuth);
+      setUser(auth);
+    }
+    setLoading(false);
+  }, [dispatch, setUser]);
+
+  useEffect(() => {
+    if (isSuccess && currentUser?.data?.user) {
       dispatch(
         userLoggedIn({
           user: currentUser.data.user,
-          accessToken: currentUser.data.accessToken,
         })
       );
-      setUser(currentUser.data.user);
-      setLoading(false);
-    } else {
-      setLoading(false);
-      dispatch(userLoggedOut());
     }
-  }, [dispatch, currentUser]);
+  }, [isSuccess, dispatch, currentUser]);
 
   return { user, loading };
 }
