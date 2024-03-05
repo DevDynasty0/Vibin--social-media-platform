@@ -43,7 +43,7 @@ const Navbar = ({
   const userData = useSelector((state) => state.auth.user);
   console.log("user data __: :__:", userData);
   const { data: notificationsData, refetch: refetchNotifications } =
-    useGetNotificationsByUserIdQuery(userData?._id, {skip: !userData?._id});
+    useGetNotificationsByUserIdQuery(userData?._id, { skip: !userData?._id });
 
   const [notificationState, setNotificationState] = useState([]);
   // console.log("Notification  state", notificationState);
@@ -125,7 +125,7 @@ const Navbar = ({
               Vibin<span className="">'</span>
             </span> */}
             </a>{" "}
-            <div>
+            <div className="hidden md:block">
               <p className="ml-2 lg:text-2xl md:text-2xl text-xl font-bold  font-serif text-black ">
                 vibin'
               </p>
@@ -211,7 +211,7 @@ const Navbar = ({
             </div>
             {/* Notifications end*/}
 
-            <div className=" text-white  hover:text-color-one rounded   px-1  ">
+            {/* <div className=" text-white  hover:text-color-one rounded   px-1  ">
               {left ? (
                 <FaXmark
                   className=" block md:hidden"
@@ -231,10 +231,10 @@ const Navbar = ({
                   }}
                 />
               )}{" "}
-            </div>
+            </div> */}
             {/* try avater */}
             <div>
-              <Stack direction="row" spacing={4}>
+              <Stack onClick={() => setLeft(!left)} direction="row" spacing={4}>
                 <Avatar
                   className="w-6 h-6 rounded-full"
                   boxSize={10}

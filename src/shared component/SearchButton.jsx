@@ -12,7 +12,7 @@ const SearchButton = ({ searchInput, setSearchInput, setShowResults }) => {
               setShowResults(true);
               setSearchInput(e.target.value);
             }}
-            className="px-2 py-1 focus:outline-color-one bg-white  lg:block rounded-r-full rounded-l-full hover:cursor-text  text-white focus:cursor-text w-full border-2"
+            className="px-2 py-1 focus:outline-color-one bg-white  lg:block rounded-r-full rounded-l-full hover:cursor-text  text-black focus:cursor-text w-full border-2"
             type="text"
             placeholder="Search..."
           />

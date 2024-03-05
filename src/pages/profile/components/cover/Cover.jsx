@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
-import coverdefault from '../../../../assets/images/coverdefault.png'
+import coverdefault from "../../../../assets/images/coverdefault.png";
+
 const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
   const [coverImage, setCoverImage] = useState("");
 
@@ -14,7 +15,7 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
         "http://localhost:8000/api/v1/users/change-cover-image",
         formData,
         {
-          withCredentials: true // Add withCredentials option here
+          withCredentials: true, // Add withCredentials option here
         }
       );
       console.log(response);
