@@ -36,7 +36,7 @@ const MessagingModal = ({ socket, userData }) => {
     data: allChats,
     isLoading: allChatsLoading,
     refetch: allChatsRefetch,
-  } = useGetConversationsQuery(userData?._id);
+  } = useGetConversationsQuery(userData?._id, {skip: !userData?._id});
   const {
     data: searchUsers,
     isLoading,

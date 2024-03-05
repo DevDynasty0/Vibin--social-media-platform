@@ -41,8 +41,9 @@ const Navbar = ({
     onClose: notifictionOnClose,
   } = useDisclosure();
   const userData = useSelector((state) => state.auth.user);
+  console.log("user data __: :__:", userData);
   const { data: notificationsData, refetch: refetchNotifications } =
-    useGetNotificationsByUserIdQuery(userData?._id);
+    useGetNotificationsByUserIdQuery(userData?._id, {skip: !userData?._id});
 
   const [notificationState, setNotificationState] = useState([]);
   // console.log("Notification  state", notificationState);
@@ -75,10 +76,7 @@ const Navbar = ({
     if (socket) {
       socket.on("notification received", (newNotification) => {
         console.log("new notification", newNotification);
-        setNotificationState((preNotification) => [
-          newNotification,
-          ...preNotification,
-        ]);
+        setNotificationState([newNotification, ...notificationState]);
       });
     }
     return () => {

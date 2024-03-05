@@ -33,13 +33,13 @@ const AdminDashboard = () => {
   const [postTypeChartData, setPostTypeChartData] = useState([]);
 
   useEffect(() => {
-    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`)
+    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
   }, []);
 
   useEffect(() => {
-    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/totalPostCount`)
+    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`)
       .then((res) => res.json())
       .then((data) => setPostsCount(data.data));
   }, []);
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
     console.log("urioujer");
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        " https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers"
+        " http://localhost:8000/api/v1/admin/getSuspendUsers"
       );
       setSuspendedUsers(res.data.data);
     };
