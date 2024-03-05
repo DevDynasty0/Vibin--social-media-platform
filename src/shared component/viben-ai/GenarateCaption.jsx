@@ -26,8 +26,9 @@ const GenarateCaption = () => {
 
   const [captionGenarator] = useCaptionGenaratorMutation();
   const [imageGenarator] = useImageGenaratorMutation();
-  const user = useSelector((state) => state.auth.user);
-  const token = getAccessToken();
+  let user = useSelector((state) => state.auth.user);
+  user = user || {};
+
   const handleGenerate = async (e) => {
     e.preventDefault();
     const userPrompt = e.target.userPrompt.value;
@@ -80,10 +81,7 @@ const GenarateCaption = () => {
         // { newPost, formData },
         newPost,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -109,7 +107,7 @@ const GenarateCaption = () => {
   };
   return (
     <div className="">
-      <div className="text-center mb-6">
+      <div className="text-center my-6">
         <h1 className="text-color-one font-bold text-2xl font-sans ">
           {" "}
           Vibin{" "}

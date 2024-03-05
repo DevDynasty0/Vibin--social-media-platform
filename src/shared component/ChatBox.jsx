@@ -106,16 +106,14 @@ const ChatBox = ({
 
   console.log(allMessages);
 
-  if (messageLoding) {
-    return (
-      <div className="h-full w-full flex flex-col items-center justify-center  mt-10">
-        {" "}
-        <FaSpinner size={"2rem"} className="animate-spin " />
-      </div>
-    );
-  }
   return (
-    <>
+    <div className="relative    ">
+      {messageLoding && (
+        <div className="h-full relative w-full flex flex-col items-center justify-center  mt-10">
+          {" "}
+          <FaSpinner size={"2rem"} className="animate-spin " />
+        </div>
+      )}
       {!messageLoding && !allMessages?.length > 0 && (
         <div className=" w-full flex flex-col  mt-5 items-center justify-center">
           <p>Your conversation starts here</p>
@@ -180,7 +178,7 @@ const ChatBox = ({
               )
           )}
       </ul>
-      <div className="fixed w-full bottom-0 px-4">
+      <div className="fixed max-w-[400px] w-full bottom-[6.5rem] right-8 px-4">
         <span className="relative flex items-center ">
           {typing && (
             <TiMessageTyping
@@ -204,7 +202,7 @@ const ChatBox = ({
             }
             value={chatInput}
             type="text"
-            className=" w-full border-2 p-2 border-color-one rounded-md"
+            className=" w-full border-2 p-2 outline-color-one outline outline-1   rounded-md"
           />
           <button
             onClick={sendMessage}
@@ -215,7 +213,7 @@ const ChatBox = ({
           </button>
         </span>
       </div>
-    </>
+    </div>
   );
 };
 

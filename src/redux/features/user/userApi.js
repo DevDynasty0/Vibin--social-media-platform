@@ -5,13 +5,13 @@ export const userApi = apiSlice.injectEndpoints({
     currentUser: builder.query({
       query: () => ({
         url: "/users/current-user",
-        method: "GET"
+        method: "GET",
       }),
     }),
     suggestedUsers: builder.query({
       query: () => ({
         url: "/users/suggested-users",
-        method: "GET"
+        method: "GET",
       }),
     }),
     refreshToken: builder.mutation({
@@ -42,6 +42,12 @@ export const userApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    searchUsers: builder.query({
+      query: (searchInput) => ({
+        url: `/users/search-user?query=${searchInput}`,
+        method: "GET",
+      }),
+    }),
 
     getFollowingUsers: builder.query({
       query: () => ({
@@ -49,6 +55,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
     getFollowers: builder.query({
       query: () => ({
         url: `/users/get-followers`,
@@ -74,5 +81,6 @@ export const {
   useGetFollowingUsersQuery,
   useGetFollowersQuery,
   useGetUserByIdQuery,
-  useSuggestedUsersQuery
+  useSuggestedUsersQuery,
+  useSearchUsersQuery,
 } = userApi;
