@@ -18,7 +18,7 @@ const NotificationsModal = ({
   //   const userData = useSelector((state) => state.auth.user);
   //  const {data} = useGetNotificationsByUserIdQuery(userData?._id)
 
-  console.log(notificationState);
+  console.log(notificationState, "notificaion state");
 
   return (
     <>

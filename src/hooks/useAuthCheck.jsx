@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useCurrentUserQuery } from "../redux/features/user/userApi";
-import { userLoggedIn } from "../redux/features/auth/authSlice";
+import useGetCurrentUser from "./useGetCurrentUser";
 
 export default function useAuthCheck() {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const { data: currentUser, isSuccess } = useCurrentUserQuery();
-
+  useGetCurrentUser();
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
     if (localAuth) {
@@ -16,17 +12,9 @@ export default function useAuthCheck() {
       setUser(auth);
     }
     setLoading(false);
-  }, [dispatch, setUser]);
+  }, [setUser]);
 
-  useEffect(() => {
-    if (isSuccess && currentUser?.data?.user) {
-      dispatch(
-        userLoggedIn({
-          user: currentUser.data.user,
-        })
-      );
-    }
-  }, [isSuccess, dispatch, currentUser]);
+  
 
   return { user, loading };
 }

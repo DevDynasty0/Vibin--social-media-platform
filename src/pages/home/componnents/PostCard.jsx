@@ -181,10 +181,9 @@ const PostCard = ({ post, currentUser, postOwner }) => {
               {reactions?.length > 5 && isLiked
                 ? `You and ${reactions.length - 1} others`
                 : reactions?.length > 5 && !isLiked
-                ? `${reactions[reactions.length - 1].user.fullName} and ${
-                    reactions.length - 1
+                  ? `${reactions[reactions.length - 1].user.fullName} and ${reactions.length - 1
                   } others`
-                : reactions?.length}
+                  : reactions?.length}
             </span>
           </div>
         ) : (
