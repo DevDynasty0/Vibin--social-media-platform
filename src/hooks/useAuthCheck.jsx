@@ -1,32 +1,22 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useCurrentUserQuery } from "../redux/features/user/userApi";
-import { userLoggedIn } from "../redux/features/auth/authSlice";
+import useCurrentUser from "./useCurrentUser";
 
 export default function useAuthCheck() {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const { data: currentUser, isSuccess } = useCurrentUserQuery();
+  useCurrentUser();
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
     if (localAuth) {
       const auth = JSON.parse(localAuth);
       setUser(auth);
+    } else {
+      setUser(null);
+      localStorage.clear("auth");
     }
     setLoading(false);
-  }, [dispatch, setUser]);
-
-  useEffect(() => {
-    if (isSuccess && currentUser?.data?.user) {
-      dispatch(
-        userLoggedIn({
-          user: currentUser.data.user,
-        })
-      );
-    }
-  }, [isSuccess, dispatch, currentUser]);
+  }, [setUser]);
 
   return { user, loading };
 }
