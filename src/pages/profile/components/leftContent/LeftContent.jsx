@@ -33,7 +33,10 @@ export default function LeftContent({
 
       const response = await axios.patch(
         "http://localhost:8000/api/v1/users/change-avatar",
-        formData
+        formData,
+        {
+          withCredentials: true, // Add withCredentials option here
+        }
       );
 
       // Assuming your response contains the updated image URL, you can update the profileImage state
@@ -55,22 +58,21 @@ export default function LeftContent({
   };
   console.log("userprofile", user?.data?.avatar);
   return (
-    <div className="relative p-4 text-center ">
-      <div className="relative">
-        <img
-          className="object-cover w-44  h-44 block mx-auto md:-mt-[35%] -mt-[30%] rounded-full"
-          src={
-            user?.data?.avatar || profilepdefault
-            // "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
-          }
-          alt="Profile"
-        />
-        {loggedInUser === user?.data?.email && (
-          <>
-            {" "}
-            <div className="bg-gray-400  p-2 rounded-full absolute bottom-[82%] right-20">
+    <div className=" p-4 text-center ">
+      <div className=" ">
+        <div className="relative  max-w-max mx-auto">
+          <img
+            className="object-cover xl:w-52 block  xl:h-52 w-20 h-20 md:w-32 md:h-32 lg:w-44 lg:h-44  mx-auto -mt-[60%]  rounded-md"
+            src={
+              user?.data?.avatar || profilepdefault
+              // "https://res.cloudinary.com/dsfyrjd8b/image/upload/v1707303580/by2cegfudppucnxbwvun.png"
+            }
+            alt="Profile"
+          />
+          {loggedInUser === user?.data?.email && (
+            <div className="bg-gray-400 p-1 md:p-2 rounded-full absolute top-[50%] -right-[14px]">
               <label htmlFor="profileUpload" className="">
-                <IoCamera className="cursor-pointer" />
+                <IoCamera className="cursor-pointer h-3 w-3 md:h-4 md:w-4 text-white" />
               </label>
               <input
                 type="file"
@@ -80,8 +82,8 @@ export default function LeftContent({
                 style={{ display: "none" }}
               />
             </div>
-          </>
-        )}
+          )}
+        </div>
         <div className="mb-5 mt-3">
           <h2 className="font-bold md:text-2xl text-[10px]">
             {user?.data?.fullName}
@@ -135,7 +137,7 @@ export default function LeftContent({
           </div>
         </div>
 
-        <div className="bg-white px-5 py-10 rounded-md">
+        <div className="bg-white px-5 py-10  rounded-md">
           <p className="font-bold text-xl mb-5">Recent Images</p>
 
           {imagePosts?.length === 0 ? (
@@ -143,9 +145,12 @@ export default function LeftContent({
           ) : (
             <div className="grid grid-cols-3 gap-1">
               {imagePosts?.slice(0, 6).map((singlePost, index) => (
-                <div className="" key={index}>
+                <div
+                  className="hover:scale-[1.05] transition-all duration-500"
+                  key={index}
+                >
                   <img
-                    className="bg-white w-28 h-28"
+                    className="bg-white w-28 h-28  object-cover cursor-pointer "
                     src={singlePost.postContent}
                     alt={`media-${index}`}
                   />

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import useCurrentUser from "./useCurrentUser";
+import useGetCurrentUser from "./useGetCurrentUser";
 
 export default function useAuthCheck() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  useCurrentUser();
+  useGetCurrentUser();
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");

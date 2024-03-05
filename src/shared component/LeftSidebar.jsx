@@ -30,7 +30,7 @@ const LeftSidebar = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-56px)] flex flex-col items-center ">
+    <div className="h-[calc(100vh-56px)] flex flex-col items-center  ">
       <div className=" border-b pb-4 px-2 w-full">
         <NavLink
           to={`/profile/${user?._id}`}
@@ -66,7 +66,7 @@ const LeftSidebar = () => {
         /> */}
         <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
         <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
-        <LeftButton name={"Saved Posts"} path="/savePost" icon={FaBookmark} />
+        <LeftButton name={"Saved"} path="/savePost" icon={FaBookmark} />
         <LeftButton name={"VibinAi"} path={"vibinai"} icon={FaRobot} />
       </div>
 

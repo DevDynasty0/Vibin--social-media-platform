@@ -45,6 +45,7 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
+    console.log("urioujer");
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
         " http://localhost:8000/api/v1/admin/getSuspendUsers"

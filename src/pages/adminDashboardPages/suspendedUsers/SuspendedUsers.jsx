@@ -27,7 +27,15 @@ const SuspendedUsers = () => {
     fetchSuspendedUsers();
   }, []);
 
-  console.log(suspendedUsers);
+  useEffect(() => {
+    const fetchSuspendedUsers = async () => {
+      const res = await axios.get(
+        "http://localhost:8000/api/v1/admin/getSuspendUsers"
+      );
+      setSuspendedUsers(res.data.data);
+    };
+    fetchSuspendedUsers();
+  }, []);
 
   const handleSuspendUndo = (id) => {
     console.log(id);
