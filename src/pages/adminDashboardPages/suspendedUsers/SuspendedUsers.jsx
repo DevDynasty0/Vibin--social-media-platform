@@ -20,7 +20,7 @@ const SuspendedUsers = () => {
 
     useEffect(()=> {
         const fetchSuspendedUsers = async () => {
-            const res = await axios.get('https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers')
+            const res = await axios.get('http://localhost:8000/api/v1/admin/getSuspendUsers')
             setSuspendedUsers(res.data.data);
         }
         fetchSuspendedUsers();

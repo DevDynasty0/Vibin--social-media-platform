@@ -1,48 +1,267 @@
 import { useState } from "react";
-import { useCaptionGenaratorMutation } from "../../redux/features/vibin-ai/vibinAiApi";
+import {
+  useCaptionGenaratorMutation,
+  useImageGenaratorMutation,
+} from "../../redux/features/vibin-ai/vibinAiApi";
+import { useSelector } from "react-redux";
+import getAccessToken from "../../utils/getAccessToken";
+import axios from "axios";
+
+import { LuRefreshCcw } from "react-icons/lu";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "@chakra-ui/react";
 
 const GenarateCaption = () => {
-    const [genaratedCaption, setGenaratedCaption] = useState("");
-    const [prompt, setPrompt] = useState("");
-    const [isCaptionLoading, setIsCaptionLoading] = useState(false);
+  const [generatedCaption, setGeneratedCaption] = useState("");
+  const [generatedImage, setGeneratedImage] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [imageSource, setImageSource] = useState("");
+  const [isCaptionLoading, setIsCaptionLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+  const [captionBtn, setCaptionBtn] = useState(false);
+  const [buttonSpinner, setButtonSpinner] = useState(false);
+  const [activeGenerator, setActiveGenerator] = useState(null);
 
-    const [captionGenarator] = useCaptionGenaratorMutation();
+  const [captionGenarator] = useCaptionGenaratorMutation();
+  const [imageGenarator] = useImageGenaratorMutation();
+  let user = useSelector((state) => state.auth.user);
+  user = user || {};
 
-    const handleGenarateCaption = async(e) => {
-        e.preventDefault();
-        const userPrompt = e.target.userPrompt.value;
-        console.log(userPrompt);
-        const result = await captionGenarator({prompt: userPrompt});
-        // console.log(result.data.caption);
-        if(result?.data?.caption){
-            e.target.userPrompt.value = "";
-            setPrompt(userPrompt);
-            setGenaratedCaption(result.data.caption)
-        }
-        else{
-            e.target.userPrompt.value = "";
-            setPrompt(userPrompt);
-            setGenaratedCaption("Something went wrong!")
-        }
-    
+  const handleGenerate = async (e) => {
+    e.preventDefault();
+    const userPrompt = e.target.userPrompt.value;
+    setIsCaptionLoading(true);
+    setIsImageLoading(true);
+    // Set loading state to true
+
+    if (activeGenerator === "caption") {
+      const result = await captionGenarator({ prompt: userPrompt });
+      if (result?.data?.caption) {
+        e.target.userPrompt.value = "";
+        setPrompt(userPrompt);
+        setGeneratedCaption(result.data.caption);
+      } else {
+        setGeneratedCaption("Something went wrong!");
+      }
+    } else if (activeGenerator === "image") {
+      const result = await imageGenarator({ prompt: userPrompt });
+      if (result?.data?.imageUrl) {
+        e.target.userPrompt.value = "";
+        setGeneratedImage(result.data.imageUrl[0].url);
+      } else {
+        setGeneratedImage("Something went wrong!");
+      }
     }
-    return (
-        <div className="bg-white rounded p-3 mt-6 mb-4">
-            <div>
-                <h3 className="text-2xl font-medium"> Confused how to express your vibe?</h3>
-                <p className="mt-1">Let <span className="text-color-one">Vibin AI</span> elevate your expression.</p>
-                <form onSubmit={handleGenarateCaption} className="mt-2">
-                    <textarea name="userPrompt" className="border border-black outline-none w-full rounded p-2 focus-visible:border-color-one" type="text" placeholder="Give you prompt" />
-                    <button type="submit" className="mt-1 bg-color-one text-white rounded p-1">Genarate</button>
-                </form>
+    setIsCaptionLoading(false);
+    setIsImageLoading(false);
+  };
 
-                <div className={`${genaratedCaption.length > 0 ? "block" : "hidden"}`}>
-                    <h4 className="font-semibold text-xl">{prompt}</h4>
-                    <p className="mt-1">{genaratedCaption}</p>  
+  console.log("cccc", imageSource);
+  console.log("image", generatedImage);
+  const handlePostSubmit = async (e) => {
+    e.preventDefault();
+    setButtonSpinner(true);
+    const formData = new FormData();
+    formData.append("postContent", generatedImage);
+    formData.append("caption", generatedCaption);
+    formData.append("contentType", generatedImage ? "image" : "");
+
+    const newPost = {
+      user: user._id,
+      caption: generatedCaption,
+      isImageUrl: true,
+      postContent: formData.get("postContent"),
+      contentType: generatedImage ? "image" : "",
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/posts/post",
+        // { newPost, formData },
+        newPost,
+        {
+          withCredentials: true,
+        }
+      );
+
+      // const res = await createPost(newPost);
+      console.log(res);
+
+      if (res.data) {
+        toast.success("Post uploaded successfully!"); // Display success toast message
+        setButtonSpinner(false);
+        handleRefresh();
+      }
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+    }
+  };
+  const handleRefresh = () => {
+    // Reset all state values to clear the form data
+    setGeneratedCaption("");
+    setGeneratedImage("");
+    setPrompt("");
+    // setImagePrompt("");
+  };
+  return (
+    <div className="">
+      <div className="text-center my-6">
+        <h1 className="text-color-one font-bold text-2xl font-sans ">
+          {" "}
+          Vibin{" "}
+          <span className="bg-black text-white h-4 w-4 p-1 rounded">
+            Ai
+          </span>{" "}
+        </h1>
+        <p className="text-gray-600">
+          Your Companion for creating{" "}
+          <span>engaging comments and Stunning images!</span>{" "}
+        </p>
+      </div>
+
+      <div className="">
+        {buttonSpinner ? (
+          <div className=" pt-[10%] items-center xl:max-w-[55%] lg:[70%] w-[90%] min-h-[35vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow">
+            {" "}
+            <Spinner color="blue.500" />
+          </div>
+        ) : (
+          <div className="xl:max-w-[55%] lg:[70%] w-[90%] min-h-[34vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow  ">
+            <div className="   mx-auto h-[90%]  ">
+              {isCaptionLoading || isImageLoading ? (
+                <Spinner className="mt-[20%]" color="blue.500" />
+              ) : (
+                <div className="p-5">
+                  <div
+                    className={`${
+                      generatedCaption.length > 0 ? "block" : "hidden"
+                    }`}
+                  >
+                    {/* <h4 className="font-semibold text-xl">{prompt}</h4> */}
+
+                    <p className="mt-1 ">{generatedCaption}</p>
+                  </div>
+
+                  <div
+                    className={`${
+                      generatedImage.length > 0 ? "block" : "hidden"
+                    }`}
+                  >
+                    {/* <h4 className="font-semibold text-xl">{prompt}</h4> */}
+
+                    <img
+                      className="mt-1 h-[30%] w-full mx-auto"
+                      src={generatedImage}
+                      onLoad={(e) => setImageSource(e.target.value)}
+                      alt=""
+                    />
+                  </div>
+
+                  {generatedCaption.length == 0 &&
+                    generatedImage.length == 0 && (
+                      <div className="text-center  h-[35vh] mt-[4%] text-color-one text-md lg:text-xl">
+                        Hi {user.fullName}! Confused how to express your vibe?
+                        <br />
+                        Let me help you
+                      </div>
+                    )}
+
+                  {/* <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" /> */}
                 </div>
+              )}
             </div>
+          </div>
+        )}
+        <div className="xl:max-w-[55%] lg:[70%] w-[90%] mx-auto bg-white px-4 py-3  rounded-b-lg">
+          <div className="flex gap-5 mt-2 items-center">
+            <button
+              className={`btn btn-sm bg-gray-300 text-gray-400 py-1 px-2 text-xs md:text-sm rounded-md ${
+                activeGenerator === "caption" ? "bg-green-500 text-white" : ""
+              }`}
+              onClick={() => setActiveGenerator("caption")}
+            >
+              Caption Generator
+            </button>
+
+            {/* <button className={`btn btn-sm bg-gray-300 text-gray-400 py-1 text-xs md:text-sm px-2 rounded-md ${activeGenerator === "caption" ? "bg-green-500 text-white" : ""}`} onClick={() => setActiveGenerator("caption")}>Caption Generator</button> */}
+            <button
+              className={`btn btn-sm bg-gray-300 text-gray-400 py-1 px-2 text-xs md:text-sm rounded-md ${
+                activeGenerator === "image" ? "bg-green-500 text-white" : ""
+              }`}
+              onClick={() => setActiveGenerator("image")}
+            >
+              Image Generator
+            </button>
+
+            <div
+              onClick={handleRefresh}
+              className="flex items-center gap-2 text-white hover:bg-blue-200 hover:text-black md:bg-red-500  py-1 px-2 rounded-md "
+            >
+              {" "}
+              <button className="hidden md:block md:text-sm">
+                Refresh
+              </button>{" "}
+              <LuRefreshCcw className="text-lg md:text-white text-black"></LuRefreshCcw>
+            </div>
+          </div>
+
+          {/* {isCaptionLoading && <Spinner color="blue.500" />} */}
+          <form onSubmit={handleGenerate} className="mt-3">
+            <div className="flex flex-row items-center">
+              <div className="flex flex-row items-center w-full border rounded-3xl border-gray-500  h-12 px-2">
+                <div className="w-full ">
+                  {activeGenerator === "caption" ? (
+                    <textarea
+                      name="userPrompt"
+                      className="border border-transparent  bg-transparent  w-full focus:outline-none text-sm h-10 flex items-center"
+                      type="text"
+                      placeholder="Give your prompt for caption"
+                    />
+                  ) : (
+                    <textarea
+                      name="userPrompt"
+                      className="border border-transparent bg-transparent w-full focus:outline-none text-sm h-10 flex items-center"
+                      type="text"
+                      placeholder="Give your prompt for image"
+                    />
+                  )}
+                </div>
+              </div>{" "}
+              <div className="ml-6">
+                <button className="flex items-center justify-center h-10 w-10 rounded-full bg-green-500 hover:bg-green-300  text-white">
+                  <svg
+                    className="w-5 h-5 transform rotate-90 -mr-px"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-    );
+      </div>
+      <div className="xl:max-w-[55%] lg:[70%] w-[90%] mt-[1%] mx-auto">
+        <div
+          onClick={handlePostSubmit}
+          className=" cursor-pointer  px-3 py-2 text-sm font-medium text-center text-white bg-color-one rounded-lg hover:bg-violet-500 "
+        >
+          Drop Vibe
+        </div>
+      </div>
+      <ToastContainer />
+    </div>
+  );
 };
 
 export default GenarateCaption;

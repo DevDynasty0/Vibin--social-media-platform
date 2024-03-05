@@ -12,7 +12,6 @@ import useSocket from "../hooks/useSocket";
 import GenarateCaption from "../shared component/viben-ai/GenarateCaption";
 import AiAdvertisement from "../shared component/viben-ai/AiAdvertisement";
 
-
 const MainLayout = () => {
   const userData = useSelector((state) => state.auth.user);
   const { socket } = useSocket();
@@ -50,17 +49,25 @@ const MainLayout = () => {
         {/* left side bar */}
         {!location.pathname.includes("profile") && (
           <div
-            className={`${!left ? " -left-[52rem]" : " left-0"
-              } w-full   md:w-1/3 lg:w-[25%]  p-6  fixed top-8 mt-6   md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-white  `}
+            className={`${
+              !left ? " -left-[52rem]" : " left-0"
+            } w-full   md:w-1/3 lg:w-[25%]  p-6  fixed  top-0 mt-16     md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-white  `}
           >
             <LeftSidebar />
           </div>
         )}
 
         <div
-          className={`mt-16 w-full ${location.pathname === "/" ?
-            "  ml-auto lg:ml-[25%]  lg:w-[45%]" : ` lg:w-3/4  ${location.pathname.includes("profile") ? "mx-auto" : "ml-auto"}`
-            } md:w-2/3 lg:overflow-y-auto p-6 `}
+          className={` w-full ${
+            location.pathname === "/"
+              ? "  ml-auto lg:ml-[25%] p-6  lg:w-[45%]  "
+              : ` lg:w-3/4 
+             ${
+               location.pathname.includes("profile")
+                 ? "lg:w-full md:w-full  mx-auto p-0 "
+                 : "ml-auto"
+             }`
+          } md:w-2/3 lg:overflow-y-auto  `}
         >
           <Outlet />
         </div>
@@ -68,17 +75,20 @@ const MainLayout = () => {
         {/* right side */}
         {location.pathname === "/" && (
           <div
-            className="
-                 w-full  lg:w-[30%] px-6 pt-6 fixed hidden lg:block right-0 overflow-hidden   lg:top-0 transition-all duration-300 top-8 mt-6   h-full"
+            className="mt-16
+                 w-full  lg:w-[30%] px-6  fixed hidden lg:block right-0
+                  overflow-hidden   lg:top-0 transition-all duration-300 top-0
+                    h-full"
           >
             {/* <GenarateCaption/> */}
-          
+
             <SuggestedUsers />
             <AiAdvertisement></AiAdvertisement>
             {/* <TestMessages /> */}
           </div>
         )}
       </div>
+
       <MessagingModal socket={socket} userData={userData}></MessagingModal>
     </div>
   );

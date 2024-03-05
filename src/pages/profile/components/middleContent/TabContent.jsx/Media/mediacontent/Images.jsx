@@ -19,9 +19,9 @@ const Images = ({ reversedPosts }) => {
     <div>
       <div className="grid grid-cols-3 gap-4">
         {imagePosts.map((singlePost, index) => (
-          <div className=" p-2 rounded-xl shadow-md" key={index}>
+          <div className=" p-2 rounded-xl shadow-md h-[200px]" key={index}>
             <img
-              className="mr-1 bg-white w-full"
+              className=" bg-white w-full rounded-xl  h-full object-cover  hover:scale-[1.05] transition-all duration-1000"
               src={singlePost.postContent}
               alt={`media-${index}`}
             />

@@ -46,7 +46,7 @@ const AddNewPostModal = ({
     };
     try {
       const res = await axios.post(
-        "https://vibin-c5r0.onrender.com/api/v1/posts/post",
+        "http://localhost:8000/api/v1/posts/post",
         // { newPost, formData },
         newPost,
         {

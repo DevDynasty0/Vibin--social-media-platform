@@ -139,7 +139,11 @@ const PostCard = ({ post, currentUser, postOwner }) => {
       </div>
 
       {postContent && contentType == "image" && (
-        <img className=" w-[90%]  mx-auto" src={postContent} alt="" />
+        <img
+          className=" w-[90%] h-[300px] lg:h-[500px] mx-auto"
+          src={postContent}
+          alt=""
+        />
       )}
       {postContent && contentType == "video" && (
         <video
@@ -150,7 +154,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
           loop
           muted
           controls
-          className="md:mt-2 w-[90%] mx-auto h-[300px] md:h-[450px]"
+          className="md:mt-2 w-[90%] mx-auto h-[300px] lg:h-[500px]"
         >
           Your browser does not support the video tag.
         </video>

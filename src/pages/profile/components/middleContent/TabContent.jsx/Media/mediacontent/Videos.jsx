@@ -20,8 +20,8 @@ const Videos = ({ reversedPosts }) => {
     <div>
       <div className="grid grid-cols-3 gap-4">
         {videoPosts.map((singlePost, index) => (
-          <div className=" p-2 rounded-xl shadow-md bg-white" key={index}>
-            <video className="mr-1 bg-white w-full" controls>
+          <div className=" p-2 rounded-xl shadow-md h-[200px]" key={index}>
+            <video className=" bg-white w-full rounded-xl  h-full object-cover" controls>
               <source src={singlePost.postContent} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

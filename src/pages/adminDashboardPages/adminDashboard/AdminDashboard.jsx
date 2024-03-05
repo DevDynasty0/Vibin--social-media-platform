@@ -45,6 +45,7 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
+    console.log("urioujer");
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
         " https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers"
@@ -57,7 +58,7 @@ const AdminDashboard = () => {
   // useEffect(() => {
   //   const loadTotalReportCount = async () => {
   //     const res = await axios.get(
-  //       "https://vibin-c5r0.onrender.com/api/v1/admin/getTotalReportsCount"
+  //       "http://localhost:8000/api/v1/admin/getTotalReportsCount"
   //     );
   //     // console.log(res.data);
   //     setTotalReportCount(res.data);
@@ -68,7 +69,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadUserGrowthChartData = async () => {
       const res = await axios.get(
-        "https://vibin-c5r0.onrender.com/api/v1/admin/getUserGrowthChartData"
+        "http://localhost:8000/api/v1/admin/getUserGrowthChartData"
       );
       setUserGrowthChartData(res.data);
     };
@@ -77,7 +78,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadPostRateChartData = async () => {
       const res = await axios.get(
-        "https://vibin-c5r0.onrender.com/api/v1/admin/GetPostRateChartData"
+        "http://localhost:8000/api/v1/admin/GetPostRateChartData"
       );
       console.log(res.data, "_____________--i");
       setPostRateChartData(res.data);
@@ -87,7 +88,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadPostTypeChartData = async () => {
       const res = await axios.get(
-        "https://vibin-c5r0.onrender.com/api/v1/admin/getPostTypeChartData"
+        "http://localhost:8000/api/v1/admin/getPostTypeChartData"
       );
       setPostTypeChartData(res.data);
     };

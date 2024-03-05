@@ -20,7 +20,7 @@ import { NavLink, Outlet } from "react-router-dom";
 const AdminDashboardLayout = () => {
   const user = useSelector((state) => state.auth.user);
   const [open, setOpen] = useState(false);
-
+  console.log('userrrrrr',user);
   return (
     <div className=" relative">
       {/*  Header */}
@@ -36,6 +36,7 @@ const AdminDashboardLayout = () => {
           size={"2rem"}
           className="text-gray-500 absolute left-0  lg:hidden"
         />
+      
         {/* left sidebar */}
         <div
           className={`p-2       bg-blue-800
@@ -57,11 +58,11 @@ const AdminDashboardLayout = () => {
             <div className="flex gap-2 items-center py-1 px-4 my-2">
               <img
                 className="w-[30px] h-[30px] rounded"
-                src={user.avatar}
+                src={user?.avatar}
                 alt=""
               />
               <h3 className="text-white font-medium text-xl">
-                {user.fullName}
+                {user?.fullName}
               </h3>
             </div>
 
