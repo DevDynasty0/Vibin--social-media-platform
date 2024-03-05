@@ -30,7 +30,7 @@ const LeftSidebar = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-56px)] flex flex-col items-center ">
+    <div className="h-[calc(100vh-56px)] flex flex-col items-center  ">
       <div className=" border-b pb-4 px-2 w-full">
         <NavLink
           to={`/profile/${user?._id}`}
