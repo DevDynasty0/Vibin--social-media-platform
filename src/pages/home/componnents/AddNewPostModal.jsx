@@ -50,6 +50,7 @@ const AddNewPostModal = ({
         // { newPost, formData },
         newPost,
         {
+          // withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,

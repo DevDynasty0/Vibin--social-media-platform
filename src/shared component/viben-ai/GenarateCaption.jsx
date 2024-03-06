@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   useCaptionGenaratorMutation,
   useImageGenaratorMutation,
+  usePostGenaratedDataMutation,
 } from "../../redux/features/vibin-ai/vibinAiApi";
 import { useSelector } from "react-redux";
 import getAccessToken from "../../utils/getAccessToken";
@@ -22,11 +23,13 @@ const GenarateCaption = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [captionBtn, setCaptionBtn] = useState(false);
   const [buttonSpinner, setButtonSpinner] = useState(false);
-  const [activeGenerator, setActiveGenerator] = useState(null);
+  const [activeGenerator, setActiveGenerator] = useState('caption');
 
   const [captionGenarator] = useCaptionGenaratorMutation();
+  const [postGenaratedData] = usePostGenaratedDataMutation()
   const [imageGenarator] = useImageGenaratorMutation();
-  const user = useSelector((state) => state.auth.user);
+  let user = useSelector((state) => state.auth.user);
+  user = user || {};
   const token = getAccessToken();
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -40,7 +43,7 @@ const GenarateCaption = () => {
       if (result?.data?.caption) {
         e.target.userPrompt.value = "";
         setPrompt(userPrompt);
-        setGeneratedCaption(result.data.caption);
+        setGeneratedCaption(result.data?.caption);
       } else {
         setGeneratedCaption("Something went wrong!");
       }
@@ -48,7 +51,7 @@ const GenarateCaption = () => {
       const result = await imageGenarator({ prompt: userPrompt });
       if (result?.data?.imageUrl) {
         e.target.userPrompt.value = "";
-        setGeneratedImage(result.data.imageUrl[0].url);
+        setGeneratedImage(result.data?.imageUrl[0].url);
       } else {
         setGeneratedImage("Something went wrong!");
       }
@@ -57,37 +60,38 @@ const GenarateCaption = () => {
     setIsImageLoading(false);
   };
 
-  console.log("cccc", imageSource);
-  console.log("image", generatedImage);
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     setButtonSpinner(true);
-    const formData = new FormData();
-    formData.append("postContent", generatedImage);
-    formData.append("caption", generatedCaption);
-    formData.append("contentType", generatedImage ? "image" : "");
+    // const formData = new FormData();
+    // formData.append("postContent", generatedImage);
+    // formData.append("caption", generatedCaption);
+    // formData.append("contentType", generatedImage ? "image" : "");
 
     const newPost = {
       user: user._id,
-      caption: generatedCaption,
-      isImageUrl: true,
-      postContent: formData.get("postContent"),
+      caption: generatedCaption || '',
+      
+      postContent: generatedImage,
       contentType: generatedImage ? "image" : "",
     };
+    console.log('new poststtts',newPost);
     try {
-      const res = await axios.post(
-        "http://localhost:8000/api/v1/posts/post",
-        // { newPost, formData },
-        newPost,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // const res = await axios.post(
+      //   "http://localhost:8000/api/v1/posts/post",
+      //   // { newPost, formData },
+      //   newPost,
+      //   {
+      //     withCredentials: true,
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
 
-      // const res = await createPost(newPost);
+      const res = await postGenaratedData(newPost);
       console.log(res);
 
       if (res.data) {

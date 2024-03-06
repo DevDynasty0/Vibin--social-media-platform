@@ -14,6 +14,7 @@ const RightButton = ({ person }) => {
   const userData = useSelector((state) => state.auth.user);
   const [createNotification] = useCreateNotificationMutation()
   const {socket} = useSocket();
+  
   const handleFollow = async (id) => {
     setFollow([...follow, id]);
     const profile = id;
@@ -39,9 +40,11 @@ const RightButton = ({ person }) => {
 
     // send notification to reciever 
     socket.emit("new notification", emitData)
+    
 
   };
-
+  const truncatedName = person?.fullName.length >= 12 ? person?.fullName.slice(0, 12) + '...' : person?.fullName;
+  
   return (
     <div>
       <div className="grid grid-cols-3  items-center  px-2 py-3  hover:bg-white hover:bg-opacity-40 rounded">
@@ -56,7 +59,9 @@ const RightButton = ({ person }) => {
 
         {/* Render the icon if provided */}
         <div className="text-start  items-center">
-          <span className="  font-medium">{person?.fullName}</span> <br />
+          <span className="  font-medium">
+           {truncatedName}
+            </span> <br />
           <p className="text-[12px] lg:text-[9px] xl:text-[12px] text-gray-500">Suggested for you</p>
         </div>
        </div>

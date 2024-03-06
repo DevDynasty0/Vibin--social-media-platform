@@ -16,8 +16,16 @@ export const vibinAiApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    postGenaratedData: builder.mutation({
+      query: (data) => ({
+        url: "/vibinai/post-generated-data",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useCaptionGenaratorMutation, useImageGenaratorMutation } =
+export const { useCaptionGenaratorMutation, useImageGenaratorMutation, usePostGenaratedDataMutation } =
   vibinAiApi;

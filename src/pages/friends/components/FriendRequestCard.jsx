@@ -17,7 +17,7 @@ const FriendRequestCard = ({ user }) => {
     
   };
 
-
+  const truncatedBio = user?.follower?.bio.length >= 20 ? user?.follower?.bio.slice(0, 20) + '...' : user?.follower?.bio;
   return (
     <div
       className="py-8 px-8  mx-auto bg-white   rounded-xl shadow-md  sm:py-4 sm:flex sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full">
@@ -28,7 +28,7 @@ const FriendRequestCard = ({ user }) => {
             {user?.follower?.fullName}
           </p>
           <p className="text-slate-500 font-medium">
-            {user?.follower?.bio || "Let's Connect"}
+            {truncatedBio || "Let's Connect"}
           </p>
         </div>
         <button className="px-4 py-1 text-sm text-white bg-gradient-to-l from-pink-50 via-color-one  to-color-one font-semibold rounded-full   hover:text-black hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2" onClick={handleFollow}> Follow Back</button>

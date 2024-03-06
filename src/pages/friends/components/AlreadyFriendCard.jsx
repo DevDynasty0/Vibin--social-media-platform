@@ -35,7 +35,7 @@ const AlreadyFriendCard = ({ user }) => {
       .then((data) => console.log(data));
   };
   console.log("userfriends", user);
-
+  const truncatedBio = user?.profile?.bio.length >= 20 ? user?.profile?.bio.slice(0, 20) + '...' : user?.profile?.bio;
   return (
     <div className="">
       <div className="max-w-2xl mx-4 h-96 w-10/12 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-1 bg-white shadow-xl rounded-lg text-gray-900">
@@ -60,7 +60,7 @@ const AlreadyFriendCard = ({ user }) => {
             <div className="text-center mt-2">
               <h2 className="font-semibold">{user?.profile?.fullName}</h2>
               <p className="text-gray-500">
-                {user?.profile?.bio || "Let's Vibe"}
+                {truncatedBio || "Let's Vibe"}
               </p>
             </div>
           </div>
