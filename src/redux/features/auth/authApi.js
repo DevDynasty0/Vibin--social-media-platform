@@ -12,20 +12,13 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          const userEmail = result?.data?.data?.user.email;
+          const userData = result?.data?.data;
 
-          if (userEmail) {
-            localStorage.setItem(
-              "auth",
-              JSON.stringify({
-                accessToken: result.data.data.accessToken,
-                user: result.data.data.user,
-              })
-            );
+          if (userData?.user?.email) {
+            localStorage.setItem("auth", JSON.stringify(userData));
             dispatch(
               userLoggedIn({
-                accessToken: result.data.data.accessToken,
-                user: result.data.data.user,
+                user: userData,
               })
             );
           }
@@ -41,23 +34,16 @@ export const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
 
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          const userEmail = result?.data?.data?.user.email;
+          const userData = result?.data?.data;
 
-          if (userEmail) {
-            localStorage.setItem(
-              "auth",
-              JSON.stringify({
-                accessToken: result.data.data.accessToken,
-                user: result.data.data.user,
-              })
-            );
+          if (userData?.user?.email) {
+            localStorage.setItem("auth", JSON.stringify(userData));
             dispatch(
               userLoggedIn({
-                accessToken: result.data.data.accessToken,
-                user: result.data.data.user,
+                user: userData,
               })
             );
           }
@@ -67,16 +53,40 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
     logout: builder.mutation({
-      query: () => ({
-        url: "/users/logout",
+      query: ({ userId }) => ({
+        url: `/users/logout/${userId}`,
         method: "POST",
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if (result.data.success) {
+          if (result?.data?.user) {
             localStorage.clear("auth");
             dispatch(userLoggedOut());
+          }
+        } catch (err) {
+          // do nothing
+        }
+      },
+    }),
+    googleLogin: builder.mutation({
+      query: (data) => ({
+        url: "/users/google-login",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          const userData = result?.data?.data;
+
+          if (userData?.user?.email) {
+            localStorage.setItem("auth", JSON.stringify(userData));
+            dispatch(
+              userLoggedIn({
+                user: userData,
+              })
+            );
           }
         } catch (err) {
           // do nothing
@@ -86,5 +96,9 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterApiMutation, useLogoutMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useRegisterApiMutation,
+  useLogoutMutation,
+  useGoogleLoginMutation,
+} = authApi;

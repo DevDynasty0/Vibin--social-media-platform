@@ -10,6 +10,7 @@ import Routes from "./routes/Routes.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { store } from "./redux/store.js";
+import './scrollbar.css'
 
 // import { PersistGate } from "redux-persist/integration/react";
 

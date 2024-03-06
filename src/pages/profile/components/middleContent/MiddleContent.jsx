@@ -1,83 +1,155 @@
-import { TbBrandFeedly } from "react-icons/tb";
-import { IoInformationCircleOutline } from "react-icons/io5";
-import FeedCards from "./FeedCards";
-import { FaUser } from "react-icons/fa";
-import { BsThreeDots } from "react-icons/bs";
-import { Input } from "@chakra-ui/react";
-import { CiEdit } from "react-icons/ci";
-import { MdModeEdit } from "react-icons/md";
-import { FaUniversity } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
+import About from "./TabContent.jsx/About";
 
-import { Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure } from '@chakra-ui/react'
+import Media from "./TabContent.jsx/Media/Media";
+import AllPosts from "../../../../shared component/AllPosts";
+// import {  getFollowingUsers } from "../../../../hooks/getFollowers";
+import { useSelector } from "react-redux";
+// import { followUser } from "../../../../hooks/followUser";
+import {
+  useFollowUserMutation,
+  useGetFollowingUsersQuery,
+} from "../../../../redux/features/user/userApi";
+import SavePosts from "./TabContent.jsx/SavePosts";
 
-import CustomModal from "../Modal/CustomModal";
-const  MiddleContent=()=> {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+const MiddleContent = ({
+  user,
+  refetchUserInfo,
+  reversedPosts,
+  isSuccess,
+  isLoading,
+  loggedInUser,
+}) => {
+  // const [following, setFollowing] = useState([]);
+  const userData = useSelector((state) => state.auth.user);
+  const [followUser] = useFollowUserMutation();
+  const { data, refetch: getFollowingRefetch } = useGetFollowingUsersQuery();
+  console.log(data);
 
- 
+  const handleFollow = async (id) => {
+    // setFollow([...follow, id]);
+    const profile = id;
+    const follower = userData?._id;
+    console.log(follower, "you");
+    const res = await followUser({ profile, follower });
+    getFollowingRefetch();
+    refetchUserInfo();
+    console.log(res);
+    // const data = {
+
+    //   receiverId: profile,
+    //     senderId: follower,
+    //     message: `${userData?.fullName} followed you.`,
+    //     contentType: "follow"
+    // }
+    // createNotification(data)
+  };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const followingData = await getFollowingUsers();
+  //       setFollowing(followingData);
+  //       console.log(user.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+  // const MenuItems = () => {
+
+  //   return (
+  //     <MenuList>
+  //       <MenuItem>Save Post</MenuItem>
+  //       {loggedInUser == user.data.email && <MenuItem>Delete</MenuItem>}
+  //     </MenuList>
+  //   );
+  // };
   return (
-    <div className=" mt-10">
-     
+    <div className=" mt-16">
       {/* Tab items */}
       <div>
-      <Tabs>
-  <TabList>
-    <Tab>Post</Tab>
-    <Tab>Highlights</Tab>
-    <Tab>Likes</Tab>
-    <Tab>About</Tab>
-  </TabList>
+        <Tabs className="mx-3 md:mx-0">
+          <div className="flex items-center  justify-between">
+            <TabList>
+              <Tab className="!px-2 md:!px-4 ">Post</Tab>
+              {loggedInUser == user.data?.email && (
+                <Tab className="!px-2 md:!px-4">Saved</Tab>
+              )}
+              {/* <Tab className="!px-2 md:!px-4">Likes</Tab> */}
+              {/* {loggedInUser == user.data.email && ( */}
+              <Tab className="!px-2 md:!px-4">About</Tab>
+              {/* )} */}
+              {loggedInUser == user.data?.email && (
+                <Tab className="!px-2 md:!px-4">Media</Tab>
+              )}
+            </TabList>
+            {loggedInUser !== user.data?.email && (
+              <div>
+                <button
+                  onClick={() => handleFollow(user?.data?._id)}
+                  className=" bg-color-one md:py-2  py-1 px-1 md:px-6 md:mr-3  rounded-md  text-xs md:text-xl text-white font-bold"
+                >
+                  {data?.data?.find(
+                    (singleFollowing) =>
+                      singleFollowing?.profile?._id === user?.data?._id
+                  )
+                    ? "Following"
+                    : "Follow"}
+                </button>
+              </div>
+            )}
+          </div>
 
-  <TabPanels>
-    <TabPanel>
-      <FeedCards></FeedCards>
-    </TabPanel>
-    <TabPanel>
-    <div className="w-full bg-white rounded-md h-64">
-       <p className="font-bold text-lg text-center pt-16 "> No Highlights!!</p>
-      </div>
-    </TabPanel>
-    <TabPanel>
-      <div className="w-full bg-white h-64 rounded-md">
-       <p className="font-bold text-lg text-center pt-16 "> You don't get any like yet!!</p>
-      </div>
-    </TabPanel>
-    <TabPanel>
-      <p>About</p>
-      {/*  */}
-     <div className="bg-white flex items-center justify-between rounded-md px-2">
-    <div className="  p-2 flex gap-5 items-center ">
-    <FaUser></FaUser>
-    <p>  Rahida Priya</p>
-    </div>
-    
-   <div className="">
-   <button  onClick={onOpen}><MdModeEdit className="text-md"></MdModeEdit></button>
-   <CustomModal  onClose={onClose} onOpen={onOpen} isOpen={isOpen}></CustomModal>
-   </div>
-     </div>
-     <div className="bg-white flex my-2 items-center justify-between rounded-md px-2">
-     <div className="bg-white   p-2 flex gap-5 items-center ">
-   <FaUniversity></FaUniversity>
-    <p> International Islamic University Chittagong</p>
-    </div>
-    <div className="">
-   <button  onClick={onOpen}><MdModeEdit className="text-md"></MdModeEdit></button>
-   <CustomModal  onClose={onClose} onOpen={onOpen} isOpen={isOpen}></CustomModal>
-   </div>
-   </div>
-     {/*  */}
-  
+          <TabPanels>
+            <TabPanel>
+              <AllPosts
+                isSuccess={isSuccess}
+                isLoading={isLoading}
+                posts={reversedPosts}
+                // MenuItems={MenuItems}
+              ></AllPosts>
+            </TabPanel>
 
-    </TabPanel>
-  </TabPanels>
-</Tabs>
-      </div>
-      
+            {loggedInUser == user.data.email && (
+              <TabPanel>
+                <SavePosts></SavePosts>
+              </TabPanel>
+            )}
 
-      {/* Feed Cards  */}
-      {/* <FeedCards /> */}
+            {/* {loggedInUser != user.data.email && (<TabPanel>
+             <AboutForVisitors user={user} loggedInUser={loggedInUser}></AboutForVisitors>
+            </TabPanel>)} */}
+
+            {/* {loggedInUser == user.data.email && ( */}
+            <TabPanel>
+              <About
+                user={user}
+                loggedInUser={loggedInUser}
+                refetchUserInfo={refetchUserInfo}
+              ></About>
+            </TabPanel>
+            {/* )} */}
+            {loggedInUser == user.data.email && (
+              <TabPanel>
+                <Media reversedPosts={reversedPosts} />
+              </TabPanel>
+            )}
+          </TabPanels>
+        </Tabs>
+      </div>
     </div>
   );
-}
+};
 export default MiddleContent;

@@ -1,28 +1,76 @@
-
-import cover from '../../../../assets/images/userCoverDemo.jpg';
-
+import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
+import axios from "axios";
+import coverdefault from "../../../../assets/images/coverdefault.png";
+import getAccessToken from "../../../../utils/getAccessToken";
 
- const Cover = () => {
-    const coverPhoto = true;
-    // const avatar = true;
-    return (
-        <div>
-             <div className="w-full bg-gray-300 lg:h-[64vh] md:h-[44vh] h-[32vh] relative">
-        {coverPhoto && (
-          <img
-            src={cover} 
-            alt=""
-            className="w-full h-full rounded-md"
-          />
-        )}
-        <div className="flex items-center justify-center absolute right-10  bottom-12 text-white text-xl "><button><FaEdit className=" absolute"></FaEdit></button></div>
+const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
+  const [coverImage, setCoverImage] = useState("");
+  const token = getAccessToken();
 
-{/* profile section */}
+  const handleCoverChange = async (coverImage) => {
+    try {
+      const formData = new FormData();
+      formData.append("coverImage", coverImage);
 
+      const response = await axios.patch(
+        "http://localhost:8000/api/v1/users/change-cover-image",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+
+      if (response.data && response.data.data.coverImage) {
+        setCoverImage(response.data.data.coverImage);
+        console.log("cover dekhbo", response.data.data.coverImage);
+      }
+      refetchUserInfo();
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  console.log("cover", coverImage);
+  const handleCoverFileChange = (e) => {
+    const file = e.target.files[0];
+    setCoverImage(file);
+    handleCoverChange(file);
+  };
+
+  return (
+    <div className="relative">
+      <div
+        className="w-full 
+       lg:h-[44vh] md:h-[32vh] h-[20vh] relative"
+      >
+        <img
+          src={user?.data?.coverImage || coverdefault}
+          alt=""
+          className="w-full object-cover h-full"
+        />
+        <label
+          htmlFor="imageUpload"
+          className="absolute bottom-2 right-2 cursor-pointer text-white"
+        >
+          {loggedInUser === user.data.email && (
+            <FaEdit className="bg-gray-400 w-7 h-7 p-1 rounded-full"></FaEdit>
+          )}
+        </label>
+        <input
+          type="file"
+          id="imageUpload"
+          accept="image/*"
+          onChange={handleCoverFileChange}
+          style={{ display: "none" }}
+        />
       </div>
-        </div>
-    );
- };
- 
- export default Cover;
+    </div>
+  );
+};
+
+export default Cover;

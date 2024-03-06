@@ -1,4 +1,4 @@
-import React from 'react';
+
 import x from '../../../../assets/images/login_banner.png'
 const RightContent = () => {
     return (

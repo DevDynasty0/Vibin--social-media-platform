@@ -1,18 +1,50 @@
+import defaultAvatar from "../../../../assets/images/avatar.png";
+import useAuthCheck from "../../../../hooks/useAuthCheck";
+import getAccessToken from "../../../../utils/getAccessToken";
 
+const BlockedFriendCard = ({ blockedUser }) => {
+  const { user } = useAuthCheck();
+  const token = getAccessToken();
 
-const BlockedFriendCard = () => {
-    return (
-        <div className="flex items-center gap-4 ">
-            
-            <img className="w-[80px] h-[80px] rounded" src="https://i.ibb.co/8KdxKhD/cat-bed-looking-camera-23-2147888586.jpg" alt="" />
+  const handleUnBlock = () => {
+    const data = {
+      blockedPerson: blockedUser?.blockedPerson?._id,
+      blockedBy: user?._id,
+    };
+    fetch(`http://localhost:8000/api/v1/settings/unBlockUser`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
 
-            <div className="space-y-2">
-                <h3 className="font-medium text-xl">Foyez Ahamed</h3>
-                <button className="px-3 py-1 bg-red-500 text-white rounded">Unblock</button>
-            </div>
+  console.log(blockedUser.blockedPerson);
+  return (
+    <div className="flex items-center gap-4 ">
+      <img
+        className="w-[80px] h-[80px] rounded"
+        src={blockedUser?.blockedPerson?.avatar || defaultAvatar}
+        alt=""
+      />
 
-        </div>
-    );
+      <div className="space-y-2">
+        <h3 className="font-medium text-xl">
+          {blockedUser?.blockedPerson?.fullName}
+        </h3>
+        <button
+          onClick={handleUnBlock}
+          className="px-3 py-1 bg-red-500 text-white rounded"
+        >
+          Unblock
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default BlockedFriendCard;

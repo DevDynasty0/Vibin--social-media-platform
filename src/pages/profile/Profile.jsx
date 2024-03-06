@@ -1,46 +1,75 @@
+import { useParams } from "react-router-dom";
 import "../../styles/color.css";
 import Cover from "./components/cover/Cover";
-
 import LeftContent from "./components/leftContent/LeftContent";
 import MiddleContent from "./components/middleContent/MiddleContent";
-import RightContent from "./components/rightContent/RightContent";
+import { useGetUserByIdQuery } from "../../redux/features/user/userApi";
+import { Spinner } from "@chakra-ui/react";
+import { useGetPostsByUserIdQuery } from "../../redux/features/post/postApi";
+import { useSelector } from "react-redux";
 
 export default function Profile() {
+  const { id } = useParams();
+  const {
+    data: user,
+    isLoading,
+    refetch: refetchUserInfo,
+  } = useGetUserByIdQuery(id);
+  const loggedInUser = useSelector((state) => state.auth.user?.email);
+
+  const {
+    data: myPost,
+    isLoading: isPostsLoading,
+    isSuccess: isPostsSuccess,
+    refetch: refetchProfilePosts,
+  } = useGetPostsByUserIdQuery({
+    userId: id,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center items-center h-52 ">
+        <Spinner />
+      </div>
+    );
+  }
+  console.log("userrrrrrrrrr", user);
+
   return (
-    <div className='bg-gray-100'>
-      <div className="bg-gray-100 max-w-7xl mx-auto bg-vibin ">
-      <Cover></Cover>
-      {/* <div className="bg-white p-1 md:h-32 lg:h-40 lg:w-40 h-20 w-20 md:w-32 absolute z-10 lg:-mt-20 md:-mt-16 md:ml-10 -mt-10 ml-6 lg:ml-20 rounded-full">
-            
-            <div className="flex items-center justify-center absolute  bg-[#7A1022] md:w-10 md:h-10 w-4 h-4 rounded-full md:bottom-8 bottom-5 md:right-1 -right-1 cursor-pointer">
-              <IoCamera className="text-white" />
+    <div>
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-purple-100 to-pink-200">
+        <div className="  mx-auto  ">
+          <Cover
+            user={user}
+            loggedInUser={loggedInUser}
+            refetchUserInfo={refetchUserInfo}
+          ></Cover>
+
+          <div className="lg:w-[80%] gap-3 mt-10 w-full mx-auto  rounded-lg  shadow-x    grid lg:gap-7 lg:grid-cols-8  md:grid-cols-5 grid-col-1">
+            <div className="w-full -mt-10 h-[70%]  md:col-span-5  lg:col-span-3  ">
+              <LeftContent
+                user={user}
+                refetchUserInfo={refetchUserInfo}
+                refetchProfilePosts={refetchProfilePosts}
+                loggedInUser={loggedInUser}
+                reversedPosts={myPost}
+              ></LeftContent>
             </div>
-         
-          
-          
-      
-          
-        </div> */}
 
-      <div className="lg:w-[60vw] gap-3 mt-10 w-full mx-auto grid lg:gap-7 lg:grid-cols-7  md:grid-cols-5 grid-col-1">
-        {/* <div className="flex justify-center col-span-2 items-center relative">
-
-        </div> */}
-        <div className="w-full -mt-10 bg-white   md:col-span-2  ">
-          <LeftContent />
-        </div>
-
-        {/* Middle Content Begin */}
-        <div className="md:col-span-3 ">
-          <MiddleContent />
-        </div>
-
-        {/* Right Content Begin */}
-        <div className="hidden lg:block  md:col-span-2  ">
-          <RightContent></RightContent>
+            {/* Middle Content Begin */}
+            <div className="md:col-span-5 ">
+              <MiddleContent
+                user={user}
+                reversedPosts={myPost}
+                isLoading={isPostsLoading}
+                isSuccess={isPostsSuccess}
+                refetchUserInfo={refetchUserInfo}
+                loggedInUser={loggedInUser}
+              ></MiddleContent>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

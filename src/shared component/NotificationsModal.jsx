@@ -1,15 +1,84 @@
-import React from "react";
-import PropTypes from "prop-types";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 
-const NotificationsModal = ({ notification }) => {
+import notificationAvatar from "../assets/images/avatar.png";
+
+const NotificationsModal = ({
+  notifictionOnOpen,
+  isNotificationOpen,
+  notifictionOnClose,
+  notificationState,
+}) => {
+  //   const userData = useSelector((state) => state.auth.user);
+  //  const {data} = useGetNotificationsByUserIdQuery(userData?._id)
+
+  console.log(notificationState, "notificaion state");
+
   return (
-    <div
-      className={`${
-        notification ? "top-0" : " -top-[52rem]"
-      }   w-full  lg:w-1/5  max-w-96 p-6 fixed  lg:right-0 overflow-hidden top-6 lg:top-0 transition-all duration-300 bg-gray-100  pt-10   h-full`}
-    >
-      hello
-    </div>
+    <>
+      <Modal
+        isOpen={isNotificationOpen}
+        onClose={notifictionOnClose}
+        scrollBehavior={"inside"}
+        size={"xs"}
+        blockScrollOnMount={false}
+      >
+        <ModalContent
+          position={"absolute"}
+          right={2}
+          top={0}
+          className="h-1/2  !bg-slate-50"
+        >
+          <ModalCloseButton />
+
+          <ModalBody>
+            {notificationState.length > 0 ? (
+              <ul className="flex flex-col gap-5">
+                {notificationState.filter(
+                  (notification) => notification.isRead === false
+                ).length > 0
+                  ? notificationState
+                      .filter((notification) => notification.isRead === false)
+                      .map((singleNotifi, idx) => (
+                        <li key={idx}>
+                          <img
+                            className="w-12 h-12 rounded-full mr-5"
+                            src={
+                              singleNotifi?.senderId?.avatar ||
+                              notificationAvatar
+                            }
+                          />
+                          <span>{singleNotifi?.message}</span>
+                        </li>
+                      ))
+                  : notificationState.map((singleNotifi, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-center justify-start gap-5"
+                      >
+                        <img
+                          className="w-10 h-10 rounded-full  "
+                          src={
+                            singleNotifi?.senderId?.avatar || notificationAvatar
+                          }
+                        />
+                        <span>{singleNotifi?.message}</span>
+                      </li>
+                    ))}
+              </ul>
+            ) : (
+              <div>NO notifications yet!!!!!!!</div>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
