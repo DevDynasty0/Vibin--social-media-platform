@@ -14,10 +14,11 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
-
+  const token = getAccessToken();
   const [postsCount, setPostsCount] = useState(0);
 
   const [suspendedUsers, setSuspendedUsers] = useState([]);
@@ -33,27 +34,43 @@ const AdminDashboard = () => {
   const [postTypeChartData, setPostTypeChartData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
+    fetch(`http://localhost:8000/api/v1/admin/allUsers`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => setUsers(data.data));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`)
+    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => setPostsCount(data.data));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     console.log("urioujer");
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        " http://localhost:8000/api/v1/admin/getSuspendUsers"
+        " http://localhost:8000/api/v1/admin/getSuspendUsers",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setSuspendedUsers(res.data.data);
     };
     fetchSuspendedUsers();
-  }, []);
+  }, [token]);
 
   // useEffect(() => {
   //   const loadTotalReportCount = async () => {
@@ -69,31 +86,51 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadUserGrowthChartData = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getUserGrowthChartData"
+        "http://localhost:8000/api/v1/admin/getUserGrowthChartData",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       setUserGrowthChartData(res.data);
     };
     loadUserGrowthChartData();
-  }, []);
+  }, [token]);
+
   useEffect(() => {
     const loadPostRateChartData = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/GetPostRateChartData"
+        "http://localhost:8000/api/v1/admin/GetPostRateChartData",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       console.log(res.data, "_____________--i");
       setPostRateChartData(res.data);
     };
     loadPostRateChartData();
-  }, []);
+  }, [token]);
+
   useEffect(() => {
     const loadPostTypeChartData = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getPostTypeChartData"
+        "http://localhost:8000/api/v1/admin/getPostTypeChartData",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       setPostTypeChartData(res.data);
     };
     loadPostTypeChartData();
-  }, []);
+  }, [token]);
 
   return (
     <div>

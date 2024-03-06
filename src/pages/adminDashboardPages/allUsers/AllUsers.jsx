@@ -40,6 +40,7 @@ const AllUsers = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
           }
         );
         console.log(res, "crated suspend user");
@@ -134,7 +135,12 @@ const AllUsers = () => {
   ]);
   const [rowData, setRowData] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`)
+    fetch(`http://localhost:8000/api/v1/admin/allUsers`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+    })
       .then((res) => res.json())
 
       .then((data) => {

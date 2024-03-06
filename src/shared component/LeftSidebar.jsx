@@ -15,7 +15,7 @@ import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FaRobot } from "react-icons/fa6";
 const LeftSidebar = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth?.user);
   const [logout] = useLogoutMutation();
 
   const handleLogout = async () => {

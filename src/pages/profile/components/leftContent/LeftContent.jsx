@@ -6,6 +6,7 @@ import { FaHome, FaUniversity } from "react-icons/fa";
 import { useGetFollowingUsersQuery } from "../../../../redux/features/user/userApi";
 import { useGetSavePostQuery } from "../../../../redux/features/post/postApi";
 import profilepdefault from "../../../../assets/images/user-profile.webp";
+import getAccessToken from "../../../../utils/getAccessToken";
 
 export default function LeftContent({
   user,
@@ -16,6 +17,7 @@ export default function LeftContent({
 }) {
   const [profileImage, setProfileImage] = useState("");
   const { data } = useGetFollowingUsersQuery();
+  const token = getAccessToken();
 
   // if (!reversedPosts || reversedPosts.length === 0) {
   //   return <p>No photos uploaded yet!</p>;
@@ -35,7 +37,10 @@ export default function LeftContent({
         "http://localhost:8000/api/v1/users/change-avatar",
         formData,
         {
-          withCredentials: true, // Add withCredentials option here
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
         }
       );
 

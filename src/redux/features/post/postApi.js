@@ -56,6 +56,30 @@ export const postApi = apiSlice.injectEndpoints({
                 }
               )
             );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getTrendingPosts",
+                undefined,
+                (draft) => {
+                  const draftPost = draft.find((p) => p._id == postId);
+                  if (draftPost && draftPost.shares) {
+                    draftPost.shares += 1;
+                  } else {
+                    draftPost.shares = 1;
+                  }
+                }
+              )
+            );
+            dispatch(
+              postApi.util.updateQueryData("getVideos", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id == postId);
+                if (draftPost && draftPost.shares) {
+                  draftPost.shares += 1;
+                } else {
+                  draftPost.shares = 1;
+                }
+              })
+            );
           }
         } catch {
           console.log("error from postApi on createComment: ");
@@ -141,6 +165,22 @@ export const postApi = apiSlice.injectEndpoints({
                 }
               )
             );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getTrendingPosts",
+                undefined,
+                (draft) => {
+                  const draftPost = draft.find((p) => p._id === postId);
+                  draftPost.comments += 1;
+                }
+              )
+            );
+            dispatch(
+              postApi.util.updateQueryData("getVideos", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments += 1;
+              })
+            );
           }
         } catch {
           console.log("error from postApi on createComment: ");
@@ -188,6 +228,22 @@ export const postApi = apiSlice.injectEndpoints({
                   }
                 }
               )
+            );
+            dispatch(
+              postApi.util.updateQueryData(
+                "getTrendingPosts",
+                undefined,
+                (draft) => {
+                  const draftPost = draft.find((p) => p._id === postId);
+                  draftPost.comments -= 1;
+                }
+              )
+            );
+            dispatch(
+              postApi.util.updateQueryData("getVideos", undefined, (draft) => {
+                const draftPost = draft.find((p) => p._id === postId);
+                draftPost.comments -= 1;
+              })
             );
           }
         } catch {
@@ -297,19 +353,77 @@ export const postApi = apiSlice.injectEndpoints({
             }
           )
         );
+        const likeForTrendingPost = dispatch(
+          postApi.util.updateQueryData(
+            "getTrendingPosts",
+            undefined,
+            (draft) => {
+              const draftPost = draft.find((p) => p._id === post._id);
+              const existingReact = draftPost?.reactions.find(
+                (reaction) => reaction.user._id === loggedInUser._id
+              );
+              const isReactionExist = draftPost?.reactions.find(
+                (reaction) => reaction.user._id === loggedInUser._id
+              );
+              if (isReactionExist) {
+                if (type) {
+                  existingReact.type = type;
+                } else {
+                  const filteredData = draftPost.reactions.filter(
+                    (reaction) => reaction.user._id !== loggedInUser._id
+                  );
+                  draftPost.reactions = filteredData;
+                }
+              } else {
+                draftPost.reactions.push({ user: loggedInUser, type });
+              }
+            }
+          )
+        );
+        const likeForVideosPage = dispatch(
+          postApi.util.updateQueryData("getVideos", undefined, (draft) => {
+            const draftPost = draft.find((p) => p._id === post._id);
+            const existingReact = draftPost?.reactions.find(
+              (reaction) => reaction.user._id === loggedInUser._id
+            );
+            const isReactionExist = draftPost?.reactions.find(
+              (reaction) => reaction.user._id === loggedInUser._id
+            );
+            if (isReactionExist) {
+              if (type) {
+                existingReact.type = type;
+              } else {
+                const filteredData = draftPost.reactions.filter(
+                  (reaction) => reaction.user._id !== loggedInUser._id
+                );
+                draftPost.reactions = filteredData;
+              }
+            } else {
+              draftPost.reactions.push({ user: loggedInUser, type });
+            }
+          })
+        );
         // optimistic cache update for liking end
         try {
           await queryFulfilled;
         } catch (error) {
           likeForHomePost.undo();
           likeForProfilePost.undo();
+          likeForTrendingPost.undo();
+          likeForVideosPage.undo();
         }
       },
+    }),
+    getVideos: builder.query({
+      query: () => ({
+        url: "/posts/getVideos",
+      }),
     }),
   }),
 });
 
 export const {
+  useGetTrendingPostsQuery,
   useGetPostsQuery,
   useGetPostsByUserIdQuery,
   useCreatePostMutation,
@@ -321,4 +435,5 @@ export const {
   useEditCommentMutation,
   useGetCommentsQuery,
   useAddReactionMutation,
+  useGetVideosQuery,
 } = postApi;

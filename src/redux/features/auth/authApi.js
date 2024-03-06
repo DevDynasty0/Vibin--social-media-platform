@@ -15,10 +15,10 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
-            localStorage.setItem("auth", JSON.stringify(userData.user._id));
+            localStorage.setItem("auth", JSON.stringify(userData));
             dispatch(
               userLoggedIn({
-                user: userData.user,
+                user: userData,
               })
             );
           }
@@ -40,10 +40,10 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
-            localStorage.setItem("auth", JSON.stringify(userData.user._id));
+            localStorage.setItem("auth", JSON.stringify(userData));
             dispatch(
               userLoggedIn({
-                user: userData.user,
+                user: userData,
               })
             );
           }
@@ -81,10 +81,10 @@ export const authApi = apiSlice.injectEndpoints({
           const userData = result?.data?.data;
 
           if (userData?.user?.email) {
-            localStorage.setItem("auth", JSON.stringify(userData.user._id));
+            localStorage.setItem("auth", JSON.stringify(userData));
             dispatch(
               userLoggedIn({
-                user: userData.user,
+                user: userData,
               })
             );
           }

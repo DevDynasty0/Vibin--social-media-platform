@@ -18,28 +18,26 @@ import BlockedFriendCard from "./components/BlockedFriendCard";
 import { useSelector } from "react-redux";
 import ChangePassword from "./components/changePassword";
 import useAuthCheck from "../../../hooks/useAuthCheck";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const Settings = () => {
-  // const [getPostNotifications, setPostNotifications] = useState(true);
-
-  // const [getLikeNotifications, setLikeNotifications] = useState(true);
-
-  // const [getCommentNotifications, setCommentNotifications] = useState(true);
-
+  const token = getAccessToken();
   const { user } = useAuthCheck();
-  console.log(user, "__________afafafaff");
-
   const [blockedUsers, setBlockUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`)
+    fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => setBlockUsers(data.data));
-  }, [user]);
+  }, [user, token]);
 
   console.log(blockedUsers);
   // .................//
-  const userEmail = useSelector((state) => state.auth.user.email);
+  const userEmail = useSelector((state) => state.auth.user?.email);
 
   const [userSetting, setUserSetting] = useState({
     posts: false,
@@ -48,13 +46,17 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/settings/getSetting/${userEmail}`)
+    fetch(`http://localhost:8000/api/v1/settings/getSetting/${userEmail}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setUserSetting(data);
         console.log(data, "anfalkjfal;'kjfa");
       });
-  }, [userEmail]);
+  }, [userEmail, token]);
 
   const handleNotificationSubmit = (e) => {
     e.preventDefault();
@@ -67,6 +69,7 @@ const Settings = () => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     })

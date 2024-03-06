@@ -60,14 +60,13 @@ const MainLayout = () => {
         <div
           className={` w-full ${
             location.pathname === "/"
-              ? "  ml-auto lg:ml-[25%] p-6  lg:w-[45%]  "
-              : ` lg:w-3/4 
-             ${
-               location.pathname.includes("profile")
-                 ? "lg:w-full md:w-full  mx-auto p-0 "
-                 : "ml-auto"
-             }`
-          } md:w-2/3 lg:overflow-y-auto  `}
+              ? "ml-auto lg:ml-[25%] p-6  lg:w-[45%]"
+              : `lg:w-3/4 ${
+                  location.pathname.includes("profile")
+                    ? "lg:w-full md:w-full  mx-auto p-0 "
+                    : "ml-auto"
+                }`
+          } md:w-2/3 lg:overflow-y-auto`}
         >
           <Outlet />
         </div>
