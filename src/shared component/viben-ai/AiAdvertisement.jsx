@@ -51,13 +51,14 @@
 import { useState } from 'react';
 import { Button, Card, CardBody, Divider, Heading, Stack } from "@chakra-ui/react";
 import { IoIosClose } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 const AiAdvertisement = () => {
   const [showAd, setShowAd] = useState(true);
 
   const handleClose = () => {
     setShowAd(false);
   };
-
+ const navigate =useNavigate()
   return (
     <>
       {showAd && (
@@ -77,7 +78,7 @@ const AiAdvertisement = () => {
               Your Ultimate Caption Companion & Image Generator for Perfect Social Media Posts!
               Let's Check it out!!
               </p>
-             <button className=' bg-red-500 absolute bottom-2 right-2 px-5 py-1 rounded '>Click</button>
+             <button onClick={()=>navigate('vibinai')} className=' bg-red-500 absolute bottom-2 right-2 px-5 py-1 rounded '>Click</button>
               
             </div>
           </div>

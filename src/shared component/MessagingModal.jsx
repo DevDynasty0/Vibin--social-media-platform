@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { IoSend } from "react-icons/io5";
 import { LuMailPlus } from "react-icons/lu";
-
+import { LuMessagesSquare } from "react-icons/lu";
+import { AiFillMessage } from "react-icons/ai";
 import { useGetConversationsQuery } from "../redux/features/chat/chatApi";
 import ChatBox from "./ChatBox";
 import {
@@ -62,13 +63,15 @@ const MessagingModal = ({ socket, userData }) => {
     <>
       <button
         onClick={() => setIsMessageOpen(!isMessageOpen)}
-        className="fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none disabled:opacity-50 border rounded-full w-16 h-16 bg-color-one hover:scale-110 m-0 cursor-pointer   border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900"
+        className="fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none disabled:opacity-50 border rounded-tl-xl rounded-br-xl w-12 h-12 bg-color-one  m-0 cursor-pointer   border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900"
         type="button"
         aria-haspopup="dialog"
         aria-expanded="false"
         data-state="closed"
       >
-        <svg
+        <LuMessagesSquare className="text-white text-3xl hover:scale-110"></LuMessagesSquare>
+        {/* <AiFillMessage className="text-white text-3xl "></AiFillMessage> */}
+        {/* <svg
           xmlns=" http://www.w3.org/2000/svg"
           width="30"
           height="40"
@@ -84,12 +87,12 @@ const MessagingModal = ({ socket, userData }) => {
             d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"
             className="border-gray-200"
           ></path>
-        </svg>
+        </svg> */}
       </button>
       <div
-        className={`  cursor-pointer  bg-gray-50 shadow-md rounded-lg  fixed bottom-24 right-1 md:right-10 max-w-[420px] w-full transition-all duration-500  ${
+        className={`  cursor-pointer  z-50  bg-gray-50 shadow-md rounded-lg  fixed bottom-24 right-1 md:right-10 max-w-[420px] w-full transition-all duration-500  ${
           isMessageOpen
-            ? "transition-all duration-500  h-[540px] md:h-[600px]"
+            ? "transition-all duration-500  h-[540px] md:h-[540px]"
             : " hidden"
         }`}
       >
@@ -98,7 +101,7 @@ const MessagingModal = ({ socket, userData }) => {
         items-center bg-white h-[50px]  px-1.5   border-[.8px] border-b 
         shadow-md"
         >
-          <div className="flex items-center gap-3  w-full">
+          <div className="flex items-center gap-3  w-full ">
             {!isChatOpen ? (
               <img
                 src={userData?.avatar ? userData.avatar : avatar}
@@ -129,8 +132,9 @@ const MessagingModal = ({ socket, userData }) => {
                     setFullChatList(true);
                     setIsChatOpen(false);
                   }}
-                  className="w-full px-5 outline outline-1 cursor-text py-0.5 outline-gray-300  rounded-l-full rounded-r-full"
+                  className="w-full px-5  text-sm outline outline-1 cursor-text py-[6px] outline-gray-300  rounded-l-full rounded-r-full"
                   type="search"
+                  placeholder="Search..."
                   name=""
                   id=""
                 />
@@ -145,15 +149,15 @@ const MessagingModal = ({ socket, userData }) => {
               >
                 {isMessageOpen && (
                   <LuMailPlus
-                    size={"2rem"}
-                    className="gradient-two   text-color-one   border rounded    p-0.5 font-bold  border-color-one"
+                    size={"1.8rem"}
+                    className="  text-color-one    rounded    p-0.5 font-bold "
                   />
                 )}
               </h4>
             </div>
           </div>
 
-          <div className="">
+          {/* <div className="">
             <i
               onClick={() => {
                 setIsMessageOpen(!isMessageOpen);
@@ -164,7 +168,7 @@ const MessagingModal = ({ socket, userData }) => {
                 isMessageOpen ? "fa-arrow-down" : "fa-arrow-up"
               }`}
             ></i>
-          </div>
+          </div> */}
         </div>
 
         {isMessageOpen && (
