@@ -10,12 +10,15 @@ import Swal from "sweetalert2";
 import useAuthCheck from "../../../hooks/useAuthCheck";
 import getAccessToken from "../../../utils/getAccessToken";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AllUsers = () => {
   const navigate = useNavigate();
   const token = getAccessToken();
 
-  const { user: currentUser } = useAuthCheck();
+  const [reload, setReload] = useState(false);
+
+  const currentUser = useSelector((state) => state?.auth?.user);
 
   const handleSuspendUser = (id) => {
     Swal.fire({
@@ -30,11 +33,11 @@ const AllUsers = () => {
       if (result.isConfirmed) {
         const data = {
           normalUser: id,
-          admin: currentUser._id,
+          admin: currentUser?._id,
         };
 
         const res = await axios.post(
-          `http://localhost:8000/api/v1/admin/suspendUser`,
+          `https://vibin-c5r0.onrender.com/api/v1/admin/suspendUser`,
           data,
           {
             headers: {
@@ -43,7 +46,8 @@ const AllUsers = () => {
             withCredentials: true,
           }
         );
-        console.log(res, "crated suspend user");
+        // console.log(res, "crated suspend user");
+        setReload((pre) => !pre);
       }
     });
   };
@@ -134,8 +138,9 @@ const AllUsers = () => {
     },
   ]);
   const [rowData, setRowData] = useState([]);
+
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -146,7 +151,7 @@ const AllUsers = () => {
       .then((data) => {
         setRowData(data.data);
       });
-  }, []);
+  }, [token, reload]);
 
   const defaultColDef = useMemo(() => {
     return {

@@ -34,7 +34,7 @@ const AdminDashboard = () => {
   const [postTypeChartData, setPostTypeChartData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/allUsers`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/allUsers`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
   }, [token]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/admin/totalPostCount`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/admin/totalPostCount`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
     console.log("urioujer");
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        " http://localhost:8000/api/v1/admin/getSuspendUsers",
+        " https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers",
         {
           withCredentials: true,
           headers: {
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
   // useEffect(() => {
   //   const loadTotalReportCount = async () => {
   //     const res = await axios.get(
-  //       "http://localhost:8000/api/v1/admin/getTotalReportsCount"
+  //       "https://vibin-c5r0.onrender.com/api/v1/admin/getTotalReportsCount"
   //     );
   //     // console.log(res.data);
   //     setTotalReportCount(res.data);
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadUserGrowthChartData = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getUserGrowthChartData",
+        "https://vibin-c5r0.onrender.com/api/v1/admin/getUserGrowthChartData",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadPostRateChartData = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/GetPostRateChartData",
+        "https://vibin-c5r0.onrender.com/api/v1/admin/GetPostRateChartData",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const loadPostTypeChartData = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getPostTypeChartData",
+        "https://vibin-c5r0.onrender.com/api/v1/admin/getPostTypeChartData",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -27,7 +27,7 @@ const SuggestedUsers = () => {
   const { data: suggestedUsers, isLoading: suggestedUsersLoading } =
     useSuggestedUsersQuery();
 
-  console.log("suggested users", suggestedUsers);
+  // console.log("suggested users", suggestedUsers);
   return (
     <div className="bg-white p-3 xl:w-[80%] py-3 my-5 rounded">
       <h4 className=" text-color-one pb-2 font-semibold ">Suggested Friends</h4>

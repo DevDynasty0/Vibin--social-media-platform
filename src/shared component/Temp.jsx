@@ -42,7 +42,7 @@ const Temp = () => {
     });
   });
 
-  console.log(messeges);
+  // console.log(messeges);
 
   const sendMessage = () => {
     socket.emit("new message", {

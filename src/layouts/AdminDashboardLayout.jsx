@@ -20,7 +20,7 @@ import { NavLink, Outlet } from "react-router-dom";
 const AdminDashboardLayout = () => {
   const user = useSelector((state) => state.auth.user);
   const [open, setOpen] = useState(false);
-  console.log('userrrrrr',user);
+  // console.log("userrrrrr", user);
   return (
     <div className=" relative">
       {/*  Header */}
@@ -36,7 +36,7 @@ const AdminDashboardLayout = () => {
           size={"2rem"}
           className="text-gray-500 absolute left-0  lg:hidden"
         />
-      
+
         {/* left sidebar */}
         <div
           className={`p-2       bg-blue-800
@@ -66,10 +66,10 @@ const AdminDashboardLayout = () => {
               </h3>
             </div>
 
-            <button className="inline-flex items-center gap-2 text-gray-50 py-1 px-4 my-2 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white">
+            {/* <button className="inline-flex items-center gap-2 text-gray-50 py-1 px-4 my-2 rounded transition duration-200 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-800 hover:text-white">
               <MdNotificationAdd size={"2rem"} />
               Notification
-            </button>
+            </button> */}
 
             <NavLink
               to="/admin"
@@ -96,7 +96,7 @@ const AdminDashboardLayout = () => {
               Suspended Users
             </NavLink>
 
-            <NavLink
+            {/* <NavLink
               to="/interactions"
               className={({ isActive }) =>
                 isActive
@@ -106,7 +106,7 @@ const AdminDashboardLayout = () => {
             >
               <MdAddReaction size={"2rem"} />
               Total Interactions
-            </NavLink>
+            </NavLink> */}
 
             <NavLink
               to="/admin/allUsers"
@@ -120,7 +120,7 @@ const AdminDashboardLayout = () => {
               All Users
             </NavLink>
 
-            <NavLink
+            {/* <NavLink
               to="/allPosts"
               className={({ isActive }) =>
                 isActive
@@ -130,9 +130,9 @@ const AdminDashboardLayout = () => {
             >
               <IoBook size={"2rem"} />
               All Posts
-            </NavLink>
+            </NavLink> */}
 
-            <NavLink
+            {/* <NavLink
               to="/helpCenter"
               className={({ isActive }) =>
                 isActive
@@ -142,7 +142,7 @@ const AdminDashboardLayout = () => {
             >
               <MdHelpCenter size={"2rem"} />
               Help Center Issues
-            </NavLink>
+            </NavLink> */}
           </nav>
 
           <NavLink

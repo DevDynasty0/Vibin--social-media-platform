@@ -22,10 +22,10 @@ const ChatBox = ({
   const [messageLoding, setMessageLoading] = useState(true);
   const [typing, setTyping] = useState(false);
   const token = getAccessToken();
-  console.log(allMessages);
+  // console.log(allMessages);
 
-  console.log(otherUserInfo);
-  console.log(userData);
+  // console.log(otherUserInfo);
+  // console.log(userData);
 
   const typingInfo = {
     receiver: otherUserInfo?._id,
@@ -33,7 +33,7 @@ const ChatBox = ({
     typingStatus: true,
   };
 
-  console.log(allMessages);
+  // console.log(allMessages);
 
   const [createMessage] = useCreateMessageMutation();
 
@@ -51,7 +51,7 @@ const ChatBox = ({
     const fetchData = async () => {
       if (otherUserInfo._id && userData._id) {
         const { data } = await axios.get(
-          `http://localhost:8000/api/v1/chats/messages/${userData?._id}/${otherUserInfo?._id}`,
+          `https://vibin-c5r0.onrender.com/api/v1/chats/messages/${userData?._id}/${otherUserInfo?._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const ChatBox = ({
         if (!data || data.message) {
           setMessageLoading(false);
         }
-        console.log(data, " get messagessss from backend ");
+        // console.log(data, " get messagessss from backend ");
       }
     };
 
@@ -111,7 +111,7 @@ const ChatBox = ({
     }
   };
 
-  console.log(allMessages);
+  // console.log(allMessages);
 
   return (
     <div className="relative    ">

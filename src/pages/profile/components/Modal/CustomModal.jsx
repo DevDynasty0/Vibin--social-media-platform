@@ -32,7 +32,7 @@ const CustomModal = ({
       const currentDate = new Date();
       currentDate.setDate(currentDate.getDate() - 1); // Get the previous date
       const formattedDate = currentDate.toISOString().split("T")[0];
-      console.log(formattedDate);
+      // console.log(formattedDate);
       setEditedValue(formattedDate);
     }
   }, [editType, editedValue, setEditedValue]);
@@ -41,7 +41,7 @@ const CustomModal = ({
     await onEdit(editedValue);
     onClose();
   };
-  console.log("editedvalue", editedValue);
+  // console.log("editedvalue", editedValue);
   // Reset the edited value when the modal is opened
   useEffect(() => {
     setEditedValue(editedValue);
