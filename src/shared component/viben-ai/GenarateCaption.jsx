@@ -6,7 +6,7 @@ import {
 } from "../../redux/features/vibin-ai/vibinAiApi";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+ import '../../../src/styles/color.css'
 import { LuRefreshCcw } from "react-icons/lu";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -135,15 +135,24 @@ const GenarateCaption = () => {
         {buttonSpinner ? (
           <div className=" pt-[10%] items-center xl:max-w-[55%] lg:[70%] w-[90%] min-h-[35vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow">
             {" "}
-            <Spinner color="blue.500" />
+            {/* <Spinner color="blue.500" /> */}
+            
+<div className="loader text-color-one"></div>
+           
           </div>
         ) : (
           <div className="xl:max-w-[55%] lg:[70%] w-[90%] min-h-[34vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow  ">
             <div className="   mx-auto h-[90%]  ">
               {isCaptionLoading || isImageLoading ? (
                 //    <Spinner className="mt-[20%]" color="gray.500" />
-                <div className="text-center mt-[20%]  animate-bounce">
-                  Loading.... <br />
+                // <div className="text-center mt-[20%]  animate-bounce">
+                <div className="text-center mt-[20%] ">
+                  {/* Loading.... <br /> */}
+                  <div className="three-body">
+<div className="three-body__dot"></div>
+<div className="three-body__dot"></div>
+<div className="three-body__dot"></div>
+</div> <br />
                   Please wait this might take a minute.
                 </div>
               ) : (
@@ -298,6 +307,8 @@ const GenarateCaption = () => {
         >
           Drop Vibe
         </button>
+
+        
       </div>
       <ToastContainer />
     </div>
