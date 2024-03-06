@@ -11,7 +11,7 @@ const BlockedFriendCard = ({ blockedUser }) => {
       blockedPerson: blockedUser?.blockedPerson?._id,
       blockedBy: user?._id,
     };
-    fetch(`http://localhost:8000/api/v1/settings/unBlockUser`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/settings/unBlockUser`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ const BlockedFriendCard = ({ blockedUser }) => {
       .then((data) => console.log(data));
   };
 
-  console.log(blockedUser.blockedPerson);
+  // console.log(blockedUser.blockedPerson);
   return (
     <div className="flex items-center gap-4 ">
       <img

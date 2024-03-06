@@ -26,16 +26,19 @@ const Settings = () => {
   const [blockedUsers, setBlockUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/settings/getblockUsers/${user?._id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://vibin-c5r0.onrender.com/api/v1/settings/getblockUsers/${user?._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => setBlockUsers(data.data));
   }, [user, token]);
 
-  console.log(blockedUsers);
+  // console.log(blockedUsers);
   // .................//
   const userEmail = useSelector((state) => state.auth.user?.email);
 
@@ -46,15 +49,18 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/settings/getSetting/${userEmail}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://vibin-c5r0.onrender.com/api/v1/settings/getSetting/${userEmail}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setUserSetting(data);
-        console.log(data, "anfalkjfal;'kjfa");
+        // console.log(data, "anfalkjfal;'kjfa");
       });
   }, [userEmail, token]);
 
@@ -65,14 +71,17 @@ const Settings = () => {
       userEmail: userEmail,
       ...userSetting,
     };
-    fetch(`http://localhost:8000/api/v1/settings/update/${userEmail}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      `https://vibin-c5r0.onrender.com/api/v1/settings/update/${userEmail}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((res) => res.json())
       .then((data) => console.log(data));
   };

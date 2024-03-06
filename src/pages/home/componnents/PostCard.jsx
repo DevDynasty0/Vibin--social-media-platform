@@ -4,6 +4,7 @@ import { PiShareFatThin } from "react-icons/pi";
 import { GoComment } from "react-icons/go";
 import moment from "moment";
 import {
+  Avatar,
   Box,
   Menu,
   MenuButton,
@@ -24,6 +25,8 @@ import reactionsMap from "../../../utils/reactionsMap";
 import { useCreateNotificationMutation } from "../../../redux/features/notification/notificationApi";
 import { useSelector } from "react-redux";
 import useSocket from "../../../hooks/useSocket";
+
+import avatar from "../../../assets/images/avatar.png";
 
 const PostCard = ({ post, currentUser, postOwner }) => {
   const {
@@ -140,7 +143,11 @@ const PostCard = ({ post, currentUser, postOwner }) => {
       <div className="  w-[90%]  mx-auto pt-4">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
-            <img className="w-10 h-10 rounded-full" src={user?.avatar} alt="" />
+            <img
+              className="w-10 h-10 rounded-full"
+              src={user?.avatar || avatar}
+              alt=""
+            />
             <h4 className="font-bold">{user?.fullName}</h4>
             <p>{getPostAge}</p>
           </div>
@@ -211,9 +218,10 @@ const PostCard = ({ post, currentUser, postOwner }) => {
               {reactions?.length > 5 && isLiked
                 ? `You and ${reactions.length - 1} others`
                 : reactions?.length > 5 && !isLiked
-                  ? `${reactions[reactions.length - 1].user.fullName} and ${reactions.length - 1
+                ? `${reactions[reactions.length - 1].user.fullName} and ${
+                    reactions.length - 1
                   } others`
-                  : reactions?.length}
+                : reactions?.length}
             </span>
           </div>
         ) : (

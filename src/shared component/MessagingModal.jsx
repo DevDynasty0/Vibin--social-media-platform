@@ -36,14 +36,14 @@ const MessagingModal = ({ socket, userData }) => {
     data: allChats,
     isLoading: allChatsLoading,
     refetch: allChatsRefetch,
-  } = useGetConversationsQuery(userData?._id, {skip: !userData?._id});
+  } = useGetConversationsQuery(userData?._id, { skip: !userData?._id });
   const {
     data: searchUsers,
     isLoading,
     isSuccess,
     refetch: searchUsersRefetch,
   } = useSearchUsersQuery(userInput.length > 0 && userInput);
-  console.log(searchUsers, "search in meassaging ");
+  // console.log(searchUsers, "search in meassaging ");
   // console.log(newMessage);
   const [currentChatId, setCurrentChatId] = useState("");
   const [otherUserInfo, setOtherUserInfo] = useState({});
@@ -185,7 +185,7 @@ const MessagingModal = ({ socket, userData }) => {
                 {!fullChatList
                   ? allChats?.results.length > 0 &&
                     allChats?.results?.map((chat) => {
-                      console.log(chat, "all chat mapppppppppppppp");
+                      // console.log(chat, "all chat mapppppppppppppp");
                       const otherUser = chat.participants.find(
                         (person) => person._id != userData._id
                       );

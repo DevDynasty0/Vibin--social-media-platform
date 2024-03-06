@@ -22,7 +22,7 @@ const SuspendedUsers = () => {
   useEffect(() => {
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getSuspendUsers",
+        "https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ const SuspendedUsers = () => {
   useEffect(() => {
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getSuspendUsers",
+        "https://vibin-c5r0.onrender.com/api/v1/admin/getSuspendUsers",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,12 +85,12 @@ const SuspendedUsers = () => {
                 </Td>
                 <Td>
                   <div className="flex gap-4">
-                    <button
-                      onClick={() => handleSuspendUndo(user?.normalUser?._id)}
+                    {/*<button
+                      // onClick={() => handleSuspendUndo(user?.normalUser?._id)}
                       className="bg-red-500 px-2 py-1 text-white rounded text-sm"
                     >
                       Undo
-                    </button>
+                    </button>*/}
                     <button
                       onClick={() =>
                         navigate(`/profile/${user?.normalUser?._id}`)

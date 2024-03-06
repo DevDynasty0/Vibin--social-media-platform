@@ -39,7 +39,7 @@ const MiddleContent = ({
     // setFollow([...follow, id]);
     const profile = id;
     const follower = userData?._id;
-    console.log(follower, "you");
+    // console.log(follower, "you");
     const res = await followUser({ profile, follower });
     getFollowingRefetch();
     refetchUserInfo();

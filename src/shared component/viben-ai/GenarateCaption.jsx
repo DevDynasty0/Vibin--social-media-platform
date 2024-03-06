@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "@chakra-ui/react";
 import getAccessToken from "../../utils/getAccessToken";
+import { FaCopy, FaDownload } from "react-icons/fa";
 
 const GenarateCaption = () => {
   const [generatedCaption, setGeneratedCaption] = useState("");
@@ -59,26 +60,26 @@ const GenarateCaption = () => {
     setIsImageLoading(false);
   };
 
-  console.log("cccc", imageSource);
-  console.log("image", generatedImage);
+  // console.log("cccc", imageSource);
+  // console.log("image", generatedImage);
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     setButtonSpinner(true);
-    const formData = new FormData();
-    formData.append("postContent", generatedImage);
-    formData.append("caption", generatedCaption);
-    formData.append("contentType", generatedImage ? "image" : "");
+    // const formData = new FormData();
+    // formData.append("postContent", generatedImage);
+    // formData.append("caption", generatedCaption);
+    // formData.append("contentType", generatedImage ? "image" : "");
 
     const newPost = {
       user: user._id,
       caption: generatedCaption,
       isImageUrl: true,
-      postContent: formData.get("postContent"),
+      postContent: generatedImage,
       contentType: generatedImage ? "image" : "",
     };
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/posts/post",
+        "https://vibin-c5r0.onrender.com/api/v1/posts/post",
         newPost,
         {
           headers: {
@@ -89,7 +90,7 @@ const GenarateCaption = () => {
       );
 
       // const res = await createPost(newPost);
-      console.log(res);
+      console.log(res, "generated data in vibin post");
 
       if (res.data) {
         toast.success("Post uploaded successfully!"); // Display success toast message
@@ -110,7 +111,7 @@ const GenarateCaption = () => {
   };
   return (
     <div className="">
-      <div className="text-center my-6">
+      <div className="text-center mt-20 mb-6">
         <h1 className="text-color-one font-bold text-2xl font-sans ">
           {" "}
           Vibin{" "}
@@ -134,7 +135,11 @@ const GenarateCaption = () => {
           <div className="xl:max-w-[55%] lg:[70%] w-[90%] min-h-[34vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow  ">
             <div className="   mx-auto h-[90%]  ">
               {isCaptionLoading || isImageLoading ? (
-                <Spinner className="mt-[20%]" color="blue.500" />
+                //    <Spinner className="mt-[20%]" color="gray.500" />
+                <div className="text-center mt-[20%]  animate-bounce">
+                  Loading.... <br />
+                  Please wait this might take a minute.
+                </div>
               ) : (
                 <div className="p-5">
                   <div
@@ -144,22 +149,47 @@ const GenarateCaption = () => {
                   >
                     {/* <h4 className="font-semibold text-xl">{prompt}</h4> */}
 
-                    <p className="mt-1 ">{generatedCaption}</p>
+                    <p className="mt-1 relative bg-gray-200 p-2 rounded-md">
+                      {generatedCaption}
+                      {generatedCaption && (
+                        <span
+                          onClick={() => {
+                            navigator.clipboard.writeText(generatedCaption);
+                          }}
+                          className="absolute cursor-copy bottom-2 
+                          text-xl right-0 text-color-one"
+                        >
+                          <FaCopy />
+                        </span>
+                      )}
+                    </p>
                   </div>
 
                   <div
                     className={`${
-                      generatedImage.length > 0 ? "block" : "hidden"
+                      generatedImage.length > 0 ? "block relative" : "hidden"
                     }`}
                   >
                     {/* <h4 className="font-semibold text-xl">{prompt}</h4> */}
-
                     <img
                       className="mt-1 h-[30%] w-full mx-auto"
                       src={generatedImage}
                       onLoad={(e) => setImageSource(e.target.value)}
                       alt=""
-                    />
+                    />{" "}
+                    <a
+                      href={generatedImage}
+                      target="_blank"
+                      download
+                      rel="noopener noreferrer"
+                    >
+                      <span
+                        className="absolute cursor-pointer bottom-0 
+                          text-xl font-light right-0 text-black bg-gray-300 p-0.5 rounded-md  "
+                      >
+                        <FaDownload />
+                      </span>
+                    </a>
                   </div>
 
                   {generatedCaption.length == 0 &&
@@ -167,7 +197,7 @@ const GenarateCaption = () => {
                       <div className="text-center  h-[35vh] mt-[4%] text-color-one text-md lg:text-xl">
                         Hi {user.fullName}! Confused how to express your vibe?
                         <br />
-                        Let me help you
+                        Let Vibin' Ai help you
                       </div>
                     )}
 
@@ -255,12 +285,13 @@ const GenarateCaption = () => {
         </div>
       </div>
       <div className="xl:max-w-[55%] lg:[70%] w-[90%] mt-[1%] mx-auto">
-        <div
+        {/* <button
           onClick={handlePostSubmit}
-          className=" cursor-pointer  px-3 py-2 text-sm font-medium text-center text-white bg-color-one rounded-lg hover:bg-violet-500 "
+          className=" cursor-pointer w-full  px-3 py-2 text-sm font-medium text-center text-white bg-color-one rounded-lg hover:bg-violet-500 "
+          // disabled={generatedCaption && generatedImage ? false : true}
         >
           Drop Vibe
-        </div>
+        </button> */}
       </div>
       <ToastContainer />
     </div>

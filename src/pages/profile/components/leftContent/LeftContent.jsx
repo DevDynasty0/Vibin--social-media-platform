@@ -34,7 +34,7 @@ export default function LeftContent({
       formData.append("avatar", avatar); // append the image file
 
       const response = await axios.patch(
-        "http://localhost:8000/api/v1/users/change-avatar",
+        "https://vibin-c5r0.onrender.com/api/v1/users/change-avatar",
         formData,
         {
           headers: {
@@ -54,14 +54,14 @@ export default function LeftContent({
       console.error("Error uploading image:", error);
     }
   };
-  console.log("Profile image", profileImage);
+  // console.log("Profile image", profileImage);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setProfileImage(file);
     handleImageChange(file);
   };
-  console.log("userprofile", user?.data?.avatar);
+  // console.log("userprofile", user?.data?.avatar);
   return (
     <div className=" p-4 text-center ">
       <div className=" ">

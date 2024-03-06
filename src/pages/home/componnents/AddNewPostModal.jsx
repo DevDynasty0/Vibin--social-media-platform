@@ -14,6 +14,7 @@ import { FaPlus, FaXmark } from "react-icons/fa6";
 import axios from "axios";
 import { useState } from "react";
 import { LoaderIcon } from "react-hot-toast";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const AddNewPostModal = ({
   isOpen,
@@ -26,6 +27,7 @@ const AddNewPostModal = ({
 }) => {
   const user = useSelector((state) => state.auth.user);
   const [buttonSpinner, setButtonSpinner] = useState(false);
+  const token = getAccessToken();
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -44,12 +46,13 @@ const AddNewPostModal = ({
     };
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/posts/post",
+        "https://vibin-c5r0.onrender.com/api/v1/posts/post",
         newPost,
         {
           withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

@@ -27,7 +27,7 @@ const AlreadyFriendCard = ({ user }) => {
       blockedPerson: user.profile._id,
       blockedBy: currentUser._id,
     };
-    fetch(`http://localhost:8000/api/v1/settings/blockUser`, {
+    fetch(`https://vibin-c5r0.onrender.com/api/v1/settings/blockUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

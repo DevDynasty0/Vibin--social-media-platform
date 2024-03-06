@@ -39,9 +39,13 @@ const AddNewPostCard = ({ onOpen, caption }) => {
               className="cursor-pointer"
             />
             {/* <HiOutlineGif size="1.5rem" /> */}
-            {/* <button className="block ml-auto py-0.5 px-3 bg-color-one rounded text-lg font-semibold text-white">
+            <span
+              onClick={onOpen}
+              className="block ml-auto py-0.5 px-3 
+             bg-color-one rounded text-lg cursor-pointer font-semibold text-white"
+            >
               Vibe{" "}
-            </button> */}
+            </span>
           </div>
         </div>
       </div>

@@ -32,7 +32,7 @@ const Videos = () => {
   }
 
   if (data?.length) {
-    content = data?.map((post) => {
+    content = [...data]?.reverse().map((post) => {
       if (post.type === "shared") {
         return (
           <SharePostCard key={post._id} currentUser={currentUser} post={post} />

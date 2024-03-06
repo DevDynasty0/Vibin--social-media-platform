@@ -45,7 +45,7 @@ const Trending = () => {
     });
   }
 
-  return <div className="max-w-[1200px] mx-4">{content}</div>;
+  return <div className="max-w-[1000px] mx-auto md:p-4">{content}</div>;
 };
 
 export default Trending;

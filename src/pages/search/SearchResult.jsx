@@ -5,6 +5,7 @@ import SearchUserCard from "./components/SearchUserCard";
 import { useLocation } from "react-router-dom";
 import { useGetSearchResultQuery } from "../../redux/features/user/userApi";
 import AllPosts from "../../shared component/AllPosts";
+import Skeleton from "../../shared component/Skeleton";
 const SearchResult = () => {
   const location = useLocation();
   console.log(location.search);
@@ -20,7 +21,7 @@ const SearchResult = () => {
   );
 
   return (
-    <div className="max-w-[650px] mx-auto">
+    <div className="max-w-[750px] mx-auto mt-10">
       <Tabs variant="enclosed-colored" colorScheme="pink" size={"lg"}>
         <TabList>
           <Tab>Users</Tab>
