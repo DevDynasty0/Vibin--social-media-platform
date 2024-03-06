@@ -4,7 +4,7 @@ import useGetCurrentUser from "./useGetCurrentUser";
 export default function useAuthCheck() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  useGetCurrentUser();
+  useGetCurrentUser(user);
 
   useEffect(() => {
     const localAuth = localStorage?.getItem("auth");
