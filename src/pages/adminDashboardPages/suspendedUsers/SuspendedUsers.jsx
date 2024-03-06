@@ -11,31 +11,45 @@ import {
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import getAccessToken from "../../../utils/getAccessToken";
 
 const SuspendedUsers = () => {
   const [suspendedUsers, setSuspendedUsers] = useState([]);
+  const token = getAccessToken();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getSuspendUsers"
+        "http://localhost:8000/api/v1/admin/getSuspendUsers",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       setSuspendedUsers(res.data.data);
     };
     fetchSuspendedUsers();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const fetchSuspendedUsers = async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/v1/admin/getSuspendUsers"
+        "http://localhost:8000/api/v1/admin/getSuspendUsers",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       setSuspendedUsers(res.data.data);
     };
     fetchSuspendedUsers();
-  }, []);
+  }, [token]);
 
   const handleSuspendUndo = (id) => {
     console.log(id);

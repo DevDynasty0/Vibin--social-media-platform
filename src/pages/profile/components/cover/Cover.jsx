@@ -2,9 +2,11 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import coverdefault from "../../../../assets/images/coverdefault.png";
+import getAccessToken from "../../../../utils/getAccessToken";
 
 const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
   const [coverImage, setCoverImage] = useState("");
+  const token = getAccessToken();
 
   const handleCoverChange = async (coverImage) => {
     try {
@@ -15,7 +17,10 @@ const Cover = ({ user, refetchUserInfo, loggedInUser }) => {
         "http://localhost:8000/api/v1/users/change-cover-image",
         formData,
         {
-          withCredentials: true, // Add withCredentials option here
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
         }
       );
       console.log(response);

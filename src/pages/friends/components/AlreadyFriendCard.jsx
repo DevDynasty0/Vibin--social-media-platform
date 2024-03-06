@@ -5,8 +5,11 @@ import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import useAuthCheck from "../../../hooks/useAuthCheck";
 import { useUnfollowUserMutation } from "../../../redux/features/user/settingApi";
 import { Link } from "react-router-dom";
+import getAccessToken from "../../../utils/getAccessToken";
+
 const AlreadyFriendCard = ({ user }) => {
   const { user: currentUser } = useAuthCheck();
+  const token = getAccessToken();
 
   const [unfollowUser] = useUnfollowUserMutation();
 
@@ -28,8 +31,10 @@ const AlreadyFriendCard = ({ user }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
+      credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => console.log(data));

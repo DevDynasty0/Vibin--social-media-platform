@@ -4,6 +4,13 @@ import { userLoggedIn, userLoggedOut } from "../auth/authSlice";
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_API_URL,
   credentials: "include",
+  prepareHeaders: (headers) => {
+    const token = JSON.parse(localStorage.getItem("auth"))?.accessToken;
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
 });
 
 export const apiSlice = createApi({
@@ -20,9 +27,9 @@ export const apiSlice = createApi({
       );
 
       if (!response.ok) {
-        const userId = await JSON.parse(localStorage.getItem("auth"));
+        const user = await JSON.parse(localStorage.getItem("auth"));
         await fetch(
-          `${import.meta.env.VITE_BASE_API_URL}/users/logout/${userId}`,
+          `${import.meta.env.VITE_BASE_API_URL}/users/logout/${user.user._id}`,
           {
             method: "POST",
             credentials: "include",

@@ -1,8 +1,10 @@
 import defaultAvatar from "../../../../assets/images/avatar.png";
 import useAuthCheck from "../../../../hooks/useAuthCheck";
+import getAccessToken from "../../../../utils/getAccessToken";
 
 const BlockedFriendCard = ({ blockedUser }) => {
   const { user } = useAuthCheck();
+  const token = getAccessToken();
 
   const handleUnBlock = () => {
     const data = {
@@ -13,6 +15,7 @@ const BlockedFriendCard = ({ blockedUser }) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     })

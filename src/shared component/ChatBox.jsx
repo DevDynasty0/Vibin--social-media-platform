@@ -8,6 +8,7 @@ import avatar from "../assets/images/avatar.png";
 import { IoSend } from "react-icons/io5";
 import { FaSpinner } from "react-icons/fa6";
 import { TiMessageTyping } from "react-icons/ti";
+import getAccessToken from "../utils/getAccessToken";
 
 const ChatBox = ({
   socket,
@@ -20,6 +21,7 @@ const ChatBox = ({
   const [allMessages, setAllMessages] = useState([]);
   const [messageLoding, setMessageLoading] = useState(true);
   const [typing, setTyping] = useState(false);
+  const token = getAccessToken();
   console.log(allMessages);
 
   console.log(otherUserInfo);
@@ -49,7 +51,12 @@ const ChatBox = ({
     const fetchData = async () => {
       if (otherUserInfo._id && userData._id) {
         const { data } = await axios.get(
-          `http://localhost:8000/api/v1/chats/messages/${userData?._id}/${otherUserInfo?._id}`
+          `http://localhost:8000/api/v1/chats/messages/${userData?._id}/${otherUserInfo?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (data?.messages) {
@@ -65,7 +72,7 @@ const ChatBox = ({
     };
 
     fetchData();
-  }, [userData, otherUserInfo, messageLoding]);
+  }, [userData, otherUserInfo, messageLoding, token]);
 
   const sendMessage = async () => {
     if (otherUserInfo && chatInput) {

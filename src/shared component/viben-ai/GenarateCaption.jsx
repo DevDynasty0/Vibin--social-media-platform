@@ -4,7 +4,6 @@ import {
   useImageGenaratorMutation,
 } from "../../redux/features/vibin-ai/vibinAiApi";
 import { useSelector } from "react-redux";
-import getAccessToken from "../../utils/getAccessToken";
 import axios from "axios";
 
 import { LuRefreshCcw } from "react-icons/lu";
@@ -12,6 +11,7 @@ import { LuRefreshCcw } from "react-icons/lu";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "@chakra-ui/react";
+import getAccessToken from "../../utils/getAccessToken";
 
 const GenarateCaption = () => {
   const [generatedCaption, setGeneratedCaption] = useState("");
@@ -23,6 +23,7 @@ const GenarateCaption = () => {
   const [captionBtn, setCaptionBtn] = useState(false);
   const [buttonSpinner, setButtonSpinner] = useState(false);
   const [activeGenerator, setActiveGenerator] = useState(null);
+  const token = getAccessToken();
 
   const [captionGenarator] = useCaptionGenaratorMutation();
   const [imageGenarator] = useImageGenaratorMutation();
@@ -78,9 +79,11 @@ const GenarateCaption = () => {
     try {
       const res = await axios.post(
         "http://localhost:8000/api/v1/posts/post",
-        // { newPost, formData },
         newPost,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
         }
       );
