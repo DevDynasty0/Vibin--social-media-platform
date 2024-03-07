@@ -51,7 +51,7 @@ const MainLayout = () => {
           <div
             className={`${
               !left ? " -left-[52rem]" : " left-0"
-            } w-full   md:w-1/3 lg:w-[25%]  p-6  fixed  top-0 mt-16     md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-white z-[999] `}
+            } w-full   md:w-1/3 lg:w-[25%]  p-6  fixed  top-0 mt-16     md:left-0  overflow-hidden transition-all duration-500   h-full bg-gray-50   md:bg-white z-20 `}
           >
             <LeftSidebar />
           </div>

@@ -7,8 +7,10 @@ import SharePostCard from "../pages/home/componnents/SharePostCard";
 import nodatafound from "../assets/images/No data-cuate.png";
 
 const AllPosts = ({ posts = [], isSuccess, isLoading }) => {
+  
   const currentUser = useSelector((state) => state.auth.user);
   let content;
+  
   if (isLoading) {
     content = (
       <div className="w-full flex justify-center items-center h-52">

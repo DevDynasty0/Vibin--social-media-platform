@@ -51,13 +51,14 @@
 import { useState } from 'react';
 import { Button, Card, CardBody, Divider, Heading, Stack } from "@chakra-ui/react";
 import { IoIosClose } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 const AiAdvertisement = () => {
   const [showAd, setShowAd] = useState(true);
 
   const handleClose = () => {
     setShowAd(false);
   };
-
+ const navigate =useNavigate()
   return (
     <>
       {showAd && (
@@ -65,7 +66,7 @@ const AiAdvertisement = () => {
           <div className="bg-[#451859] relative rounded-md w-[80%]">
             <div  className="text-white p-2">
             <div className="text-white text-3xl flex  justify-end" onClick={handleClose}>
-               <IoIosClose></IoIosClose>
+               <IoIosClose className='hover:rotate-90  hover:transition-all duration-1000 hover:text-4xl'></IoIosClose>
               </div>
             
              <Heading size='md'>Introducing Vibin' <span className='py-1 px-3 rounded bg-black text-white'>Ai</span> </Heading>
@@ -77,7 +78,7 @@ const AiAdvertisement = () => {
               Your Ultimate Caption Companion & Image Generator for Perfect Social Media Posts!
               Let's Check it out!!
               </p>
-             <button className=' bg-red-500 absolute bottom-2 right-2 px-5 py-1 rounded '>Click</button>
+             <button onClick={()=>navigate('vibinai')} className=' bg-red-500 absolute  bottom-2 right-2 px-5 py-1 rounded '>Click</button>
               
             </div>
           </div>

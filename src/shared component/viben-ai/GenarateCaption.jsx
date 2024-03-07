@@ -2,10 +2,11 @@ import { useState } from "react";
 import {
   useCaptionGenaratorMutation,
   useImageGenaratorMutation,
+  usePostGenaratedDataMutation,
 } from "../../redux/features/vibin-ai/vibinAiApi";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+ import '../../../src/styles/color.css'
 import { LuRefreshCcw } from "react-icons/lu";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -23,11 +24,12 @@ const GenarateCaption = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [captionBtn, setCaptionBtn] = useState(false);
   const [buttonSpinner, setButtonSpinner] = useState(false);
-  const [activeGenerator, setActiveGenerator] = useState(null);
+  const [activeGenerator, setActiveGenerator] = useState('caption');
   const token = getAccessToken();
 
   const [captionGenarator] = useCaptionGenaratorMutation();
   const [imageGenarator] = useImageGenaratorMutation();
+  const[ postGenaratedData]=usePostGenaratedDataMutation();
   let user = useSelector((state) => state.auth.user);
   user = user || {};
 
@@ -72,25 +74,29 @@ const GenarateCaption = () => {
 
     const newPost = {
       user: user._id,
-      caption: generatedCaption,
-      isImageUrl: true,
+      // type:'post'
+      caption: generatedCaption || '',
+      // postType:generatedImage?'image':"",
       postContent: generatedImage,
       contentType: generatedImage ? "image" : "",
     };
+    console.log('new poststtts',newPost);
     try {
-      const res = await axios.post(
-        "https://vibin-c5r0.onrender.com/api/v1/posts/post",
-        newPost,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      );
+      // const res = await axios.post(
+      //   "http://localhost:8000/api/v1/posts/post",
+      //   // { newPost, formData },
+      //   newPost,
+      //   {
+      //     withCredentials: true,
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
 
-      // const res = await createPost(newPost);
-      console.log(res, "generated data in vibin post");
+      const res = await postGenaratedData(newPost);
+      console.log(res);
 
       if (res.data) {
         toast.success("Post uploaded successfully!"); // Display success toast message
@@ -129,15 +135,24 @@ const GenarateCaption = () => {
         {buttonSpinner ? (
           <div className=" pt-[10%] items-center xl:max-w-[55%] lg:[70%] w-[90%] min-h-[35vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow">
             {" "}
-            <Spinner color="blue.500" />
+            {/* <Spinner color="blue.500" /> */}
+            
+<div className="loader text-color-one"></div>
+           
           </div>
         ) : (
           <div className="xl:max-w-[55%] lg:[70%] w-[90%] min-h-[34vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow  ">
             <div className="   mx-auto h-[90%]  ">
               {isCaptionLoading || isImageLoading ? (
                 //    <Spinner className="mt-[20%]" color="gray.500" />
-                <div className="text-center mt-[20%]  animate-bounce">
-                  Loading.... <br />
+                // <div className="text-center mt-[20%]  animate-bounce">
+                <div className="text-center mt-[20%] ">
+                  {/* Loading.... <br /> */}
+                  <div className="three-body">
+<div className="three-body__dot"></div>
+<div className="three-body__dot"></div>
+<div className="three-body__dot"></div>
+</div> <br />
                   Please wait this might take a minute.
                 </div>
               ) : (
@@ -285,13 +300,15 @@ const GenarateCaption = () => {
         </div>
       </div>
       <div className="xl:max-w-[55%] lg:[70%] w-[90%] mt-[1%] mx-auto">
-        {/* <button
+         <button
           onClick={handlePostSubmit}
-          className=" cursor-pointer w-full  px-3 py-2 text-sm font-medium text-center text-white bg-color-one rounded-lg hover:bg-violet-500 "
-          // disabled={generatedCaption && generatedImage ? false : true}
+          className=" disabled:bg-gray-300 cursor-pointer w-full  px-3 py-2 text-sm font-medium text-center text-white bg-color-one rounded-lg hover:bg-violet-500 "
+          disabled={!generatedCaption && !generatedImage ? true : false}
         >
           Drop Vibe
-        </button> */}
+        </button>
+
+        
       </div>
       <ToastContainer />
     </div>

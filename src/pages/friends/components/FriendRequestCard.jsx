@@ -14,7 +14,8 @@ const FriendRequestCard = ({ user }) => {
 
     console.log(res);
   };
-
+  console.log('follower',user?.follower);
+  const truncatedBio = user?.follower?.bio.length >= 20 ? user?.follower?.bio.slice(0, 20) + '...' : user?.follower?.bio;
   return (
     <div className="py-8 px-8  mx-auto bg-white   rounded-xl shadow-md  sm:py-4 sm:flex sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full">
       <Link to={`/profile/${user?.follower?._id}`}>
@@ -31,7 +32,7 @@ const FriendRequestCard = ({ user }) => {
             {user?.follower?.fullName}
           </p>
           <p className="text-slate-500 font-medium">
-            {user?.follower?.bio || "Let's Connect"}
+            {truncatedBio || "Let's Connect"}
           </p>
         </div>
         <button

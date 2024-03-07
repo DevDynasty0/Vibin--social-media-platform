@@ -110,14 +110,14 @@ const Navbar = ({
             // onBlur={() => setShowResults(false)}
             ref={containerRef}
             className="flex pr-2  
-           items-center  py-2  relative"
+           items-center  py-2  lg:ml-4 relative"
           >
             <a href="/" className="flex items-center  ">
               <figure className="    ">
                 <img
                   // src="./vibin-logo3.png"
                   src={logo}
-                  className="md:h-8 md:w-11 w-10 h-7 object-cover   "
+                  className="md:h-7 md:w-9 lg:h-8 lg:w-14 xl:h-9 xl:w-16 w-10 h-7 object-cover   "
                   alt="Vibin' Logo"
                 />
               </figure>
@@ -125,8 +125,8 @@ const Navbar = ({
               Vibin<span className="">'</span>
             </span> */}
             </a>{" "}
-            <div className="hidden md:block">
-              <p className="ml-2 lg:text-2xl md:text-2xl text-xl font-bold  font-serif text-black ">
+            <div className="hidden lg:block">
+              <p className="ml-2 lg:text-xl xl:text-2xl text-xl font-bold  font-serif text-black ">
                 vibin'
               </p>
             </div>
@@ -191,7 +191,7 @@ const Navbar = ({
                 >
                   {" "}
                   <FaBell size={"1.2rem"} className="text-color-one" />
-                  <span className="absolute -top-2 -right-3 text-sm bg-color-one  text-white w-[24px] text-center  rounded-md">
+                  <span className="absolute -top-2 -right-3 text-sm bg-green-500  text-white w-[20px] h-[20px] text-center  rounded-full">
                     {notificationState?.filter(
                       (notification) => notification.isRead === false
                     ).length > 0

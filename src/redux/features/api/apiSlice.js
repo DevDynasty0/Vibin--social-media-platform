@@ -15,8 +15,8 @@ const baseQuery = fetchBaseQuery({
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: async (args, api, extraOptions) => {
-    const result = await baseQuery(args, api, extraOptions);
+  baseQuery: async (args,api,extraOptions) => {
+    const result = await baseQuery(args,api,extraOptions);
 
     if (result?.error?.originalStatus === 401) {
       const response = await fetch(

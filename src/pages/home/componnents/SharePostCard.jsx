@@ -130,7 +130,7 @@ const SharePostCard = ({ post, currentUser }) => {
                 <p>{getPostAge}</p>
               </div>
             </div>
-            <p className="mt-2 w-[90%]  text-xl">{sharedPostData?.caption}</p>
+            <p className="mt-2 w-[90%]  text-md">{sharedPostData?.caption}</p>
           </div>
           {sharedPostData?.postContent &&
             sharedPostData.contentType == "image" && (
