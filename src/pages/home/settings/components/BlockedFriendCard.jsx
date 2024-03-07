@@ -1,9 +1,10 @@
+import { useSelector } from "react-redux";
 import defaultAvatar from "../../../../assets/images/avatar.png";
 import useAuthCheck from "../../../../hooks/useAuthCheck";
 import getAccessToken from "../../../../utils/getAccessToken";
 
-const BlockedFriendCard = ({ blockedUser }) => {
-  const { user } = useAuthCheck();
+const BlockedFriendCard = ({ blockedUser, setReload }) => {
+  const user = useSelector((state) => state?.auth?.user);
   const token = getAccessToken();
 
   const handleUnBlock = () => {
@@ -20,7 +21,12 @@ const BlockedFriendCard = ({ blockedUser }) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if(data.data.deletedCount
+          ) {
+            setReload((pre) => !pre );
+          }
+      } );
   };
 
   // console.log(blockedUser.blockedPerson);
