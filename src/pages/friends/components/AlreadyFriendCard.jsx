@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import getAccessToken from "../../../utils/getAccessToken";
 import { useSelector } from "react-redux";
 
-const AlreadyFriendCard = ({ user }) => {
+const AlreadyFriendCard = ({ user, followingUsersRefetch }) => {
   // const { user: currentUser } = useAuthCheck();
   const currentUser = useSelector((state) => state?.auth?.user);
   const token = getAccessToken();
@@ -21,6 +21,8 @@ const AlreadyFriendCard = ({ user }) => {
       profile: user.profile._id,
     };
     const res = await unfollowUser(data);
+
+    await followingUsersRefetch();
     console.log(res.data.data, "Ninja data");
   };
 
@@ -39,10 +41,17 @@ const AlreadyFriendCard = ({ user }) => {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.message) {
+          followingUsersRefetch();
+        }
+      });
   };
   console.log("userfriends", user);
-  const truncatedBio = user?.profile?.bio?.length >= 20 ? user?.profile?.bio.slice(0, 20) + '...' : user?.profile?.bio;
+  const truncatedBio =
+    user?.profile?.bio?.length >= 20
+      ? user?.profile?.bio.slice(0, 20) + "..."
+      : user?.profile?.bio;
   return (
     <div className="">
       <div className="max-w-2xl mx-4 h-96 w-10/12 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-1 bg-white shadow-xl rounded-lg text-gray-900">
@@ -66,9 +75,7 @@ const AlreadyFriendCard = ({ user }) => {
             </div>
             <div className="text-center mt-2">
               <h2 className="font-semibold">{user?.profile?.fullName}</h2>
-              <p className="text-gray-500">
-                {truncatedBio || "Let's Vibe"}
-              </p>
+              <p className="text-gray-500">{truncatedBio || "Let's Vibe"}</p>
             </div>
           </div>
         </Link>

@@ -35,10 +35,32 @@ const NotificationsModal = ({
           top={0}
           className="h-1/2  !bg-slate-50"
         >
-          <ModalCloseButton />
+          {/* <ModalCloseButton /> */}
 
           <ModalBody>
-            {notificationState.length > 0 ? (
+            {notificationState.filter(
+              (notification) => notification.isRead === false
+            ).length > 0 ? (
+              <ul className="flex flex-col gap-2 ">
+                {notificationState
+                  .filter((notification) => notification.isRead === false)
+                  .map((singleNotifi, idx) => (
+                    <li key={idx} className="flex items-center gap-2  ">
+                      <img
+                        className="w-12 h-12 rounded-full  "
+                        src={
+                          singleNotifi?.senderId?.avatar || notificationAvatar
+                        }
+                      />
+                      <span>{singleNotifi?.message}</span>
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <div className=""> You have no unread notifications !!!!!!!</div>
+            )}
+
+            {/* {notificationState.length > 0 ? (
               <ul className="flex flex-col gap-5">
                 {notificationState.filter(
                   (notification) => notification.isRead === false
@@ -74,7 +96,7 @@ const NotificationsModal = ({
               </ul>
             ) : (
               <div>NO notifications yet!!!!!!!</div>
-            )}
+            )} */}
           </ModalBody>
         </ModalContent>
       </Modal>

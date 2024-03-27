@@ -104,18 +104,18 @@ const SharePostCard = ({ post, currentUser }) => {
             <h4 className="font-bold">{user?.fullName}</h4>
             <p>{getSharedPostAge}</p>
           </div>
-          <Menu>
-            <MenuButton>
-              <FaEllipsis className="text-2xl" />
-            </MenuButton>
-            <MenuList minWidth="120px" className="ml-auto">
-              {currentUser.email === user?.email && (
+          {currentUser?.email === user?.email && (
+            <Menu>
+              <MenuButton>
+                <FaEllipsis className="text-2xl" />
+              </MenuButton>
+              <MenuList minWidth="120px" className="ml-auto">
                 <MenuItem>
                   <div onClick={handleDeletePost}>Delete</div>{" "}
                 </MenuItem>
-              )}
-            </MenuList>
-          </Menu>
+              </MenuList>
+            </Menu>
+          )}
         </div>
         <div className="border bg-white my-6 shadow-sm rounded min-h-36 flex flex-col justify-between gap-4">
           <div className="  w-[90%] mx-auto pt-4">
@@ -160,7 +160,7 @@ const SharePostCard = ({ post, currentUser }) => {
           {reactions?.length > 0 ? (
             <div className="flex items-center">
               <div className="flex space-x-[-5px] md:space-x-[-7px]">
-                <span className="bg-gray-50 rounded-full p-[2px] z-20">
+                <span className="bg-gray-50 rounded-full p-[2px] z-10">
                   {mostReaction[0][0]}
                 </span>
                 {mostReaction[1] && (
@@ -244,7 +244,7 @@ const SharePostCard = ({ post, currentUser }) => {
           </div>
           <div
             onClick={onHandleSharePost}
-            className="flex items-center gap-1 md:gap-2"
+            className="flex items-center gap-1 md:gap-2 cursor-pointer"
           >
             <PiShareFatThin className="md:text-2xl text-md" />
             <p className="text-sm md:text-[16px]">Share</p>

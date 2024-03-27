@@ -1,14 +1,14 @@
 import { NavLink } from "react-router-dom";
-const LeftButton = ({ name = "", path = "", icon: Icon }) => {
+const LeftButton = ({ name = "", path = "", icon: Icon, setLeft, left }) => {
   return (
-    <div className="mt-1">
+    <div onClick={() => setLeft(!left)} className="mt-1">
       <NavLink
         to={path}
         // onClick={onHandleClick}
         className={({ isActive }) =>
           isActive
             ? "flex items-center px-2 py-2 gap-2 hover:bg-gray-100 rounded bg-gray-100 border-l-4 border-color-one"
-            : "flex items-center px-2 py-2 gap-2 hover:bg-gray-100 rounded "
+            : "flex items-center px-2 py-2 gap-2 hover:bg-gray-100 rounded border-l-4 border-white"
         }
       >
         {Icon && (

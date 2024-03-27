@@ -13,7 +13,7 @@ import { PiEnvelopeSimpleLight } from "react-icons/pi";
 import { CiLock } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa6";
-import signup6 from '../../assets/images/signup-cuate-rahida.png'
+import signup6 from "../../assets/images/signup-cuate-rahida.png";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { RxCrossCircled } from "react-icons/rx";
 import { MdLockReset } from "react-icons/md";
@@ -45,9 +45,9 @@ const SignUp = () => {
       };
       const results = await registerApi(newUser);
       if (results?.data?.success) {
-         // From here the userInformation Logic starts.onOpen() is for opening the modal.
-    // onOpen(); 
-        // navigate(from, { replace: true });
+        // From here the userInformation Logic starts.onOpen() is for opening the modal.
+        // onOpen();
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -58,14 +58,12 @@ const SignUp = () => {
     <div className="relative h-screen flex items-center justify-center">
       <div className="flex justify-between items-center w-[95%] md:w-[85%] lg:w-[75%] mx-auto my-7">
         <div className="py-10 text-center w-[90%] md:w-[50%] lg:w-[45%] md:text-start mx-auto ">
-          <h2 className="font-semibold text-3xl ">Welcome to <span className="text-color-one">Vibin'</span>
-         </h2>
+          <h2 className="font-semibold text-3xl ">
+            Welcome to <span className="text-color-one">Vibin'</span>
+          </h2>
           <p className="mb-5 mt-3">Please sign up to continue</p>
-      
 
           <form onSubmit={handleSubmit(onSubmit)} className="">
-          
-
             <div className="relative my-2 w-[90%] md:w-[75%] mx-auto md:mx-0">
               <input
                 required
@@ -80,7 +78,11 @@ const SignUp = () => {
                 htmlFor="fullName"
                 className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
-                <div className="flex items-center gap-2"> < FaRegUser className="text-xl text-color-one"></FaRegUser >Full Name</div>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <FaRegUser className="text-xl text-color-one"></FaRegUser>Full
+                  Name
+                </div>
               </label>
             </div>
 
@@ -97,7 +99,11 @@ const SignUp = () => {
                 htmlFor="email"
                 className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
-               <div className="flex items-center gap-2"> < BiEnvelope  className="text-2xl text-color-one"></BiEnvelope>Email</div>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <BiEnvelope className="text-2xl text-color-one"></BiEnvelope>
+                  Email
+                </div>
               </label>
             </div>
 
@@ -129,14 +135,21 @@ const SignUp = () => {
                 onClick={() => setDisplayPassIcon(!displayPassIcon)}
                 className="cursor-pointer absolute right-[2%] top-[35%]"
               >
-               {displayPassIcon ? <RxCrossCircled className="text-md text-color-one font-bold"></RxCrossCircled> : <IoIosCheckmarkCircle className="text-md text-color-one font-bold"></IoIosCheckmarkCircle>}
+                {displayPassIcon ? (
+                  <RxCrossCircled className="text-md text-color-one font-bold"></RxCrossCircled>
+                ) : (
+                  <IoIosCheckmarkCircle className="text-md text-color-one font-bold"></IoIosCheckmarkCircle>
+                )}
               </span>
               <label
                 htmlFor="password"
                 className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
                          peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
-               <div className="flex items-center gap-2"> <TbLock  className="text-2xl text-color-one"></TbLock  > Password</div>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <TbLock className="text-2xl text-color-one"></TbLock> Password
+                </div>
               </label>
             </div>
 
@@ -165,15 +178,22 @@ const SignUp = () => {
                 }
                 className="cursor-pointer absolute right-[2%] top-[35%]"
               >
-              
-                 {displayConfirmPassIcon ? <RxCrossCircled className="text-md text-color-one font-bold"></RxCrossCircled> : <IoIosCheckmarkCircle className="text-md text-color-one font-bold"></IoIosCheckmarkCircle>}
+                {displayConfirmPassIcon ? (
+                  <RxCrossCircled className="text-md text-color-one font-bold"></RxCrossCircled>
+                ) : (
+                  <IoIosCheckmarkCircle className="text-md text-color-one font-bold"></IoIosCheckmarkCircle>
+                )}
               </span>
               <label
                 htmlFor="confirmPassword"
                 className="absolute text-base text-gray-500  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 
                   peer-focus:text-[#904486] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
               >
-                 <div className="flex items-center gap-2"> < TbLockCheck  className="text-2xl text-color-one"></TbLockCheck>Confirm Password</div>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <TbLockCheck className="text-2xl text-color-one"></TbLockCheck>
+                  Confirm Password
+                </div>
               </label>
             </div>
 
@@ -230,10 +250,9 @@ const SignUp = () => {
           {/* Google,apple sign in button */}
 
           <div className="w-[90%] md:w-[75%] space-y-3">
-            
-            <GoogleSignIn></GoogleSignIn>
+            {/* <GoogleSignIn></GoogleSignIn> */}
 
-            <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
+            {/* <button className="flex justify-center items-center w-full bg-white border border-gray-300 rounded-lg shadow-md px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0E4749]">
               <svg
                 className="h-6 w-6 mr-2"
                 xmlns="http://www.w3.org/2000/svg"
@@ -263,7 +282,7 @@ const SignUp = () => {
                 </g>
               </svg>
               <span>Continue with Apple</span>
-            </button>
+            </button> */}
 
             <div className="mt-5">
               <p className="text-center">
@@ -272,7 +291,7 @@ const SignUp = () => {
                   to="/login"
                   className=" text-color-one text-md hover:underline"
                 >
-                 Sign In
+                  Sign In
                 </Link>
               </p>
             </div>

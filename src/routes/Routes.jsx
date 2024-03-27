@@ -104,14 +104,14 @@ const Routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "info",
-        element: (
-          <InfoRouteHandle>
-            <Info />
-          </InfoRouteHandle>
-        ),
-      },
+      // {
+      //   path: "info",
+      //   element: (
+      //     <PrivateRoute>
+      //       <Info />
+      //     </PrivateRoute>
+      //   ),
+      // },
     ],
   },
 

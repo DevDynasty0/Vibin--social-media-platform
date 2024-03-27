@@ -6,7 +6,7 @@ import {
 } from "../../redux/features/vibin-ai/vibinAiApi";
 import { useSelector } from "react-redux";
 import axios from "axios";
- import '../../../src/styles/color.css'
+import "../../../src/styles/color.css";
 import { LuRefreshCcw } from "react-icons/lu";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -24,12 +24,12 @@ const GenarateCaption = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [captionBtn, setCaptionBtn] = useState(false);
   const [buttonSpinner, setButtonSpinner] = useState(false);
-  const [activeGenerator, setActiveGenerator] = useState('caption');
+  const [activeGenerator, setActiveGenerator] = useState("caption");
   const token = getAccessToken();
 
   const [captionGenarator] = useCaptionGenaratorMutation();
   const [imageGenarator] = useImageGenaratorMutation();
-  const[ postGenaratedData]=usePostGenaratedDataMutation();
+  const [postGenaratedData] = usePostGenaratedDataMutation();
   let user = useSelector((state) => state.auth.user);
   user = user || {};
 
@@ -75,12 +75,12 @@ const GenarateCaption = () => {
     const newPost = {
       user: user._id,
       // type:'post'
-      caption: generatedCaption || '',
+      caption: generatedCaption || "",
       // postType:generatedImage?'image':"",
       postContent: generatedImage,
       contentType: generatedImage ? "image" : "",
     };
-    console.log('new poststtts',newPost);
+    console.log("new poststtts", newPost);
     try {
       // const res = await axios.post(
       //   "https://vibin-c5r0.onrender.com/api/v1/posts/post",
@@ -118,10 +118,10 @@ const GenarateCaption = () => {
   return (
     <div className="">
       <div className="text-center mt-20 mb-6">
-        <h1 className="text-color-one font-bold text-2xl font-sans ">
+        <h1 className="text-color-one font-bold text-2xl font-sans my-2">
           {" "}
-          Vibin{" "}
-          <span className="bg-black text-white h-4 w-4 p-1 rounded">
+          Vibin'
+          <span className="bg-black text-white ml-2 h-4 w-4 p-1 rounded">
             Ai
           </span>{" "}
         </h1>
@@ -136,9 +136,7 @@ const GenarateCaption = () => {
           <div className=" pt-[10%] items-center xl:max-w-[55%] lg:[70%] w-[90%] min-h-[35vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow">
             {" "}
             {/* <Spinner color="blue.500" /> */}
-            
-<div className="loader text-color-one"></div>
-           
+            <div className="loader text-color-one"></div>
           </div>
         ) : (
           <div className="xl:max-w-[55%] lg:[70%] w-[90%] min-h-[34vh]  h-full relative bg-[#DEBBDF]  mx-auto flex flex-col justify-between p-4    rounded-t-lg shadow  ">
@@ -149,10 +147,11 @@ const GenarateCaption = () => {
                 <div className="text-center mt-[20%] ">
                   {/* Loading.... <br /> */}
                   <div className="three-body">
-<div className="three-body__dot"></div>
-<div className="three-body__dot"></div>
-<div className="three-body__dot"></div>
-</div> <br />
+                    <div className="three-body__dot"></div>
+                    <div className="three-body__dot"></div>
+                    <div className="three-body__dot"></div>
+                  </div>{" "}
+                  <br />
                   Please wait this might take a minute.
                 </div>
               ) : (
@@ -299,16 +298,14 @@ const GenarateCaption = () => {
           </form>
         </div>
       </div>
-      <div className="xl:max-w-[55%] lg:[70%] w-[90%] mt-[1%] mx-auto">
-         <button
+      <div className="xl:max-w-[55%] lg:[70%] w-[90%] mt-[1%] mx-auto pb-10">
+        <button
           onClick={handlePostSubmit}
           className=" disabled:bg-gray-300 cursor-pointer w-full  px-3 py-2 text-sm font-medium text-center text-white bg-color-one rounded-lg hover:bg-violet-500 "
           disabled={!generatedCaption && !generatedImage ? true : false}
         >
           Drop Vibe
         </button>
-
-        
       </div>
       <ToastContainer />
     </div>

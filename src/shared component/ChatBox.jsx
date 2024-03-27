@@ -102,12 +102,13 @@ const ChatBox = ({
           avatar: otherUserInfo?.avatar,
         },
         message: chatInput,
+        conut: 1,
       };
 
       socket.emit("new message", emit);
       setAllMessages([...allMessages, emit]);
       setChatInput("");
-      allChatsRefetch();
+      // allChatsRefetch();
     }
   };
 
@@ -126,7 +127,7 @@ const ChatBox = ({
           <p>Your conversation starts here</p>
         </div>
       )}
-      <ul className="space-y-5 p-4 flex flex-col overflow-y-scroll  ">
+      <ul className="space-y-5 p-4 flex flex-col overflow-y-scroll pb-10 ">
         {/* <!-- Chat --> */}
 
         {!messageLoding &&

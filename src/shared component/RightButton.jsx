@@ -39,7 +39,10 @@ const RightButton = ({ person }) => {
     // send notification to reciever
     socket.emit("new notification", emitData);
   };
-  const truncatedName = person?.fullName.length >= 12 ? person?.fullName.slice(0, 12) + '...' : person?.fullName;
+  const truncatedName =
+    person?.fullName.length >= 12
+      ? person?.fullName.slice(0, 12) + "..."
+      : person?.fullName;
   return (
     <div>
       <div className="grid grid-cols-3  items-center  px-2 py-3  hover:bg-white hover:bg-opacity-40 rounded">
@@ -70,7 +73,7 @@ const RightButton = ({ person }) => {
         <div className="col-span-1">
           <button
             onClick={() => handleFollow(person?._id)}
-            className="px-1 w-16 h-7 border-2 bg-white border-color-one   text-color-one text-xs rounded-md font-bold py-1 shadow"
+            className="px-2 min-w-20   h-7 border-2 bg-white border-color-one   text-color-one text-xs rounded-md font-bold py-1 shadow"
           >
             {follow?.find((id) => id === person?._id) ? "Following" : "Follow"}
           </button>

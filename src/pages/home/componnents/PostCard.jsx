@@ -83,7 +83,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
     setIsPostSaved(true);
   };
   const onHandleReaction = debounce(setIsShowReactions, 500);
-  const react = (e, post, reaction) => {
+  const react = async (e, post, reaction) => {
     e.stopPropagation();
     addReaction({ post, type: reaction });
     setIsShowReactions(false);
@@ -93,7 +93,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
         postId: post._id,
         receiverId: user._id,
         senderId: userData?._id,
-        message: `${userData?.fullName} liked your post.`,
+        message: `${userData?.fullName} reacted on your post.`,
         contentType: "postLike",
       };
       const emitData = {
@@ -102,7 +102,10 @@ const PostCard = ({ post, currentUser, postOwner }) => {
         senderId: { senderId: userData?._id, avatar: userData?.avatar },
       };
       // store data on database
-      createNotification(data);
+      if (data.receiverId !== data.senderId) {
+        await createNotification(data);
+      }
+
       // send notification to reciever
       socket.emit("new notification", emitData);
     }
@@ -196,11 +199,11 @@ const PostCard = ({ post, currentUser, postOwner }) => {
           Your browser does not support the video tag.
         </video>
       )}
-      <div className="flex text-[8px] sm:text-sm md:text-md justify-between items-center w-[90%] mx-auto">
+      <div className="flex  text-[8px] sm:text-sm md:text-md justify-between items-center w-[90%] mx-auto">
         {reactions?.length > 0 ? (
-          <div className="flex items-center">
+          <div className="flex items-center  ">
             <div className="flex space-x-[-5px] md:space-x-[-7px]">
-              <span className="bg-gray-50 rounded-full p-[2px] z-20">
+              <span className="bg-gray-50 rounded-full p-[2px] z-10">
                 {mostReaction[0][0]}
               </span>
               {mostReaction[1] && (
@@ -214,7 +217,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
                 </span>
               )}
             </div>
-            <span className="ml-[2px] md:ml-2">
+            <span className="ml-[2px] md:ml-2 ">
               {reactions?.length > 5 && isLiked
                 ? `You and ${reactions.length - 1} others`
                 : reactions?.length > 5 && !isLiked
@@ -284,7 +287,7 @@ const PostCard = ({ post, currentUser, postOwner }) => {
         </div>
         <div
           onClick={onHandleSharePost}
-          className="flex items-center gap-1 md:gap-2"
+          className="flex items-center gap-1 md:gap-2 cursor-pointer"
         >
           <PiShareFatThin className="md:text-2xl text-md" />
           <p className="text-sm md:text-[16px]">Share</p>

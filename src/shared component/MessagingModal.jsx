@@ -70,24 +70,6 @@ const MessagingModal = ({ socket, userData }) => {
         data-state="closed"
       >
         <LuMessagesSquare className="text-white text-3xl hover:scale-110"></LuMessagesSquare>
-        {/* <AiFillMessage className="text-white text-3xl "></AiFillMessage> */}
-        {/* <svg
-          xmlns=" http://www.w3.org/2000/svg"
-          width="30"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-white block border-gray-200 align-middle"
-        >
-          <path
-            d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"
-            className="border-gray-200"
-          ></path>
-        </svg> */}
       </button>
       <div
         className={`  cursor-pointer  z-50  bg-gray-50 shadow-md rounded-lg  fixed bottom-24 right-1 md:right-10 max-w-[420px] w-full transition-all duration-500  ${
@@ -132,7 +114,7 @@ const MessagingModal = ({ socket, userData }) => {
                     setFullChatList(true);
                     setIsChatOpen(false);
                   }}
-                  className="w-full px-5  text-sm outline outline-1 cursor-text py-[6px] outline-gray-300  rounded-l-full rounded-r-full"
+                  className="w-full px-5    text-sm outline outline-1 cursor-text py-[6px] outline-color-one  rounded-l-full rounded-r-full"
                   type="search"
                   placeholder="Search..."
                   name=""
@@ -193,7 +175,7 @@ const MessagingModal = ({ socket, userData }) => {
                       const otherUser = chat.participants.find(
                         (person) => person._id != userData._id
                       );
-                      console.log(otherUser);
+                      // console.log(otherUser);
                       return (
                         chat.lastMessage && (
                           <div
@@ -247,7 +229,7 @@ const MessagingModal = ({ socket, userData }) => {
                       return (
                         <div
                           key={people._id}
-                          className="flex items-center px-4 cursor-pointer  border-b  hover:bg-gray-100   h-[80px]"
+                          className="flex items-center px-4 cursor-pointer  border-b    hover:bg-gray-100   h-[80px]"
                         >
                           <div
                             onClick={() => {
@@ -288,7 +270,7 @@ const MessagingModal = ({ socket, userData }) => {
                           typeof people.profile === "object"
                             ? people.profile
                             : people.follower;
-                        console.log(otherUser);
+                        // console.log(otherUser);
 
                         return (
                           <div

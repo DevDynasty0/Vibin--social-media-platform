@@ -41,7 +41,7 @@ const Navbar = ({
     onClose: notifictionOnClose,
   } = useDisclosure();
   const userData = useSelector((state) => state.auth.user);
-  console.log("user data __: :__:", userData);
+  // console.log("user data __: :__:", userData);
   const { data: notificationsData, refetch: refetchNotifications } =
     useGetNotificationsByUserIdQuery(userData?._id, { skip: !userData?._id });
 
@@ -63,7 +63,7 @@ const Navbar = ({
         setShowResults(false);
       }
     }
-    console.log("navvvvvvvvvvvvvv", user);
+    // console.log("navvvvvvvvvvvvvv", user);
     document.addEventListener("click", handleClickOutside);
 
     // Cleanup function to remove event listener
@@ -76,7 +76,7 @@ const Navbar = ({
     if (socket) {
       socket.on("notification received", (newNotification) => {
         console.log("new notification", newNotification);
-        setNotificationState([newNotification, ...notificationState]);
+        setNotificationState((pre) => [newNotification, ...pre]);
       });
     }
     return () => {

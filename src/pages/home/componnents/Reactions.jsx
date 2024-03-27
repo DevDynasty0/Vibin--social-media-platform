@@ -27,7 +27,9 @@ const ReactionButton = ({
       }}
       className={`${
         isLiked?.type === type && "bg-gray-300"
-      } relative p-1 md:p-2 rounded-full border border-gray-200 hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-400 flex items-center justify-center`}
+      } relative p-1 md:p-2 rounded-full border border-gray-200
+       hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-400 
+       flex items-center justify-center`}
       onClick={onClick}
     >
       {isHover === type && (
@@ -72,7 +74,8 @@ const Reactions = ({ onHandleReaction, react, post, isLiked }) => {
       exit={{ x: -85, y: 20, scale: 0 }}
       onMouseOver={() => onHandleReaction(true)}
       onMouseLeave={() => onHandleReaction(false)}
-      className="absolute bottom-12 mx-auto p-[2px] md:p-1 border border-gray-200 bg-white rounded-lg shadow-sm z-20"
+      className="absolute bottom-12 mx-auto p-[2px] md:p-1 border border-gray-200
+       bg-white rounded-lg shadow-sm z-10"
     >
       <div className="flex justify-center space-x-1 md:space-x-2">
         <ReactionButton

@@ -44,7 +44,7 @@ const AddNewPostModal = ({
       postContent: formData.get("postContent"),
       contentType: selectedItem ? selectedItem[0].type.split("/")[0] : "",
     };
-    console.log('newpostttttdddd',anewPost);
+    // console.log('newpostttttdddd',newPost);
     try {
       const res = await axios.post(
         "https://vibin-c5r0.onrender.com/api/v1/posts/post",

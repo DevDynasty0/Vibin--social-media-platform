@@ -1,21 +1,33 @@
 import { Link } from "react-router-dom";
 import avatar from "../../../assets/images/avatar.png";
-import { useFollowUserMutation } from "../../../redux/features/user/userApi";
+import {
+  useFollowUserMutation,
+  useGetUserByIdQuery,
+} from "../../../redux/features/user/userApi";
 const FriendRequestCard = ({ user }) => {
   // console.log("user___", user);
   // console.log('frifoooooo', user?.follower?._id);
   const [followUser] = useFollowUserMutation();
+
+  const { data: thisPerson, refetch: thisPersonRefetch } = useGetUserByIdQuery(
+    user?.follower?._id
+  );
+  // console.log(thisPerson);
 
   const handleFollow = async () => {
     const profile = user?.follower?._id; //person
     const follower = user?.profile; //ami
 
     const res = await followUser({ profile, follower });
+    await thisPersonRefetch();
 
-    console.log(res);
+    // console.log(res);
   };
-  console.log('follower',user?.follower);
-  const truncatedBio = user?.follower?.bio?.length >= 20 ? user?.follower?.bio.slice(0, 20) + '...' : user?.follower?.bio;
+  // console.log("follower", user?.follower);
+  const truncatedBio =
+    user?.follower?.bio?.length >= 20
+      ? user?.follower?.bio.slice(0, 20) + "..."
+      : user?.follower?.bio;
   return (
     <div className="py-8 px-8  mx-auto bg-white   rounded-xl shadow-md  sm:py-4 sm:flex sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 w-full">
       <Link to={`/profile/${user?.follower?._id}`}>
@@ -36,11 +48,16 @@ const FriendRequestCard = ({ user }) => {
           </p>
         </div>
         <button
-          className="px-4 py-1 text-sm text-white bg-gradient-to-l from-pink-50 via-color-one  to-color-one font-semibold rounded-full   hover:text-black hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+          className="px-4 py-1 text-sm disabled:bg-none disabled:outline-color-one disabled:outline
+           disabled:hover:bg-white
+              disabled:text-color-one text-white bg-gradient-to-l from-pink-50 via-color-one  to-color-one font-semibold rounded-full   hover:text-black hover:bg-purple-600 hover:border-transparent focus:outline-
+            focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
           onClick={handleFollow}
+          disabled={thisPerson?.data?.isFollowing === true}
         >
-          {" "}
-          Follow Back
+          {thisPerson?.data?.isFollowing === false
+            ? "Follow Back"
+            : "Following"}
         </button>
       </div>
     </div>

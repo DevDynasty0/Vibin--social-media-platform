@@ -11,17 +11,22 @@ import {
 import { useEffect, useState } from "react";
 import FriendRequestCard from "./components/FriendRequestCard";
 import AlreadyFriendCard from "./components/AlreadyFriendCard";
-import { getFollowers, getFollowingUsers } from "../../hooks/getFollowers";
 import {
   useGetFollowersQuery,
   useGetFollowingUsersQuery,
 } from "../../redux/features/user/userApi";
 import Skeleton from "../../shared component/Skeleton";
 const Friends = () => {
-  const { data: followers, isLoading: followersLoading } =
-    useGetFollowersQuery();
-  const { data: followingUsers, isLoading: followingUsersLoading } =
-    useGetFollowingUsersQuery();
+  const {
+    data: followers,
+    isLoading: followersLoading,
+    refetch: followersRefetch,
+  } = useGetFollowersQuery();
+  const {
+    data: followingUsers,
+    isLoading: followingUsersLoading,
+    refetch: followingUsersRefetch,
+  } = useGetFollowingUsersQuery();
 
   console.log(followers, followingUsers, "friends____________");
 
@@ -81,7 +86,11 @@ const Friends = () => {
                 ))
               ) : followers?.data?.length > 0 ? (
                 followingUsers?.data?.map((user) => (
-                  <AlreadyFriendCard key={user?._id} user={user} />
+                  <AlreadyFriendCard
+                    key={user?._id}
+                    user={user}
+                    followingUsersRefetch={followingUsersRefetch}
+                  />
                 ))
               ) : (
                 <p className="text-xl">Not Followeing anyone yet!!</p>

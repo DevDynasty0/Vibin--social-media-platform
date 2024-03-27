@@ -14,8 +14,9 @@ import { useSelector } from "react-redux";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FaRobot } from "react-icons/fa6";
-const LeftSidebar = () => {
+const LeftSidebar = ({ left, setLeft }) => {
   const user = useSelector((state) => state.auth?.user);
+  // console.log(user, "user in leftsidebar");
   const [logout] = useLogoutMutation();
 
   const handleLogout = async () => {
@@ -49,11 +50,31 @@ const LeftSidebar = () => {
       </div>
 
       <div className="mt-2  w-full ">
-        <LeftButton name={"Home"} path={"/"} icon={FaHome} />
-        <LeftButton name={"Trending"} path={"trending"} icon={FaFire} />
-        <LeftButton name={"Video"} path={"videos"} icon={FaVideo} />
+        <LeftButton
+          left={left}
+          setLeft={setLeft}
+          name={"Home"}
+          path={"/"}
+          icon={FaHome}
+        />
+        <LeftButton
+          setLeft={setLeft}
+          left={left}
+          name={"Trending"}
+          path={"trending"}
+          icon={FaFire}
+        />
+        <LeftButton
+          setLeft={setLeft}
+          left={left}
+          name={"Video"}
+          path={"videos"}
+          icon={FaVideo}
+        />
 
         <LeftButton
+          setLeft={setLeft}
+          left={left}
           name={"Profile"}
           path={`/profile/${user?._id}`}
           icon={FaUser}
@@ -64,10 +85,34 @@ const LeftSidebar = () => {
           path={"notifications"}
           icon={FaBell}
         /> */}
-        <LeftButton name={"Friends"} path={"friends"} icon={FaUserFriends} />
-        <LeftButton name={"Settings"} path={"settings"} icon={FaCog} />
-        <LeftButton name={"Saved"} path="/savePost" icon={FaBookmark} />
-        <LeftButton name={"VibinAi"} path={"vibinai"} icon={FaRobot} />
+        <LeftButton
+          setLeft={setLeft}
+          left={left}
+          name={"Friends"}
+          path={"friends"}
+          icon={FaUserFriends}
+        />
+        <LeftButton
+          setLeft={setLeft}
+          left={left}
+          name={"Settings"}
+          path={"settings"}
+          icon={FaCog}
+        />
+        <LeftButton
+          setLeft={setLeft}
+          left={left}
+          name={"Saved"}
+          path="/savePost"
+          icon={FaBookmark}
+        />
+        <LeftButton
+          setLeft={setLeft}
+          left={left}
+          name={"VibinAi"}
+          path={"vibinai"}
+          icon={FaRobot}
+        />
       </div>
 
       <div
@@ -76,10 +121,24 @@ const LeftSidebar = () => {
         className="w-full mt-auto mb-8   "
       >
         <hr />
-        <LeftButton name={"Dashboard"} icon={MdDashboard} path={"/admin"} />
+        {user?.email === "zerin@gmail.com" && (
+          <LeftButton
+            setLeft={setLeft}
+            left={left}
+            name={"Dashboard"}
+            icon={MdDashboard}
+            path={"/admin"}
+          />
+        )}
         <hr />
         <div onClick={handleLogout}>
-          <LeftButton name={"Logout"} icon={MdLogout} />
+          <LeftButton
+            left={left}
+            setLeft={setLeft}
+            name={"Logout"}
+            icon={MdLogout}
+            // path={"/login"}
+          />
         </div>
       </div>
     </div>
